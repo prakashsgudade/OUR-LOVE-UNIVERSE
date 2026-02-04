@@ -1,16 +1,44 @@
 .royal-name {
     font-family: 'Cinzel Decorative', cursive;
-    font-size: 5rem; color: #d4af37;
-    margin-bottom: 0; letter-spacing: 5px;
+    /* Mobile pe 2.5rem, Laptop pe 5rem tak jayega apne aap */
+    font-size: clamp(2.5rem, 8vw, 5rem); 
+    color: #d4af37;
+    margin-bottom: 10px; 
+    letter-spacing: 3px;
     text-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+    word-wrap: break-word; /* Mobile pe naam na kate */
 }
+
 .love-quote {
     font-family: 'Great Vibes', cursive;
-    font-size: 2rem; color: #f0e68c;
+    /* Mobile pe 1.2rem, Laptop pe 2rem */
+    font-size: clamp(1.2rem, 4vw, 2rem); 
+    color: #f0e68c;
+    margin-bottom: 30px;
+    padding: 0 10px;
 }
+
 .royal-btn {
-    background: transparent; border: 1px solid #d4af37;
-    color: #d4af37; padding: 15px 40px; cursor: pointer;
-    font-family: 'Cinzel Decorative'; transition: 0.5s;
+    background: transparent; 
+    border: 1px solid #d4af37;
+    color: #d4af37; 
+    padding: clamp(10px, 2vw, 15px) clamp(20px, 5vw, 40px); 
+    cursor: pointer;
+    font-family: 'Cinzel Decorative'; 
+    transition: 0.5s;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
-.royal-btn:hover { background: #d4af37; color: black; box-shadow: 0 0 20px #d4af37; }
+
+.royal-btn:hover { 
+    background: #d4af37; 
+    color: black; 
+    box-shadow: 0 0 20px #d4af37; 
+}
+
+/* Chote phones ke liye extra setting */
+@media (max-width: 480px) {
+    .royal-name { letter-spacing: 1px; }
+    .gate { padding: 15px; }
+}
