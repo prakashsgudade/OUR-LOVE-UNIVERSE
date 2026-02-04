@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/main-style.css">
+    <link rel="stylesheet" href="../css/royal-theme.css">
+    <style>
+        .bouquet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #050505;
+        }
+        .flower-card {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid #d4af37;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.4s;
+            color: white;
+        }
+        .flower-card:hover {
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px #d4af37;
+        }
+        .icon { font-size: 2rem; margin-bottom: 10px; }
+        h3 { font-family: 'Cinzel Decorative'; color: #d4af37; }
+        p { font-family: 'Montserrat'; font-size: 0.9rem; opacity: 0.8; }
+    </style>
+</head>
+<body>
 
+    <h2 style="text-align:center; color:#d4af37; font-family:'Great Vibes'; font-size:3rem; margin-top:50px;">
+        Day 01: The First 10 Flowers
+    </h2>
+
+    <div class="bouquet-grid">
+        <div class="flower-card">
+            <div class="icon">⏳</div>
+            <h3>The Love Clock</h3>
+            <p>Har ek second jo tumhare saath bita, woh mere liye ek tohfa hai.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">💬</div>
+            <h3>Our First Hello</h3>
+            <p>Woh pehli baat, woh pehli muskurahat... sab yaad hai mujhe.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">✨</div>
+            <h3>Why Muskan?</h3>
+            <p>Kyunki tumhare jaisa poori duniya mein koi aur nahi hai.</p>
+        </div>
+
+        <div class="flower-card" style="cursor:pointer;" onclick="alert('Bhai yahan apna audio link kar sakte ho!')">
+            <div class="icon">🎙️</div>
+            <h3>My Heart's Voice</h3>
+            <p>Click to hear a special message for you.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">🤝</div>
+            <h3>The First Promise</h3>
+            <p>Chahe jo ho jaye, main hamesha tumhara saath doonga.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">📸</div>
+            <h3>Best Memory</h3>
+            <p>Woh din jab humne ghanton baatein ki thi.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">🌙</div>
+            <h3>Our Dream</h3>
+            <p>Ek chota sa ghar aur tumhari dher saari khushiyan.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">💌</div>
+            <h3>Hidden Note</h3>
+            <p>Tum meri zindagi ki sabse badi "Muskan" ho.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">🎵</div>
+            <h3>Our Song</h3>
+            <p>Yeh dhun hamesha mujhe tumhari yaad dilati hai.</p>
+        </div>
+
+        <div class="flower-card" style="border-style: dashed;">
+            <div class="icon">🌹</div>
+            <h3>More to Come...</h3>
+            <p>Day 02 is waiting with 10 more surprises!</p>
+        </div>
+    </div>
+
+</body>
+</html>
