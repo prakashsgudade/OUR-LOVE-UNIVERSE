@@ -1,7 +1,12 @@
-/* ===== Button Dabane Par Kya Hoga ===== */
+/* ===== Button Navigation Logic ===== */
 function enterKingdom() {
-    console.log("Button dab gaya!"); // Yeh sirf check karne ke liye hai
+    // 1. Music play karne ka try karega
+    const music = document.getElementById('bgMusic');
+    if(music) {
+        music.play().catch(e => console.log("Music play hone mein dikkat: ", e));
+    }
 
-    // Link ka sahi rasta: "folder_ka_naam / file_ka_naam"
-    window.location.href = "chapters/day1.html";
+    // 2. Page Change Karne Ka Link
+    // Dhyaan de: index.html se chapters folder ke andar jaana hai
+    window.location.href = "chapters/day1.html"; 
 }
