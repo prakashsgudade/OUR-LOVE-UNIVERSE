@@ -1,5 +1,5 @@
 /* ===== Main Navigation Function ===== */
-function enterKingdom() {
+function openKingdom() {
     console.log("Button clicked! JS is working."); // Ye browser console mein dikhega
 
     // Music play karne ka code (optional)
