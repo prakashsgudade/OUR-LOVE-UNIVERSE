@@ -2,83 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 01 - 10 Flowers of Love</title>
-    
     <link rel="stylesheet" href="../css/main-style.css">
     <link rel="stylesheet" href="../css/royal-theme.css">
-    
     <style>
-        /* /* ===== Day 1 Special Styling ===== */ */
-        .day-container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .flower-grid {
+        .bouquet-grid {
             display: grid;
-            /* Mobile pe 1 column, Tablet pe 2, Laptop pe 3 */
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            margin-top: 30px;
+            padding: 40px;
+            background: #050505;
         }
-
-        .card {
-            background: rgba(255, 255, 255, 0.03);
+        .flower-card {
+            background: rgba(212, 175, 55, 0.05);
             border: 1px solid #d4af37;
-            padding: 20px;
+            padding: 25px;
             border-radius: 15px;
             text-align: center;
-            transition: 0.3s ease;
+            transition: 0.4s;
+            color: white;
         }
-
-        .card:hover {
-            background: rgba(212, 175, 55, 0.1);
-            transform: translateY(-5px);
+        .flower-card:hover {
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px #d4af37;
         }
-
-        .card-icon { font-size: 2rem; margin-bottom: 10px; }
-        .card-title { font-family: 'Cinzel Decorative'; color: #d4af37; font-size: 1.2rem; }
-        .card-desc { font-size: 0.9rem; color: #ccc; margin-top: 8px; }
+        .icon { font-size: 2rem; margin-bottom: 10px; }
+        h3 { font-family: 'Cinzel Decorative'; color: #d4af37; }
+        p { font-family: 'Montserrat'; font-size: 0.9rem; opacity: 0.8; }
     </style>
 </head>
 <body>
 
-    <div class="day-container">
-        /* ===== Chapter Header ===== */
-        <header style="text-align: center; padding: 40px 0;">
-            <h2 style="font-family: 'Great Vibes'; font-size: 3rem; color: #d4af37; margin: 0;">Day 01</h2>
-            <p style="color: white; opacity: 0.7;">The First 10 Flowers of Our Bouquet</p>
-        </header>
+    <h2 style="text-align:center; color:#d4af37; font-family:'Great Vibes'; font-size:3rem; margin-top:50px;">
+        Day 01: The First 10 Flowers
+    </h2>
 
-        /* ===== 10 Flowers Grid (The Ideas) ===== */
-        <div class="flower-grid">
-            
-            <div class="card">
-                <div class="card-icon">⏳</div>
-                <div class="card-title">Love Clock</div>
-                <p class="card-desc">Counting every second since you walked into my life.</p>
-            </div>
+    <div class="bouquet-grid">
+        <div class="flower-card">
+            <div class="icon">⏳</div>
+            <h3>The Love Clock</h3>
+            <p>Har ek second jo tumhare saath bita, woh mere liye ek tohfa hai.</p>
+        </div>
 
-            <div class="card">
-                <div class="card-icon">💖</div>
-                <div class="card-title">First Impression</div>
-                <p class="card-desc">That moment I realized you are special, Muskan.</p>
-            </div>
+        <div class="flower-card">
+            <div class="icon">💬</div>
+            <h3>Our First Hello</h3>
+            <p>Woh pehli baat, woh pehli muskurahat... sab yaad hai mujhe.</p>
+        </div>
 
-            <div class="card">
-                <div class="card-icon">🌹</div>
-                <div class="card-title">Secret Promise</div>
-                <p class="card-desc">I promise to always keep that smile on your face.</p>
-            </div>
+        <div class="flower-card">
+            <div class="icon">✨</div>
+            <h3>Why Muskan?</h3>
+            <p>Kyunki tumhare jaisa poori duniya mein koi aur nahi hai.</p>
+        </div>
 
-            </div>
+        <div class="flower-card" style="cursor:pointer;" onclick="alert('Bhai yahan apna audio link kar sakte ho!')">
+            <div class="icon">🎙️</div>
+            <h3>My Heart's Voice</h3>
+            <p>Click to hear a special message for you.</p>
+        </div>
 
-        /* ===== Navigation Footer ===== */
-        <footer style="text-align: center; margin-top: 50px; padding-bottom: 50px;">
-            <button class="royal-btn" onclick="location.href='../index.html'">Go Back Home</button>
-        </footer>
+        <div class="flower-card">
+            <div class="icon">🤝</div>
+            <h3>The First Promise</h3>
+            <p>Chahe jo ho jaye, main hamesha tumhara saath doonga.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">📸</div>
+            <h3>Best Memory</h3>
+            <p>Woh din jab humne ghanton baatein ki thi.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">🌙</div>
+            <h3>Our Dream</h3>
+            <p>Ek chota sa ghar aur tumhari dher saari khushiyan.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">💌</div>
+            <h3>Hidden Note</h3>
+            <p>Tum meri zindagi ki sabse badi "Muskan" ho.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon">🎵</div>
+            <h3>Our Song</h3>
+            <p>Yeh dhun hamesha mujhe tumhari yaad dilati hai.</p>
+        </div>
+
+        <div class="flower-card" style="border-style: dashed;">
+            <div class="icon">🌹</div>
+            <h3>More to Come...</h3>
+            <p>Day 02 is waiting with 10 more surprises!</p>
+        </div>
     </div>
 
 </body>
