@@ -1,12 +1,13 @@
-/* ===== Button Navigation Logic ===== */
+/* ===== Main Navigation Function ===== */
 function enterKingdom() {
-    // 1. Music play karne ka try karega
-    const music = document.getElementById('bgMusic');
-    if(music) {
-        music.play().catch(e => console.log("Music play hone mein dikkat: ", e));
+    console.log("Button clicked! JS is working."); // Ye browser console mein dikhega
+
+    // Music play karne ka code (optional)
+    var audio = document.getElementById("bgMusic");
+    if (audio) {
+        audio.play();
     }
 
-    // 2. Page Change Karne Ka Link
-    // Dhyaan de: index.html se chapters folder ke andar jaana hai
-    window.location.href = "chapters/day1.html"; 
+    // JS se page change karne ka sahi tarika
+    window.location.href = "chapters/day1.html";
 }
