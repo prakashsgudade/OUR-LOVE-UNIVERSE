@@ -1,0 +1,16 @@
+.royal-name {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 5rem; color: #d4af37;
+    margin-bottom: 0; letter-spacing: 5px;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+}
+.love-quote {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem; color: #f0e68c;
+}
+.royal-btn {
+    background: transparent; border: 1px solid #d4af37;
+    color: #d4af37; padding: 15px 40px; cursor: pointer;
+    font-family: 'Cinzel Decorative'; transition: 0.5s;
+}
+.royal-btn:hover { background: #d4af37; color: black; box-shadow: 0 0 20px #d4af37; }
