@@ -1,8 +1,7 @@
+/* ===== Button Dabane Par Kya Hoga ===== */
 function enterKingdom() {
-    // Music play karo
-    const music = document.getElementById('bgMusic');
-    if(music) music.play();
+    console.log("Button dab gaya!"); // Yeh sirf check karne ke liye hai
 
-    // Day 1 par le jao
+    // Link ka sahi rasta: "folder_ka_naam / file_ka_naam"
     window.location.href = "chapters/day1.html";
 }
