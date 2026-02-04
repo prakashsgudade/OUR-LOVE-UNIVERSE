@@ -1,11 +1,24 @@
 body, html {
-    margin: 0; padding: 0; height: 100%; width: 100%;
+    margin: 0; padding: 0; 
+    min-height: 100%; width: 100%;
     background-color: #050505;
     color: white; font-family: 'Montserrat', sans-serif;
-    overflow: hidden;
+    overflow-x: hidden; /* Mobile pe side scroll rokne ke liye */
 }
+
 .gate {
-    height: 100vh; display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
     background: radial-gradient(circle, #1a0b0b 0%, #000 100%);
+    padding: 20px; /* Mobile edges se gap ke liye */
+    box-sizing: border-box;
 }
-.main-content { text-align: center; z-index: 10; }
+
+.main-content { 
+    text-align: center; 
+    z-index: 10; 
+    width: 100%;
+    max-width: 800px; /* Laptop pe bahut phele na */
+}
