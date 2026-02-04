@@ -1,0 +1,11 @@
+body, html {
+    margin: 0; padding: 0; height: 100%; width: 100%;
+    background-color: #050505;
+    color: white; font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+}
+.gate {
+    height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(circle, #1a0b0b 0%, #000 100%);
+}
+.main-content { text-align: center; z-index: 10; }
