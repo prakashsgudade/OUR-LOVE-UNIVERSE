@@ -2,7 +2,7 @@
 function startClock() {
     // Yahan apni meeting date dalo (Year, Month-1, Day)
     // Example: 2024, 0 (Jan), 15
-    const startDate = new Date(2024, 0, 15); 
+    const startDate = new Date(2023, 10, 07); 
     
     setInterval(() => {
         const now = new Date();
