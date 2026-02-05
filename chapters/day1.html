@@ -2,104 +2,153 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 01 - 10 Flowers</title>
+    
     <link rel="stylesheet" href="../css/main-style.css">
     <link rel="stylesheet" href="../css/royal-theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+
     <style>
-        .bouquet-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 40px;
-            background: #050505;
+        body {
+            background: #0a0a0a; /* Deep Black */
+            color: #fff;
+            overflow-x: hidden;
+            padding-bottom: 50px;
         }
-        .flower-card {
-            background: rgba(212, 175, 55, 0.05);
-            border: 1px solid #d4af37;
-            padding: 25px;
-            border-radius: 15px;
+
+        .header-section {
             text-align: center;
-            transition: 0.4s;
-            color: white;
+            padding: 40px 20px;
         }
+
+        .header-section h2 {
+            font-family: 'Cinzel Decorative', cursive;
+            color: #d4af37;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* ===== Professional Grid Layout ===== */
+        .flower-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Mobile pe 2 columns hamesha */
+            gap: 15px;
+            padding: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Laptop pe 3 ya 4 columns */
+        @media (min-width: 768px) {
+            .flower-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .flower-card {
+            background: linear-gradient(145deg, #151515, #0a0a0a);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         .flower-card:hover {
-            background: rgba(212, 175, 55, 0.15);
-            transform: translateY(-10px);
-            box-shadow: 0 0 20px #d4af37;
+            border-color: #d4af37;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .icon { font-size: 2rem; margin-bottom: 10px; }
-        h3 { font-family: 'Cinzel Decorative'; color: #d4af37; }
-        p { font-family: 'Montserrat'; font-size: 0.9rem; opacity: 0.8; }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .flower-card h3 {
+            font-size: 1rem;
+            color: #d4af37;
+            margin: 0 0 8px 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        .flower-card p {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Special Voice Card */
+        .voice-card {
+            grid-column: span 2; /* Voice card ko thoda bada rakha hai */
+            background: linear-gradient(90deg, #1a1a1a, #252525);
+            flex-direction: row;
+            gap: 20px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
 
-    <h2 style="text-align:center; color:#d4af37; font-family:'Great Vibes'; font-size:3rem; margin-top:50px;">
-        Day 01: The First 10 Flowers
-    </h2>
-
-    <div class="bouquet-grid">
-        <div class="flower-card">
-            <div class="icon">⏳</div>
-            <h3>The Love Clock</h3>
-            <p id="love-timer">Calculating our forever...</p>
-        </div>
-
-        <div class="flower-card">
-            <div class="icon">💬</div>
-            <h3>Our First Hello</h3>
-            <p>Woh pehli baat, woh pehli muskurahat... sab yaad hai mujhe.</p>
-        </div>
-
-        <div class="flower-card">
-            <div class="icon">✨</div>
-            <h3>Why Muskan?</h3>
-            <p>Kyunki tumhare jaisa poori duniya mein koi aur nahi hai.</p>
-        </div>
-
-        <div class="flower-card" style="cursor:pointer;" onclick="document.getElementById('specialVoice').play()"
-            <div class="icon">🎙️</div>
-            <h3>My Heart's Voice</h3>
-            <p>Click to hear a special message for you.</p>
-        </div>
-    
-<audio id="specialVoice" src="../assets/audio/muskan-message.mp3.mpeg"></audio>
-    
-        <div class="flower-card">
-            <div class="icon">🤝</div>
-            <h3>The First Promise</h3>
-            <p>Chahe jo ho jaye, main hamesha tumhara saath doonga.</p>
-        </div>
-
-        <div class="flower-card">
-            <div class="icon">📸</div>
-            <h3>Best Memory</h3>
-            <p>Woh din jab humne ghanton baatein ki thi.</p>
-        </div>
-
-        <div class="flower-card">
-            <div class="icon">🌙</div>
-            <h3>Our Dream</h3>
-            <p>Ek chota sa ghar aur tumhari dher saari khushiyan.</p>
-        </div>
-
-        <div class="flower-card">
-            <div class="icon">💌</div>
-            <h3>Hidden Note</h3>
-            <p>Tum meri zindagi ki sabse badi "Muskan" ho.</p>
-        </div>
-
-        <div class="flower-card">
-            <div class="icon">🎵</div>
-            <h3>Our Song</h3>
-            <p>Yeh dhun hamesha mujhe tumhari yaad dilati hai.</p>
-        </div>
-
-        <div class="flower-card" style="border-style: dashed;">
-            <div class="icon">🌹</div>
-            <h3>More to Come...</h3>
-            <p>Day 02 is waiting with 10 more surprises!</p>
-        </div>
+    <div class="header-section">
+        <h2>Day 01</h2>
+        <p style="font-family: 'Great Vibes', cursive; font-size: 1.5rem; color: #fff;">The First 10 Flowers</p>
     </div>
-<script src="../js/day1-logic.js"></script>
+
+    <div class="flower-grid">
+        <div class="flower-card">
+            <div class="icon-circle">⏳</div>
+            <h3>Love Clock</h3>
+            <p id="love-timer">Calculating...</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon-circle">💬</div>
+            <h3>First Hello</h3>
+            <p>Woh pehli baat, hamesha yaad rahegi.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon-circle">✨</div>
+            <h3>Why Muskan?</h3>
+            <p>Tum jaisa koi aur hai hi nahi.</p>
+        </div>
+
+        <div class="flower-card voice-card" onclick="document.getElementById('specialVoice').play()">
+            <div class="icon-circle">🎙️</div>
+            <div>
+                <h3>My Heart's Voice</h3>
+                <p>Click to hear a special message.</p>
+            </div>
+            <audio id="specialVoice" src="../assets/audio/muskan-message.mp3"></audio>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon-circle">🤝</div>
+            <h3>Promise</h3>
+            <p>Hamesha tumhare saath.</p>
+        </div>
+
+        <div class="flower-card">
+            <div class="icon-circle">📸</div>
+            <h3>Memory</h3>
+            <p>Woh din sabse khaas tha.</p>
+        </div>
+
+        </div>
+
+    <script src="../js/day1-logic.js"></script>
 </body>
 </html>
