@@ -68,42 +68,12 @@
             background: linear-gradient(145deg, #111, #000);
         }
 
-       /* Card Back ka naya responsive style */
-.card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    overflow: hidden; /* Photo bahar na nikle */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    transform: rotateY(180deg);
-    backface-visibility: hidden;
-}
-
-/* Photo ki setting */
-.back-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ye photo ko stretch nahi hone dega */
-    object-position: center; /* Photo ka center dikhayega */
-    z-index: 1;
-    filter: brightness(0.4); /* Photo ko thoda dark karega taaki text dikhe */
-}
-
-/* Text jo photo ke upar aayega */
-.back-content {
-    position: relative;
-    z-index: 2; /* Text ko photo ke upar lane ke liye */
-    padding: 15px;
-    color: #fff;
-}
+        /* Back Side Styling */
+        .card-back {
+            background: linear-gradient(145deg, #d4af37, #8a6d1a); /* Golden Back */
+            color: #000;
+            transform: rotateY(180deg);
+        }
 
         .icon { font-size: 2rem; margin-bottom: 10px; }
         h3 { font-size: 0.9rem; color: #d4af37; font-family: 'Cinzel Decorative'; margin: 5px 0; }
@@ -194,25 +164,16 @@
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-    <div class="card-inner">
-        
-        <div class="card-front">
-            <span class="icon">📸</span>
-            <h3>Our Best Memory</h3>
-            <p>Tap to see our favorite moment...</p>
-        </div>
-
-        <div class="card-back">
-            <img src="../assets/images/photo1.jpg" class="back-img">
-            
-            <div class="back-content">
-                <h3 style="color: #d4af37;">Our Best Memory</h3>
-                <p>Wo din jab maine tumhe pehli baar dekha tha.</p>
-            </div>
-        </div>
-
-    </div>
-</div>
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="icon">📸</span>
+                    <h3>Our Best Memory</h3>
+                    <p>A special frame...</p>
+                </div>
+                <div class="card-back">
+                    <h3>Pure Gold</h3>
+                    <p>Wo din jab humne ghanton bina ruke baatein ki thi aur waqt ka pata hi nahi chala.</p>
+                </div>
             </div>
         </div>
 
