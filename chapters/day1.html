@@ -10,39 +10,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* Base Setup */
-        body { 
-            background: #050505; 
-            color: #fff; 
-            font-family: 'Montserrat', sans-serif; 
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .main-container {
-            width: 100%;
-            max-width: 1200px; /* Laptop par screen se bahar nahi jayega */
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .header-box { text-align: center; padding: 20px 0 40px 0; }
-        .header-box h2 { font-family: 'Cinzel Decorative'; color: #d4af37; font-size: clamp(1.5rem, 5vw, 2.5rem); margin: 0; }
+        body { background: #050505; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; margin: 0; }
+        .header-box { text-align: center; padding: 40px 20px; }
+        .header-box h2 { font-family: 'Cinzel Decorative'; color: #d4af37; font-size: 2.2rem; margin: 0; }
         
-        /* ===== RESPONSIVE GRID ===== */
+        /* ===== GRID LAYOUT ===== */
         .flower-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Mobile pe 2, Laptop pe apne aap zyada */
+            grid-template-columns: repeat(2, 1fr); 
             gap: 15px;
-            width: 100%;
+            padding: 15px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
-        /* ===== FLIP CARD MAGIC ===== */
+        /* Card Container */
         .flower-card {
-            aspect-ratio: 3 / 4; /* Card ka shape hamesha sahi rahega */
+            height: 250px; /* Sabhi cards ki height fix rakhi hai */
             perspective: 1000px; 
             cursor: pointer;
         }
@@ -51,6 +35,7 @@
             position: relative;
             width: 100%;
             height: 100%;
+            text-align: center;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
         }
@@ -67,124 +52,160 @@
             border: 1px solid rgba(212, 175, 55, 0.4);
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
             box-sizing: border-box;
             overflow: hidden;
         }
 
-        .card-front {
-            background: linear-gradient(145deg, #111, #000);
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
-
-        /* Default Back (Golden) */
+        .card-front { background: linear-gradient(145deg, #111, #000); }
+        
+        /* Standard Golden Back */
         .card-back {
             background: linear-gradient(145deg, #d4af37, #8a6d1a);
             color: #000;
             transform: rotateY(180deg);
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
         }
 
-        /* ===== SPECIAL MEMORY CARD (BACK) ===== */
+        /* ===== SPECIAL ADJUSTABLE MEMORY CARD ===== */
         .memory-back {
-            background: #000 !important;
+            background: #000 !important; /* Pure black for photo focus */
             border: 2px solid #d4af37 !important;
+            justify-content: flex-start !important;
+            padding: 10px !important;
+        }
+
+        .memory-text {
+            flex-shrink: 0;
+            margin-bottom: 8px;
+        }
+        .memory-text h3 { color: #d4af37 !important; font-size: 0.95rem; margin: 5px 0; }
+        .memory-text p { color: #fff !important; font-size: 0.7rem; opacity: 1 !important; }
+
+        .memory-img-container {
+            width: 100%;
+            flex-grow: 1; /* Saari bachi jagah ye lega */
             display: flex;
-            flex-direction: column;
-        }
-
-        .back-text-top {
-            padding: 10px;
-            text-align: center;
-            flex-shrink: 0; /* Text area dabega nahi */
-        }
-
-        .back-text-top h3 { color: #d4af37 !important; margin: 0; font-size: 0.9rem; }
-        .back-text-top p { color: #fff !important; font-size: 0.7rem; margin-top: 4px; line-height: 1.2; }
-
-        .img-wrapper {
-            flex-grow: 1; /* Bachi hui saari jagah image legi */
-            width: 90%;
-            margin: 0 auto 10px auto;
-            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: #000;
+            border-radius: 10px;
         }
 
         .back-img-clear {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Photo poori dikhegi, kategi nahi (Background black rakha hai taaki gaps bure na lagein) */
+            object-fit: contain; /* Sabse important: Photo kabhi kategi nahi */
             display: block;
         }
 
         .icon { font-size: 2rem; margin-bottom: 10px; }
-        h3 { font-size: 0.85rem; color: #d4af37; font-family: 'Cinzel Decorative'; text-align: center; }
-        p { font-size: 0.65rem; opacity: 0.8; text-align: center; }
-
-        /* Full width for special cards */
+        h3 { font-size: 0.9rem; color: #d4af37; font-family: 'Cinzel Decorative'; margin: 5px 0; }
+        p { font-size: 0.7rem; opacity: 0.8; }
         .full-width { grid-column: span 2; }
 
+        /* Responsive laptop tweak */
         @media (min-width: 768px) {
-            .flower-grid { grid-template-columns: repeat(4, 1fr); } /* Laptop pe 4 cards ek line mein */
-            .full-width { grid-column: auto; } /* Laptop pe full width ki zaroorat nahi */
+            .flower-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <div class="header-box">
-            <h2>Day 01</h2>
-            <p style="font-family: 'Great Vibes'; color:#f0e68c;">Tap each flower to see my heart...</p>
+    <div class="header-box">
+        <h2>Day 01</h2>
+        <p style="font-family: 'Great Vibes'; color:#f0e68c;">Tap each flower to see my heart...</p>
+    </div>
+
+    <div class="flower-grid">
+        
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">⏳</span><h3>The Love Clock</h3><p id="love-timer">Calculating...</p></div>
+                <div class="card-back"><h3>Forever & Always</h3><p>Har pal jo tumhare saath bita hai, woh meri zindagi ka sabse bada khazana hai.</p></div>
+            </div>
         </div>
 
-        <div class="flower-grid">
-            
-            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-inner">
-                    <div class="card-front"><span class="icon">⏳</span><h3>Love Clock</h3><p>Tap to see...</p></div>
-                    <div class="card-back"><h3>Always</h3><p>Har pal tumhare saath.</p></div>
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">💬</span><h3>Our First Hello</h3><p>Tap to remember...</p></div>
+                <div class="card-back"><h3>The Magic Start</h3><p>Wo pehli message notification dekh kar mere chehre pe jo muskan aayi thi.</p></div>
+            </div>
+        </div>
+
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">✨</span><h3>Why Muskan?</h3><p>A simple question...</p></div>
+                <div class="card-back"><h3>My Everything</h3><p>Kyunki tumhare bina ye dil bas dhadakta hai, jeeta nahi hai.</p></div>
+            </div>
+        </div>
+
+        <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">🎙️</span><h3>My Heart's Voice</h3><p>A message just for you.</p></div>
+                <div class="card-back">
+                    <h3>Listen Carefully</h3>
+                    <button class="royal-btn" style="padding: 5px 15px; font-size: 0.7rem;" onclick="event.stopPropagation(); document.getElementById('specialVoice').play()">PLAY VOICE</button>
+                    <audio id="specialVoice" src="../assets/audio/muskan-message.mp3.mpeg"></audio>
                 </div>
             </div>
+        </div>
 
-            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-inner">
-                    <div class="card-front">
-                        <span class="icon">📸</span>
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">🤝</span><h3>The First Promise</h3><p>Tap to see my vow.</p></div>
+                <div class="card-back"><h3>Vow to You</h3><p>Main hamesha tumhari khushi ka dhyan rakhunga, chahe kuch bhi ho jaye.</p></div>
+            </div>
+        </div>
+
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">📸</span><h3>Our Best Memory</h3><p>A special frame...</p></div>
+                <div class="card-back memory-back">
+                    <div class="memory-text">
                         <h3>Our Best Memory</h3>
-                        <p>A special frame...</p>
+                        <p>Wo khas pal jo dil ke kareeb hai.</p>
                     </div>
-                    <div class="card-back memory-back">
-                        <div class="back-text-top">
-                            <h3>Our Best Memory</h3>
-                            <p>"Wo din jab maine tumhe pehli baar dekha."</p>
-                        </div>
-                        <div class="img-wrapper">
-                            <img src="../assets/images/1000101333.jpg" class="back-img-clear">
-                        </div>
+                    <div class="memory-img-container">
+                        <img src="../assets/images/1000101333.jpg" class="back-img-clear">
                     </div>
                 </div>
             </div>
-
-            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-inner">
-                    <div class="card-front"><span class="icon">💌</span><h3>Hidden Note</h3><p>Secret message...</p></div>
-                    <div class="card-back"><h3>P.S.</h3><p>Tum meri Muskan ho.</p></div>
-                </div>
-            </div>
-
-            <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-inner">
-                    <div class="card-front"><span class="icon">🌹</span><h3>Day 02</h3><p>Coming Soon...</p></div>
-                    <div class="card-back" style="background:#111; color:#fff;"><h3>Wait for it</h3><p>Kal milte hain!</p></div>
-                </div>
-            </div>
-
         </div>
+
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">🌙</span><h3>Our Little Dream</h3><p>Under the stars...</p></div>
+                <div class="card-back"><h3>Our Universe</h3><p>Ek chota sa ghar aur dher saari baatein. Bas yahi chahiye.</p></div>
+            </div>
+        </div>
+
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">💌</span><h3>The Hidden Note</h3><p>A secret for you...</p></div>
+                <div class="card-back"><h3>P.S. I Love You</h3><p>Tum meri zindagi ki wo "Muskan" ho jiske bina sab adhura hai.</p></div>
+            </div>
+        </div>
+
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">🎵</span><h3>Our Special Song</h3><p>The rhythm of us...</p></div>
+                <div class="card-back"><h3>Melody of Love</h3><p>Ye gaana jab bhi bajta hai, mujhe bas tumhara chehra dikhta hai.</p></div>
+            </div>
+        </div>
+
+        <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front"><span class="icon">🌹</span><h3>Wait for Day 02</h3><p>The journey continues...</p></div>
+                <div class="card-back" style="background:#111; color:#fff;">
+                    <h3>Coming Soon</h3>
+                    <p>Day 02 is bringing 10 more magical flowers for you.</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="../js/day1-logic.js"></script>
