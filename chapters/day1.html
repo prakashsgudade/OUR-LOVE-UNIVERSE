@@ -24,14 +24,12 @@
             margin: 0 auto;
         }
 
-        /* Card Container */
         .flower-card {
-            height: 220px; /* Card ki height fix kar di */
-            perspective: 1000px; /* 3D effect ke liye zaroori */
+            height: 250px; /* Thodi height badha di hai photo ke liye */
+            perspective: 1000px; 
             cursor: pointer;
         }
 
-        /* Inner Wrapper jo ghumega */
         .card-inner {
             position: relative;
             width: 100%;
@@ -41,12 +39,10 @@
             transform-style: preserve-3d;
         }
 
-        /* Flip Action Class */
         .flower-card.is-flipped .card-inner {
             transform: rotateY(180deg);
         }
 
-        /* Common for Front & Back */
         .card-front, .card-back {
             position: absolute;
             width: 100%;
@@ -57,30 +53,59 @@
             border: 1px solid rgba(212, 175, 55, 0.4);
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: linear-gradient(145deg, #111, #000);
             justify-content: center;
             align-items: center;
             padding: 15px;
-            box-sizing: border-box;
         }
 
-        /* Front Side Styling */
-        .card-front {
-            background: linear-gradient(145deg, #111, #000);
-        }
-
-        /* Back Side Styling */
+        /* Standard Back Side (Golden) */
         .card-back {
-            background: linear-gradient(145deg, #d4af37, #8a6d1a); /* Golden Back */
+            background: linear-gradient(145deg, #d4af37, #8a6d1a);
             color: #000;
             transform: rotateY(180deg);
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        /* SPECIAL MEMORY CARD BACK (Black Theme with Photo) */
+        .memory-back {
+            background: #000 !important;
+            border: 2px solid #d4af37 !important;
+            justify-content: flex-start !important; /* Text ko upar bhejne ke liye */
+        }
+
+        .back-text-container {
+            padding: 15px 10px 5px 10px;
+            z-index: 2;
+        }
+
+        .back-text-container h3 { color: #d4af37 !important; margin: 0; font-size: 1rem; }
+        .back-text-container p { color: #fff !important; font-size: 0.75rem; margin-top: 5px; }
+
+        /* Photo Setting - Responsive & Clear */
+        .back-img-clear {
+            width: 90%;
+            height: 140px; /* Fixed height for image area */
+            object-fit: cover; /* Photo stretch nahi hogi */
+            object-position: center;
+            border-radius: 10px;
+            margin: 5px auto 15px auto;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            display: block;
         }
 
         .icon { font-size: 2rem; margin-bottom: 10px; }
         h3 { font-size: 0.9rem; color: #d4af37; font-family: 'Cinzel Decorative'; margin: 5px 0; }
-        .card-back h3 { color: #000; }
         p { font-size: 0.7rem; opacity: 0.8; }
-        
         .full-width { grid-column: span 2; }
+
     </style>
 </head>
 <body>
@@ -170,9 +195,12 @@
                     <h3>Our Best Memory</h3>
                     <p>A special frame...</p>
                 </div>
-                <div class="card-back">
-                    <h3>Pure Gold</h3>
-                    <p>Wo din jab humne ghanton bina ruke baatein ki thi aur waqt ka pata hi nahi chala.</p>
+                <div class="card-back memory-back">
+                    <div class="back-text-container">
+                        <h3>Our Best Memory</h3>
+                        <p>Wo din jab maine tumhe pehli baar dekha tha.</p>
+                    </div>
+                    <img src="../assets/images/1000101333.jpg" class="back-img-clear">
                 </div>
             </div>
         </div>
@@ -226,9 +254,9 @@
                     <h3>Wait for Day 02</h3>
                     <p>The journey continues...</p>
                 </div>
-                <div class="card-back">
+                <div class="card-back" style="background: linear-gradient(145deg, #000, #222); color: #fff;">
                     <h3>Coming Soon</h3>
-                    <p>Day 02 is bring 10 more magical flowers. Keep smiling, my queen!</p>
+                    <p>Day 02 is bringing 10 more magical flowers. Keep smiling, my queen!</p>
                 </div>
             </div>
         </div>
