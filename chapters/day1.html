@@ -26,8 +26,8 @@
 
         /* Card Container */
         .flower-card {
-            height: 250px; /* Sabhi cards ki height fix rakhi hai */
-            perspective: 1000px; 
+            height: 250px; 
+            perspective: 1000px;  
             cursor: pointer;
         }
 
@@ -61,7 +61,6 @@
 
         .card-front { background: linear-gradient(145deg, #111, #000); }
         
-        /* Standard Golden Back */
         .card-back {
             background: linear-gradient(145deg, #d4af37, #8a6d1a);
             color: #000;
@@ -70,22 +69,17 @@
 
         /* ===== SPECIAL ADJUSTABLE MEMORY CARD ===== */
         .memory-back {
-            background: #000 !important; /* Pure black for photo focus */
+            background: #000 !important;
             border: 2px solid #d4af37 !important;
             justify-content: flex-start !important;
             padding: 10px !important;
         }
-
-        .memory-text {
-            flex-shrink: 0;
-            margin-bottom: 8px;
-        }
+        .memory-text { flex-shrink: 0; margin-bottom: 8px; }
         .memory-text h3 { color: #d4af37 !important; font-size: 0.95rem; margin: 5px 0; }
         .memory-text p { color: #fff !important; font-size: 0.7rem; opacity: 1 !important; }
-
         .memory-img-container {
             width: 100%;
-            flex-grow: 1; /* Saari bachi jagah ye lega */
+            flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -93,12 +87,25 @@
             background: #000;
             border-radius: 10px;
         }
+        .back-img-clear { width: 100%; height: 100%; object-fit: contain; display: block; }
 
-        .back-img-clear {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Sabse important: Photo kabhi kategi nahi */
-            display: block;
+        /* ===== VINYL RECORD DESIGN (SONG CARD) ===== */
+        .vinyl-container { position: relative; width: 80px; height: 80px; margin-bottom: 10px; }
+        .vinyl-record {
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, #222 20%, #111 21%, #111 30%, #222 31%, #111 40%, #222 41%, #111 50%, #222 51%, #111 60%, #222 61%, #111 70%);
+            border-radius: 50%; border: 2px solid #333;
+            animation: spin 3s linear infinite; animation-play-state: paused;
+        }
+        .vinyl-record.playing { animation-play-state: running; }
+        .vinyl-record::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 12px; height: 12px; background: #d4af37; border-radius: 50%; border: 2px solid #000;
+        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .play-song-btn {
+            background: #000; color: #d4af37; border: 1px solid #d4af37;
+            padding: 5px 12px; border-radius: 20px; font-size: 0.65rem; cursor: pointer; margin-top: 5px;
         }
 
         .icon { font-size: 2rem; margin-bottom: 10px; }
@@ -106,7 +113,6 @@
         p { font-size: 0.7rem; opacity: 0.8; }
         .full-width { grid-column: span 2; }
 
-        /* Responsive laptop tweak */
         @media (min-width: 768px) {
             .flower-grid { grid-template-columns: repeat(3, 1fr); }
         }
@@ -166,7 +172,7 @@
                 <div class="card-back memory-back">
                     <div class="memory-text">
                         <h3>Our Best Memory</h3>
-                        <p>wo din jab pehli baar maine tumhe dekha tha Wo khas pal jo dil ke kareeb hai.</p>
+                        <p>Wo khas pal jab maine tumhe dekha.</p>
                     </div>
                     <div class="memory-img-container">
                         <img src="../assets/images/photo1.jpg" class="back-img-clear">
@@ -192,7 +198,14 @@
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
                 <div class="card-front"><span class="icon">🎵</span><h3>Our Special Song</h3><p>The rhythm of us...</p></div>
-                <div class="card-back"><h3>Melody of Love</h3><p>Ye gaana jab bhi bajta hai, mujhe bas tumhara chehra dikhta hai.</p></div>
+                <div class="card-back" style="background: #000; border: 2px solid #d4af37;">
+                    <div class="vinyl-container">
+                        <div id="vinylDisk" class="vinyl-record"></div>
+                    </div>
+                    <h3 style="color: #d4af37; font-size: 0.8rem;">Melody of Love</h3>
+                    <button class="play-song-btn" onclick="toggleSong(event)">PLAY SONG</button>
+                    <audio id="ourSong" src="../assets/audio/our-song.mp3"></audio>
+                </div>
             </div>
         </div>
 
@@ -201,7 +214,7 @@
                 <div class="card-front"><span class="icon">🌹</span><h3>Wait for Day 02</h3><p>The journey continues...</p></div>
                 <div class="card-back" style="background:#111; color:#fff;">
                     <h3>Coming Soon</h3>
-                    <p>Day 02 is bringing 10 more magical flowers for you.</p>
+                    <p>Day 02 is bringing 10 more magical flowers.</p>
                 </div>
             </div>
         </div>
@@ -209,5 +222,25 @@
     </div>
 
     <script src="../js/day1-logic.js"></script>
+
+    <script>
+        // Special Song Toggle Function
+        function toggleSong(event) {
+            event.stopPropagation();
+            const song = document.getElementById('ourSong');
+            const disk = document.getElementById('vinylDisk');
+            const btn = event.target;
+
+            if (song.paused) {
+                song.play();
+                disk.classList.add('playing');
+                btn.innerText = "PAUSE SONG";
+            } else {
+                song.pause();
+                disk.classList.remove('playing');
+                btn.innerText = "PLAY SONG";
+            }
+        }
+    </script>
 </body>
 </html>
