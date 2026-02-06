@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Timeline | Muskan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark-red: #4a0000;
+            --glass: rgba(255, 255, 255, 0.05);
+            --neon-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1a0000 0%, #050505 100%);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 50px 20px;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; position: relative; }
+
+        /* Journey Line */
+        .container::before {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            top: 100px; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            z-index: 0;
+        }
+
+        header { text-align: center; margin-bottom: 60px; position: relative; z-index: 1; }
+        header h1 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 2.5rem; margin: 0; }
+        header p { font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3; }
+
+        /* Chapter Cards */
+        .chapter-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 40px 0;
+            width: 80%;
+            position: relative;
+            z-index: 1;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Zig Zag Layout */
+        .chapter-card:nth-child(odd) { margin-left: auto; flex-direction: row-reverse; text-align: right; }
+        .chapter-card:nth-child(even) { margin-right: auto; }
+
+        .chapter-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--gold);
+            box-shadow: var(--neon-shadow);
+        }
+
+        .day-info { flex-grow: 1; padding: 0 20px; }
+        .day-info h3 { font-family: 'Cinzel Decorative'; color: var(--gold); margin: 0; font-size: 1.2rem; }
+        .day-info p { font-size: 0.8rem; opacity: 0.7; margin: 5px 0; }
+
+        .day-icon {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; border: 1px solid var(--gold);
+        }
+
+        /* Lock Styling */
+        .locked { filter: grayscale(1); opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+        .locked .day-icon { background: #333; border-color: #555; }
+        .lock-badge { position: absolute; bottom: 10px; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .chapter-card { width: 90%; }
+            .container::before { left: 20px; }
+            .chapter-card:nth-child(odd), .chapter-card:nth-child(even) { 
+                margin-left: 40px; text-align: left; flex-direction: row; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>The Love Timeline</h1>
+            <p>Every flower tells a story...</p>
+        </header>
+
+        <div id="timeline-list">
+            <a href="pages/day1.html" class="chapter-card" id="day1">
+                <div class="day-icon">🌸</div>
+                <div class="day-info">
+                    <h3>Day 01</h3>
+                    <p>The 10 Secret Flowers - Where it all began.</p>
+                </div>
+            </a>
+
+            <a href="pages/day2.html" class="chapter-card" id="day2">
+                <div class="day-icon">🌹</div>
+                <div class="day-info">
+                    <h3>Day 02</h3>
+                    <p>The Eternal Rose Lock - Pluck the petals of love.</p>
+                </div>
+            </a>
+
+            <a href="pages/day3.html" class="chapter-card locked" id="day3">
+                <div class="day-icon">✨</div>
+                <div class="day-info">
+                    <h3>Day 03</h3>
+                    <p>Starry Night Whispers - Coming Soon...</p>
+                </div>
+                <span class="lock-badge">🔒 Locked</span>
+            </a>
+
+            <div id="remaining-days"></div>
+        </div>
+    </div>
+
+    <script>
+        // Automatic Lock/Unlock Logic (Optional)
+        // Tum isme manually 'locked' class hata sakte ho jab tum naya page banao.
+        
+        // Dynamic Days Generation (Baki ke 7 din dikhane ke liye)
+        const dayNames = ["Moonlight Shadows", "Ocean of Feelings", "Golden Promises", "The Heartbeat", "Infinite Soul", "Magical Memories", "Eternal Love"];
+        const remainingContainer = document.getElementById('remaining-days');
+
+        for (let i = 4; i <= 10; i++) {
+            let dayHtml = `
+                <div class="chapter-card locked">
+                    <div class="day-icon">🔒</div>
+                    <div class="day-info">
+                        <h3>Day 0${i}</h3>
+                        <p>${dayNames[i-4] || 'Secret Adventure'}</p>
+                    </div>
+                </div>
+            `;
+            remainingContainer.innerHTML += dayHtml;
+        }
+    </script>
+</body>
+</html>
