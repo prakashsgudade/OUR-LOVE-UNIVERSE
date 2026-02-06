@@ -1,158 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Love Journey | Timeline</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #d4af37;
-            --neon-red: #ff3131;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(212, 175, 55, 0.3);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Journey | Muskan</title>
 
-        body {
-            background: radial-gradient(circle at center, #1a0000 0%, #050505 100%);
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 80px 20px;
-            overflow-x: hidden;
-        }
+<link rel="stylesheet" href="css/main-style.css">
+<link rel="stylesheet" href="css/royal-theme.css">
+<link rel="stylesheet" href="css/animations.css">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
-        /* Ambient Background Glow */
-        body::before {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.3; z-index: -1;
-        }
+<style>
+    body { background:#050505; color:#fff; font-family:'Montserrat',sans-serif; margin:0; padding:40px 15px; }
+    .header { text-align:center; margin-bottom:40px; }
+    .header h1 { font-family:'Cinzel Decorative'; color:#d4af37; letter-spacing: 3px; }
+    
+    /* Notification */
+    #unlockNotice {
+        position:fixed; top:20px; left:50%; transform:translateX(-50%);
+        background:#111; border:1px solid #d4af37; padding:10px 18px;
+        border-radius:10px; display:none; z-index:999; box-shadow: 0 0 15px rgba(212,175,55,0.4);
+    }
 
-        .container { max-width: 900px; margin: 0 auto; position: relative; }
+    /* Progress Bar */
+    .progress-box { width:100%; height:8px; background:#111; border-radius:10px; margin:20px auto 40px; overflow:hidden; max-width:700px; border: 1px solid rgba(212,175,55,0.1); }
+    #progressFill { height:100%; width:0%; background: linear-gradient(90deg, #d4af37, #f2d06b); transition: 1.5s ease; }
 
-        header { text-align: center; margin-bottom: 80px; }
-        header h1 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 2.8rem; letter-spacing: 5px; text-shadow: 0 0 20px rgba(212,175,55,0.5); margin: 0; }
-        header p { font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3; margin-top: 10px; }
+    /* Grid */
+    .timeline { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; max-width:1000px; margin:0 auto; }
 
-        /* Vertical Progress Line */
-        .timeline-line {
-            position: absolute; left: 50%; transform: translateX(-50%);
-            top: 150px; bottom: 0; width: 2px;
-            background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
-            z-index: 0;
-        }
+    /* Card */
+    .card {
+        background: rgba(255,255,255,0.03); padding:25px; border-radius:15px;
+        border:1px solid rgba(212,175,55,0.2); text-decoration:none; color:white;
+        position:relative; transition:0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex; flex-direction: column; gap: 8px;
+    }
+    .card:hover { transform:translateY(-8px); border-color: #d4af37; background: rgba(212,175,55,0.05); }
 
-        .chapter-node {
-            display: flex; justify-content: center; align-items: center;
-            width: 100%; margin-bottom: 80px; position: relative; z-index: 1;
-        }
+    /* Locked */
+    .locked { filter:grayscale(1); opacity:0.3; cursor: not-allowed; }
+    .locked::after { content: '🔒'; position: absolute; top: 15px; right: 15px; font-size: 0.8rem; }
 
-        /* The Card */
-        .card {
-            width: 40%; padding: 25px;
-            background: var(--glass); backdrop-filter: blur(15px);
-            border: 1px solid var(--border); border-radius: 20px;
-            text-decoration: none; color: #fff;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            position: relative;
-        }
+    /* New Unlock Glow */
+    .new { border: 1px solid #d4af37; box-shadow:0 0 20px rgba(212,175,55,0.3); animation: pulseGlow 2s infinite; }
+    @keyframes pulseGlow { 0% { box-shadow: 0 0 5px #d4af37; } 50% { box-shadow: 0 0 20px #d4af37; } 100% { box-shadow: 0 0 5px #d4af37; } }
 
-        /* Zig Zag Logic */
-        .chapter-node:nth-child(odd) .card { margin-right: 55%; text-align: right; }
-        .chapter-node:nth-child(even) .card { margin-left: 55%; text-align: left; }
-
-        /* Floating Indicator (The Dot) */
-        .node-dot {
-            position: absolute; left: 50%; transform: translateX(-50%);
-            width: 20px; height: 20px; background: #000;
-            border: 2px solid var(--gold); border-radius: 50%;
-            box-shadow: 0 0 15px var(--gold); z-index: 2;
-        }
-
-        /* Hover Effects */
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--gold);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-            background: rgba(255, 255, 255, 0.07);
-        }
-
-        .day-num { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 1.5rem; display: block; margin-bottom: 5px; }
-        .day-title { font-size: 0.9rem; font-weight: 300; letter-spacing: 1px; opacity: 0.8; }
-
-        /* Locked State */
-        .locked { filter: grayscale(1); opacity: 0.4; cursor: not-allowed; pointer-events: none; }
-        .locked .node-dot { border-color: #555; box-shadow: none; }
-        .lock-icon { position: absolute; top: -10px; right: -10px; background: #222; padding: 5px; border-radius: 50%; font-size: 0.8rem; border: 1px solid #444; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .timeline-line { left: 30px; }
-            .node-dot { left: 30px; }
-            .card { width: 80%; margin-left: 70px !important; text-align: left !important; }
-        }
-    </style>
+    .day { font-family:'Cinzel Decorative'; color:#d4af37; font-size:1.3rem; }
+    .title { font-size: 0.85rem; letter-spacing: 1px; opacity: 0.8; }
+</style>
 </head>
+
 <body>
+<div id="unlockNotice"></div>
 
-    <div class="container">
-        <header>
-            <h1>LOVE STORY</h1>
-            <p>Every moment is a milestone...</p>
-        </header>
+<div class="header">
+    <h1>Our Journey</h1>
+    <p>Every day, a new secret unfolds...</p>
+</div>
 
-        <div class="timeline-line"></div>
-        <div id="dynamic-timeline"></div>
-    </div>
+<div class="progress-box">
+    <div id="progressFill"></div>
+</div>
 
-    <script>
-        // --- CONFIGURATION ---
-        // 1. Apni START Date set karo (Day 1 kab khulega)
-        const START_DATE = new Date("2026-02-06"); // YYYY-MM-DD format
-        const TOTAL_DAYS = 10;
-        
-        const dayContent = [
-            { icon: "🌸", title: "The 10 Secret Flowers" },
-            { icon: "🌹", title: "The Eternal Rose Lock" },
-            { icon: "✨", title: "Starry Night Whispers" },
-            { icon: "🌊", title: "Ocean of Emotions" },
-            { icon: "🤝", title: "The Golden Promise" },
-            { icon: "💓", title: "Heartbeat Connection" },
-            { icon: "🧚", title: "Magic in the Air" },
-            { icon: "🧩", title: "Soulmate Secrets" },
-            { icon: "🌌", title: "Infinite Dreams" },
-            { icon: "💍", title: "The Final Vow" }
-        ];
+<div class="timeline" id="timeline"></div>
 
-        function initTimeline() {
-            const container = document.getElementById('dynamic-timeline');
-            const today = new Date();
-            
-            // Difference nikalne ka logic
-            const diffTime = today - START_DATE;
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+<script>
+/* ========= CONFIG ========= */
+const START_DATE = new Date("2026-02-06");
+const TOTAL_DAYS = 10; // Tum ise 50 tak bada sakte ho
+const STORAGE_KEY = "loveTimelineMemory";
 
-            for (let i = 1; i <= TOTAL_DAYS; i++) {
-                const isUnlocked = i <= diffDays;
-                const node = document.createElement('div');
-                node.className = 'chapter-node';
+// Har din ka pyara sa naam
+const dayNames = [
+    "The 10 Secret Flowers", "The Eternal Rose Lock", "Starry Night Whispers",
+    "Ocean of Emotions", "The Golden Promise", "Heartbeat Connection",
+    "Magic in the Air", "Soulmate Secrets", "Infinite Dreams", "The Final Vow"
+];
 
-                // Path change: 'chapters/day' + i + '.html' (Tumhare folder structure ke liye)
-                node.innerHTML = `
-                    <div class="node-dot"></div>
-                    <${isUnlocked ? 'a href="chapters/day' + i + '.html"' : 'div'} class="card ${isUnlocked ? '' : 'locked'}">
-                        ${!isUnlocked ? '<span class="lock-icon">🔒</span>' : ''}
-                        <span class="day-num">Day 0${i}</span>
-                        <span class="day-title">${dayContent[i-1].icon} ${dayContent[i-1].title}</span>
-                    </${isUnlocked ? 'a' : 'div'}>
-                `;
-                container.appendChild(node);
-            }
-        }
+/* ========= LOAD MEMORY ========= */
+let memory = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { lastSeen: 0 };
 
-        initTimeline();
-    </script>
+/* ========= CALCULATE DAYS ========= */
+const today = new Date();
+const diff = Math.floor((today - START_DATE)/(1000*60*60*24)) + 1;
+const unlocked = Math.max(0, Math.min(diff, TOTAL_DAYS));
+
+/* ========= NOTIFICATION ========= */
+if(unlocked > memory.lastSeen){
+    let notice = document.getElementById("unlockNotice");
+    notice.innerHTML = "✨ <b>" + (unlocked - memory.lastSeen) + "</b> New memory unlocked!";
+    notice.style.display="block";
+    setTimeout(()=> notice.style.display="none", 4000);
+}
+
+/* ========= BUILD TIMELINE ========= */
+const container = document.getElementById("timeline");
+
+for(let i=1; i<=TOTAL_DAYS; i++){
+    let isCurrentlyUnlocked = i <= unlocked;
+    let card = document.createElement(isCurrentlyUnlocked ? "a" : "div");
+    card.className = "card";
+
+    if(!isCurrentlyUnlocked) {
+        card.classList.add("locked");
+    } else if(i > memory.lastSeen) {
+        card.classList.add("new");
+    }
+
+    if(isCurrentlyUnlocked) card.href = "chapters/day" + i + ".html";
+
+    card.innerHTML = `
+        <div class="day">Day ${i < 10 ? '0'+i : i}</div>
+        <div class="title">${dayNames[i-1] || "Secret Memory"}</div>
+        <div style="font-size: 0.7rem; color: #d4af37; margin-top: 5px;">
+            ${isCurrentlyUnlocked ? "CLICK TO OPEN →" : "COMING SOON"}
+        </div>
+    `;
+    container.appendChild(card);
+}
+
+/* ========= PROGRESS ========= */
+setTimeout(() => {
+    let percent = (unlocked / TOTAL_DAYS) * 100;
+    document.getElementById("progressFill").style.width = percent + "%";
+}, 500);
+
+/* ========= SAVE MEMORY ========= */
+// Jab wo aaj ka din dekh le, tab memory update karein
+memory.lastSeen = unlocked;
+localStorage.setItem(STORAGE_KEY, JSON.stringify(memory));
+</script>
 </body>
 </html>
