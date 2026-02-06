@@ -175,6 +175,7 @@ justify-content:center;
 cursor:pointer;
 font-size:20px;
 z-index:999;
+transition:opacity 0.3s;
 }
 
 #scrollUp{bottom:90px;}
@@ -334,7 +335,7 @@ a.volume=Math.min(1,window.scrollY/800);
 scrollUp.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 scrollDown.onclick=()=>window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
 
-/* ===== SEARCH JUMP ===== */
+/* ===== SEARCH JUMP + ENTER KEY ===== */
 function jumpToDay(){
 let num=parseInt(daySearch.value);
 let nodes=document.querySelectorAll(".chapter-node");
@@ -344,6 +345,9 @@ nodes[num-1].querySelector('.card').style.boxShadow="0 0 20px #ff3131,0 0 40px #
 setTimeout(()=>{nodes[num-1].querySelector('.card').style.boxShadow=""},2000);
 }
 }
+daySearch.addEventListener("keypress",function(e){
+if(e.key==='Enter'){ jumpToDay(); }
+});
 
 /* ===== PARTICLES ===== */
 const c=document.getElementById("space");
@@ -371,6 +375,15 @@ anim();
 /* ===== NOTIFY ===== */
 setTimeout(()=>{notification.style.display="block";},1200);
 localStorage.setItem("lastVisit",today);
+
+/* ===== NAV ARROWS AUTO HIDE ===== */
+let arrows=document.querySelectorAll(".nav-arrow");
+let arrowTimeout;
+window.addEventListener("scroll",()=>{
+arrows.forEach(a=>a.style.opacity=1);
+clearTimeout(arrowTimeout);
+arrowTimeout=setTimeout(()=>{arrows.forEach(a=>a.style.opacity=0)},1500);
+});
 </script>
 
 </body>
