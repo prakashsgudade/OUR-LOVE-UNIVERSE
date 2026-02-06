@@ -9,5 +9,5 @@ function openKingdom() {
     }
 
     // JS se page change karne ka sahi tarika
-    window.location.href = "chapters/day1.html";
+    window.location.href = "letter.html";
 }
