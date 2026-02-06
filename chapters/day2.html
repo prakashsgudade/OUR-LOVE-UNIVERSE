@@ -1,1 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 02 - Eternal Rose</title>
+    
+    <link rel="stylesheet" href="../css/main-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
+    <style>
+        body { background: #080000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; margin: 0; }
+        
+        /* ===== STEP 1: ROSE UNLOCKER ===== */
+        #unlock-section {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+        }
+        .main-rose {
+            font-size: 100px; cursor: pointer; filter: drop-shadow(0 0 20px #ff0000);
+            transition: 0.3s; animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.1); } }
+        .instruction { font-family: 'Great Vibes'; color: #ff4d4d; font-size: 1.8rem; margin-top: 20px; }
+
+        /* ===== STEP 2: MAIN CONTENT (HIDDEN) ===== */
+        #main-content { display: none; opacity: 0; transition: 2s; padding: 20px 0; }
+        
+        .header-box { text-align: center; padding: 40px 20px; }
+        .header-box h2 { font-family: 'Cinzel Decorative'; color: #ff4d4d; font-size: 2.5rem; margin: 0; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+
+        /* ===== THE 10 FLOWERS GRID ===== */
+        .flower-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
+            padding: 15px; max-width: 1100px; margin: 0 auto;
+        }
+
+        .flower-card { height: 260px; perspective: 1000px; cursor: pointer; }
+        .card-inner {
+            position: relative; width: 100%; height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .flower-card.is-flipped .card-inner { transform: rotateY(180deg); }
+
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; padding: 20px; box-sizing: border-box;
+            border: 1px solid rgba(255, 77, 77, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-front { background: linear-gradient(145deg, #1a0000, #050505); }
+        .card-back { 
+            background: linear-gradient(145deg, #ff4d4d, #4a0000); 
+            color: #fff; transform: rotateY(180deg); 
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .icon { font-size: 2.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 5px #ff4d4d); }
+        h3 { font-size: 1rem; color: #ff4d4d; font-family: 'Cinzel Decorative'; margin: 5px 0; text-align: center; }
+        .card-back h3 { color: #fff; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
+        p { font-size: 0.8rem; text-align: center; line-height: 1.4; }
+
+        .full-width { grid-column: span 2; }
+
+        @media (min-width: 768px) { .flower-grid { grid-template-columns: repeat(3, 1fr); } }
+    </style>
+</head>
+<body>
+
+    <div id="unlock-section">
+        <div class="main-rose" onclick="pluckPetal()">🌹</div>
+        <p class="instruction">Pluck 5 petals to reveal my Day 02 secrets...</p>
+        <p id="counter" style="color: #ff4d4d; font-weight: bold; font-size: 1.2rem;">Petals: 5</p>
+    </div>
+
+    <div id="main-content">
+        <div class="header-box">
+            <h2>Day 02</h2>
+            <p style="font-family: 'Great Vibes'; color:#ffb3b3; font-size: 1.5rem;">The deeper I go, the more I find YOU.</p>
+        </div>
+
+        <div class="flower-grid">
+            
+            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">🏠</span><h3>My Safe Haven</h3><p>Where do I belong?</p></div>
+                    <div class="card-back"><h3>Sukoon</h3><p>Duniya ki bheed mein mera sukoon sirf tumhare paas hai.</p></div>
+                </div>
+            </div>
+
+            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">✨</span><h3>Favorite Habit</h3><p>Something I do daily...</p></div>
+                    <div class="card-back"><h3>Looking at You</h3><p>Tumhari DP ko ghanton dekhna meri sabse pyaari aadat hai.</p></div>
+                </div>
+            </div>
+
+            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">🛡️</span><h3>My Strength</h3><p>What keeps me going?</p></div>
+                    <div class="card-back"><h3>Your Trust</h3><p>Jab tum mujhpar bharosa karti ho, main duniya se lad sakta hoon.</p></div>
+                </div>
+            </div>
+
+            <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">🖼️</span><h3>A Moment Frozen</h3><p>Tap to see another memory...</p></div>
+                    <div class="card-back" style="padding:0; overflow:hidden;">
+                        <img src="../assets/images/photo2.jpg" style="width:100%; height:100%; object-fit: cover;">
+                        <div style="position:absolute; bottom:0; background:rgba(0,0,0,0.7); width:100%; padding:10px;">
+                            <p style="margin:0;">Ye hamesha yaad rahega ❤️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">🕊️</span><h3>The Future</h3><p>Our 5-year plan...</p></div>
+                    <div class="card-back"><h3>Together</h3><p>Bas tumhara haath mere haath mein ho, rasta kahin bhi jaye.</p></div>
+                </div>
+            </div>
+
+            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">🎵</span><h3>The Best Sound</h3><p>Better than any song...</p></div>
+                    <div class="card-back"><h3>Your Voice</h3><p>Jab tum mera naam leti ho, wo mere liye duniya ka best music hai.</p></div>
+                </div>
+            </div>
+
+            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">🙏</span><h3>My Prayer</h3><p>I ask for one thing...</p></div>
+                    <div class="card-back"><h3>You. Always.</h3><p>Khuda se har baar bas tumhari khushi aur tumhara sath manga hai.</p></div>
+                </div>
+            </div>
+
+            <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">🎧</span><h3>Current Feeling</h3><p>If our love was a song...</p></div>
+                    <div class="card-back"><h3>Pehli Nazar Mein</h3><p>Har line mere dil ki baat keh rahi hai. (Play it in your mind!)</p></div>
+                </div>
+            </div>
+
+            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">💌</span><h3>Confession</h3><p>Something I never said...</p></div>
+                    <div class="card-back"><h3>Insecure?</h3><p>Kabhi-kabhi darta hoon ki tumhe kho na doon, tum itni khas jo ho.</p></div>
+                </div>
+            </div>
+
+            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <div class="card-front"><span class="icon">🌹</span><h3>Day 02 End</h3><p>Wait for tomorrow...</p></div>
+                    <div class="card-back"><h3>More to Come</h3><p>Aaj 10 petals tode hain, kal 10 naye raaz khulenge. Love you!</p></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let petals = 5;
+        function pluckPetal() {
+            petals--;
+            if(petals >= 0) {
+                document.getElementById('counter').innerText = "Petals: " + petals;
+                const rose = document.querySelector('.main-rose');
+                rose.style.transform = "scale(0.7) rotate(15deg)";
+                setTimeout(() => { rose.style.transform = "scale(1) rotate(0deg)"; }, 150);
+            }
+            if (petals === 0) {
+                setTimeout(() => {
+                    document.getElementById('unlock-section').style.display = 'none';
+                    const main = document.getElementById('main-content');
+                    main.style.display = 'block';
+                    setTimeout(() => { main.style.opacity = '1'; }, 100);
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
