@@ -7,21 +7,49 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <style>
         body { 
-            background: #000; color: #fff; height: 100vh;
+            background: radial-gradient(circle at center, #1a0000 0%, #000 100%); 
+            color: #fff; height: 100vh;
             display: flex; justify-content: center; align-items: center;
             margin: 0; font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
         }
-        .container { max-width: 600px; padding: 40px; text-align: center; }
-        #typewriter { font-family: 'Great Vibes'; font-size: 2rem; color: #ffb3b3; line-height: 1.6; min-height: 150px; }
+        .container { 
+            max-width: 600px; padding: 40px; text-align: center; 
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        #typewriter { 
+            font-family: 'Great Vibes'; font-size: 2.2rem; 
+            color: #ffb3b3; line-height: 1.6; min-height: 180px; 
+            text-shadow: 0 0 10px rgba(255, 179, 179, 0.2);
+        }
         
         .btn-hidden {
-            display: none; margin-top: 50px; text-decoration: none;
-            color: #d4af37; border-bottom: 1px solid #d4af37; padding: 5px 0;
-            font-size: 0.8rem; letter-spacing: 2px;
+            display: inline-block; margin-top: 50px; text-decoration: none;
+            color: #d4af37; border: 1px solid #d4af37; padding: 12px 30px;
+            border-radius: 25px; font-size: 0.8rem; letter-spacing: 2px;
+            opacity: 0; transform: translateY(20px);
+            transition: all 1s ease;
+        }
+        .btn-show { opacity: 1; transform: translateY(0); }
+        .btn-hidden:hover { background: #d4af37; color: #000; box-shadow: 0 0 20px #d4af37; }
+
+        /* Heart Beat in background */
+        .heart-bg {
+            position: absolute; font-size: 50rem; color: rgba(212, 175, 55, 0.02);
+            z-index: -1; animation: beat 3s infinite;
+        }
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
     </style>
 </head>
 <body>
+    <div class="heart-bg">♥</div>
+
     <div class="container">
         <div id="typewriter"></div>
         <a href="chapters.html" class="btn-hidden" id="nextBtn">VIEW OUR JOURNEY →</a>
@@ -34,9 +62,12 @@
             if (i < text.length) {
                 document.getElementById("typewriter").innerHTML += text.charAt(i);
                 i++;
-                setTimeout(typeWriter, 50);
+                // Thoda natural typing speed
+                let speed = text.charAt(i-1) === '.' ? 500 : 60;
+                setTimeout(typeWriter, speed);
             } else {
-                document.getElementById('nextBtn').style.display = 'inline-block';
+                const btn = document.getElementById('nextBtn');
+                btn.classList.add('btn-show');
             }
         }
         window.onload = typeWriter;
