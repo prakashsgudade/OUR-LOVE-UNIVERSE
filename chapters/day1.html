@@ -89,24 +89,58 @@
         }
         .back-img-clear { width: 100%; height: 100%; object-fit: contain; display: block; }
 
-        /* ===== VINYL RECORD DESIGN (SONG CARD) ===== */
-        .vinyl-container { position: relative; width: 80px; height: 80px; margin-bottom: 10px; }
+        /* ===== SHINY VINYL RECORD DESIGN (SONG CARD) ===== */
+        .vinyl-container { position: relative; width: 100px; height: 100px; margin-bottom: 10px; }
+        
         .vinyl-record {
             width: 100%; height: 100%;
-            background: radial-gradient(circle, #222 20%, #111 21%, #111 30%, #222 31%, #111 40%, #222 41%, #111 50%, #222 51%, #111 60%, #222 61%, #111 70%);
-            border-radius: 50%; border: 2px solid #333;
-            animation: spin 3s linear infinite; animation-play-state: paused;
+            background: radial-gradient(circle, 
+                #222 20%, 
+                #333 21%, #111 25%, 
+                #444 30%, #111 35%, 
+                #333 40%, #111 45%, 
+                #444 50%, #111 55%
+            );
+            border-radius: 50%; border: 2px solid #d4af37;
+            position: relative;
+            animation: spin 3s linear infinite; 
+            animation-play-state: paused;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
         }
-        .vinyl-record.playing { animation-play-state: running; }
+
+        /* Reflection Effect */
+        .vinyl-record::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, 
+                rgba(255,255,255,0.15) 0%, 
+                rgba(255,255,255,0) 40%, 
+                rgba(255,255,255,0.15) 50%, 
+                rgba(255,255,255,0) 60%, 
+                rgba(255,255,255,0.15) 100%
+            );
+            z-index: 1;
+        }
+
+        .vinyl-record.playing { animation-play-state: running !important; }
+
         .vinyl-record::after {
             content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 12px; height: 12px; background: #d4af37; border-radius: 50%; border: 2px solid #000;
+            width: 15px; height: 15px; background: #d4af37; border-radius: 50%; border: 2px solid #000;
+            z-index: 2;
         }
+
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
         .play-song-btn {
             background: #000; color: #d4af37; border: 1px solid #d4af37;
-            padding: 5px 12px; border-radius: 20px; font-size: 0.65rem; cursor: pointer; margin-top: 5px;
+            padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; 
+            margin-top: 5px; font-family: 'Montserrat', sans-serif;
+            transition: 0.3s;
         }
+        .play-song-btn:hover { background: #d4af37; color: #000; }
 
         .icon { font-size: 2rem; margin-bottom: 10px; }
         h3 { font-size: 0.9rem; color: #d4af37; font-family: 'Cinzel Decorative'; margin: 5px 0; }
@@ -224,7 +258,6 @@
     <script src="../js/day1-logic.js"></script>
 
     <script>
-        // Special Song Toggle Function
         function toggleSong(event) {
             event.stopPropagation();
             const song = document.getElementById('ourSong');
