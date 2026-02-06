@@ -8,220 +8,90 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-:root {
---gold:#d4af37;
---glass:rgba(255,255,255,0.03);
---border:rgba(212,175,55,0.3);
-}
-
+/* ===== BASE CSS (jaise tune diya) ===== */
 body, html {
-margin:0;
-padding:0;
-min-height:100%;
-width:100%;
-background-color:#050505;
-color:white;
-font-family:'Montserrat',sans-serif;
-overflow-x:hidden;
+    margin: 0; padding: 0; 
+    min-height: 100%; width: 100%;
+    background-color: #050505;
+    color: white; font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden; /* Mobile pe side scroll rokne ke liye */
 }
 
-#space{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-2;
+.gate {
+    min-height: 100vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    background: radial-gradient(circle, #1a0b0b 0%, #000 100%);
+    padding: 20px; /* Mobile edges se gap ke liye */
+    box-sizing: border-box;
 }
 
-body::before{
-content:'';
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:url('https://www.transparenttextures.com/patterns/stardust.png');
-opacity:0.3;
-z-index:-1;
+.main-content { 
+    text-align: center; 
+    z-index: 10; 
+    width: 100%;
+    max-width: 800px; /* Laptop pe bahut phele na */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.gate{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-box-sizing:border-box;
-}
-
-.main-content{
-text-align:center;
-z-index:10;
-width:100%;
-max-width:900px;
-display:flex;
-flex-direction:column;
-align-items:center;
-}
-
-header h1{
-font-family:'Cinzel Decorative';
-color:var(--gold);
-font-size:2.8rem;
-letter-spacing:5px;
-text-shadow:0 0 20px rgba(212,175,55,0.5);
-margin:20px 0 10px 0;
-}
-
-header p{
-font-family:'Great Vibes';
-font-size:1.8rem;
-color:#ffb3b3;
-margin:0 0 30px 0;
-}
-
+/* ===== SEARCH BAR CSS ===== */
 .search-container{
-display:flex;
-flex-direction:column;
-align-items:center;
-margin-bottom:30px;
-width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px; /* Heading ke niche gap */
+    width: 100%;
 }
 
 .search-container input{
-padding:10px 20px;
-border-radius:30px;
-border:none;
-outline:none;
-background:rgba(0,0,0,0.7);
-color:white;
-font-size:1rem;
-width:200px;
-text-align:center;
-margin-bottom:10px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 1rem;
+    width: 200px;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .search-container button{
-padding:8px 20px;
-border-radius:20px;
-border:none;
-cursor:pointer;
-background:var(--gold);
-color:black;
-font-weight:600;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: #d4af37;
+    color: black;
+    font-weight: 600;
 }
 
-.timeline-line{
-position:absolute;
-left:50%;
-transform:translateX(-50%);
-top:250px;
-bottom:0;
-width:2px;
-background:linear-gradient(to bottom,var(--gold),transparent);
+/* ===== HEADER ===== */
+header h1{
+    font-family:'Cinzel Decorative';
+    color:#d4af37;
+    font-size:2.8rem;
+    letter-spacing:5px;
+    text-shadow:0 0 20px rgba(212,175,55,0.5);
+    margin:20px 0 10px 0;
 }
 
-.chapter-node{
-display:flex;
-justify-content:center;
-align-items:center;
-width:100%;
-margin-bottom:80px;
-position:relative;
+header p{
+    font-family:'Great Vibes';
+    font-size:1.8rem;
+    color:#ffb3b3;
+    margin:0 0 30px 0;
 }
 
-.card{
-width:40%;
-padding:25px;
-background:var(--glass);
-backdrop-filter:blur(15px);
-border:1px solid var(--border);
-border-radius:20px;
-color:white;
-transition:.5s;
-position:relative;
-cursor:pointer;
-}
-
-.chapter-node:nth-child(odd) .card{
-margin-right:55%;
-text-align:right;
-}
-
-.chapter-node:nth-child(even) .card{
-margin-left:55%;
-text-align:left;
-}
-
-.node-dot{
-position:absolute;
-left:50%;
-transform:translateX(-50%);
-width:20px;
-height:20px;
-background:#000;
-border:2px solid var(--gold);
-border-radius:50%;
-box-shadow:0 0 15px var(--gold);
-}
-
-.locked{
-opacity:.35;
-pointer-events:none;
-filter:grayscale(1);
-}
-
-.day-num{
-font-family:'Cinzel Decorative';
-color:var(--gold);
-font-size:1.5rem;
-display:block;
-}
-
-.day-title{
-font-size:.9rem;
-opacity:.8;
-}
-
-.nav-arrow{
-position:fixed;
-right:20px;
-width:45px;
-height:45px;
-border-radius:50%;
-background:rgba(0,0,0,0.6);
-border:1px solid var(--border);
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-font-size:20px;
-z-index:999;
-}
-
-#scrollUp{bottom:90px;}
-#scrollDown{bottom:30px;}
-
-#notification{
-position:fixed;
-bottom:20px;
-left:20px;
-background:#000;
-padding:10px 20px;
-border:1px solid var(--gold);
-border-radius:10px;
-display:none;
-}
-
+/* ===== RESPONSIVE ===== */
 @media(max-width:768px){
-.timeline-line{left:30px;}
-.node-dot{left:30px;}
-.card{width:80%;margin-left:70px!important;text-align:left!important;}
-header h1{font-size:2rem;}
-header p{font-size:1.4rem;}
-.search-container input{width:150px;font-size:0.9rem;}
-.search-container button{font-size:0.85rem;}
+    header h1{font-size:2rem;}
+    header p{font-size:1.4rem;}
+    .search-container input{width:150px; font-size:0.9rem;}
+    .search-container button{font-size:0.85rem;}
 }
 </style>
 </head>
@@ -232,9 +102,10 @@ header p{font-size:1.4rem;}
 <div class="gate">
 <div class="main-content">
 
+<!-- ===== SEARCH BAR ABOVE HEADING ===== -->
 <div class="search-container">
-<input id="daySearch" placeholder="Go to Day..." />
-<button onclick="jumpToDay()">Go</button>
+    <input id="daySearch" placeholder="Go to Day..." />
+    <button onclick="jumpToDay()">Go</button>
 </div>
 
 <header>
@@ -242,6 +113,7 @@ header p{font-size:1.4rem;}
 <p>Every moment is a milestone...</p>
 </header>
 
+<!-- ===== TIMELINE ===== -->
 <div class="timeline-line"></div>
 <div id="timeline"></div>
 
