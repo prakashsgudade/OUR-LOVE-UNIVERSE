@@ -14,7 +14,6 @@
         .header-box { text-align: center; padding: 40px 20px; }
         .header-box h2 { font-family: 'Cinzel Decorative'; color: #d4af37; font-size: 2.2rem; margin: 0; }
         
-        /* ===== GRID LAYOUT ===== */
         .flower-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -24,18 +23,9 @@
             margin: 0 auto;
         }
 
-        /* Card Container */
-        .flower-card {
-            height: 250px; 
-            perspective: 1000px;  
-            cursor: pointer;
-        }
-
+        .flower-card { height: 250px; perspective: 1000px; cursor: pointer; }
         .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
+            position: relative; width: 100%; height: 100%; text-align: center;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
         }
@@ -43,112 +33,44 @@
         .flower-card.is-flipped .card-inner { transform: rotateY(180deg); }
 
         .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            box-sizing: border-box;
-            overflow: hidden;
+            position: absolute; width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 15px; border: 1px solid rgba(212, 175, 55, 0.4);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 15px; box-sizing: border-box; overflow: hidden;
         }
 
         .card-front { background: linear-gradient(145deg, #111, #000); }
-        
-        .card-back {
-            background: linear-gradient(145deg, #d4af37, #8a6d1a);
-            color: #000;
-            transform: rotateY(180deg);
-        }
+        .card-back { background: linear-gradient(145deg, #d4af37, #8a6d1a); color: #000; transform: rotateY(180deg); }
 
-        /* ===== SPECIAL ADJUSTABLE MEMORY CARD ===== */
-        .memory-back {
-            background: #000 !important;
-            border: 2px solid #d4af37 !important;
-            justify-content: flex-start !important;
-            padding: 10px !important;
-        }
-        .memory-text { flex-shrink: 0; margin-bottom: 8px; }
+        .memory-back { background: #000 !important; border: 2px solid #d4af37 !important; justify-content: flex-start !important; padding: 10px !important; }
         .memory-text h3 { color: #d4af37 !important; font-size: 0.95rem; margin: 5px 0; }
-        .memory-text p { color: #fff !important; font-size: 0.7rem; opacity: 1 !important; }
-        .memory-img-container {
-            width: 100%;
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: #000;
-            border-radius: 10px;
-        }
-        .back-img-clear { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .memory-text p { color: #fff !important; font-size: 0.7rem; }
+        .memory-img-container { width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; border-radius: 10px; }
+        .back-img-clear { width: 100%; height: 100%; object-fit: contain; }
 
-        /* ===== SHINY VINYL RECORD DESIGN (SONG CARD) ===== */
         .vinyl-container { position: relative; width: 100px; height: 100px; margin-bottom: 10px; }
-        
         .vinyl-record {
             width: 100%; height: 100%;
-            background: radial-gradient(circle, 
-                #222 20%, 
-                #333 21%, #111 25%, 
-                #444 30%, #111 35%, 
-                #333 40%, #111 45%, 
-                #444 50%, #111 55%
-            );
+            background: radial-gradient(circle, #222 20%, #333 21%, #111 25%, #444 30%, #111 35%, #333 40%, #111 45%, #444 50%, #111 55% );
             border-radius: 50%; border: 2px solid #d4af37;
-            position: relative;
-            animation: spin 3s linear infinite; 
-            animation-play-state: paused;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            animation: spin 3s linear infinite paused;
         }
-
-        .vinyl-record::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 50%;
-            background: linear-gradient(135deg, 
-                rgba(255,255,255,0.15) 0%, 
-                rgba(255,255,255,0) 40%, 
-                rgba(255,255,255,0.15) 50%, 
-                rgba(255,255,255,0) 60%, 
-                rgba(255,255,255,0.15) 100%
-            );
-            z-index: 1;
-        }
-
         .vinyl-record.playing { animation-play-state: running !important; }
-
-        .vinyl-record::after {
-            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 15px; height: 15px; background: #d4af37; border-radius: 50%; border: 2px solid #000;
-            z-index: 2;
-        }
-
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         .play-song-btn {
             background: #000; color: #d4af37; border: 1px solid #d4af37;
             padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; 
-            margin-top: 5px; font-family: 'Montserrat', sans-serif;
-            transition: 0.3s;
+            margin-top: 5px; transition: 0.3s;
         }
-        .play-song-btn:hover { background: #d4af37; color: #000; }
 
         .icon { font-size: 2rem; margin-bottom: 10px; }
         h3 { font-size: 0.9rem; color: #d4af37; font-family: 'Cinzel Decorative'; margin: 5px 0; }
         p { font-size: 0.7rem; opacity: 0.8; }
         .full-width { grid-column: span 2; }
 
-        @media (min-width: 768px) {
-            .flower-grid { grid-template-columns: repeat(3, 1fr); }
-        }
+        @media (min-width: 768px) { .flower-grid { grid-template-columns: repeat(3, 1fr); } }
     </style>
 </head>
 <body>
@@ -162,7 +84,7 @@
         
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
-                <div class="card-front"><span class="icon">⏳</span><h3>The Love Clock</h3><p id="love-timer">Calculating...</p></div>
+                <div class="card-front"><span class="icon">⏳</span><h3>The Love Clock</h3><p id="love-timer" style="font-weight:bold; color:#d4af37;">00d 00h 00m 00s</p></div>
                 <div class="card-back"><h3>Forever & Always</h3><p>Har pal jo tumhare saath bita hai, woh meri zindagi ka sabse bada khazana hai.</p></div>
             </div>
         </div>
@@ -187,7 +109,7 @@
                 <div class="card-back">
                     <h3>Listen Carefully</h3>
                     <button class="royal-btn" style="padding: 5px 15px; font-size: 0.7rem;" onclick="event.stopPropagation(); document.getElementById('specialVoice').play()">PLAY VOICE</button>
-                    <audio id="specialVoice" src="assets/audio/muskan-message.mp3.mpeg"></audio>
+                    <audio id="specialVoice" src="assets/audio/muskan-message.mp3"></audio>
                 </div>
             </div>
         </div>
@@ -203,28 +125,9 @@
             <div class="card-inner">
                 <div class="card-front"><span class="icon">📸</span><h3>Our Best Memory</h3><p>A special frame...</p></div>
                 <div class="card-back memory-back">
-                    <div class="memory-text">
-                        <h3>Our Best Memory</h3>
-                        <p>Wo khas pal jab maine tumhe dekha.</p>
-                    </div>
-                    <div class="memory-img-container">
-                        <img src="assets/images/photo1.jpg" class="back-img-clear">
-                    </div>
+                    <div class="memory-text"><h3>Our Best Memory</h3><p>Wo khas pal jab maine tumhe dekha.</p></div>
+                    <div class="memory-img-container"><img src="assets/images/photo1.jpg" class="back-img-clear"></div>
                 </div>
-            </div>
-        </div>
-
-        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner">
-                <div class="card-front"><span class="icon">🌙</span><h3>Our Little Dream</h3><p>Under the stars...</p></div>
-                <div class="card-back"><h3>Our Universe</h3><p>Ek chota sa ghar aur dher saari baatein. Bas yahi chahiye.</p></div>
-            </div>
-        </div>
-
-        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner">
-                <div class="card-front"><span class="icon">💌</span><h3>The Hidden Note</h3><p>A secret for you...</p></div>
-                <div class="card-back"><h3>P.S. I Love You</h3><p>Tum meri zindagi ki wo "Muskan" ho jiske bina sab adhura hai.</p></div>
             </div>
         </div>
 
@@ -232,9 +135,7 @@
             <div class="card-inner">
                 <div class="card-front"><span class="icon">🎵</span><h3>Our Special Song</h3><p>The rhythm of us...</p></div>
                 <div class="card-back" style="background: #000; border: 2px solid #d4af37;">
-                    <div class="vinyl-container">
-                        <div id="vinylDisk" class="vinyl-record"></div>
-                    </div>
+                    <div class="vinyl-container"><div id="vinylDisk" class="vinyl-record"></div></div>
                     <h3 style="color: #d4af37; font-size: 0.8rem;">Melody of Love</h3>
                     <button class="play-song-btn" onclick="toggleSong(event)">PLAY SONG</button>
                     <audio id="ourSong" src="assets/audio/our-song.mp3"></audio>
@@ -244,58 +145,44 @@
 
         <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
-                <div class="card-front">
-                    <span class="icon">🌹</span>
-                    <h3>Next Chapter</h3>
-                    <p>The journey continues...</p>
-                </div>
+                <div class="card-front"><span class="icon">🌹</span><h3>Next Chapter</h3><p>The journey continues...</p></div>
                 <div class="card-back" style="background:#111; color:#fff;">
                     <h3>Day 02 is Ready!</h3>
                     <p>10 more magical flowers are waiting for you.</p>
-                    <a href="day2.html" class="royal-btn" style="text-decoration: none; padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; display: inline-block;">
-                        OPEN DAY 02
-                    </a>
+                    <a href="day2.html" class="royal-btn" style="text-decoration: none; padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; display: inline-block;">OPEN DAY 02</a>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
-// Apni Relationship ki Start Date yahan daalo (Year, Month-1, Day)
-// Yaad rakhna: January 0 hai, February 1 hai...
-const anniversary = new Date(2023, 09, 07); // Example: 15 Jan 2025
+        // 1. TIMER LOGIC
+        // Yahan apni date set karo: (Year, Month-1, Day) -> Month starts from 0 (Jan=0, Feb=1)
+        const startDate = new Date(2023, 9, 7); 
 
-function updateTimer() {
-    const now = new Date();
-    const diff = now - anniversary;
+        function updateLoveClock() {
+            const now = new Date();
+            const diff = now - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+            const timerDisplay = document.getElementById("love-timer");
+            if(timerDisplay) timerDisplay.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+        }
+        setInterval(updateLoveClock, 1000);
+        updateLoveClock();
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const mins = Math.floor((diff / (1000 * 60)) % 60);
-    const secs = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("love-timer").innerHTML = 
-        `${days}d ${hours}h ${mins}m ${secs}s`;
-}
-
-// Har second update karne ke liye
-setInterval(updateTimer, 1000);
-updateTimer();
+        // 2. SONG LOGIC
         function toggleSong(event) {
             event.stopPropagation();
             const song = document.getElementById('ourSong');
             const disk = document.getElementById('vinylDisk');
             const btn = event.target;
-
             if (song.paused) {
-                song.play();
-                disk.classList.add('playing');
-                btn.innerText = "PAUSE SONG";
+                song.play(); disk.classList.add('playing'); btn.innerText = "PAUSE SONG";
             } else {
-                song.pause();
-                disk.classList.remove('playing');
-                btn.innerText = "PLAY SONG";
+                song.pause(); disk.classList.remove('playing'); btn.innerText = "PLAY SONG";
             }
         }
     </script>
