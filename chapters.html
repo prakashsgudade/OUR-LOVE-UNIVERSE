@@ -8,90 +8,243 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-/* ===== BASE CSS (jaise tune diya) ===== */
+:root {
+--gold:#d4af37;
+--neon-red:#ff3131;
+--glass:rgba(255,255,255,0.03);
+--border:rgba(212,175,55,0.3);
+}
+
+/* ===== BASE ===== */
 body, html {
-    margin: 0; padding: 0; 
-    min-height: 100%; width: 100%;
-    background-color: #050505;
-    color: white; font-family: 'Montserrat', sans-serif;
-    overflow-x: hidden; /* Mobile pe side scroll rokne ke liye */
+margin:0;
+padding:0;
+min-height:100%;
+width:100%;
+background-color:#050505;
+color:white;
+font-family:'Montserrat',sans-serif;
+overflow-x:hidden;
 }
 
-.gate {
-    min-height: 100vh; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    background: radial-gradient(circle, #1a0b0b 0%, #000 100%);
-    padding: 20px; /* Mobile edges se gap ke liye */
-    box-sizing: border-box;
+.gate{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:radial-gradient(circle,#1a0b0b 0%,#000 100%);
+padding:20px;
+box-sizing:border-box;
 }
 
-.main-content { 
-    text-align: center; 
-    z-index: 10; 
-    width: 100%;
-    max-width: 800px; /* Laptop pe bahut phele na */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.main-content{
+text-align:center;
+z-index:10;
+width:100%;
+max-width:900px;
+margin:auto;
+position:relative;
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
-/* ===== SEARCH BAR CSS ===== */
-.search-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px; /* Heading ke niche gap */
-    width: 100%;
+/* Ambient */
+body::before{
+content:'';
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:url('https://www.transparenttextures.com/patterns/stardust.png');
+opacity:0.3;
+z-index:-2;
 }
 
-.search-container input{
-    padding: 10px 20px;
-    border-radius: 30px;
-    border: none;
-    outline: none;
-    background: rgba(0,0,0,0.7);
-    color: white;
-    font-size: 1rem;
-    width: 200px;
-    text-align: center;
-    margin-bottom: 10px;
+/* Canvas */
+#space{
+position:fixed;
+top:0;
+left:0;
+z-index:-3;
 }
 
-.search-container button{
-    padding: 8px 20px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    background: #d4af37;
-    color: black;
-    font-weight: 600;
+/* Header */
+header{
+text-align:center;
+margin-top:30px;
 }
 
-/* ===== HEADER ===== */
 header h1{
-    font-family:'Cinzel Decorative';
-    color:#d4af37;
-    font-size:2.8rem;
-    letter-spacing:5px;
-    text-shadow:0 0 20px rgba(212,175,55,0.5);
-    margin:20px 0 10px 0;
+font-family:'Cinzel Decorative';
+color:var(--gold);
+font-size:2.8rem;
+letter-spacing:5px;
+text-shadow:0 0 20px rgba(212,175,55,0.5);
+margin:10px 0;
 }
 
 header p{
-    font-family:'Great Vibes';
-    font-size:1.8rem;
-    color:#ffb3b3;
-    margin:0 0 30px 0;
+font-family:'Great Vibes';
+font-size:1.8rem;
+color:#ffb3b3;
+margin:5px 0 30px 0;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== SEARCH BAR CENTERED ===== */
+.search-container{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+margin-bottom:20px;
+width:100%;
+}
+
+.search-container input{
+padding:10px 20px;
+border-radius:30px;
+border:none;
+outline:none;
+background:rgba(0,0,0,0.7);
+color:white;
+font-size:1rem;
+width:220px;
+text-align:center;
+margin-bottom:10px;
+}
+
+.search-container button{
+padding:8px 20px;
+border-radius:20px;
+border:none;
+cursor:pointer;
+background:var(--gold);
+color:black;
+font-weight:600;
+}
+
+/* Timeline */
+.timeline-line{
+position:absolute;
+left:50%;
+transform:translateX(-50%);
+top:200px;
+bottom:0;
+width:2px;
+background:linear-gradient(to bottom,var(--gold),transparent);
+}
+
+.chapter-node{
+display:flex;
+justify-content:center;
+align-items:center;
+width:100%;
+margin-bottom:80px;
+position:relative;
+}
+
+.card{
+width:40%;
+padding:25px;
+background:var(--glass);
+backdrop-filter:blur(15px);
+border:1px solid var(--border);
+border-radius:20px;
+color:white;
+transition:.5s;
+position:relative;
+cursor:pointer;
+}
+
+.chapter-node:nth-child(odd) .card{
+margin-right:55%;
+text-align:right;
+}
+
+.chapter-node:nth-child(even) .card{
+margin-left:55%;
+text-align:left;
+}
+
+.node-dot{
+position:absolute;
+left:50%;
+transform:translateX(-50%);
+width:20px;
+height:20px;
+background:#000;
+border:2px solid var(--gold);
+border-radius:50%;
+box-shadow:0 0 15px var(--gold);
+}
+
+.card:hover{
+transform:translateY(-10px);
+border-color:var(--gold);
+box-shadow:0 0 30px rgba(212,175,55,0.2);
+}
+
+.locked{
+opacity:.35;
+pointer-events:none;
+filter:grayscale(1);
+}
+
+.day-num{
+font-family:'Cinzel Decorative';
+color:var(--gold);
+font-size:1.5rem;
+display:block;
+}
+
+.day-title{
+font-size:.9rem;
+opacity:.8;
+}
+
+/* Navigation Arrows */
+.nav-arrow{
+position:fixed;
+right:20px;
+width:45px;
+height:45px;
+border-radius:50%;
+background:rgba(0,0,0,0.6);
+border:1px solid var(--border);
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+font-size:20px;
+z-index:999;
+}
+
+#scrollUp{bottom:90px;}
+#scrollDown{bottom:30px;}
+
+/* Notification */
+#notification{
+position:fixed;
+bottom:20px;
+left:20px;
+background:#000;
+padding:10px 20px;
+border:1px solid var(--gold);
+border-radius:10px;
+display:none;
+}
+
+/* Mobile */
 @media(max-width:768px){
-    header h1{font-size:2rem;}
-    header p{font-size:1.4rem;}
-    .search-container input{width:150px; font-size:0.9rem;}
-    .search-container button{font-size:0.85rem;}
+header h1{font-size:2rem;}
+header p{font-size:1.4rem;}
+.search-container input{width:150px;font-size:0.9rem;}
+.search-container button{font-size:0.85rem;}
+.timeline-line{left:30px;}
+.node-dot{left:30px;}
+.card{width:80%;margin-left:70px!important;text-align:left!important;}
 }
 </style>
 </head>
@@ -102,10 +255,10 @@ header p{
 <div class="gate">
 <div class="main-content">
 
-<!-- ===== SEARCH BAR ABOVE HEADING ===== -->
+<!-- ===== SEARCH BAR ===== -->
 <div class="search-container">
-    <input id="daySearch" placeholder="Go to Day..." />
-    <button onclick="jumpToDay()">Go</button>
+<input id="daySearch" placeholder="Go to Day..." />
+<button onclick="jumpToDay()">Go</button>
 </div>
 
 <header>
@@ -113,7 +266,6 @@ header p{
 <p>Every moment is a milestone...</p>
 </header>
 
-<!-- ===== TIMELINE ===== -->
 <div class="timeline-line"></div>
 <div id="timeline"></div>
 
@@ -122,30 +274,33 @@ header p{
 
 <div id="scrollUp" class="nav-arrow">⬆</div>
 <div id="scrollDown" class="nav-arrow">⬇</div>
+
 <div id="notification">Welcome Back ❤️</div>
 
 <audio id="bgMusic" src="assets/audio/romantic.mp3" loop></audio>
 
 <script>
-// ===== Infinite Virtual Scroll + Chapter Load =====
+/* ===== SETTINGS ===== */
 const START_DATE=new Date("2026-02-06");
 const TOTAL=5000;
+
+/* ===== INFINITE VIRTUAL SCROLL ===== */
 let today=new Date();
 let diff=Math.floor((today-START_DATE)/(1000*60*60*24))+1;
 
-const timeline=document.getElementById("timeline");
-const batch=50; // ek time mein render batch of chapters
-let rendered=0;
+let timeline=document.getElementById("timeline");
 let chapters=[];
-
 for(let i=1;i<=TOTAL;i++){
 chapters.push({id:i, unlocked:i<=diff});
 }
 
+let rendered=0;
+const batch=50;
+
 function renderBatch(){
-const fragment=document.createDocumentFragment();
+let fragment=document.createDocumentFragment();
 for(let i=rendered;i<Math.min(rendered+batch,chapters.length);i++){
-const ch=chapters[i];
+let ch=chapters[i];
 let node=document.createElement("div");
 node.className="chapter-node";
 node.innerHTML=`
@@ -169,25 +324,27 @@ renderBatch();
 }
 });
 
-// ===== Load Chapter =====
+/* ===== LOAD CHAPTER ===== */
 function loadChapter(i){
 fetch("chapters/day"+i+".html")
 .then(r=>r.text())
-.then(html=>{document.body.innerHTML=html;});
+.then(html=>{
+document.body.innerHTML=html;
+});
 }
 
-// ===== Music Scroll React =====
+/* ===== SCROLL MUSIC ===== */
 window.addEventListener("scroll",()=>{
 let a=document.getElementById("bgMusic");
 if(a.paused) a.play();
 a.volume=Math.min(1,window.scrollY/800);
 });
 
-// ===== Scroll Buttons =====
+/* ===== NAVIGATION ===== */
 scrollUp.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 scrollDown.onclick=()=>window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
 
-// ===== Search Jump =====
+/* ===== SEARCH JUMP ===== */
 function jumpToDay(){
 let num=parseInt(daySearch.value);
 let nodes=document.querySelectorAll(".chapter-node");
@@ -196,13 +353,15 @@ nodes[num-1].scrollIntoView({behavior:"smooth",block:"center"});
 }
 }
 
-// ===== Stars Particle Background =====
+/* ===== PARTICLES ===== */
 const c=document.getElementById("space");
 const ctx=c.getContext("2d");
 c.width=innerWidth;
 c.height=innerHeight;
 let stars=[];
-for(let i=0;i<120;i++) stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2});
+for(let i=0;i<120;i++){
+stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2});
+}
 function anim(){
 ctx.clearRect(0,0,c.width,c.height);
 stars.forEach(s=>{
@@ -217,10 +376,9 @@ requestAnimationFrame(anim);
 }
 anim();
 
-// ===== Notification & Memory =====
+/* ===== NOTIFY ===== */
 setTimeout(()=>{notification.style.display="block";},1200);
 localStorage.setItem("lastVisit",today);
-
 </script>
 
 </body>
