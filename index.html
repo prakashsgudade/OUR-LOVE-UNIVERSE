@@ -12,23 +12,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@300&display=swap" rel="stylesheet">
     
     <style>
-        /* Instant Polish for the Gate */
-        body, html { margin: 0; padding: 0; overflow: hidden; background: #000; }
+        body, html { margin: 0; padding: 0; background: #000; overflow-x: hidden; }
+        
         .gate {
             height: 100vh; display: flex; justify-content: center; 
-            align-items: center; text-align: center;
-            transition: opacity 1.5s ease;
+            align-items: center; text-align: center; padding: 20px;
         }
+
         .royal-name { 
-            font-family: 'Cinzel Decorative'; font-size: 4rem; 
-            color: #d4af37; letter-spacing: 12px; margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            font-family: 'Cinzel Decorative'; 
+            /* Ye size mobile aur laptop dono pe set rahega */
+            font-size: clamp(2.5rem, 8vw, 4rem); 
+            color: #d4af37; letter-spacing: 8px; margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
         }
-        .love-quote { font-family: 'Great Vibes'; color: #fff; font-size: 1.5rem; opacity: 0.8; }
-        .fade-out { opacity: 0; pointer-events: none; }
+
+        .love-quote { 
+            font-family: 'Great Vibes'; color: #fff; 
+            font-size: clamp(1.1rem, 4vw, 1.5rem); 
+            opacity: 0.8; margin-bottom: 30px;
+        }
+
+        /* Pehle wala button style */
+        .royal-btn {
+            background: transparent; color: #d4af37; border: 1px solid #d4af37;
+            padding: 12px 30px; border-radius: 30px; font-family: 'Montserrat';
+            cursor: pointer; transition: 0.3s; font-size: 0.8rem; letter-spacing: 2px;
+        }
+        .royal-btn:hover { background: #d4af37; color: #000; box-shadow: 0 0 20px #d4af37; }
+
+        .fade-out { opacity: 0; transition: opacity 1s ease; }
     </style>
 </head>
-<body>
+<body id="body">
 
     <audio id="bgMusic" loop>
         <source src="assets/audio/romantic.mp3.mpeg" type="audio/mpeg">
@@ -47,20 +63,16 @@
 
     <script>
         function openKingdom() {
-            // Start Music
+            // Music Play Logic
             const music = document.getElementById('bgMusic');
-            music.play().catch(e => console.log("Music wait for interaction"));
+            music.play().catch(() => console.log("Music needs interaction"));
 
-            // Add Fade Effect
+            // Pehle wala smooth transition
             document.getElementById('mainGate').classList.add('fade-out');
-
-            // Redirect after 1.5s
             setTimeout(() => {
                 window.location.href = "letter.html";
-            }, 1500);
+            }, 1000);
         }
     </script>
-    <script src="js/main-logic.js"></script>
-    <script src="js/effects.js"></script>
 </body>
 </html>
