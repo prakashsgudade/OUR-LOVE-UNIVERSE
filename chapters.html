@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Love Timeline | Muskan</title>
+    <title>The Love Journey | Timeline</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #d4af37;
-            --dark-red: #4a0000;
-            --glass: rgba(255, 255, 255, 0.05);
-            --neon-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            --neon-red: #ff3131;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(212, 175, 55, 0.3);
         }
 
         body {
@@ -18,75 +18,80 @@
             color: #fff;
             font-family: 'Montserrat', sans-serif;
             margin: 0;
-            padding: 50px 20px;
+            padding: 80px 20px;
             overflow-x: hidden;
         }
 
-        .container { max-width: 800px; margin: 0 auto; position: relative; }
+        /* Ambient Background Glow */
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.3; z-index: -1;
+        }
 
-        /* Journey Line */
-        .container::before {
-            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
-            top: 100px; bottom: 0; width: 2px;
-            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+        .container { max-width: 900px; margin: 0 auto; position: relative; }
+
+        header { text-align: center; margin-bottom: 80px; }
+        header h1 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 2.8rem; letter-spacing: 5px; text-shadow: 0 0 20px rgba(212,175,55,0.5); margin: 0; }
+        header p { font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3; margin-top: 10px; }
+
+        /* Vertical Progress Line */
+        .timeline-line {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            top: 150px; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
             z-index: 0;
         }
 
-        header { text-align: center; margin-bottom: 60px; position: relative; z-index: 1; }
-        header h1 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 2.5rem; margin: 0; }
-        header p { font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3; }
+        .chapter-node {
+            display: flex; justify-content: center; align-items: center;
+            width: 100%; margin-bottom: 80px; position: relative; z-index: 1;
+        }
 
-        /* Chapter Cards */
-        .chapter-card {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 20px;
-            padding: 25px;
-            margin: 40px 0;
-            width: 80%;
+        /* The Card */
+        .card {
+            width: 40%; padding: 25px;
+            background: var(--glass); backdrop-filter: blur(15px);
+            border: 1px solid var(--border); border-radius: 20px;
+            text-decoration: none; color: #fff;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             position: relative;
-            z-index: 1;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-decoration: none;
-            color: #fff;
-            display: flex;
-            align-items: center;
         }
 
-        /* Zig Zag Layout */
-        .chapter-card:nth-child(odd) { margin-left: auto; flex-direction: row-reverse; text-align: right; }
-        .chapter-card:nth-child(even) { margin-right: auto; }
+        /* Zig Zag Logic */
+        .chapter-node:nth-child(odd) .card { margin-right: 55%; text-align: right; }
+        .chapter-node:nth-child(even) .card { margin-left: 55%; text-align: left; }
 
-        .chapter-card:hover {
-            transform: translateY(-5px) scale(1.02);
+        /* Floating Indicator (The Dot) */
+        .node-dot {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            width: 20px; height: 20px; background: #000;
+            border: 2px solid var(--gold); border-radius: 50%;
+            box-shadow: 0 0 15px var(--gold); z-index: 2;
+        }
+
+        /* Hover Effects */
+        .card:hover {
+            transform: translateY(-10px);
             border-color: var(--gold);
-            box-shadow: var(--neon-shadow);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            background: rgba(255, 255, 255, 0.07);
         }
 
-        .day-info { flex-grow: 1; padding: 0 20px; }
-        .day-info h3 { font-family: 'Cinzel Decorative'; color: var(--gold); margin: 0; font-size: 1.2rem; }
-        .day-info p { font-size: 0.8rem; opacity: 0.7; margin: 5px 0; }
+        .day-num { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .day-title { font-size: 0.9rem; font-weight: 300; letter-spacing: 1px; opacity: 0.8; }
 
-        .day-icon {
-            width: 60px; height: 60px; border-radius: 50%;
-            background: rgba(212, 175, 55, 0.1);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; border: 1px solid var(--gold);
-        }
-
-        /* Lock Styling */
+        /* Locked State */
         .locked { filter: grayscale(1); opacity: 0.4; cursor: not-allowed; pointer-events: none; }
-        .locked .day-icon { background: #333; border-color: #555; }
-        .lock-badge { position: absolute; bottom: 10px; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+        .locked .node-dot { border-color: #555; box-shadow: none; }
+        .lock-icon { position: absolute; top: -10px; right: -10px; background: #222; padding: 5px; border-radius: 50%; font-size: 0.8rem; border: 1px solid #444; }
 
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            .chapter-card { width: 90%; }
-            .container::before { left: 20px; }
-            .chapter-card:nth-child(odd), .chapter-card:nth-child(even) { 
-                margin-left: 40px; text-align: left; flex-direction: row; 
-            }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline-line { left: 30px; }
+            .node-dot { left: 30px; }
+            .card { width: 80%; margin-left: 70px !important; text-align: left !important; }
         }
     </style>
 </head>
@@ -94,60 +99,57 @@
 
     <div class="container">
         <header>
-            <h1>The Love Timeline</h1>
-            <p>Every flower tells a story...</p>
+            <h1>LOVE STORY</h1>
+            <p>Every moment is a milestone...</p>
         </header>
 
-        <div id="timeline-list">
-            <a href="pages/day1.html" class="chapter-card" id="day1">
-                <div class="day-icon">🌸</div>
-                <div class="day-info">
-                    <h3>Day 01</h3>
-                    <p>The 10 Secret Flowers - Where it all began.</p>
-                </div>
-            </a>
-
-            <a href="pages/day2.html" class="chapter-card" id="day2">
-                <div class="day-icon">🌹</div>
-                <div class="day-info">
-                    <h3>Day 02</h3>
-                    <p>The Eternal Rose Lock - Pluck the petals of love.</p>
-                </div>
-            </a>
-
-            <a href="pages/day3.html" class="chapter-card locked" id="day3">
-                <div class="day-icon">✨</div>
-                <div class="day-info">
-                    <h3>Day 03</h3>
-                    <p>Starry Night Whispers - Coming Soon...</p>
-                </div>
-                <span class="lock-badge">🔒 Locked</span>
-            </a>
-
-            <div id="remaining-days"></div>
-        </div>
+        <div class="timeline-line"></div>
+        <div id="dynamic-timeline">
+            </div>
     </div>
 
     <script>
-        // Automatic Lock/Unlock Logic (Optional)
-        // Tum isme manually 'locked' class hata sakte ho jab tum naya page banao.
+        // --- CONFIGURATION ---
+        const START_DATE = new Date("2026-02-06"); // Set your Day 01 Start Date
+        const TOTAL_DAYS = 10;
         
-        // Dynamic Days Generation (Baki ke 7 din dikhane ke liye)
-        const dayNames = ["Moonlight Shadows", "Ocean of Feelings", "Golden Promises", "The Heartbeat", "Infinite Soul", "Magical Memories", "Eternal Love"];
-        const remainingContainer = document.getElementById('remaining-days');
+        const dayContent = [
+            { icon: "🌸", title: "The 10 Secret Flowers" },
+            { icon: "🌹", title: "The Eternal Rose Lock" },
+            { icon: "✨", title: "Starry Night Whispers" },
+            { icon: "🌊", title: "Ocean of Emotions" },
+            { icon: "🤝", title: "The Golden Promise" },
+            { icon: "💓", title: "Heartbeat Connection" },
+            { icon: "🧚", title: "Magic in the Air" },
+            { icon: "🧩", title: "Soulmate Secrets" },
+            { icon: "🌌", title: "Infinite Dreams" },
+            { icon: "💍", title: "The Final Vow" }
+        ];
 
-        for (let i = 4; i <= 10; i++) {
-            let dayHtml = `
-                <div class="chapter-card locked">
-                    <div class="day-icon">🔒</div>
-                    <div class="day-info">
-                        <h3>Day 0${i}</h3>
-                        <p>${dayNames[i-4] || 'Secret Adventure'}</p>
-                    </div>
-                </div>
-            `;
-            remainingContainer.innerHTML += dayHtml;
+        function initTimeline() {
+            const container = document.getElementById('dynamic-timeline');
+            const today = new Date();
+            const diffTime = today - START_DATE;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            for (let i = 1; i <= TOTAL_DAYS; i++) {
+                const isUnlocked = i <= diffDays;
+                const node = document.createElement('div');
+                node.className = 'chapter-node';
+
+                node.innerHTML = `
+                    <div class="node-dot"></div>
+                    <${isUnlocked ? 'a href="pages/day' + i + '.html"' : 'div'} class="card ${isUnlocked ? '' : 'locked'}">
+                        ${!isUnlocked ? '<span class="lock-icon">🔒</span>' : ''}
+                        <span class="day-num">Day 0${i}</span>
+                        <span class="day-title">${dayContent[i-1].icon} ${dayContent[i-1].title}</span>
+                    </${isUnlocked ? 'a' : 'div'}>
+                `;
+                container.appendChild(node);
+            }
         }
+
+        initTimeline();
     </script>
 </body>
 </html>
