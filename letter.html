@@ -19,6 +19,8 @@
             backdrop-filter: blur(10px);
             border-radius: 30px;
             border: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            z-index: 10;
         }
         #typewriter { 
             font-family: 'Great Vibes'; font-size: 2.2rem; 
@@ -62,10 +64,11 @@
             if (i < text.length) {
                 document.getElementById("typewriter").innerHTML += text.charAt(i);
                 i++;
-                // Thoda natural typing speed
+                // Natural typing delay logic
                 let speed = text.charAt(i-1) === '.' ? 500 : 60;
                 setTimeout(typeWriter, speed);
             } else {
+                // Show button after typing is complete
                 const btn = document.getElementById('nextBtn');
                 btn.classList.add('btn-show');
             }
