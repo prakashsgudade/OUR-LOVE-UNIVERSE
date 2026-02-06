@@ -25,6 +25,7 @@ background-color:#050505;
 color:white;
 font-family:'Montserrat',sans-serif;
 overflow-x:hidden;
+scroll-behavior:smooth;
 }
 
 .gate{
@@ -284,7 +285,7 @@ header p{font-size:1.4rem;}
 const START_DATE=new Date("2026-02-06");
 const TOTAL=5000;
 
-/* ===== INFINITE VIRTUAL SCROLL ===== */
+/* ===== INFINITE VIRTUAL SCROLL MASTER ===== */
 let today=new Date();
 let diff=Math.floor((today-START_DATE)/(1000*60*60*24))+1;
 
@@ -316,8 +317,10 @@ timeline.appendChild(fragment);
 rendered+=batch;
 }
 
+/* Initial batch */
 renderBatch();
 
+/* Scroll batch load */
 window.addEventListener("scroll",()=>{
 if(window.scrollY+window.innerHeight>=timeline.offsetHeight-100){
 renderBatch();
@@ -350,6 +353,9 @@ let num=parseInt(daySearch.value);
 let nodes=document.querySelectorAll(".chapter-node");
 if(nodes[num-1]){
 nodes[num-1].scrollIntoView({behavior:"smooth",block:"center"});
+// Highlight temporarily
+nodes[num-1].querySelector('.card').style.boxShadow="0 0 20px #ff3131,0 0 40px #ff3131";
+setTimeout(()=>{nodes[num-1].querySelector('.card').style.boxShadow=""},2000);
 }
 }
 
