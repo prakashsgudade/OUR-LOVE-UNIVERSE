@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 01 - The 10 Secret Flowers</title>
     
-    <link rel="stylesheet" href="../css/main-style.css">
-    <link rel="stylesheet" href="../css/royal-theme.css">
+    <link rel="stylesheet" href="css/main-style.css">
+    <link rel="stylesheet" href="css/royal-theme.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
@@ -108,7 +108,6 @@
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
         }
 
-        /* Reflection Effect */
         .vinyl-record::before {
             content: "";
             position: absolute;
@@ -188,7 +187,7 @@
                 <div class="card-back">
                     <h3>Listen Carefully</h3>
                     <button class="royal-btn" style="padding: 5px 15px; font-size: 0.7rem;" onclick="event.stopPropagation(); document.getElementById('specialVoice').play()">PLAY VOICE</button>
-                    <audio id="specialVoice" src="../assets/audio/muskan-message.mp3.mpeg"></audio>
+                    <audio id="specialVoice" src="assets/audio/muskan-message.mp3.mpeg"></audio>
                 </div>
             </div>
         </div>
@@ -209,7 +208,7 @@
                         <p>Wo khas pal jab maine tumhe dekha.</p>
                     </div>
                     <div class="memory-img-container">
-                        <img src="../assets/images/photo1.jpg" class="back-img-clear">
+                        <img src="assets/images/photo1.jpg" class="back-img-clear">
                     </div>
                 </div>
             </div>
@@ -238,34 +237,29 @@
                     </div>
                     <h3 style="color: #d4af37; font-size: 0.8rem;">Melody of Love</h3>
                     <button class="play-song-btn" onclick="toggleSong(event)">PLAY SONG</button>
-                    <audio id="ourSong" src="../assets/audio/our-song.mp3"></audio>
+                    <audio id="ourSong" src="assets/audio/our-song.mp3"></audio>
                 </div>
             </div>
         </div>
 
-       <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
-    <div class="card-inner">
-        <div class="card-front">
-            <span class="icon">🌹</span>
-            <h3>Next Chapter</h3>
-            <p>The journey continues...</p>
-        </div>
-        <div class="card-back" style="background:#111; color:#fff;">
-            <h3>Day 02 is Ready!</h3>
-            <p>10 more magical flowers are waiting for you.</p>
-            
-            <a href="day2.html" class="royal-btn" style="text-decoration: none; padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; display: inline-block;">
-                OPEN DAY 02
-            </a>
-        </div>
-    </div>
-</div>
+        <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner">
+                <div class="card-front">
+                    <span class="icon">🌹</span>
+                    <h3>Next Chapter</h3>
+                    <p>The journey continues...</p>
+                </div>
+                <div class="card-back" style="background:#111; color:#fff;">
+                    <h3>Day 02 is Ready!</h3>
+                    <p>10 more magical flowers are waiting for you.</p>
+                    <a href="day2.html" class="royal-btn" style="text-decoration: none; padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; display: inline-block;">
+                        OPEN DAY 02
+                    </a>
+                </div>
             </div>
         </div>
 
     </div>
-
-    <script src="../js/day1-logic.js"></script>
 
     <script>
         function toggleSong(event) {
@@ -286,4 +280,4 @@
         }
     </script>
 </body>
-</html>  
+</html>
