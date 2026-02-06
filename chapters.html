@@ -3,181 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Love Universe | Infinite Timeline</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500&family=Great+Vibes&display=swap" rel="stylesheet">
-    
+    <title>The Love Journey | Timeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --glass: rgba(255, 255, 255, 0.05); }
+        :root {
+            --gold: #d4af37;
+            --neon-red: #ff3131;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(212, 175, 55, 0.3);
+        }
 
         body {
-            background: #050505; color: #fff; font-family: 'Montserrat', sans-serif;
-            margin: 0; overflow-x: hidden;
+            background: radial-gradient(circle at center, #1a0000 0%, #050505 100%);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 80px 20px;
+            overflow-x: hidden;
         }
 
-        #star-canvas { position: fixed; top:0; left:0; z-index:-1; }
-
-        .universe-container { padding: 60px 20px; max-width: 900px; margin: 0 auto; transition: 0.8s ease; }
-
-        header { text-align: center; margin-bottom: 50px; }
-        header h1 { font-family: 'Cinzel Decorative'; color: var(--gold); letter-spacing: 5px; font-size: 2.5rem; text-shadow: 0 0 15px rgba(212,175,55,0.5); }
-
-        /* Timeline Logic */
-        .timeline { position: relative; padding: 20px 0; }
-        .timeline::before { 
-            content: ''; position: absolute; left: 50%; width: 2px; height: 100%; 
-            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+        /* Ambient Background Glow */
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.3; z-index: -1;
         }
 
-        .node { display: flex; justify-content: space-between; align-items: center; margin-bottom: 80px; width: 100%; position: relative; }
-        .node:nth-child(even) { flex-direction: row-reverse; }
+        .container { max-width: 900px; margin: 0 auto; position: relative; }
 
-        .card { 
-            width: 42%; padding: 25px; background: var(--glass); backdrop-filter: blur(10px);
-            border: 1px solid rgba(212,175,55,0.2); border-radius: 20px; cursor: pointer;
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 5;
+        header { text-align: center; margin-bottom: 80px; }
+        header h1 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 2.8rem; letter-spacing: 5px; text-shadow: 0 0 20px rgba(212,175,55,0.5); margin: 0; }
+        header p { font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3; margin-top: 10px; }
+
+        /* Vertical Progress Line */
+        .timeline-line {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            top: 150px; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
+            z-index: 0;
         }
-        .card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--gold); box-shadow: 0 0 30px rgba(212,175,55,0.2); }
 
-        /* No-Reload Overlay */
-        #chapter-overlay {
-            position: fixed; top: 0; left: 100%; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 1000; transition: 0.6s cubic-bezier(0.7, 0, 0.3, 1);
-            overflow-y: auto;
+        .chapter-node {
+            display: flex; justify-content: center; align-items: center;
+            width: 100%; margin-bottom: 80px; position: relative; z-index: 1;
         }
-        #chapter-overlay.active { left: 0; }
-        .close-btn { position: fixed; top: 20px; right: 30px; font-size: 3rem; color: var(--gold); cursor: pointer; z-index: 1001; transition: 0.3s; }
-        .close-btn:hover { transform: rotate(90deg); color: #fff; }
 
-        #chapter-content { padding: 40px; min-height: 100vh; }
+        /* The Card */
+        .card {
+            width: 40%; padding: 25px;
+            background: var(--glass); backdrop-filter: blur(15px);
+            border: 1px solid var(--border); border-radius: 20px;
+            text-decoration: none; color: #fff;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
 
-        /* Card Decoration */
-        .day-num { color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 1.4rem; display: block; margin-bottom: 10px; }
-        .locked { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
-        .new-badge { position: absolute; top: -12px; right: -12px; background: linear-gradient(45deg, #ff3131, #ff914d); font-size: 0.7rem; padding: 5px 10px; border-radius: 20px; font-weight: bold; box-shadow: 0 0 10px rgba(255,49,49,0.5); }
+        /* Zig Zag Logic */
+        .chapter-node:nth-child(odd) .card { margin-right: 55%; text-align: right; }
+        .chapter-node:nth-child(even) .card { margin-left: 55%; text-align: left; }
 
+        /* Floating Indicator (The Dot) */
+        .node-dot {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            width: 20px; height: 20px; background: #000;
+            border: 2px solid var(--gold); border-radius: 50%;
+            box-shadow: 0 0 15px var(--gold); z-index: 2;
+        }
+
+        /* Hover Effects */
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .day-num { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 1.5rem; display: block; margin-bottom: 5px; }
+        .day-title { font-size: 0.9rem; font-weight: 300; letter-spacing: 1px; opacity: 0.8; }
+
+        /* Locked State */
+        .locked { filter: grayscale(1); opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+        .locked .node-dot { border-color: #555; box-shadow: none; }
+        .lock-icon { position: absolute; top: -10px; right: -10px; background: #222; padding: 5px; border-radius: 50%; font-size: 0.8rem; border: 1px solid #444; }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .timeline::before { left: 20px; }
-            .card { width: 80%; margin-left: 50px !important; text-align: left !important; }
-            .node { justify-content: flex-start; }
-            .node:nth-child(even) { flex-direction: row; }
+            .timeline-line { left: 30px; }
+            .node-dot { left: 30px; }
+            .card { width: 80%; margin-left: 70px !important; text-align: left !important; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="star-canvas"></canvas>
-
-    <div id="chapter-overlay">
-        <span class="close-btn" onclick="closeChapter()">×</span>
-        <div id="chapter-content"></div>
-    </div>
-
-    <div class="universe-container" id="main-ui">
+    <div class="container">
         <header>
-            <h1>INFINITE JOURNEY</h1>
-            <p style="font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3;">To Muskan, with every heartbeat...</p>
+            <h1>LOVE STORY</h1>
+            <p>Every moment is a milestone...</p>
         </header>
 
-        <div class="timeline" id="timeline-grid"></div>
+        <div class="timeline-line"></div>
+        <div id="dynamic-timeline"></div>
     </div>
 
     <script>
-        /* === CONFIGURATION (Yahan jitne marzi add karo) === */
-        const START_DATE = new Date("2026-02-06"); 
-        const STORAGE_KEY = "infinite_love_vault";
-
-        // YAHAN UNLIMITED CHAPTERS ADD KARTE JAO
-        const chapters = [
-            { title: "The 10 Secret Flowers", icon: "🌸" },
-            { title: "The Eternal Rose Lock", icon: "🌹" },
-            { title: "Starry Night Whispers", icon: "✨" },
-            { title: "Ocean of Emotions", icon: "🌊" },
-            { title: "Golden Promise", icon: "🤝" },
-            { title: "Moonlight Memories", icon: "🌙" },
-            { title: "Heartbeat Sync", icon: "💓" },
-            { title: "Infinite Horizons", icon: "🌌" },
-            { title: "The Final Vow", icon: "💍" }
-            // Naye chapters bas yahan comma laga kar add kar dena
+        // --- CONFIGURATION ---
+        // 1. Apni START Date set karo (Day 1 kab khulega)
+        const START_DATE = new Date("2026-02-06"); // YYYY-MM-DD format
+        const TOTAL_DAYS = 10;
+        
+        const dayContent = [
+            { icon: "🌸", title: "The 10 Secret Flowers" },
+            { icon: "🌹", title: "The Eternal Rose Lock" },
+            { icon: "✨", title: "Starry Night Whispers" },
+            { icon: "🌊", title: "Ocean of Emotions" },
+            { icon: "🤝", title: "The Golden Promise" },
+            { icon: "💓", title: "Heartbeat Connection" },
+            { icon: "🧚", title: "Magic in the Air" },
+            { icon: "🧩", title: "Soulmate Secrets" },
+            { icon: "🌌", title: "Infinite Dreams" },
+            { icon: "💍", title: "The Final Vow" }
         ];
 
-        let memory = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { lastSeen: 0 };
-        const today = new Date();
-        const unlockedCount = Math.floor((today - START_DATE) / 86400000) + 1;
-
-        function renderTimeline() {
-            const grid = document.getElementById('timeline-grid');
-            chapters.forEach((ch, index) => {
-                const dayId = index + 1;
-                const isUnlocked = dayId <= unlockedCount;
-                const isNew = dayId > memory.lastSeen && isUnlocked;
-                
-                const node = document.createElement('div');
-                node.className = `node`;
-                node.innerHTML = `
-                    <div class="card ${isUnlocked ? '' : 'locked'}" onclick="openChapter(${dayId})">
-                        ${isNew ? '<span class="new-badge">NEW SURPRISE</span>' : ''}
-                        <span class="day-num">Day 0${dayId}</span>
-                        <p style="margin:0; font-weight:500;">${ch.icon} ${ch.title}</p>
-                    </div>
-                `;
-                grid.appendChild(node);
-            });
-        }
-
-        async function openChapter(id) {
-            const overlay = document.getElementById('chapter-overlay');
-            const content = document.getElementById('chapter-content');
+        function initTimeline() {
+            const container = document.getElementById('dynamic-timeline');
+            const today = new Date();
             
-            // Start cinematic loading
-            content.innerHTML = "<div style='display:flex; justify-content:center; align-items:center; height:100vh;'><h2 style='color:var(--gold); font-family:Cinzel Decorative;'>Opening Memory...</h2></div>";
-            overlay.classList.add('active');
+            // Difference nikalne ka logic
+            const diffTime = today - START_DATE;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-            try {
-                const response = await fetch(`chapters/day${id}.html`);
-                if (!response.ok) throw new Error();
-                const html = await response.text();
-                content.innerHTML = html;
-                
-                // Memory save
-                if(id > memory.lastSeen) {
-                    memory.lastSeen = id;
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(memory));
-                }
-            } catch (err) {
-                content.innerHTML = `
-                    <div style='text-align:center; padding-top:100px;'>
-                        <h1 style='color:var(--gold); font-family:Great Vibes; font-size:4rem;'>Coming Soon...</h1>
-                        <p>Bhai, is din ki yaadein abhi likhi ja rahi hain!</p>
-                        <button onclick="closeChapter()" style="background:none; border:1px solid var(--gold); color:var(--gold); padding:10px 20px; cursor:pointer;">Go Back</button>
-                    </div>`;
+            for (let i = 1; i <= TOTAL_DAYS; i++) {
+                const isUnlocked = i <= diffDays;
+                const node = document.createElement('div');
+                node.className = 'chapter-node';
+
+                // Path change: 'chapters/day' + i + '.html' (Tumhare folder structure ke liye)
+                node.innerHTML = `
+                    <div class="node-dot"></div>
+                    <${isUnlocked ? 'a href="chapters/day' + i + '.html"' : 'div'} class="card ${isUnlocked ? '' : 'locked'}">
+                        ${!isUnlocked ? '<span class="lock-icon">🔒</span>' : ''}
+                        <span class="day-num">Day 0${i}</span>
+                        <span class="day-title">${dayContent[i-1].icon} ${dayContent[i-1].title}</span>
+                    </${isUnlocked ? 'a' : 'div'}>
+                `;
+                container.appendChild(node);
             }
         }
 
-        function closeChapter() {
-            document.getElementById('chapter-overlay').classList.remove('active');
-        }
-
-        /* === STAR BACKGROUND SCRIPT === */
-        const canvas = document.getElementById('star-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let stars = Array.from({length:180}, () => ({
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-            o: Math.random(), s: Math.random()*0.015
-        }));
-
-        function draw() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            stars.forEach(s => {
-                ctx.fillStyle = `rgba(212,175,55,${s.o})`;
-                ctx.beginPath(); ctx.arc(s.x, s.y, 1.2, 0, Math.PI*2); ctx.fill();
-                s.o += s.s; if(s.o>1 || s.o<0) s.s = -s.s;
-            });
-            requestAnimationFrame(draw);
-        }
-
-        draw();
-        renderTimeline();
+        initTimeline();
     </script>
 </body>
 </html>
