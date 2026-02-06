@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
+
 :root {
 --gold:#d4af37;
 --neon-red:#ff3131;
@@ -15,10 +16,12 @@
 --border:rgba(212,175,55,0.3);
 }
 
-/* ===== ORIGINAL CSS ===== */
+/* ===== YOUR CSS ADD ===== */
 body, html {
-margin:0; padding:0;
-min-height:100%; width:100%;
+margin:0;
+padding:0;
+min-height:100%;
+width:100%;
 background-color:#050505;
 color:white;
 font-family:'Montserrat',sans-serif;
@@ -44,6 +47,7 @@ margin:auto;
 position:relative;
 }
 
+/* Ambient */
 body::before{
 content:'';
 position:fixed;
@@ -56,6 +60,7 @@ opacity:0.3;
 z-index:-2;
 }
 
+/* Canvas */
 #space{
 position:fixed;
 top:0;
@@ -63,6 +68,7 @@ left:0;
 z-index:-3;
 }
 
+/* Header */
 header{
 text-align:center;
 margin-bottom:80px;
@@ -82,6 +88,7 @@ font-size:1.8rem;
 color:#ffb3b3;
 }
 
+/* Timeline */
 .timeline-line{
 position:absolute;
 left:50%;
@@ -160,7 +167,14 @@ font-size:.9rem;
 opacity:.8;
 }
 
-/* NAVIGATION ARROWS */
+/* Mobile */
+@media(max-width:768px){
+.timeline-line{left:30px;}
+.node-dot{left:30px;}
+.card{width:80%;margin-left:70px!important;text-align:left!important;}
+}
+
+/* ===== NAVIGATION ===== */
 .nav-arrow{
 position:fixed;
 right:20px;
@@ -175,42 +189,27 @@ justify-content:center;
 cursor:pointer;
 font-size:20px;
 z-index:999;
-transition:opacity 0.3s;
 }
 
 #scrollUp{bottom:90px;}
 #scrollDown{bottom:30px;}
 
-/* SEARCH BAR CENTER ABOVE HEADER */
-.search-container{
-display:flex;
-flex-direction:column;
-align-items:center;
-margin-bottom:15px;
-width:100%;
-}
-
-.search-container input{
-padding:8px 18px;
-border-radius:30px;
-border:none;
-outline:none;
+.searchBox{
+position:fixed;
+left:50%;
+transform:translateX(-50%);
+top:15px;
 background:rgba(0,0,0,0.7);
-color:white;
-font-size:1rem;
-width:200px;
-text-align:center;
-margin-bottom:8px;
+padding:8px 15px;
+border-radius:30px;
+z-index:999;
 }
 
-.search-container button{
-padding:6px 16px;
-border-radius:20px;
+.searchBox input{
+background:none;
 border:none;
-cursor:pointer;
-background:var(--gold);
-color:black;
-font-weight:600;
+color:white;
+outline:none;
 }
 
 /* Notification */
@@ -225,30 +224,23 @@ border-radius:10px;
 display:none;
 }
 
-/* MOBILE */
-@media(max-width:768px){
-header h1{font-size:2rem;}
-header p{font-size:1.4rem;}
-.search-container input{width:140px;font-size:0.9rem;}
-.search-container button{font-size:0.85rem;}
-.timeline-line{left:30px;}
-.node-dot{left:30px;}
-.card{width:80%;margin-left:70px!important;text-align:left!important;}
-}
 </style>
 </head>
 
 <body>
+
 <canvas id="space"></canvas>
 
-<div class="gate">
-<div class="main-content">
-
-<!-- ===== SEARCH BAR ===== -->
-<div class="search-container">
+<div class="searchBox">
 <input id="daySearch" placeholder="Go to Day..." />
 <button onclick="jumpToDay()">Go</button>
 </div>
+
+<div id="scrollUp" class="nav-arrow">⬆</div>
+<div id="scrollDown" class="nav-arrow">⬇</div>
+
+<div class="gate">
+<div class="main-content">
 
 <header>
 <h1>LOVE STORY</h1>
@@ -261,61 +253,41 @@ header p{font-size:1.4rem;}
 </div>
 </div>
 
-<div id="scrollUp" class="nav-arrow">⬆</div>
-<div id="scrollDown" class="nav-arrow">⬇</div>
-
 <div id="notification">Welcome Back ❤️</div>
 
 <audio id="bgMusic" src="assets/audio/romantic.mp3" loop></audio>
 
 <script>
+
 /* ===== SETTINGS ===== */
 const START_DATE=new Date("2026-02-06");
 const TOTAL=5000;
 
-/* ===== INFINITE VIRTUAL SCROLL ===== */
+/* ===== TIMELINE GENERATE ===== */
 let today=new Date();
 let diff=Math.floor((today-START_DATE)/(1000*60*60*24))+1;
 
-let timeline=document.getElementById("timeline");
-let chapters=[];
+let container=document.getElementById("timeline");
+
 for(let i=1;i<=TOTAL;i++){
-chapters.push({id:i, unlocked:i<=diff});
-}
 
-let rendered=0;
-const batch=50;
+let unlocked=i<=diff;
 
-function renderBatch(){
-let fragment=document.createDocumentFragment();
-for(let i=rendered;i<Math.min(rendered+batch,chapters.length);i++){
-let ch=chapters[i];
 let node=document.createElement("div");
 node.className="chapter-node";
+
 node.innerHTML=`
 <div class="node-dot"></div>
-<div class="card ${ch.unlocked?'':'locked'}" onclick="${ch.unlocked?`loadChapter(${ch.id})`:''}">
-<span class="day-num">Day ${ch.id}</span>
-<span class="day-title">${ch.unlocked?'Unlocked':'Locked'}</span>
+<div class="card ${unlocked?"":"locked"}" onclick="${unlocked?`loadChapter(${i})`:""}">
+<span class="day-num">Day ${i}</span>
+<span class="day-title">${unlocked?"Unlocked":"Locked"}</span>
 </div>
 `;
-fragment.appendChild(node);
-}
-timeline.appendChild(fragment);
-rendered+=batch;
+
+container.appendChild(node);
 }
 
-/* Initial batch */
-renderBatch();
-
-/* Scroll batch load */
-window.addEventListener("scroll",()=>{
-if(window.scrollY+window.innerHeight>=timeline.offsetHeight-100){
-renderBatch();
-}
-});
-
-/* ===== LOAD CHAPTER ===== */
+/* ===== LOAD ===== */
 function loadChapter(i){
 fetch("chapters/day"+i+".html")
 .then(r=>r.text())
@@ -331,33 +303,30 @@ if(a.paused) a.play();
 a.volume=Math.min(1,window.scrollY/800);
 });
 
-/* ===== NAVIGATION ===== */
+/* ===== NAV ===== */
 scrollUp.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 scrollDown.onclick=()=>window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
 
-/* ===== SEARCH JUMP + ENTER KEY ===== */
+/* ===== SEARCH ===== */
 function jumpToDay(){
 let num=parseInt(daySearch.value);
 let nodes=document.querySelectorAll(".chapter-node");
 if(nodes[num-1]){
 nodes[num-1].scrollIntoView({behavior:"smooth",block:"center"});
-nodes[num-1].querySelector('.card').style.boxShadow="0 0 20px #ff3131,0 0 40px #ff3131";
-setTimeout(()=>{nodes[num-1].querySelector('.card').style.boxShadow=""},2000);
 }
 }
-daySearch.addEventListener("keypress",function(e){
-if(e.key==='Enter'){ jumpToDay(); }
-});
 
 /* ===== PARTICLES ===== */
 const c=document.getElementById("space");
 const ctx=c.getContext("2d");
 c.width=innerWidth;
 c.height=innerHeight;
+
 let stars=[];
 for(let i=0;i<120;i++){
 stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2});
 }
+
 function anim(){
 ctx.clearRect(0,0,c.width,c.height);
 stars.forEach(s=>{
@@ -373,17 +342,12 @@ requestAnimationFrame(anim);
 anim();
 
 /* ===== NOTIFY ===== */
-setTimeout(()=>{notification.style.display="block";},1200);
+setTimeout(()=>{
+notification.style.display="block";
+},1200);
+
 localStorage.setItem("lastVisit",today);
 
-/* ===== NAV ARROWS AUTO HIDE ===== */
-let arrows=document.querySelectorAll(".nav-arrow");
-let arrowTimeout;
-window.addEventListener("scroll",()=>{
-arrows.forEach(a=>a.style.opacity=1);
-clearTimeout(arrowTimeout);
-arrowTimeout=setTimeout(()=>{arrows.forEach(a=>a.style.opacity=0)},1500);
-});
 </script>
 
 </body>
