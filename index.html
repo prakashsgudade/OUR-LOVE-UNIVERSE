@@ -10,41 +10,8 @@
     <link rel="stylesheet" href="css/animations.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@300&display=swap" rel="stylesheet">
-    
-    <style>
-        body, html { margin: 0; padding: 0; background: #000; overflow-x: hidden; }
-        
-        .gate {
-            height: 100vh; display: flex; justify-content: center; 
-            align-items: center; text-align: center; padding: 20px;
-        }
-
-        .royal-name { 
-            font-family: 'Cinzel Decorative'; 
-            /* Ye size mobile aur laptop dono pe set rahega */
-            font-size: clamp(2.5rem, 8vw, 4rem); 
-            color: #d4af37; letter-spacing: 8px; margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-        }
-
-        .love-quote { 
-            font-family: 'Great Vibes'; color: #fff; 
-            font-size: clamp(1.1rem, 4vw, 1.5rem); 
-            opacity: 0.8; margin-bottom: 30px;
-        }
-
-        /* Pehle wala button style */
-        .royal-btn {
-            background: transparent; color: #d4af37; border: 1px solid #d4af37;
-            padding: 12px 30px; border-radius: 30px; font-family: 'Montserrat';
-            cursor: pointer; transition: 0.3s; font-size: 0.8rem; letter-spacing: 2px;
-        }
-        .royal-btn:hover { background: #d4af37; color: #000; box-shadow: 0 0 20px #d4af37; }
-
-        .fade-out { opacity: 0; transition: opacity 1s ease; }
-    </style>
 </head>
-<body id="body">
+<body>
 
     <audio id="bgMusic" loop>
         <source src="assets/audio/romantic.mp3.mpeg" type="audio/mpeg">
@@ -52,7 +19,7 @@
 
     <div id="particles-js"></div> 
 
-    <section class="gate" id="mainGate">
+    <section class="gate">
         <div class="main-content">
             <h1 class="royal-name">MUSKAN</h1>
             <p class="love-quote">"In your smile, I see something more beautiful than the stars."</p>
@@ -63,16 +30,16 @@
 
     <script>
         function openKingdom() {
-            // Music Play Logic
+            // Play music on interaction (Chrome policy fix)
             const music = document.getElementById('bgMusic');
-            music.play().catch(() => console.log("Music needs interaction"));
+            music.play().catch(() => console.log("Music play blocked by browser. Moving to next page."));
 
-            // Pehle wala smooth transition
-            document.getElementById('mainGate').classList.add('fade-out');
-            setTimeout(() => {
-                window.location.href = "letter.html";
-            }, 1000);
+            // Go to Letter page using JavaScript
+            window.location.href = "letter.html";
         }
     </script>
+
+    <script src="js/main-logic.js"></script>
+    <script src="js/effects.js"></script>
 </body>
 </html>
