@@ -16,10 +16,10 @@
 
         body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; margin: 0; }
         
-        /* ===== LOCK SCREEN (Direct Access Protection) ===== */
+        /* ===== LOCK SCREEN ===== */
         #date-lock-screen {
             position: fixed; inset: 0; background: #000; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
 
         /* ===== STEP 1: ROSE UNLOCKER ===== */
@@ -39,7 +39,6 @@
         .header-box { text-align: center; padding: 40px 20px; }
         .header-box h2 { font-family: 'Cinzel Decorative'; color: var(--rose-red); font-size: 2.5rem; margin: 0; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
 
-        /* ===== THE 10 FLOWERS GRID ===== */
         .flower-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1100px; margin: 0 auto; }
         .flower-card { height: 260px; perspective: 1000px; cursor: pointer; }
         .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
@@ -54,9 +53,10 @@
         .card-back { background: linear-gradient(145deg, var(--rose-red), #4a0000); color: #fff; transform: rotateY(180deg); }
 
         .icon { font-size: 2.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 5px var(--rose-red)); }
-        h3 { font-size: 1rem; color: var(--rose-red); font-family: 'Cinzel Decorative'; margin: 5px 0; }
+        h3 { font-size: 1rem; color: var(--rose-red); font-family: 'Cinzel Decorative'; margin: 5px 0; text-align: center;}
         .card-back h3 { color: #fff; border-bottom: 1px solid rgba(255,255,255,0.3); }
         .full-width { grid-column: span 2; }
+        p { font-size: 0.85rem; text-align: center; }
 
         .back-nav { text-align: center; margin: 40px 0; }
         .royal-btn { background: transparent; color: var(--rose-red); border: 1px solid var(--rose-red); padding: 10px 25px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; }
@@ -133,7 +133,7 @@
             <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-inner">
                     <div class="card-front"><span class="icon">🌹</span><h3>Day 03</h3><p>What's next?</p></div>
-                    <div class="card-back"><h3>More to Come</h3><p>Aaj 10 petals tode hain, kal 10 naye raaz khulenge. Love you!</p></div>
+                    <div class="card-back"><h3>More to Come</h3><p>Aaj 5 petals tode hain, kal naye raaz khulenge. Love you!</p></div>
                 </div>
             </div>
         </div>
@@ -144,15 +144,21 @@
     </div>
 
     <script>
-        // --- 1. DATE LOCK LOGIC ---
-        const UNLOCK_DATE = new Date("2026-02-06T00:00:00"); // Day 2 ki date
+        // ==========================================
+        // 1. SETTINGS (TEST MODE)
+        // ==========================================
+        const testMode = true; // AGAR ISSE 'true' RAKHOGE TOH LOCK NAHI DIKHEGA. 
+                               // TEST KARNE KE BAAD ISSE 'false' KAR DENA.
 
-        function checkDate() {
+        const UNLOCK_DATE = new Date("2026-02-08T00:00:00"); 
+
+        function init() {
             const now = new Date();
             const lockScreen = document.getElementById('date-lock-screen');
             const unlockSection = document.getElementById('unlock-section');
 
-            if (now >= UNLOCK_DATE) {
+            // Agar Test mode on hai YA date nikal chuki hai -> Unlock
+            if (testMode || now >= UNLOCK_DATE) {
                 lockScreen.style.display = 'none';
                 unlockSection.style.display = 'flex';
             } else {
@@ -160,18 +166,20 @@
                 unlockSection.style.display = 'none';
             }
         }
-        window.onload = checkDate;
 
-        // --- 2. PETAL PLUCKING LOGIC ---
+        // ==========================================
+        // 2. PETAL LOGIC
+        // ==========================================
         let petals = 5;
         function pluckPetal() {
-            petals--;
-            if(petals >= 0) {
+            if(petals > 0) {
+                petals--;
                 document.getElementById('counter').innerText = "Petals: " + petals;
                 const rose = document.querySelector('.main-rose');
-                rose.style.transform = "scale(0.7) rotate(15deg)";
+                rose.style.transform = "scale(0.8) rotate(20deg)";
                 setTimeout(() => { rose.style.transform = "scale(1) rotate(0deg)"; }, 150);
             }
+            
             if (petals === 0) {
                 setTimeout(() => {
                     document.getElementById('unlock-section').style.display = 'none';
@@ -181,6 +189,8 @@
                 }, 500);
             }
         }
+
+        window.onload = init;
     </script>
 </body>
 </html>
