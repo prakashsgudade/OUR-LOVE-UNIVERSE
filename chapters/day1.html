@@ -5,72 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 01 - The 10 Secret Flowers</title>
     
-    <link rel="stylesheet" href="css/main-style.css">
-    <link rel="stylesheet" href="css/royal-theme.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        body { background: #050505; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; margin: 0; }
+        :root {
+            --gold: #d4af37;
+            --dark: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(212, 175, 55, 0.4);
+        }
+
+        body { 
+            background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; 
+            background: radial-gradient(circle at center, #1a0b0b 0%, #000 100%); overflow-x: hidden;
+        }
+
         .header-box { text-align: center; padding: 40px 20px; }
-        .header-box h2 { font-family: 'Cinzel Decorative'; color: #d4af37; font-size: 2.2rem; margin: 0; }
+        .header-box h2 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 2.2rem; margin: 0; }
         
-        .flower-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 15px;
-            padding: 15px;
-            max-width: 1100px;
-            margin: 0 auto;
+        .photo-frame { 
+            border: 2px solid var(--gold); padding: 10px; border-radius: 15px; 
+            margin: 20px auto; max-width: 500px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
         }
+        .photo-frame img { width: 100%; border-radius: 10px; display: block; }
+        .main-caption { font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3; text-align: center; margin-bottom: 30px; }
 
+        /* GRID & CARDS */
+        .flower-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1100px; margin: 0 auto; }
         .flower-card { height: 250px; perspective: 1000px; cursor: pointer; }
-        .card-inner {
-            position: relative; width: 100%; height: 100%; text-align: center;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
+        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
         .flower-card.is-flipped .card-inner { transform: rotateY(180deg); }
 
         .card-front, .card-back {
-            position: absolute; width: 100%; height: 100%;
-            -webkit-backface-visibility: hidden; backface-visibility: hidden;
-            border-radius: 15px; border: 1px solid rgba(212, 175, 55, 0.4);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 15px; box-sizing: border-box; overflow: hidden;
+            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 15px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 15px; box-sizing: border-box;
         }
-
         .card-front { background: linear-gradient(145deg, #111, #000); }
         .card-back { background: linear-gradient(145deg, #d4af37, #8a6d1a); color: #000; transform: rotateY(180deg); }
 
-        .memory-back { background: #000 !important; border: 2px solid #d4af37 !important; justify-content: flex-start !important; padding: 10px !important; }
-        .memory-text h3 { color: #d4af37 !important; font-size: 0.95rem; margin: 5px 0; }
-        .memory-text p { color: #fff !important; font-size: 0.7rem; }
+        /* Memory Card */
+        .memory-back { background: #000 !important; border: 2px solid var(--gold) !important; justify-content: flex-start !important; padding: 10px !important; }
         .memory-img-container { width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; border-radius: 10px; }
         .back-img-clear { width: 100%; height: 100%; object-fit: contain; }
 
-        .vinyl-container { position: relative; width: 100px; height: 100px; margin-bottom: 10px; }
-        .vinyl-record {
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, #222 20%, #333 21%, #111 25%, #444 30%, #111 35%, #333 40%, #111 45%, #444 50%, #111 55% );
-            border-radius: 50%; border: 2px solid #d4af37;
-            animation: spin 3s linear infinite paused;
-        }
+        /* Music & Buttons */
+        .vinyl-container { width: 100px; height: 100px; margin-bottom: 10px; position: relative; }
+        .vinyl-record { width: 100%; height: 100%; background: radial-gradient(circle, #222 20%, #111 55%); border-radius: 50%; border: 2px solid var(--gold); animation: spin 3s linear infinite paused; }
         .vinyl-record.playing { animation-play-state: running !important; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
-        .play-song-btn {
-            background: #000; color: #d4af37; border: 1px solid #d4af37;
-            padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; 
-            margin-top: 5px; transition: 0.3s;
-        }
+
+        .royal-btn, .play-song-btn { background: #000; color: var(--gold); border: 1px solid var(--gold); padding: 8px 20px; border-radius: 30px; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-decoration: none; }
+        .royal-btn.locked { opacity: 0.5; cursor: not-allowed; border-color: #555; color: #555; }
 
         .icon { font-size: 2rem; margin-bottom: 10px; }
-        h3 { font-size: 0.9rem; color: #d4af37; font-family: 'Cinzel Decorative'; margin: 5px 0; }
-        p { font-size: 0.7rem; opacity: 0.8; }
+        h3 { font-size: 0.9rem; color: var(--gold); font-family: 'Cinzel Decorative'; margin: 5px 0; }
         .full-width { grid-column: span 2; }
 
-        @media (min-width: 768px) { .flower-grid { grid-template-columns: repeat(3, 1fr); } }
+        .back-nav { margin: 50px 0; text-align: center; }
+        @media (max-width: 600px) { .flower-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
@@ -80,52 +72,43 @@
         <p style="font-family: 'Great Vibes'; color:#f0e68c;">Tap each flower to see my heart...</p>
     </div>
 
+    <div class="photo-frame">
+        <img src="../assets/images/photo1.jpg" alt="Our Memory">
+    </div>
+    <p class="main-caption">Jahan se hamari dastaan shuru hui...</p>
+
     <div class="flower-grid">
-        
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner">
-                <div class="card-front"><span class="icon">⏳</span><h3>The Love Clock</h3><p id="love-timer" style="font-weight:bold; color:#d4af37;">00d 00h 00m 00s</p></div>
-                <div class="card-back"><h3>Forever & Always</h3><p>Har pal jo tumhare saath bita hai, woh meri zindagi ka sabse bada khazana hai.</p></div>
-            </div>
+            <div class="card-inner"><div class="card-front"><span class="icon">⏳</span><h3>Love Clock</h3><p id="love-timer" style="color:var(--gold);">00d 00h</p></div><div class="card-back"><h3>Forever</h3><p>Har pal jo tumhare saath bita hai, woh mera khazana hai.</p></div></div>
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner">
-                <div class="card-front"><span class="icon">💬</span><h3>Our First Hello</h3><p>Tap to remember...</p></div>
-                <div class="card-back"><h3>The Magic Start</h3><p>Wo pehli message notification dekh kar mere chehre pe jo muskan aayi thi.</p></div>
-            </div>
+            <div class="card-inner"><div class="card-front"><span class="icon">💬</span><h3>First Hello</h3><p>Tap to remember...</p></div><div class="card-back"><h3>The Start</h3><p>Wo pehla message jisne meri duniya badal di.</p></div></div>
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner">
-                <div class="card-front"><span class="icon">✨</span><h3>Why Muskan?</h3><p>A simple question...</p></div>
-                <div class="card-back"><h3>My Everything</h3><p>Kyunki tumhare bina ye dil bas dhadakta hai, jeeta nahi hai.</p></div>
-            </div>
+            <div class="card-inner"><div class="card-front"><span class="icon">✨</span><h3>Why You?</h3><p>The Reason...</p></div><div class="card-back"><h3>My Everything</h3><p>Kyunki tumhare bina ye dil bas dhadakta hai, jeeta nahi hai.</p></div></div>
         </div>
 
         <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
-                <div class="card-front"><span class="icon">🎙️</span><h3>My Heart's Voice</h3><p>A message just for you.</p></div>
+                <div class="card-front"><span class="icon">🎙️</span><h3>Heart's Voice</h3><p>A message for you.</p></div>
                 <div class="card-back">
                     <h3>Listen Carefully</h3>
-                    <button class="royal-btn" style="padding: 5px 15px; font-size: 0.7rem;" onclick="event.stopPropagation(); document.getElementById('specialVoice').play()">PLAY VOICE</button>
+                    <button class="royal-btn" onclick="event.stopPropagation(); document.getElementById('specialVoice').play()">PLAY VOICE</button>
                     <audio id="specialVoice" src="../assets/audio/muskan-message.mp3.mpeg"></audio>
                 </div>
             </div>
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner">
-                <div class="card-front"><span class="icon">🤝</span><h3>The First Promise</h3><p>Tap to see my vow.</p></div>
-                <div class="card-back"><h3>Vow to You</h3><p>Main hamesha tumhari khushi ka dhyan rakhunga, chahe kuch bhi ho jaye.</p></div>
-            </div>
+            <div class="card-inner"><div class="card-front"><span class="icon">🤝</span><h3>My Promise</h3><p>Tap to see...</p></div><div class="card-back"><h3>Vow</h3><p>Main hamesha tumhari khushi ka dhyan rakhunga.</p></div></div>
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
-                <div class="card-front"><span class="icon">📸</span><h3>Our Best Memory</h3><p>A special frame...</p></div>
+                <div class="card-front"><span class="icon">📸</span><h3>Memory</h3><p>A special frame...</p></div>
                 <div class="card-back memory-back">
-                    <div class="memory-text"><h3>Our Best Memory</h3><p>Wo khas pal jab maine tumhe dekha.</p></div>
                     <div class="memory-img-container"><img src="../assets/images/photo1.jpg" class="back-img-clear"></div>
                 </div>
             </div>
@@ -133,61 +116,88 @@
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
-                <div class="card-front"><span class="icon">🎵</span><h3>Our Special Song</h3><p>The rhythm of us...</p></div>
-                <div class="card-back" style="background: #000; border: 2px solid #d4af37;">
+                <div class="card-front"><span class="icon">🎵</span><h3>Our Song</h3><p>Melody...</p></div>
+                <div class="card-back" style="background:#000; border:1px solid var(--gold);">
                     <div class="vinyl-container"><div id="vinylDisk" class="vinyl-record"></div></div>
-                    <h3 style="color: #d4af37; font-size: 0.8rem;">Melody of Love</h3>
                     <button class="play-song-btn" onclick="toggleSong(event)">PLAY SONG</button>
                     <audio id="ourSong" src="../assets/audio/our-song.mp3"></audio>
                 </div>
             </div>
         </div>
 
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner"><div class="card-front"><span class="icon">❤️</span><h3>Feeling</h3><p>Deep inside...</p></div><div class="card-back"><h3>Soulmate</h3><p>Maine pehli baar tumhe dekhte hi samajh liya tha tum hi ho.</p></div></div>
+        </div>
+
+        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
+            <div class="card-inner"><div class="card-front"><span class="icon">🔒</span><h3>A Secret</h3><p>Only for you...</p></div><div class="card-back"><h3>Truth</h3><p>Main aksar tumhari photos dekh kar akele mein muskuraata hoon.</p></div></div>
+        </div>
+
         <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
-                <div class="card-front"><span class="icon">🌹</span><h3>Next Chapter</h3><p>The journey continues...</p></div>
+                <div class="card-front"><span class="icon">🌹</span><h3>Next Chapter</h3><p>What's next?</p></div>
                 <div class="card-back" style="background:#111; color:#fff;">
-                    <h3>Day 02 is Ready!</h3>
-                    <p>10 more magical flowers are waiting for you.</p>
-                    <a href="day2.html" class="royal-btn" style="text-decoration: none; padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; display: inline-block;" onclick="event.stopPropagation()">OPEN DAY 02</a>
+                    <h3 id="day2Title">Day 02 Is Locked</h3>
+                    <p id="day2Status">Coming Soon...</p>
+                    <a href="day2.html" id="day2Btn" class="royal-btn locked" onclick="checkDay2(event)">LOCKED 🔒</a>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="back-nav">
+        <a href="../chapters.html" class="royal-btn">← Back to Timeline</a>
     </div>
 
     <script>
-        // ===== LOVE CLOCK =====
-        const startDate = new Date(2023, 09, 07); // Month: 0=Jan, 1=Feb...
-        function updateLoveClock() {
-            const now = new Date();
-            const diff = now - startDate;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((diff / (1000 * 60)) % 60);
-            const secs = Math.floor((diff / 1000) % 60);
-            const timerDisplay = document.getElementById("love-timer");
-            if(timerDisplay) timerDisplay.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
-        }
-        setInterval(updateLoveClock, 1000);
-        updateLoveClock();
+        const START_DATE = new Date("2026-02-06"); // Your official start date
 
-        // ===== SONG PLAY LOGIC =====
-        function toggleSong(event) {
-            event.stopPropagation();
+        // Love Clock
+        function updateClock() {
+            const diff = new Date() - new Date(2023, 9, 7);
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff / 3600000) % 24);
+            const m = Math.floor((diff / 60000) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            document.getElementById("love-timer").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+        }
+        setInterval(updateClock, 1000); updateClock();
+
+        // Music Logic
+        function toggleSong(e) {
+            e.stopPropagation();
             const song = document.getElementById('ourSong');
             const disk = document.getElementById('vinylDisk');
-            const btn = event.target;
-            if (song.paused) {
-                song.play(); 
-                disk.classList.add('playing'); 
-                btn.innerText = "PAUSE SONG";
-            } else {
-                song.pause(); 
-                disk.classList.remove('playing'); 
-                btn.innerText = "PLAY SONG";
+            if (song.paused) { song.play(); disk.classList.add('playing'); e.target.innerText="PAUSE"; }
+            else { song.pause(); disk.classList.remove('playing'); e.target.innerText="PLAY"; }
+        }
+
+        // --- SMART LOCK LOGIC FOR DAY 02 ---
+        function checkDay2(e) {
+            let today = new Date();
+            let day2Date = new Date(START_DATE);
+            day2Date.setDate(day2Date.getDate() + 1); // Day 1 is START_DATE, Day 2 is +1
+
+            if (today < day2Date) {
+                e.preventDefault();
+                alert("Sabar rakho jani! Day 02 kal khulega ❤️");
             }
         }
+
+        // Update Button UI on Load
+        window.onload = function() {
+            let today = new Date();
+            let day2Date = new Date(START_DATE);
+            day2Date.setDate(day2Date.getDate() + 1);
+
+            if (today >= day2Date) {
+                const btn = document.getElementById("day2Btn");
+                btn.classList.remove("locked");
+                btn.innerHTML = "OPEN DAY 02";
+                document.getElementById("day2Title").innerText = "Day 02 is Ready!";
+                document.getElementById("day2Status").innerText = "The journey continues...";
+            }
+        };
     </script>
 </body>
 </html>
