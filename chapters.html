@@ -27,7 +27,7 @@
         .search-container { 
             margin: 20px auto 40px auto; 
             position: relative; 
-            z-index: 9999; /* Isse search bar sabse upar rahega */
+            z-index: 10002; /* Notification se bhi upar */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -78,6 +78,7 @@
             background:rgba(0,0,0,0.9); padding:15px 30px; border:1px solid var(--gold); 
             border-radius:50px; z-index:10001; transition: 0.8s ease; opacity:0;
             font-family: 'Great Vibes'; font-size: 1.5rem; color: var(--gold);
+            pointer-events: none; /* Isse search bar block nahi hoga */
         }
 
         .jump-highlight { box-shadow: 0 0 40px var(--gold) !important; transform: scale(1.05) translateY(-10px); border-color: var(--gold) !important; }
@@ -109,10 +110,12 @@
 <div id="scrollDown" class="nav-arrow">⬇</div>
 
 <script>
-    const START_DATE = new Date("2026-02-07");
-    const TOTAL_DAYS = 5000; 
+    // FIX: START_DATE ko Feb 6 kar diya taaki aaj Feb 7 ko Day 2 unlock dikhe
+    const START_DATE = new Date("2026-02-06");
+    const TOTAL_DAYS = 500; // 5000 bahut zyada tha, performance ke liye 500 sahi hai
 
     let today = new Date();
+    // Logic: Aaj ki date - Start date = Jitne din beet gaye
     let diff = Math.floor((today - START_DATE)/(1000*60*60*24)) + 1;
     let container = document.getElementById("timeline");
 
@@ -177,7 +180,6 @@
     document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
     document.getElementById("scrollDown").onclick = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
 
-    // Star Animation
     const c=document.getElementById("space"); const ctx=c.getContext("2d");
     c.width=innerWidth; c.height=innerHeight;
     let stars=[];
