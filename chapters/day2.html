@@ -5,15 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 02 - Eternal Rose</title>
     
-    <link rel="stylesheet" href="../css/main-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-        body { background: #080000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; margin: 0; }
+        :root {
+            --rose-red: #ff4d4d;
+            --dark: #080000;
+            --border: rgba(255, 77, 77, 0.4);
+        }
+
+        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; margin: 0; }
         
+        /* ===== LOCK SCREEN (Direct Access Protection) ===== */
+        #date-lock-screen {
+            position: fixed; inset: 0; background: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+
         /* ===== STEP 1: ROSE UNLOCKER ===== */
         #unlock-section {
-            height: 100vh; display: flex; flex-direction: column;
+            height: 100vh; display: none; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
         }
         .main-rose {
@@ -21,60 +32,50 @@
             transition: 0.3s; animation: float 3s ease-in-out infinite;
         }
         @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.1); } }
-        .instruction { font-family: 'Great Vibes'; color: #ff4d4d; font-size: 1.8rem; margin-top: 20px; }
+        .instruction { font-family: 'Great Vibes'; color: var(--rose-red); font-size: 1.8rem; margin-top: 20px; }
 
-        /* ===== STEP 2: MAIN CONTENT (HIDDEN) ===== */
+        /* ===== STEP 2: MAIN CONTENT ===== */
         #main-content { display: none; opacity: 0; transition: 2s; padding: 20px 0; }
-        
         .header-box { text-align: center; padding: 40px 20px; }
-        .header-box h2 { font-family: 'Cinzel Decorative'; color: #ff4d4d; font-size: 2.5rem; margin: 0; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        .header-box h2 { font-family: 'Cinzel Decorative'; color: var(--rose-red); font-size: 2.5rem; margin: 0; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
 
         /* ===== THE 10 FLOWERS GRID ===== */
-        .flower-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
-            padding: 15px; max-width: 1100px; margin: 0 auto;
-        }
-
+        .flower-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1100px; margin: 0 auto; }
         .flower-card { height: 260px; perspective: 1000px; cursor: pointer; }
-        .card-inner {
-            position: relative; width: 100%; height: 100%;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-style: preserve-3d;
-        }
+        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
         .flower-card.is-flipped .card-inner { transform: rotateY(180deg); }
 
         .card-front, .card-back {
-            position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; border-radius: 20px;
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; padding: 20px; box-sizing: border-box;
-            border: 1px solid rgba(255, 77, 77, 0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
+            border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
         .card-front { background: linear-gradient(145deg, #1a0000, #050505); }
-        .card-back { 
-            background: linear-gradient(145deg, #ff4d4d, #4a0000); 
-            color: #fff; transform: rotateY(180deg); 
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
-        }
+        .card-back { background: linear-gradient(145deg, var(--rose-red), #4a0000); color: #fff; transform: rotateY(180deg); }
 
-        .icon { font-size: 2.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 5px #ff4d4d); }
-        h3 { font-size: 1rem; color: #ff4d4d; font-family: 'Cinzel Decorative'; margin: 5px 0; text-align: center; }
-        .card-back h3 { color: #fff; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
-        p { font-size: 0.8rem; text-align: center; line-height: 1.4; }
-
+        .icon { font-size: 2.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 5px var(--rose-red)); }
+        h3 { font-size: 1rem; color: var(--rose-red); font-family: 'Cinzel Decorative'; margin: 5px 0; }
+        .card-back h3 { color: #fff; border-bottom: 1px solid rgba(255,255,255,0.3); }
         .full-width { grid-column: span 2; }
 
-        @media (min-width: 768px) { .flower-grid { grid-template-columns: repeat(3, 1fr); } }
+        .back-nav { text-align: center; margin: 40px 0; }
+        .royal-btn { background: transparent; color: var(--rose-red); border: 1px solid var(--rose-red); padding: 10px 25px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; }
+
+        @media (max-width: 600px) { .flower-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
 
+    <div id="date-lock-screen">
+        <h1 style="font-family: 'Cinzel Decorative'; color: var(--rose-red);">Day 02 is Locked</h1>
+        <p style="font-family: 'Great Vibes'; font-size: 1.5rem;">Sabar ka phal meetha hota hai Muskan...</p>
+        <a href="day1.html" class="royal-btn" style="margin-top: 20px;">Wapas Jao</a>
+    </div>
+
     <div id="unlock-section">
         <div class="main-rose" onclick="pluckPetal()">🌹</div>
         <p class="instruction">Pluck 5 petals to reveal my Day 02 secrets...</p>
-        <p id="counter" style="color: #ff4d4d; font-weight: bold; font-size: 1.2rem;">Petals: 5</p>
+        <p id="counter" style="color: var(--rose-red); font-weight: bold; font-size: 1.2rem;">Petals: 5</p>
     </div>
 
     <div id="main-content">
@@ -84,7 +85,6 @@
         </div>
 
         <div class="flower-grid">
-            
             <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-inner">
                     <div class="card-front"><span class="icon">🏠</span><h3>My Safe Haven</h3><p>Where do I belong?</p></div>
@@ -94,76 +94,75 @@
 
             <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-inner">
-                    <div class="card-front"><span class="icon">✨</span><h3>Favorite Habit</h3><p>Something I do daily...</p></div>
+                    <div class="card-front"><span class="icon">✨</span><h3>Favorite Habit</h3><p>Daily routine...</p></div>
                     <div class="card-back"><h3>Looking at You</h3><p>Tumhari DP ko ghanton dekhna meri sabse pyaari aadat hai.</p></div>
-                </div>
-            </div>
-
-            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-inner">
-                    <div class="card-front"><span class="icon">🛡️</span><h3>My Strength</h3><p>What keeps me going?</p></div>
-                    <div class="card-back"><h3>Your Trust</h3><p>Jab tum mujhpar bharosa karti ho, main duniya se lad sakta hoon.</p></div>
                 </div>
             </div>
 
             <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-inner">
-                    <div class="card-front"><span class="icon">🖼️</span><h3>A Moment Frozen</h3><p>Tap to see another memory...</p></div>
+                    <div class="card-front"><span class="icon">🖼️</span><h3>Frozen Moment</h3><p>Tap to see...</p></div>
                     <div class="card-back" style="padding:0; overflow:hidden;">
                         <img src="../assets/images/photo2.jpg" style="width:100%; height:100%; object-fit: cover;">
-                        <div style="position:absolute; bottom:0; background:rgba(0,0,0,0.7); width:100%; padding:10px;">
-                            <p style="margin:0;">Ye hamesha yaad rahega ❤️</p>
-                        </div>
+                        <div style="position:absolute; bottom:0; background:rgba(0,0,0,0.7); width:100%; padding:10px;"><p style="margin:0;">Ye hamesha yaad rahega ❤️</p></div>
                     </div>
                 </div>
             </div>
 
             <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-inner">
-                    <div class="card-front"><span class="icon">🕊️</span><h3>The Future</h3><p>Our 5-year plan...</p></div>
+                    <div class="card-front"><span class="icon">🕊️</span><h3>The Future</h3><p>Our plan...</p></div>
                     <div class="card-back"><h3>Together</h3><p>Bas tumhara haath mere haath mein ho, rasta kahin bhi jaye.</p></div>
                 </div>
             </div>
 
             <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-inner">
-                    <div class="card-front"><span class="icon">🎵</span><h3>The Best Sound</h3><p>Better than any song...</p></div>
-                    <div class="card-back"><h3>Your Voice</h3><p>Jab tum mera naam leti ho, wo mere liye duniya ka best music hai.</p></div>
+                    <div class="card-front"><span class="icon">🎵</span><h3>Best Sound</h3><p>Better than music...</p></div>
+                    <div class="card-back"><h3>Your Voice</h3><p>Jab tum mera naam leti ho, wo duniya ka best music hai.</p></div>
                 </div>
             </div>
 
             <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-inner">
-                    <div class="card-front"><span class="icon">🙏</span><h3>My Prayer</h3><p>I ask for one thing...</p></div>
-                    <div class="card-back"><h3>You. Always.</h3><p>Khuda se har baar bas tumhari khushi aur tumhara sath manga hai.</p></div>
+                    <div class="card-front"><span class="icon">💌</span><h3>Confession</h3><p>A hidden truth...</p></div>
+                    <div class="card-back"><h3>Insecure?</h3><p>Kabhi-kabhi darta hoon ki tumhe kho na doon, tum itni khas jo ho.</p></div>
                 </div>
             </div>
 
             <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
                 <div class="card-inner">
-                    <div class="card-front"><span class="icon">🎧</span><h3>Current Feeling</h3><p>If our love was a song...</p></div>
-                    <div class="card-back"><h3>Pehli Nazar Mein</h3><p>Har line mere dil ki baat keh rahi hai. (Play it in your mind!)</p></div>
-                </div>
-            </div>
-
-            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-inner">
-                    <div class="card-front"><span class="icon">💌</span><h3>Confession</h3><p>Something I never said...</p></div>
-                    <div class="card-back"><h3>Insecure?</h3><p>Kabhi-kabhi darta hoon ki tumhe kho na doon, tum itni khas jo ho.</p></div>
-                </div>
-            </div>
-
-            <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-inner">
-                    <div class="card-front"><span class="icon">🌹</span><h3>Day 02 End</h3><p>Wait for tomorrow...</p></div>
+                    <div class="card-front"><span class="icon">🌹</span><h3>Day 03</h3><p>What's next?</p></div>
                     <div class="card-back"><h3>More to Come</h3><p>Aaj 10 petals tode hain, kal 10 naye raaz khulenge. Love you!</p></div>
                 </div>
             </div>
+        </div>
 
+        <div class="back-nav">
+            <a href="../chapters.html" class="royal-btn">← Back to Timeline</a>
         </div>
     </div>
 
     <script>
+        // --- 1. DATE LOCK LOGIC ---
+        const UNLOCK_DATE = new Date("2026-02-08T00:00:00"); // Day 2 ki date
+
+        function checkDate() {
+            const now = new Date();
+            const lockScreen = document.getElementById('date-lock-screen');
+            const unlockSection = document.getElementById('unlock-section');
+
+            if (now >= UNLOCK_DATE) {
+                lockScreen.style.display = 'none';
+                unlockSection.style.display = 'flex';
+            } else {
+                lockScreen.style.display = 'flex';
+                unlockSection.style.display = 'none';
+            }
+        }
+        window.onload = checkDate;
+
+        // --- 2. PETAL PLUCKING LOGIC ---
         let petals = 5;
         function pluckPetal() {
             petals--;
