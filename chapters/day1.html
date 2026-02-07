@@ -11,7 +11,6 @@
         :root {
             --gold: #d4af37;
             --dark: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
             --border: rgba(212, 175, 55, 0.4);
         }
 
@@ -20,6 +19,7 @@
             background: radial-gradient(circle at center, #1a0b0b 0%, #000 100%); overflow-x: hidden;
         }
 
+        /* --- Header & Photo --- */
         .header-box { text-align: center; padding: 40px 20px; }
         .header-box h2 { font-family: 'Cinzel Decorative'; color: var(--gold); font-size: 2.2rem; margin: 0; }
         
@@ -30,7 +30,7 @@
         .photo-frame img { width: 100%; border-radius: 10px; display: block; }
         .main-caption { font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3; text-align: center; margin-bottom: 30px; }
 
-        /* GRID & CARDS */
+        /* --- Grid & Original Cards --- */
         .flower-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1100px; margin: 0 auto; }
         .flower-card { height: 250px; perspective: 1000px; cursor: pointer; }
         .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
@@ -48,18 +48,21 @@
         .memory-img-container { width: 100%; flex-grow: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; border-radius: 10px; }
         .back-img-clear { width: 100%; height: 100%; object-fit: contain; }
 
-        /* Music & Buttons */
-        .vinyl-container { width: 100px; height: 100px; margin-bottom: 10px; position: relative; }
-        .vinyl-record { width: 100%; height: 100%; background: radial-gradient(circle, #222 20%, #111 55%); border-radius: 50%; border: 2px solid var(--gold); animation: spin 3s linear infinite paused; }
-        .vinyl-record.playing { animation-play-state: running !important; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .royal-btn, .play-song-btn { background: #000; color: var(--gold); border: 1px solid var(--gold); padding: 8px 20px; border-radius: 30px; font-size: 0.75rem; cursor: pointer; transition: 0.3s; text-decoration: none; }
-        .royal-btn.locked { opacity: 0.5; cursor: not-allowed; border-color: #555; color: #555; }
+        /* Buttons */
+        .royal-btn { background: #000; color: var(--gold); border: 1px solid var(--gold); padding: 10px 20px; border-radius: 30px; font-size: 0.8rem; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
+        .play-song-btn { background: #000; color: var(--gold); border: 1px solid var(--gold); padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; }
+        
+        /* Locked State */
+        .royal-btn.locked { background: #222; color: #666; border-color: #444; cursor: not-allowed; }
 
         .icon { font-size: 2rem; margin-bottom: 10px; }
         h3 { font-size: 0.9rem; color: var(--gold); font-family: 'Cinzel Decorative'; margin: 5px 0; }
         .full-width { grid-column: span 2; }
+
+        .vinyl-container { width: 90px; height: 90px; margin-bottom: 5px; }
+        .vinyl-record { width: 100%; height: 100%; background: radial-gradient(circle, #222 20%, #111 50%); border-radius: 50%; border: 2px solid var(--gold); animation: spin 3s linear infinite paused; }
+        .vinyl-record.playing { animation-play-state: running !important; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .back-nav { margin: 50px 0; text-align: center; }
         @media (max-width: 600px) { .flower-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -79,7 +82,7 @@
 
     <div class="flower-grid">
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner"><div class="card-front"><span class="icon">⏳</span><h3>Love Clock</h3><p id="love-timer" style="color:var(--gold);">00d 00h</p></div><div class="card-back"><h3>Forever</h3><p>Har pal jo tumhare saath bita hai, woh mera khazana hai.</p></div></div>
+            <div class="card-inner"><div class="card-front"><span class="icon">⏳</span><h3>Love Clock</h3><p id="love-timer" style="color:var(--gold);">00d 00h</p></div><div class="card-back"><h3>Forever</h3><p>Har pal jo tumhare saath bita hai khazana hai.</p></div></div>
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
@@ -87,14 +90,13 @@
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner"><div class="card-front"><span class="icon">✨</span><h3>Why You?</h3><p>The Reason...</p></div><div class="card-back"><h3>My Everything</h3><p>Kyunki tumhare bina ye dil bas dhadakta hai, jeeta nahi hai.</p></div></div>
+            <div class="card-inner"><div class="card-front"><span class="icon">✨</span><h3>Why Muskan?</h3><p>The Reason...</p></div><div class="card-back"><h3>Everything</h3><p>Kyunki tumhare bina ye dil bas dhadakta hai.</p></div></div>
         </div>
 
         <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
-                <div class="card-front"><span class="icon">🎙️</span><h3>Heart's Voice</h3><p>A message for you.</p></div>
+                <div class="card-front"><span class="icon">🎙️</span><h3>Heart's Voice</h3><p>Listen...</p></div>
                 <div class="card-back">
-                    <h3>Listen Carefully</h3>
                     <button class="royal-btn" onclick="event.stopPropagation(); document.getElementById('specialVoice').play()">PLAY VOICE</button>
                     <audio id="specialVoice" src="../assets/audio/muskan-message.mp3.mpeg"></audio>
                 </div>
@@ -102,44 +104,29 @@
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner"><div class="card-front"><span class="icon">🤝</span><h3>My Promise</h3><p>Tap to see...</p></div><div class="card-back"><h3>Vow</h3><p>Main hamesha tumhari khushi ka dhyan rakhunga.</p></div></div>
-        </div>
-
-        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner">
-                <div class="card-front"><span class="icon">📸</span><h3>Memory</h3><p>A special frame...</p></div>
-                <div class="card-back memory-back">
-                    <div class="memory-img-container"><img src="../assets/images/photo1.jpg" class="back-img-clear"></div>
-                </div>
-            </div>
+            <div class="card-inner"><div class="card-front"><span class="icon">📸</span><h3>Memory</h3><p>A Frame...</p></div><div class="card-back memory-back">
+                <div class="memory-img-container"><img src="../assets/images/photo1.jpg" class="back-img-clear"></div>
+            </div></div>
         </div>
 
         <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
                 <div class="card-front"><span class="icon">🎵</span><h3>Our Song</h3><p>Melody...</p></div>
-                <div class="card-back" style="background:#000; border:1px solid var(--gold);">
+                <div class="card-back" style="background:#000;">
                     <div class="vinyl-container"><div id="vinylDisk" class="vinyl-record"></div></div>
-                    <button class="play-song-btn" onclick="toggleSong(event)">PLAY SONG</button>
+                    <button class="play-song-btn" onclick="toggleSong(event)">PLAY</button>
                     <audio id="ourSong" src="../assets/audio/our-song.mp3"></audio>
                 </div>
             </div>
         </div>
 
-        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner"><div class="card-front"><span class="icon">❤️</span><h3>Feeling</h3><p>Deep inside...</p></div><div class="card-back"><h3>Soulmate</h3><p>Maine pehli baar tumhe dekhte hi samajh liya tha tum hi ho.</p></div></div>
-        </div>
-
-        <div class="flower-card" onclick="this.classList.toggle('is-flipped')">
-            <div class="card-inner"><div class="card-front"><span class="icon">🔒</span><h3>A Secret</h3><p>Only for you...</p></div><div class="card-back"><h3>Truth</h3><p>Main aksar tumhari photos dekh kar akele mein muskuraata hoon.</p></div></div>
-        </div>
-
         <div class="flower-card full-width" onclick="this.classList.toggle('is-flipped')">
             <div class="card-inner">
-                <div class="card-front"><span class="icon">🌹</span><h3>Next Chapter</h3><p>What's next?</p></div>
-                <div class="card-back" style="background:#111; color:#fff;">
-                    <h3 id="day2Title">Day 02 Is Locked</h3>
-                    <p id="day2Status">Coming Soon...</p>
-                    <a href="day2.html" id="day2Btn" class="royal-btn locked" onclick="checkDay2(event)">LOCKED 🔒</a>
+                <div class="card-front"><span class="icon">🌹</span><h3>Next Chapter</h3><p>Click to see Day 02</p></div>
+                <div class="card-back" style="background:#111;">
+                    <h3 id="lockTitle">Coming Soon</h3>
+                    <p id="lockMsg">Day 02 will unlock tomorrow.</p>
+                    <a href="javascript:void(0)" id="day2Btn" class="royal-btn locked" onclick="event.stopPropagation()">LOCKED 🔒</a>
                 </div>
             </div>
         </div>
@@ -150,9 +137,40 @@
     </div>
 
     <script>
-        const START_DATE = new Date("2026-02-06"); // Your official start date
+        // --- 1. SET THE START DATE (Same as timeline) ---
+        const DAY1_DATE = new Date("2026-02-07T00:00:00"); 
 
-        // Love Clock
+        function checkLock() {
+            let now = new Date();
+            // Day 2 unlocks 24 hours after Day 1
+            let day2Time = new Date(DAY1_DATE);
+            day2Time.setDate(day2Time.getDate() + 1);
+
+            const btn = document.getElementById("day2Btn");
+            const title = document.getElementById("lockTitle");
+            const msg = document.getElementById("lockMsg");
+
+            if (now >= day2Time) {
+                // UNLOCK
+                btn.href = "day2.html"; // Add the link back
+                btn.classList.remove("locked");
+                btn.innerHTML = "OPEN DAY 02";
+                title.innerText = "Day 02 is Ready!";
+                msg.innerText = "The journey continues...";
+            } else {
+                // KEEP LOCKED
+                btn.href = "javascript:void(0)";
+                btn.onclick = function(e) {
+                    e.stopPropagation();
+                    alert("Sabar rakho Muskan! Day 02 kal khulega ❤️");
+                };
+            }
+        }
+
+        // Run lock check immediately
+        window.onload = checkLock;
+
+        // --- Other Features ---
         function updateClock() {
             const diff = new Date() - new Date(2023, 9, 7);
             const d = Math.floor(diff / 86400000);
@@ -163,7 +181,6 @@
         }
         setInterval(updateClock, 1000); updateClock();
 
-        // Music Logic
         function toggleSong(e) {
             e.stopPropagation();
             const song = document.getElementById('ourSong');
@@ -171,33 +188,6 @@
             if (song.paused) { song.play(); disk.classList.add('playing'); e.target.innerText="PAUSE"; }
             else { song.pause(); disk.classList.remove('playing'); e.target.innerText="PLAY"; }
         }
-
-        // --- SMART LOCK LOGIC FOR DAY 02 ---
-        function checkDay2(e) {
-            let today = new Date();
-            let day2Date = new Date(START_DATE);
-            day2Date.setDate(day2Date.getDate() + 1); // Day 1 is START_DATE, Day 2 is +1
-
-            if (today < day2Date) {
-                e.preventDefault();
-                alert("Sabar rakho jani! Day 02 kal khulega ❤️");
-            }
-        }
-
-        // Update Button UI on Load
-        window.onload = function() {
-            let today = new Date();
-            let day2Date = new Date(START_DATE);
-            day2Date.setDate(day2Date.getDate() + 1);
-
-            if (today >= day2Date) {
-                const btn = document.getElementById("day2Btn");
-                btn.classList.remove("locked");
-                btn.innerHTML = "OPEN DAY 02";
-                document.getElementById("day2Title").innerText = "Day 02 is Ready!";
-                document.getElementById("day2Status").innerText = "The journey continues...";
-            }
-        };
     </script>
 </body>
 </html>
