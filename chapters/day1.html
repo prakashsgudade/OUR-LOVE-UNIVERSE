@@ -109,7 +109,7 @@
                 <div class="card-back">
                     <h3>Listen Carefully</h3>
                     <button class="royal-btn" style="padding: 5px 15px; font-size: 0.7rem;" onclick="event.stopPropagation(); document.getElementById('specialVoice').play()">PLAY VOICE</button>
-                    <audio id="specialVoice" src="assets/audio/muskan-message.mp3"></audio>
+                    <audio id="specialVoice" src="../assets/audio/muskan-message.mp3"></audio>
                 </div>
             </div>
         </div>
@@ -126,7 +126,7 @@
                 <div class="card-front"><span class="icon">📸</span><h3>Our Best Memory</h3><p>A special frame...</p></div>
                 <div class="card-back memory-back">
                     <div class="memory-text"><h3>Our Best Memory</h3><p>Wo khas pal jab maine tumhe dekha.</p></div>
-                    <div class="memory-img-container"><img src="assets/images/photo1.jpg" class="back-img-clear"></div>
+                    <div class="memory-img-container"><img src="../assets/images/photo1.jpg" class="back-img-clear"></div>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
                     <div class="vinyl-container"><div id="vinylDisk" class="vinyl-record"></div></div>
                     <h3 style="color: #d4af37; font-size: 0.8rem;">Melody of Love</h3>
                     <button class="play-song-btn" onclick="toggleSong(event)">PLAY SONG</button>
-                    <audio id="ourSong" src="assets/audio/our-song.mp3"></audio>
+                    <audio id="ourSong" src="../assets/audio/our-song.mp3"></audio>
                 </div>
             </div>
         </div>
@@ -149,17 +149,16 @@
                 <div class="card-back" style="background:#111; color:#fff;">
                     <h3>Day 02 is Ready!</h3>
                     <p>10 more magical flowers are waiting for you.</p>
-                    <a href="day2.html" class="royal-btn" style="text-decoration: none; padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; display: inline-block;">OPEN DAY 02</a>
+                    <a href="day2.html" class="royal-btn" style="text-decoration: none; padding: 8px 20px; font-size: 0.8rem; margin-top: 15px; display: inline-block;" onclick="event.stopPropagation()">OPEN DAY 02</a>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script>
-        // 1. TIMER LOGIC
-        // Yahan apni date set karo: (Year, Month-1, Day) -> Month starts from 0 (Jan=0, Feb=1)
-        const startDate = new Date(2023, 09, 07); 
-
+        // ===== LOVE CLOCK =====
+        const startDate = new Date(2023, 09, 07); // Month: 0=Jan, 1=Feb...
         function updateLoveClock() {
             const now = new Date();
             const diff = now - startDate;
@@ -173,16 +172,20 @@
         setInterval(updateLoveClock, 1000);
         updateLoveClock();
 
-        // 2. SONG LOGIC
+        // ===== SONG PLAY LOGIC =====
         function toggleSong(event) {
             event.stopPropagation();
             const song = document.getElementById('ourSong');
             const disk = document.getElementById('vinylDisk');
             const btn = event.target;
             if (song.paused) {
-                song.play(); disk.classList.add('playing'); btn.innerText = "PAUSE SONG";
+                song.play(); 
+                disk.classList.add('playing'); 
+                btn.innerText = "PAUSE SONG";
             } else {
-                song.pause(); disk.classList.remove('playing'); btn.innerText = "PLAY SONG";
+                song.pause(); 
+                disk.classList.remove('playing'); 
+                btn.innerText = "PLAY SONG";
             }
         }
     </script>
