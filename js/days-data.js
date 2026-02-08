@@ -1,21 +1,19 @@
-const DAYS={
-
-1:{
-title:"First Spark",
-text:"Yahi se sab shuru hua",
-img:"assets/images/photo1.jpg"
-},
-
-2:{
-title:"Attachment",
-text:"Dil aadat ban gaya",
-img:"assets/images/photo2.jpg"
-},
-
-3:{
-title:"Deep Bond",
-text:"Ab tum sirf tum nahi ho",
-img:"assets/images/photo3.jpg"
-}
-
-}
+const loveDays = {
+    "1": {
+        title: "Day 1: Pehli Nazar",
+        date: "12 Feb 2024",
+        message: "Yahan apna lamba message likho jo tum Muskan ko batana chahte ho.",
+        image: "assets/images/photo1.jpg",
+        song: "assets/audio/our-song.mp3",
+        voice: "assets/audio/muskan-message.mp3.mpeg"
+    },
+    "2": {
+        title: "Day 2: Wo Haseen Shaam",
+        date: "14 Feb 2024",
+        message: "Jo bhi tumne us din feel kiya...",
+        image: "assets/images/photo2.jpg",
+        song: "assets/audio/bg-music.mp3",
+        voice: "" 
+    }
+    // Aise hi "3", "4" karke unlimited add karte jao...
+};
