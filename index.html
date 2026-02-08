@@ -5,19 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Queen | Muskan</title>
     
-    <link rel="stylesheet" href="css/main-style.css">
-    <link rel="stylesheet" href="css/royal-theme.css">
-    <link rel="stylesheet" href="css/animations.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --gold: #d4af37; }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #050505; color: white;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* Falling Stars Background */
+        #star-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            color: var(--gold);
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 5px var(--gold));
+            user-select: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Content Card */
+        .gate {
+            position: relative; z-index: 10;
+            width: 100%; display: flex; justify-content: center; align-items: center;
+        }
+
+        .main-content {
+            text-align: center;
+            width: 85%; max-width: 450px;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            /* Border ko tere screenshot jaisa banaya hai */
+        }
+
+        .royal-name {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: clamp(2.5rem, 10vw, 4.5rem); /* Responsive font */
+            color: var(--gold);
+            letter-spacing: 5px; margin: 0;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        .love-quote {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            color: var(--gold);
+            margin: 20px 0 40px 0;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .royal-btn {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 30px;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .royal-btn:hover {
+            background: var(--gold);
+            color: black;
+            box-shadow: 0 0 20px var(--gold);
+        }
+    </style>
 </head>
 <body>
+
+    <div id="star-container"></div>
 
     <audio id="bgMusic" loop>
         <source src="assets/audio/romantic.mp3.mpeg" type="audio/mpeg">
     </audio>
-
-    <div id="particles-js"></div> 
 
     <section class="gate">
         <div class="main-content">
@@ -29,17 +112,38 @@
     </section>
 
     <script>
-        function openKingdom() {
-            // Play music on interaction (Chrome policy fix)
-            const music = document.getElementById('bgMusic');
-            music.play().catch(() => console.log("Music play blocked by browser. Moving to next page."));
+        // Star Creator Script
+        function createStars() {
+            const container = document.getElementById('star-container');
+            const starCount = 40; // Kitne stars chahiye
+            const icons = ['★', '⭐', '✦', '✨'];
 
-            // Go to Letter page using JavaScript
-            window.location.href = "letter.html";
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.innerText = icons[Math.floor(Math.random() * icons.length)];
+                
+                // Random position and timing
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                
+                container.appendChild(star);
+            }
         }
-    </script>
 
-    <script src="js/main-logic.js"></script>
-    <script src="js/effects.js"></script>
+        function openKingdom() {
+            const music = document.getElementById('bgMusic');
+            music.play().catch(() => console.log("Music play blocked"));
+            
+            setTimeout(() => {
+                window.location.href = "letter.html";
+            }, 300);
+        }
+
+        // Initialize stars
+        createStars();
+    </script>
 </body>
 </html>
