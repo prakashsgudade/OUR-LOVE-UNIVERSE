@@ -1,24 +1,23 @@
-const DAYS={
-
-1:{
-emotion:1,
-title:"First Spark",
-text:"Yahi se sab shuru hua",
-img:"assets/images/photo1.jpg"
-},
-
-2:{
-emotion:2,
-title:"Attachment",
-text:"Dil aadat ban gaya",
-img:"assets/images/photo2.jpg"
-},
-
-3:{
-emotion:3,
-title:"Deep Bond",
-text:"Ab tum sirf tum nahi ho",
-img:"assets/images/photo3.jpg"
-}
-
-}
+const loveDays = {
+    "1": {
+        title: "Pehli Nazar ❤️",
+        message: "Wo din jab duniya badal gayi...",
+        image: "assets/images/photo1.jpg",
+        song: "assets/audio/our-song.mp3",
+        voice: "assets/audio/muskan-message.mp3.mpeg",
+        theme: "#d4af37", // Gold
+        layout: "classic",
+        hidden: "Secret Note: Tum bahut pyaari ho!"
+    },
+    "2": {
+        title: "The Beginning",
+        message: "Jahan se sab shuru hua...",
+        image: "assets/images/photo2.jpg",
+        song: "assets/audio/our-song.mp3",
+        voice: "",
+        theme: "#ff4d6d", // Rose
+        layout: "polaroid",
+        hidden: "I missed you today."
+    }
+    // Aise hi 3, 4, 5... jitne chahe add karo!
+};
