@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-
 body{
 margin:0;
 font-family:Montserrat;
@@ -17,7 +15,7 @@ overflow-x:hidden;
 transition:background 1s ease;
 }
 
-/* GALAXY CANVAS */
+/* Galaxy */
 #space{
 position:fixed;
 top:0;
@@ -25,7 +23,7 @@ left:0;
 z-index:-1;
 }
 
-/* HEADER */
+/* Header */
 .header{
 text-align:center;
 padding:30px;
@@ -34,30 +32,31 @@ font-size:32px;
 letter-spacing:2px;
 }
 
-/* GRID */
+/* Grid */
 .wrap{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:18px;
+gap:20px;
 padding:20px;
 max-width:1200px;
 margin:auto;
+transition:.6s;
 }
 
-/* GLASS CARDS */
+/* Cards */
 .box{
 background:rgba(255,255,255,0.06);
 border-radius:18px;
 padding:20px;
 backdrop-filter:blur(12px);
-transition:.35s;
 cursor:pointer;
+transition:.35s;
 border:1px solid rgba(255,255,255,0.08);
 }
 
 .box:hover{
 transform:translateY(-8px) scale(1.02);
-box-shadow:0 0 25px rgba(255,215,0,0.4);
+box-shadow:0 0 30px rgba(255,215,0,0.4);
 }
 
 .secret-unlocked{
@@ -77,7 +76,6 @@ font-weight:bold;
 cursor:pointer;
 border-radius:8px;
 }
-
 </style>
 </head>
 
@@ -87,11 +85,11 @@ border-radius:8px;
 
 <div class="header" id="title"></div>
 
-<div class="wrap">
+<div class="wrap" id="wrap">
 
 <div class="box">
 <h3>Memory Image</h3>
-<img id="autoImg" src="">
+<img id="autoImg">
 </div>
 
 <div class="box">
@@ -108,90 +106,47 @@ border-radius:8px;
 </div>
 
 <script>
-// ===== LAYOUT ENGINE =====
-
-const layoutType = day % 4;
-
-const wrap = document.querySelector(".wrap");
-
-if(layoutType === 0){
-
-wrap.style.gridTemplateColumns="1fr";
-wrap.style.maxWidth="700px";
-
-}
-
-if(layoutType === 1){
-
-wrap.style.gridTemplateColumns="repeat(3,1fr)";
-
-}
-
-if(layoutType === 2){
-
-wrap.style.transform="rotateY(6deg)";
-wrap.style.gap="40px";
-
-}
-
-if(layoutType === 3){
-
-wrap.style.gridTemplateColumns="repeat(auto-fit,minmax(180px,1fr))";
-
-}
-
-// ===== DAY STATE =====
+/* ===== DAY SYSTEM ===== */
 const day = parseInt(localStorage.getItem("currentDay")) || 1;
-document.getElementById("title").innerHTML="Day "+day;
-// ===== SURPRISE ENGINE =====
+document.getElementById("title").innerText = "Day " + day;
 
-if(day % 5 === 0){
+const wrap = document.getElementById("wrap");
 
-let surprise=document.createElement("div");
-surprise.className="box";
-surprise.innerHTML=`
-<h3>🎁 Hidden Surprise</h3>
-<p>Tum special ho ❤️ Day ${day}</p>
-<button onclick="alert('Secret Unlocked ✨')">Unlock</button>
-`;
+/* ===== AUTO LAYOUT ENGINE ===== */
+const layout = day % 4;
 
-wrap.appendChild(surprise);
-
-}
-// ===== ANIMATION ENGINE =====
-
-if(day % 2 === 0){
-
-document.body.style.animation="pulse 6s infinite";
-
-const style=document.createElement("style");
-style.innerHTML=`
-@keyframes pulse{
-0%{filter:hue-rotate(0deg)}
-100%{filter:hue-rotate(360deg)}
-}
-`;
-
-document.head.appendChild(style);
-
+if(layout === 0){
+wrap.style.gridTemplateColumns="1fr";
+wrap.style.maxWidth="650px";
 }
 
+if(layout === 1){
+wrap.style.gridTemplateColumns="repeat(3,1fr)";
+}
 
-// ===== AUTO THEMES =====
+if(layout === 2){
+wrap.style.transform="rotateY(5deg)";
+wrap.style.gap="40px";
+}
+
+if(layout === 3){
+wrap.style.gridTemplateColumns="repeat(auto-fit,minmax(180px,1fr))";
+}
+
+/* ===== AUTO THEMES ===== */
 const themes=[
 ["#0f2027","#203a43","#2c5364"],
-["#1a0b0b","#000000","#330000"],
-["#141e30","#243b55","#1c1c1c"],
-["#42275a","#734b6d","#000000"],
+["#1a0b0b","#000","#330000"],
+["#141e30","#243b55","#000"],
+["#42275a","#734b6d","#000"],
 ["#000428","#004e92","#000"]
 ];
 
 const t = themes[day % themes.length];
-document.body.style.background=
-`linear-gradient(160deg, ${t[0]}, ${t[1]}, ${t[2]})`;
+document.body.style.background =
+`linear-gradient(160deg,${t[0]},${t[1]},${t[2]})`;
 
-
-// ===== MESSAGE ENGINE =====
+/* ===== MESSAGE ENGINE ===== */
 const msgs=[
 "Tum meri kahani ka sabse khoobsurat hissa ho ❤️",
 "Har din tumhare saath ek naya safar ✨",
@@ -199,102 +154,74 @@ const msgs=[
 "Jahan tum ho wahi meri duniya 🌍",
 "Mohabbat waqt nahi dekhti 💫"
 ];
+document.getElementById("msg").innerText = msgs[day % msgs.length];
 
-document.getElementById("msg").innerHTML=
-msgs[day % msgs.length];
+/* ===== IMAGE ROTATION ===== */
+const img=document.getElementById("autoImg");
+img.src=`assets/images/photo${(day%2)+1}.jpg`;
+img.onerror=()=>img.src="assets/images/background.jpg";
 
-
-// ===== IMAGE ROTATOR =====
-const imgIndex=(day%2)+1;
-const imgEl=document.getElementById("autoImg");
-imgEl.src=`assets/images/photo${imgIndex}.jpg`;
-imgEl.onerror=()=>imgEl.src="assets/images/background.jpg";
-
-
-// ===== AUDIO ROTATOR =====
+/* ===== AUDIO ROTATION ===== */
 const tracks=[
-"assets/audio/muskan-message.mp3.mpeg",
+"assets/audio/muskan-message.mp3",
 "assets/audio/our-song.mp3"
 ];
-
 const audio=document.getElementById("v");
 audio.src=tracks[day % tracks.length];
 
 function play(){
 audio.volume=0;
 audio.play();
-
-let fade=setInterval(()=>{
-if(audio.volume<1){
-audio.volume+=0.05;
-}else{
-clearInterval(fade);
-}
+let f=setInterval(()=>{
+if(audio.volume<1) audio.volume+=0.05;
+else clearInterval(f);
 },100);
 }
 
-
-// ===== SECRET CARD GENERATOR =====
-const wrap=document.querySelector(".wrap");
-
-for(let i=0;i<3;i++){
+/* ===== SECRET CARDS ===== */
+for(let i=1;i<=3;i++){
 let b=document.createElement("div");
 b.className="box";
-
-b.innerHTML=`
-<h3>Secret Memory ${i+1}</h3>
-<p>Tap to reveal hidden feeling</p>
-`;
-
+b.innerHTML=`<h3>Secret Memory</h3><p>Tap to unlock</p>`;
 b.onclick=()=>{
 b.classList.add("secret-unlocked");
-b.innerHTML=`
-<h3>Unlocked ❤️</h3>
-<p>Day ${day} — Hidden Emotion #${i+1}</p>
-`;
+b.innerHTML=`<h3>Unlocked ❤️</h3><p>Day ${day} Emotion ${i}</p>`;
 };
-
 wrap.appendChild(b);
 }
 
+/* ===== SURPRISE DAY ===== */
+if(day % 5 === 0){
+let s=document.createElement("div");
+s.className="box";
+s.innerHTML=`<h3>🎁 Surprise</h3><p>Tum bahut special ho ❤️</p>`;
+wrap.appendChild(s);
+}
 
-// ===== GALAXY BACKGROUND =====
+/* ===== GALAXY ===== */
 const c=document.getElementById("space");
 const ctx=c.getContext("2d");
-
-function resize(){
-c.width=innerWidth;
-c.height=innerHeight;
-}
-resize();
-window.addEventListener("resize",resize);
+function resize(){c.width=innerWidth;c.height=innerHeight;}
+resize();window.onresize=resize;
 
 let stars=[];
 for(let i=0;i<120;i++){
-stars.push({
-x:Math.random()*c.width,
-y:Math.random()*c.height,
-r:Math.random()*1.5
-});
+stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5});
 }
 
 function anim(){
 ctx.clearRect(0,0,c.width,c.height);
 ctx.fillStyle="white";
-
 stars.forEach(s=>{
 ctx.beginPath();
 ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
 ctx.fill();
-
 s.y+=0.3;
 if(s.y>c.height) s.y=0;
 });
-
 requestAnimationFrame(anim);
 }
 anim();
-
 </script>
 
 </body>
