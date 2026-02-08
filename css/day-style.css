@@ -1,84 +1,64 @@
 :root { --accent: #d4af37; }
 
 body { 
-    background: #000; 
-    color: white; 
-    font-family: 'Montserrat', sans-serif; 
-    margin: 0; 
-    overflow-x: hidden; 
+    background: #000; color: white; font-family: 'Montserrat', sans-serif; 
+    margin: 0; overflow-x: hidden; min-height: 100vh;
 }
 
-/* Screen ke hisab se centering */
 .main-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 15px;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; padding: 20px;
 }
 
 .glass-container {
     background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); /* iPhone Fix */
-    border: 1px solid var(--accent);
-    border-radius: 25px;
-    padding: 25px;
-    width: 100%;
-    max-width: 420px; /* Laptop pe width control karega */
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--accent); border-radius: 25px;
+    padding: 25px; width: 100%; max-width: 500px; 
+    text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.7);
 }
 
-.img-frame { width: 100%; border-radius: 15px; overflow: hidden; margin-bottom: 15px; }
+/* --- LAPTOP PHOTO CUTTING FIX --- */
+.img-frame { 
+    width: 100%; 
+    height: 350px; /* Mobile ke liye height */
+    background: rgba(0,0,0,0.3); /* Khali jagah pe halka black */
+    border-radius: 15px; 
+    overflow: hidden; 
+    margin-bottom: 15px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
 
 .blur-reveal { 
-    width: 100%; 
-    height: auto; 
-    max-height: 300px;
-    object-fit: cover;
+    max-width: 100%; 
+    max-height: 100%; 
+    width: auto; /* Photo ki asli width maintain karega */
+    height: auto; /* Photo ki asli height maintain karega */
+    object-fit: contain; /* Sabse important: photo kategi nahi */
     filter: blur(15px); 
     transition: 1.5s ease; 
 }
 .blur-reveal:hover { filter: blur(0); }
 
-#day-title { font-size: 1.8rem; color: var(--accent); margin: 15px 0; }
-
-.message-scroll { 
-    max-height: 150px; 
-    overflow-y: auto; 
-    margin-bottom: 20px; 
-    padding: 0 5px;
+/* Laptop/Large Screens Adjustment */
+@media (min-width: 768px) {
+    .glass-container { max-width: 600px; padding: 30px; }
+    .img-frame { 
+        height: 450px; /* Laptop pe frame bada kar diya */
+    }
 }
 
-#day-message { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; }
-
+/* Baaki ka code as-it-is */
+#day-title { font-size: 1.8rem; color: var(--accent); margin: 15px 0; font-family: 'Great Vibes', cursive; }
+.message-scroll { max-height: 120px; overflow-y: auto; margin-bottom: 20px; padding: 0 10px; }
+#day-message { font-size: 1rem; line-height: 1.6; opacity: 0.9; }
 .player-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-
 .audio-box { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 15px; }
 .audio-box span { font-size: 0.7rem; color: var(--accent); display: block; margin-bottom: 5px; }
-
 audio { width: 100%; height: 30px; filter: invert(1); }
-
-.heart-btn { 
-    background: var(--accent); 
-    border: none; 
-    border-radius: 50px; 
-    padding: 12px 25px; 
-    cursor: pointer; 
-    font-weight: bold;
-    transition: 0.3s ease;
-}
-
-.hidden { display: none; margin-top: 15px; font-style: italic; color: var(--accent); font-size: 0.9rem; }
-.hidden.show { display: block; animation: fadeIn 0.5s; }
-
+.heart-btn { background: var(--accent); border: none; border-radius: 50px; padding: 12px 25px; cursor: pointer; font-weight: bold; color: black; }
+.hidden { display: none; margin-top: 15px; font-style: italic; color: var(--accent); }
+.hidden.show { display: block; }
 .back { display: block; margin-top: 20px; color: #666; text-decoration: none; font-size: 0.8rem; }
-
-/* Desktop/Laptop adjustments */
-@media (min-width: 768px) {
-    .glass-container { max-width: 500px; padding: 40px; }
-    #day-title { font-size: 2.2rem; }
-}
-
-@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
