@@ -8,9 +8,9 @@ const loveDays = {
         voice: "assets/audio/muskan-message.mp3.mpeg"
     },
     "2": {
-        title: "Wo Pehli Coffee",
+        title: "Wo Pehli nazer",
         date: "15 February 2024",
-        message: "Coffee toh bahana tha, mujhe toh bas tumhari baatein sunni thi. Tumhare saath har pal sukoon deta hai.",
+        message: "jab se tumhe dekha hai sab kuch khubsurat lagne laga hai .",
         image: "assets/images/photo2.jpg",
         song: "assets/audio/bg-music.mp3",
         voice: "" 
