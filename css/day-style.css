@@ -2,63 +2,72 @@
 
 body { 
     background: #000; color: white; font-family: 'Montserrat', sans-serif; 
-    margin: 0; overflow-x: hidden; min-height: 100vh;
+    margin: 0; padding: 0; min-height: 100vh;
+    display: flex; justify-content: center; align-items: center;
 }
 
 .main-wrapper {
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh; padding: 20px;
+    width: 100%; max-width: 1200px; padding: 20px;
+    display: flex; justify-content: center;
 }
 
 .glass-container {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--accent); border-radius: 25px;
-    padding: 25px; width: 100%; max-width: 500px; 
+    padding: 20px; width: 100%; 
+    max-width: 450px; /* Isse card laptop pe bohot bada nahi hoga */
     text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.7);
 }
 
-/* --- LAPTOP PHOTO CUTTING FIX --- */
+/* --- LAPTOP PHOTO FIX (NO CROP) --- */
 .img-frame { 
-    width: 100%; 
-    height: 350px; /* Mobile ke liye height */
-    background: rgba(0,0,0,0.3); /* Khali jagah pe halka black */
-    border-radius: 15px; 
-    overflow: hidden; 
-    margin-bottom: 15px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    /* Isse photo ke upar-niche extra space nahi bachega */
+    display: block; 
 }
 
 .blur-reveal { 
-    max-width: 100%; 
-    max-height: 100%; 
-    width: auto; /* Photo ki asli width maintain karega */
-    height: auto; /* Photo ki asli height maintain karega */
-    object-fit: contain; /* Sabse important: photo kategi nahi */
+    width: 100%;      /* Puri width lega card ki */
+    height: auto;     /* Height apne aap photo ke hisab se set hogi */
+    display: block;   /* Extra bottom space khatam karega */
+    object-fit: contain; 
     filter: blur(15px); 
-    transition: 1.5s ease; 
+    transition: 1.5s ease;
+    border-radius: 15px;
 }
 .blur-reveal:hover { filter: blur(0); }
 
-/* Laptop/Large Screens Adjustment */
-@media (min-width: 768px) {
-    .glass-container { max-width: 600px; padding: 30px; }
-    .img-frame { 
-        height: 450px; /* Laptop pe frame bada kar diya */
-    }
+/* --- TEXT & SCROLL FIX --- */
+#day-title { font-size: 1.8rem; color: var(--accent); margin: 15px 0; font-family: 'Great Vibes', cursive; }
+
+.message-scroll { 
+    max-height: 150px; /* Laptop pe message box chota rakha hai */
+    overflow-y: auto; 
+    margin-bottom: 20px; 
+    padding: 0 10px;
+    text-align: center;
 }
 
-/* Baaki ka code as-it-is */
-#day-title { font-size: 1.8rem; color: var(--accent); margin: 15px 0; font-family: 'Great Vibes', cursive; }
-.message-scroll { max-height: 120px; overflow-y: auto; margin-bottom: 20px; padding: 0 10px; }
-#day-message { font-size: 1rem; line-height: 1.6; opacity: 0.9; }
+#day-message { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; word-wrap: break-word; }
+
+/* --- AUDIO SECTION --- */
 .player-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.audio-box { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 15px; }
-.audio-box span { font-size: 0.7rem; color: var(--accent); display: block; margin-bottom: 5px; }
-audio { width: 100%; height: 30px; filter: invert(1); }
-.heart-btn { background: var(--accent); border: none; border-radius: 50px; padding: 12px 25px; cursor: pointer; font-weight: bold; color: black; }
+.audio-box { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.1); }
+audio { width: 100%; height: 35px; filter: invert(1); }
+
+/* --- BUTTONS --- */
+.heart-btn { background: var(--accent); border: none; border-radius: 50px; padding: 12px 25px; cursor: pointer; font-weight: bold; color: black; margin-bottom: 10px; }
 .hidden { display: none; margin-top: 15px; font-style: italic; color: var(--accent); }
 .hidden.show { display: block; }
 .back { display: block; margin-top: 20px; color: #666; text-decoration: none; font-size: 0.8rem; }
+
+/* Desktop adjustments: Card ko screen ke hisab se center mein rakhta hai */
+@media (min-width: 1024px) {
+    .glass-container {
+        max-width: 480px; /* Laptop pe card size perfect rakha hai */
+    }
+}
