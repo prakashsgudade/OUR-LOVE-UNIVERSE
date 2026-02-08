@@ -1,26 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Memory | ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/day-style.css">
 </head>
 <body id="dynamic-body">
-    <div id="cursor-star"></div> <div class="glass-container" id="main-layout">
-        <img id="day-img" class="blur-reveal" src="">
-        <h1 id="day-title" class="parallax-text"></h1>
-        <p id="day-message"></p>
-        
-        <div class="player-section">
-            <audio id="bg-music" controls loop></audio>
-            <div id="voice-section">
-                <span>🎤 Voice Message</span>
-                <audio id="voice-note" controls></audio>
+    
+    <div class="main-wrapper">
+        <div class="glass-container" id="main-layout">
+            <div class="img-frame">
+                <img id="day-img" class="blur-reveal" src="" alt="Memory Photo">
             </div>
-        </div>
+            
+            <h1 id="day-title"></h1>
+            <div class="message-scroll">
+                <p id="day-message"></p>
+            </div>
+            
+            <div class="player-section">
+                <div class="audio-box">
+                    <span>🎵 Background Music</span>
+                    <audio id="bg-music" controls loop preload="auto"></audio>
+                </div>
+                <div id="voice-section" class="audio-box">
+                    <span>🎤 Voice Message</span>
+                    <audio id="voice-note" controls preload="metadata"></audio>
+                </div>
+            </div>
 
-        <button onclick="revealSecret()" class="heart-btn">❤️ Tap to Reveal</button>
-        <div id="secret-msg" class="hidden"></div>
-        
-        <a href="chapters.html" class="back">Back to Timeline</a>
+            <button onclick="revealSecret()" class="heart-btn">❤️ Tap to Reveal</button>
+            <div id="secret-msg" class="hidden"></div>
+            
+            <a href="chapters.html" class="back">← Back to Timeline</a>
+        </div>
     </div>
 
     <script src="js/days-data.js"></script>
