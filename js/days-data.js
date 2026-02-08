@@ -1,19 +1,19 @@
 const loveDays = {
     "1": {
-        title: "Day 1: Pehli Nazar",
-        date: "12 Feb 2024",
-        message: "Yahan apna lamba message likho jo tum Muskan ko batana chahte ho.",
+        title: "Hamari Pehli Mulakat",
+        date: "12 February 2024",
+        message: "Muskan, us din jab maine tumhe pehli baar dekha tha, waqt tham gaya tha. Tumhari wo smile... mujhe aaj bhi yaad hai.",
         image: "assets/images/photo1.jpg",
         song: "assets/audio/our-song.mp3",
         voice: "assets/audio/muskan-message.mp3.mpeg"
     },
     "2": {
-        title: "Day 2: Wo Haseen Shaam",
-        date: "14 Feb 2024",
-        message: "Jo bhi tumne us din feel kiya...",
+        title: "Wo Pehli Coffee",
+        date: "15 February 2024",
+        message: "Coffee toh bahana tha, mujhe toh bas tumhari baatein sunni thi. Tumhare saath har pal sukoon deta hai.",
         image: "assets/images/photo2.jpg",
         song: "assets/audio/bg-music.mp3",
         voice: "" 
     }
-    // Aise hi "3", "4" karke unlimited add karte jao...
+    // Iske niche "3", "4" karke unlimited add kar sakte ho
 };
