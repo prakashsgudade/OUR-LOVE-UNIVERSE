@@ -2,16 +2,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title id="title">Day</title>
+<title>Day</title>
 
 <link rel="stylesheet" href="css/day-style.css">
+
 </head>
 
 <body>
 
-<div id="dayContainer"></div>
+<!-- Galaxy Background -->
+<canvas id="galaxy"></canvas>
+
+<!-- Unlock Screen -->
+<div id="unlock">
+    <div id="rose">🌹</div>
+    <p>Tap to reveal memory</p>
+</div>
+
+<!-- Main Content -->
+<div id="content"></div>
 
 <script src="data/days-data.js"></script>
+<script src="js/galaxy.js"></script>
 <script src="js/day-engine.js"></script>
 
 </body>
