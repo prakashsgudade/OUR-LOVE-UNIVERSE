@@ -1,98 +1,95 @@
-body{
-margin:0;
-font-family:Montserrat;
-overflow:hidden;
-color:white;
+:root {
+    --gold: #ffd700;
+    --dark: #050505;
+    --glass: rgba(255, 255, 255, 0.1);
 }
 
-/* Galaxy canvas */
-#galaxy{
-position:fixed;
-z-index:-1;
+body {
+    background-color: var(--dark);
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* Unlock */
-#unlock{
-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
+/* Glassmorphism Card */
+.main-card {
+    width: 90%;
+    max-width: 400px;
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border-radius: 30px;
+    padding: 20px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+    animation: fadeIn 1.5s ease;
 }
 
-#rose{
-font-size:80px;
-cursor:pointer;
-animation:float 2s infinite;
+.image-section img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border: 2px solid var(--gold);
 }
 
-@keyframes float{
-50%{transform:translateY(-20px)}
+#day-title {
+    font-family: 'Dancing Script', cursive;
+    color: var(--gold);
+    font-size: 2rem;
+    margin: 15px 0 5px 0;
 }
 
-/* Content */
-#content{
-display:none;
-padding:40px;
+#day-date {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: #ccc;
 }
 
-/* Flip Cards */
-
-.card{
-width:280px;
-height:350px;
-perspective:1000px;
-margin:20px;
-display:inline-block;
+#day-message {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-weight: 300;
 }
 
-.inner{
-width:100%;
-height:100%;
-transition:1s;
-transform-style:preserve-3d;
+.music-box {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 20px;
 }
 
-.card:hover .inner{
-transform:rotateY(180deg);
+.player-row {
+    margin-bottom: 10px;
 }
 
-.front,.back{
-position:absolute;
-width:100%;
-height:100%;
-backface-visibility:hidden;
-border-radius:20px;
-padding:20px;
+.player-row span {
+    font-size: 0.7rem;
+    display: block;
+    margin-bottom: 5px;
+    color: var(--gold);
 }
 
-.front{
-background:#111;
+audio {
+    width: 100%;
+    height: 30px;
+    filter: sepia(100%) saturate(200%) hue-rotate(40deg); /* Gold theme player */
 }
 
-.back{
-background:#300;
-transform:rotateY(180deg);
-}
-/* THEMES */
-
-body.romantic{
- background:linear-gradient(45deg,#ff9a9e,#fad0c4);
-}
-
-body.dark{
- background:#0a0a0a;
- color:white;
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.8rem;
+    opacity: 0.6;
 }
 
-body.galaxy{
- background:radial-gradient(circle,#0f2027,#203a43,#2c5364);
-}
-
-body.dream{
- background:linear-gradient(60deg,#a1c4fd,#c2e9fb);
-}
-
-body.memory{
- background:#fdf6e3;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
