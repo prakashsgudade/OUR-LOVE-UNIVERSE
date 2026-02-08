@@ -1,24 +1,60 @@
-body, html {
-    margin: 0; padding: 0; 
-    min-height: 100%; width: 100%;
-    background-color: #050505;
-    color: white; font-family: 'Montserrat', sans-serif;
-    overflow-x: hidden; /* Mobile pe side scroll rokne ke liye */
+:root { --accent: #d4af37; }
+
+body { 
+    background: #000; color: white; font-family: 'Montserrat', sans-serif; 
+    margin: 0; overflow-x: hidden; min-height: 100vh;
 }
 
-.gate {
-    min-height: 100vh; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    background: radial-gradient(circle, #1a0b0b 0%, #000 100%);
-    padding: 20px; /* Mobile edges se gap ke liye */
-    box-sizing: border-box;
+.main-wrapper {
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; padding: 15px;
 }
 
-.main-content { 
-    text-align: center; 
-    z-index: 10; 
-    width: 100%;
-    max-width: 800px; /* Laptop pe bahut phele na */
+.glass-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--accent); border-radius: 25px;
+    padding: 25px; width: 100%; max-width: 450px; 
+    text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+}
+
+/* --- PHOTO FIX FOR LAPTOP --- */
+.img-frame { 
+    width: 100%; 
+    height: 300px; /* Ek fixed height rakhi hai */
+    background: #111; /* Khali jagah pe black background */
+    border-radius: 15px; overflow: hidden; margin-bottom: 15px; 
+    display: flex; align-items: center; justify-content: center;
+}
+
+.blur-reveal { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; /* Isse photo kategi nahi, puri fit hogi */
+    filter: blur(15px); transition: 1.5s ease; 
+}
+.blur-reveal:hover { filter: blur(0); }
+
+#day-title { font-size: 1.8rem; color: var(--accent); margin: 15px 0; }
+.message-scroll { max-height: 150px; overflow-y: auto; margin-bottom: 20px; }
+#day-message { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; }
+
+/* Audio Players */
+.player-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.audio-box { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 15px; }
+audio { width: 100%; height: 30px; filter: invert(1); }
+
+.heart-btn { 
+    background: var(--accent); border: none; border-radius: 50px; 
+    padding: 12px 25px; cursor: pointer; font-weight: bold;
+}
+
+.hidden { display: none; margin-top: 15px; font-style: italic; color: var(--accent); }
+.hidden.show { display: block; }
+.back { display: block; margin-top: 20px; color: #666; text-decoration: none; }
+
+/* Laptop Specific Adjustments */
+@media (min-width: 768px) {
+    .glass-container { max-width: 550px; padding: 40px; }
+    .img-frame { height: 400px; } /* Laptop pe thoda bada frame */
 }
