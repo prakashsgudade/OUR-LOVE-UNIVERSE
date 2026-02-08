@@ -2,50 +2,98 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Message For You</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Message For You | ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <style>
         body { 
             background: radial-gradient(circle at center, #1a0000 0%, #000 100%); 
-            color: #fff; height: 100vh;
-            display: flex; justify-content: center; align-items: center;
-            margin: 0; font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
+            color: #fff; 
+            min-height: 100vh;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            margin: 0; 
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden; /* Prevent scrolling during typewriter */
+            padding: 20px;
+            box-sizing: border-box;
         }
+
+        /* Heart Beat in background - Responsive Size */
+        .heart-bg {
+            position: absolute; 
+            font-size: clamp(20rem, 80vw, 50rem); /* Mobile pe chota, laptop pe bada */
+            color: rgba(212, 175, 55, 0.03);
+            z-index: -1; 
+            animation: beat 3s infinite;
+            user-select: none;
+        }
+
         .container { 
-            max-width: 600px; padding: 40px; text-align: center; 
+            width: 100%;
+            max-width: 650px; /* Laptop pe width limit */
+            padding: clamp(20px, 5vw, 50px); /* Responsive padding */
+            text-align: center; 
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); /* iPhone support */
             border-radius: 30px;
             border: 1px solid rgba(212, 175, 55, 0.1);
             position: relative;
             z-index: 10;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
+
         #typewriter { 
-            font-family: 'Great Vibes'; font-size: 2.2rem; 
-            color: #ffb3b3; line-height: 1.6; min-height: 180px; 
+            font-family: 'Great Vibes', cursive; 
+            /* Clamp font size: Mobile (1.6rem) to Desktop (2.5rem) */
+            font-size: clamp(1.6rem, 6vw, 2.5rem); 
+            color: #ffb3b3; 
+            line-height: 1.5; 
+            min-height: 200px; /* Text jump na kare isliye fixed space */
             text-shadow: 0 0 10px rgba(255, 179, 179, 0.2);
+            word-wrap: break-word;
         }
         
         .btn-hidden {
-            display: inline-block; margin-top: 50px; text-decoration: none;
-            color: #d4af37; border: 1px solid #d4af37; padding: 12px 30px;
-            border-radius: 25px; font-size: 0.8rem; letter-spacing: 2px;
-            opacity: 0; transform: translateY(20px);
-            transition: all 1s ease;
+            display: inline-block; 
+            margin-top: 40px; 
+            text-decoration: none;
+            color: #d4af37; 
+            border: 1px solid #d4af37; 
+            padding: 12px 35px;
+            border-radius: 50px; 
+            font-size: 0.8rem; 
+            letter-spacing: 2px;
+            opacity: 0; 
+            transform: translateY(20px);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: bold;
+            text-transform: uppercase;
         }
-        .btn-show { opacity: 1; transform: translateY(0); }
-        .btn-hidden:hover { background: #d4af37; color: #000; box-shadow: 0 0 20px #d4af37; }
 
-        /* Heart Beat in background */
-        .heart-bg {
-            position: absolute; font-size: 50rem; color: rgba(212, 175, 55, 0.02);
-            z-index: -1; animation: beat 3s infinite;
+        .btn-show { 
+            opacity: 1; 
+            transform: translateY(0); 
         }
+
+        .btn-hidden:hover { 
+            background: #d4af37; 
+            color: #000; 
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); 
+            transform: scale(1.05);
+        }
+
         @keyframes beat {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .container { padding: 30px 15px; border-radius: 20px; }
+            #typewriter { min-height: 250px; } /* Extra space for long text on mobile */
         }
     </style>
 </head>
@@ -58,22 +106,27 @@
     </div>
 
     <script>
-        const text = "Suno, ye website maine isliye nahi banayi ki main coding jaanta hoon... Ye maine isliye banayi kyunki tumhare liye meri feelings itni zyada hain ki wo ek message mein fit nahi aati. Har din yahan ek naya raaz khulega... sirf tumhare liye.";
+        const text = "Suno, ye website maine isliye nahi banayi ki main coding jaanta hoon... Ye maine isliye banayi kyunki mai tumse bahot pyar karta hu ab shayad tum soch rahi hogi ki pyar karta hu to dil mai rakho na mujhe kyu pareshan karte fir rahe ho ,mai tumhe batata hu,  ager mai thoda sa pyar karta to chupa leta ,lekin jyada hai to kaise chupau . mera pyar tumhre liye bahot jyada  is liye tumhare liye meri feelings itni zyada hain ki wo ek message mein fit nahi aati. Har din yahan ek naya raaz khulega... sirf tumhare liye.";
         let i = 0;
+        
         function typeWriter() {
             if (i < text.length) {
                 document.getElementById("typewriter").innerHTML += text.charAt(i);
                 i++;
-                // Natural typing delay logic
-                let speed = text.charAt(i-1) === '.' ? 500 : 60;
+                
+                // Dot par thoda pause, baaki normal speed
+                let speed = text.charAt(i-1) === '.' ? 600 : 50;
                 setTimeout(typeWriter, speed);
             } else {
-                // Show button after typing is complete
                 const btn = document.getElementById('nextBtn');
                 btn.classList.add('btn-show');
             }
         }
-        window.onload = typeWriter;
+
+        // Ensuring the page is fully loaded before starting
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 1000); // 1 second ka initial delay feel ke liye
+        });
     </script>
 </body>
 </html>
