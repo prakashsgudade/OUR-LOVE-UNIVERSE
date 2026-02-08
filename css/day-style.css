@@ -1,22 +1,64 @@
-:root { --accent: #d4af37; }
-body { background: #000; color: white; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-
-.glass-container {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    border: 1px solid var(--accent);
-    border-radius: 20px;
-    padding: 30px; margin: 50px auto; width: 85%; max-width: 400px;
-    text-align: center;
+:root {
+    --accent: #d4af37;
 }
 
-/* Cinematic Transitions */
-.blur-reveal { filter: blur(20px); transition: 2s; width: 100%; border-radius: 15px; }
-.blur-reveal:hover { filter: blur(0); }
+body, html {
+    margin: 0; padding: 0; background: #000;
+    font-family: 'Montserrat', sans-serif; color: white;
+    overflow-x: hidden;
+}
 
-/* Layouts */
-.polaroid img { padding: 10px 10px 40px; background: white; transform: rotate(-3deg); color: black; }
+/* Parallax Effect */
+.parallax-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    filter: brightness(0.6);
+}
 
-.heart-btn { background: var(--accent); border: none; border-radius: 50px; padding: 10px 20px; cursor: pointer; }
-.hidden { display: none; margin-top: 15px; font-style: italic; color: var(--accent); }
-.hidden.show { display: block; }
+.scroll-wrapper {
+    width: 100%;
+    display: flex; flex-direction: column; align-items: center;
+}
+
+.spacer { height: 60vh; } /* 60% screen par sirf photo dikhegi */
+
+.content-card {
+    width: 90%; max-width: 500px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(15px);
+    padding: 40px 20px;
+    border-radius: 40px 40px 0 0;
+    border: 1px solid var(--accent);
+    border-bottom: none;
+    text-align: center;
+    box-shadow: 0 -10px 30px rgba(212, 175, 55, 0.2);
+}
+
+#day-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.5rem; color: var(--accent);
+    margin-bottom: 20px;
+}
+
+#day-message {
+    font-size: 1.1rem; line-height: 1.8;
+    margin-bottom: 30px; opacity: 0.9;
+}
+
+.audio-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px; border-radius: 20px; margin-bottom: 15px;
+}
+
+.audio-box span { font-size: 0.8rem; color: var(--accent); display: block; margin-bottom: 8px; }
+
+audio { width: 100%; height: 35px; filter: invert(1); }
+
+.back-link {
+    display: inline-block; margin-top: 30px;
+    color: var(--accent); text-decoration: none; font-size: 0.9rem;
+}
