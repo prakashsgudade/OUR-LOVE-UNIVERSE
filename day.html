@@ -1,141 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Day Memory</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-margin:0;
-font-family:Montserrat;
-color:white;
-transition:1s;
-}
-
-/* THEMES (auto change per day) */
-.romantic{background:linear-gradient(45deg,#ff416c,#ff4b2b);}
-.dark{background:linear-gradient(45deg,#141e30,#243b55);}
-.galaxy{background:black url("assets/images/stars.jpg") center/cover;}
-.dream{background:linear-gradient(45deg,#8e2de2,#4a00e0);}
-.memory{background:linear-gradient(45deg,#42275a,#734b6d);}
-
-/* CONTENT BOX */
-.container{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:20px;
-animation:fade 1.2s ease;
-}
-
-@keyframes fade{
-from{opacity:0; transform:translateY(30px);}
-to{opacity:1;}
-}
-
-h1{
-font-family:Cinzel;
-font-size:42px;
-margin-bottom:10px;
-}
-
-p{
-max-width:500px;
-font-size:18px;
-}
-
-/* IMAGE STYLE RANDOM */
-.img{
-margin-top:20px;
-max-width:80%;
-border-radius:20px;
-box-shadow:0 0 20px rgba(0,0,0,.6);
-transition:1s;
-}
-
-.rotate{transform:rotate(-4deg)}
-.zoom{transform:scale(1.05)}
-.circle{border-radius:50%}
-
-.message{
-margin-top:20px;
-font-size:20px;
-color:gold;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Muskan ❤️</title>
+    <link rel="stylesheet" href="css/day-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<div class="container">
+    <div class="stars-container"></div> <div class="main-card">
+        <div class="glass-header">
+            <span id="day-date"></span>
+        </div>
 
-<h1 id="title"></h1>
-<p id="text"></p>
+        <div class="image-section">
+            <img id="day-img" src="" alt="Our Memory">
+        </div>
 
-<img id="photo" class="img">
+        <div class="content-section">
+            <h1 id="day-title"></h1>
+            <p id="day-message"></p>
+        </div>
 
-<div id="msg" class="message"></div>
+        <div class="music-box">
+            <div class="player-row">
+                <span>🎵 Background Music</span>
+                <audio id="bg-music" controls loop></audio>
+            </div>
+            
+            <div id="voice-section" class="player-row">
+                <span>🎤 Muskan's Voice Note</span>
+                <audio id="voice-note" controls></audio>
+            </div>
+        </div>
 
-</div>
+        <a href="chapters.html" class="back-link">← Back to Our Universe</a>
+    </div>
 
-<script src="js/days-data.js"></script>
-
-<script>
-
-// GET DAY NUMBER
-const day = localStorage.getItem("currentDay") || 1;
-
-// LOAD DATA
-const data = DAYS[day] || {
-title:"Future Memory",
-text:"Ye din abhi likhna baaki hai ❤️",
-img:"assets/images/photo1.jpg"
-};
-
-// SHOW CONTENT
-document.getElementById("title").innerText =
-"Day "+day+" — "+data.title;
-
-document.getElementById("text").innerText =
-data.text;
-
-document.getElementById("photo").src =
-data.img;
-
-
-// ===== AUTO THEME =====
-const themes=["romantic","dark","galaxy","dream","memory"];
-document.body.classList.add(themes[day%themes.length]);
-
-
-// ===== IMAGE STYLE RANDOM =====
-const styles=["rotate","zoom","circle"];
-document.getElementById("photo")
-.classList.add(styles[day%styles.length]);
-
-
-// ===== MESSAGE SURPRISE =====
-const messages=[
-"Yeh pal special hai ✨",
-"Tum yaad ho ❤️",
-"Ek aur kahani likh di 🖊️",
-"Dil ne save kar liya 💾",
-"Forever memory 🌙"
-];
-
-document.getElementById("msg").innerText =
-messages[Math.floor(Math.random()*messages.length)];
-
-</script>
-
+    <script src="js/days-data.js"></script>
+    <script src="js/day-engine.js"></script>
 </body>
 </html>
