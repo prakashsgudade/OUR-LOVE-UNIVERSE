@@ -1,27 +1,29 @@
 window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const dayId = urlParams.get('d'); // URL se 'd' leta hai (e.g., day.html?d=1)
-    const data = loveDays[dayId];
+    const params = new URLSearchParams(window.location.search);
+    const d = params.get('d');
+    const data = loveDays[d];
 
     if (data) {
+        // Photo ko background mein set karna
+        document.getElementById('parallax-img').style.backgroundImage = `url(${data.image})`;
+        
+        // Text bharna
         document.getElementById('day-title').innerText = data.title;
         document.getElementById('day-message').innerText = data.message;
-        document.getElementById('day-img').src = data.image;
         document.getElementById('bg-music').src = data.song;
-        
-        // Dynamic Styles
-        document.documentElement.style.setProperty('--accent', data.theme);
-        document.getElementById('main-layout').className = `glass-container ${data.layout}`;
 
-        if(data.voice) document.getElementById('voice-note').src = data.voice;
-        else document.getElementById('voice-section').style.display = "none";
+        // Theme color set karna agar data mein hai
+        if(data.theme) {
+            document.documentElement.style.setProperty('--accent', data.theme);
+        }
 
-        window.secret = data.hidden;
+        // Voice Note check
+        if(data.voice) {
+            document.getElementById('voice-note').src = data.voice;
+        } else {
+            document.getElementById('voice-section').style.display = 'none';
+        }
+    } else {
+        document.body.innerHTML = "<h1 style='color:white; text-align:center; margin-top:100px;'>Coming Soon, Muskan... ❤️</h1>";
     }
-}
-
-function revealSecret() {
-    const box = document.getElementById('secret-msg');
-    box.innerText = window.secret;
-    box.classList.toggle('show');
 }
