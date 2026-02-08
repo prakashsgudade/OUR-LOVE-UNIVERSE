@@ -1,6 +1,6 @@
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const dayId = urlParams.get('d');
+    const dayId = urlParams.get('d'); // URL se 'd' leta hai (e.g., day.html?d=1)
     const data = loveDays[dayId];
 
     if (data) {
@@ -8,28 +8,20 @@ window.onload = function() {
         document.getElementById('day-message').innerText = data.message;
         document.getElementById('day-img').src = data.image;
         document.getElementById('bg-music').src = data.song;
+        
+        // Dynamic Styles
+        document.documentElement.style.setProperty('--accent', data.theme);
+        document.getElementById('main-layout').className = `glass-container ${data.layout}`;
 
-        // Theme color handle
-        if(data.theme) document.documentElement.style.setProperty('--accent', data.theme);
+        if(data.voice) document.getElementById('voice-note').src = data.voice;
+        else document.getElementById('voice-section').style.display = "none";
 
-        // Voice Note handle
-        if(data.voice && data.voice !== "") {
-            document.getElementById('voice-note').src = data.voice;
-        } else {
-            document.getElementById('voice-section').style.display = "none";
-        }
-
-        window.secretData = data.hidden;
-    } else {
-        document.getElementById('main-layout').innerHTML = `
-            <h2 style="color:var(--accent)">Coming Soon...</h2>
-            <p>Bhai, Day ${dayId} ka data abhi add nahi kiya tune!</p>
-            <a href="chapters.html" style="color:white">Back</a>`;
+        window.secret = data.hidden;
     }
 }
 
 function revealSecret() {
     const box = document.getElementById('secret-msg');
-    box.innerText = window.secretData;
+    box.innerText = window.secret;
     box.classList.toggle('show');
 }
