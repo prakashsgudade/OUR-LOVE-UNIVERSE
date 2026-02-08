@@ -14,6 +14,7 @@ margin:0;
 font-family:Montserrat;
 color:white;
 overflow-x:hidden;
+transition:background 1s ease;
 }
 
 /* GALAXY CANVAS */
@@ -57,6 +58,10 @@ border:1px solid rgba(255,255,255,0.08);
 .box:hover{
 transform:translateY(-8px) scale(1.02);
 box-shadow:0 0 25px rgba(255,215,0,0.4);
+}
+
+.secret-unlocked{
+box-shadow:0 0 35px hotpink;
 }
 
 img{
@@ -111,15 +116,16 @@ document.getElementById("title").innerHTML="Day "+day;
 
 // ===== AUTO THEMES =====
 const themes=[
-"#0f2027,#203a43,#2c5364",
-"#1a0b0b,#000000",
-"#141e30,#243b55",
-"#42275a,#734b6d",
-"#000428,#004e92"
+["#0f2027","#203a43","#2c5364"],
+["#1a0b0b","#000000","#330000"],
+["#141e30","#243b55","#1c1c1c"],
+["#42275a","#734b6d","#000000"],
+["#000428","#004e92","#000"]
 ];
 
+const t = themes[day % themes.length];
 document.body.style.background=
-`linear-gradient(160deg,${themes[day%themes.length]})`;
+`linear-gradient(160deg, ${t[0]}, ${t[1]}, ${t[2]})`;
 
 
 // ===== MESSAGE ENGINE =====
@@ -132,13 +138,14 @@ const msgs=[
 ];
 
 document.getElementById("msg").innerHTML=
-msgs[day%msgs.length];
+msgs[day % msgs.length];
 
 
 // ===== IMAGE ROTATOR =====
 const imgIndex=(day%2)+1;
-document.getElementById("autoImg").src=
-`assets/images/photo${imgIndex}.jpg`;
+const imgEl=document.getElementById("autoImg");
+imgEl.src=`assets/images/photo${imgIndex}.jpg`;
+imgEl.onerror=()=>imgEl.src="assets/images/background.jpg";
 
 
 // ===== AUDIO ROTATOR =====
@@ -147,11 +154,20 @@ const tracks=[
 "assets/audio/our-song.mp3"
 ];
 
-document.getElementById("v").src=
-tracks[day%tracks.length];
+const audio=document.getElementById("v");
+audio.src=tracks[day % tracks.length];
 
 function play(){
-document.getElementById("v").play();
+audio.volume=0;
+audio.play();
+
+let fade=setInterval(()=>{
+if(audio.volume<1){
+audio.volume+=0.05;
+}else{
+clearInterval(fade);
+}
+},100);
 }
 
 
@@ -161,11 +177,20 @@ const wrap=document.querySelector(".wrap");
 for(let i=0;i<3;i++){
 let b=document.createElement("div");
 b.className="box";
-b.innerHTML=
-`
+
+b.innerHTML=`
 <h3>Secret Memory ${i+1}</h3>
-<p>Day ${day} ki hidden feeling #${i+1}</p>
+<p>Tap to reveal hidden feeling</p>
 `;
+
+b.onclick=()=>{
+b.classList.add("secret-unlocked");
+b.innerHTML=`
+<h3>Unlocked ❤️</h3>
+<p>Day ${day} — Hidden Emotion #${i+1}</p>
+`;
+};
+
 wrap.appendChild(b);
 }
 
@@ -173,12 +198,21 @@ wrap.appendChild(b);
 // ===== GALAXY BACKGROUND =====
 const c=document.getElementById("space");
 const ctx=c.getContext("2d");
+
+function resize(){
 c.width=innerWidth;
 c.height=innerHeight;
+}
+resize();
+window.addEventListener("resize",resize);
 
 let stars=[];
 for(let i=0;i<120;i++){
-stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5});
+stars.push({
+x:Math.random()*c.width,
+y:Math.random()*c.height,
+r:Math.random()*1.5
+});
 }
 
 function anim(){
@@ -201,5 +235,4 @@ anim();
 </script>
 
 </body>
- 
 </html>
