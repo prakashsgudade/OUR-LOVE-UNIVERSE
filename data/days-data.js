@@ -1,27 +1,24 @@
-const DAYS = {
+const DAYS={
 
 1:{
-    theme:"gold",
-    title:"The Beginning",
-    image:"assets/images/photo1.jpg",
-    music:"assets/audio/song1.mp3",
-    text:"Yahan se kahani shuru hui..."
+emotion:1,
+title:"First Spark",
+text:"Yahi se sab shuru hua",
+img:"assets/images/photo1.jpg"
 },
 
 2:{
-    theme:"rose",
-    title:"First Smile",
-    image:"assets/images/photo2.jpg",
-    music:"assets/audio/song2.mp3",
-    text:"Tumhari muskan..."
+emotion:2,
+title:"Attachment",
+text:"Dil aadat ban gaya",
+img:"assets/images/photo2.jpg"
 },
 
 3:{
-    theme:"dark",
-    title:"Secret Memory",
-    image:"assets/images/photo3.jpg",
-    music:"assets/audio/song3.mp3",
-    text:"Ek pal jo sirf hamara tha..."
+emotion:3,
+title:"Deep Bond",
+text:"Ab tum sirf tum nahi ho",
+img:"assets/images/photo3.jpg"
 }
 
 }
