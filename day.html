@@ -3,39 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Muskan ❤️</title>
+    <title>For My Muskan</title>
     <link rel="stylesheet" href="css/day-style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="galaxy-bg"></div>
 
-    <div class="stars-container"></div> <div class="main-card">
-        <div class="glass-header">
-            <span id="day-date"></span>
+    <div id="main-card" class="card">
+        <div class="media-container">
+            <img id="day-img" src="" alt="Memory">
         </div>
-
-        <div class="image-section">
-            <img id="day-img" src="" alt="Our Memory">
-        </div>
-
-        <div class="content-section">
+        
+        <div class="content">
             <h1 id="day-title"></h1>
             <p id="day-message"></p>
-        </div>
-
-        <div class="music-box">
-            <div class="player-row">
-                <span>🎵 Background Music</span>
+            
+            <div class="player">
+                <span>🎵 Background Song</span>
                 <audio id="bg-music" controls loop></audio>
             </div>
-            
-            <div id="voice-section" class="player-row">
-                <span>🎤 Muskan's Voice Note</span>
+
+            <div id="voice-section" class="player">
+                <span>🎤 Voice Message</span>
                 <audio id="voice-note" controls></audio>
             </div>
-        </div>
 
-        <a href="chapters.html" class="back-link">← Back to Our Universe</a>
+            <a href="chapters.html" class="back">Back to Timeline</a>
+        </div>
     </div>
 
     <script src="js/days-data.js"></script>
