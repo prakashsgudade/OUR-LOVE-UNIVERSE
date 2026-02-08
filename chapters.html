@@ -23,7 +23,6 @@
         .gate { min-height:100vh; display:flex; justify-content:center; padding:20px; box-sizing:border-box; }
         .main-content { text-align:center; z-index:10; width:100%; max-width:900px; position:relative; }
 
-        /* --- SEARCH BAR FIXED --- */
         .search-container { 
             margin: 20px auto 40px auto; 
             position: relative; 
@@ -61,7 +60,6 @@
         .node-dot { position:absolute; left:50%; transform:translateX(-50%); width:15px; height:15px; background:#000; border:2px solid var(--gold); border-radius:50%; box-shadow:0 0 15px var(--gold); z-index: 6; }
 
         .card:hover { transform:translateY(-10px); border-color:var(--gold); box-shadow:0 0 30px rgba(212,175,55,0.2); }
-        .locked { opacity:.35; pointer-events:none; filter:grayscale(1); }
 
         .nav-arrow { 
             position:fixed; right:20px; width:45px; height:45px; border-radius:50%; 
@@ -113,8 +111,6 @@
     const START_DATE = new Date("2026-02-06");
     const TOTAL_DAYS = 5000; 
 
-    let today = new Date();
-    let diff = Math.floor((today - START_DATE)/(1000*60*60*24)) + 1;
     let container = document.getElementById("timeline");
 
     for(let i=1; i<=TOTAL_DAYS; i++){
@@ -132,9 +128,7 @@
         container.appendChild(node);
     }
 
-    // --- BHAI YE HAI NEW DYNAMIC JS LINK ---
     function loadChapter(i) {
-        // Yeh browser ko day.html par le jayega aur bataega kaunsa 'd' load karna hai
         window.location.href = `day.html?d=${i}`;
     }
 
@@ -146,14 +140,9 @@
         if(num >= 1 && num <= nodes.length){
             const targetNode = nodes[num-1];
             targetNode.scrollIntoView({behavior:"smooth", block:"center"});
-            
             const card = targetNode.querySelector('.card');
             card.classList.add('jump-highlight');
-            
-            setTimeout(() => {
-                card.classList.remove('jump-highlight');
-            }, 2500);
-            
+            setTimeout(() => { card.classList.remove('jump-highlight'); }, 2500);
             input.value = ""; 
         } else {
             alert("Sabr rakho Muskan! Wo din abhi aane wala hai ❤️");
@@ -171,12 +160,8 @@
         let down = document.getElementById("scrollDown");
         if (window.scrollY > 300) up.classList.add("show");
         else up.classList.remove("show");
-
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-            down.classList.remove("show");
-        } else {
-            down.classList.add("show");
-        }
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) down.classList.remove("show");
+        else down.classList.add("show");
     };
 
     document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
