@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Memory</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <title>Our Memory | ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/day-style.css">
 </head>
-<body>
-    <div class="parallax-bg" id="parallax-img"></div>
-
-    <div class="scroll-wrapper">
-        <div class="spacer"></div> <div class="content-card" id="main-card">
-            <h1 id="day-title"></h1>
+<body id="dynamic-body">
+    <div id="cursor-star"></div> 
+    
+    <div class="main-wrapper">
+        <div class="glass-container" id="main-layout">
+            <img id="day-img" class="blur-reveal" src="">
+            <h1 id="day-title" class="parallax-text"></h1>
             <p id="day-message"></p>
             
-            <div class="audio-box">
-                <span>🎵 Background Song</span>
-                <audio id="bg-music" controls loop></audio>
+            <div class="player-section">
+                <div class="audio-item">
+                    <span>🎵 Mood Music</span>
+                    <audio id="bg-music" controls loop></audio>
+                </div>
+                <div id="voice-section" class="audio-item">
+                    <span>🎤 Voice Message</span>
+                    <audio id="voice-note" controls></audio>
+                </div>
             </div>
 
-            <div id="voice-section" class="audio-box">
-                <span>🎤 Voice Note</span>
-                <audio id="voice-note" controls></audio>
-            </div>
-
-            <a href="chapters.html" class="back-link">← Return to Universe</a>
+            <button onclick="revealSecret()" class="heart-btn">❤️ Tap to Reveal</button>
+            <div id="secret-msg" class="hidden"></div>
+            
+            <a href="chapters.html" class="back">Back to Timeline</a>
         </div>
     </div>
 
