@@ -1,73 +1,22 @@
 :root { --accent: #d4af37; }
-
-body { 
-    background: #000; color: white; font-family: 'Montserrat', sans-serif; 
-    margin: 0; padding: 0; min-height: 100vh;
-    display: flex; justify-content: center; align-items: center;
-}
-
-.main-wrapper {
-    width: 100%; max-width: 1200px; padding: 20px;
-    display: flex; justify-content: center;
-}
+body { background: #000; color: white; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
 .glass-container {
     background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border: 1px solid var(--accent); border-radius: 25px;
-    padding: 20px; width: 100%; 
-    max-width: 450px; /* Isse card laptop pe bohot bada nahi hoga */
-    text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-}
-
-/* --- LAPTOP PHOTO FIX (NO CROP) --- */
-.img-frame { 
-    width: 100%;
-    margin-bottom: 15px;
-    border-radius: 15px;
-    overflow: hidden;
-    /* Isse photo ke upar-niche extra space nahi bachega */
-    display: block; 
-}
-
-.blur-reveal { 
-    width: 100%;      /* Puri width lega card ki */
-    height: auto;     /* Height apne aap photo ke hisab se set hogi */
-    display: block;   /* Extra bottom space khatam karega */
-    object-fit: contain; 
-    filter: blur(15px); 
-    transition: 1.5s ease;
-    border-radius: 15px;
-}
-.blur-reveal:hover { filter: blur(0); }
-
-/* --- TEXT & SCROLL FIX --- */
-#day-title { font-size: 1.8rem; color: var(--accent); margin: 15px 0; font-family: 'Great Vibes', cursive; }
-
-.message-scroll { 
-    max-height: 150px; /* Laptop pe message box chota rakha hai */
-    overflow-y: auto; 
-    margin-bottom: 20px; 
-    padding: 0 10px;
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    padding: 30px; margin: 50px auto; width: 85%; max-width: 400px;
     text-align: center;
 }
 
-#day-message { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; word-wrap: break-word; }
+/* Cinematic Transitions */
+.blur-reveal { filter: blur(20px); transition: 2s; width: 100%; border-radius: 15px; }
+.blur-reveal:hover { filter: blur(0); }
 
-/* --- AUDIO SECTION --- */
-.player-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.audio-box { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.1); }
-audio { width: 100%; height: 35px; filter: invert(1); }
+/* Layouts */
+.polaroid img { padding: 10px 10px 40px; background: white; transform: rotate(-3deg); color: black; }
 
-/* --- BUTTONS --- */
-.heart-btn { background: var(--accent); border: none; border-radius: 50px; padding: 12px 25px; cursor: pointer; font-weight: bold; color: black; margin-bottom: 10px; }
+.heart-btn { background: var(--accent); border: none; border-radius: 50px; padding: 10px 20px; cursor: pointer; }
 .hidden { display: none; margin-top: 15px; font-style: italic; color: var(--accent); }
 .hidden.show { display: block; }
-.back { display: block; margin-top: 20px; color: #666; text-decoration: none; font-size: 0.8rem; }
-
-/* Desktop adjustments: Card ko screen ke hisab se center mein rakhta hai */
-@media (min-width: 1024px) {
-    .glass-container {
-        max-width: 480px; /* Laptop pe card size perfect rakha hai */
-    }
-}
