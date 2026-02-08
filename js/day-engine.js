@@ -4,32 +4,27 @@ window.onload = function() {
     const data = loveDays[dayId];
 
     if (data) {
-        // Text load karna (Sabse fast hota hai)
         document.getElementById('day-title').innerText = data.title;
         document.getElementById('day-message').innerText = data.message;
-        window.secretData = data.hidden;
+        document.getElementById('day-img').src = data.image;
+        document.getElementById('bg-music').src = data.song;
 
-        // Image load karna
-        const img = document.getElementById('day-img');
-        img.src = data.image;
+        // Theme color handle
+        if(data.theme) document.documentElement.style.setProperty('--accent', data.theme);
 
-        // --- MP3 FAST LOADING FIX ---
-        const bgMusic = document.getElementById('bg-music');
-        bgMusic.src = data.song;
-        bgMusic.preload = "auto"; // Browser ko bolna ki turant download shuru kare
-
+        // Voice Note handle
         if(data.voice && data.voice !== "") {
-            const voiceNote = document.getElementById('voice-note');
-            voiceNote.src = data.voice;
-            voiceNote.preload = "metadata"; // Sirf length check karega pehle
+            document.getElementById('voice-note').src = data.voice;
         } else {
             document.getElementById('voice-section').style.display = "none";
         }
 
-        if(data.theme) document.documentElement.style.setProperty('--accent', data.theme);
-
+        window.secretData = data.hidden;
     } else {
-        document.getElementById('main-layout').innerHTML = `<h2>Coming Soon...</h2><a href="chapters.html" style="color:white">Back</a>`;
+        document.getElementById('main-layout').innerHTML = `
+            <h2 style="color:var(--accent)">Coming Soon...</h2>
+            <p>Bhai, Day ${dayId} ka data abhi add nahi kiya tune!</p>
+            <a href="chapters.html" style="color:white">Back</a>`;
     }
 }
 
