@@ -1,35 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Muskan</title>
     <link rel="stylesheet" href="css/day-style.css">
 </head>
-<body>
-    <div class="galaxy-bg"></div>
-
-    <div id="main-card" class="card">
-        <div class="media-container">
-            <img id="photo1.jpg" src="" alt="Memory">
-        </div>
+<body id="dynamic-body">
+    <div id="cursor-star"></div> <div class="glass-container" id="main-layout">
+        <img id="day-img" class="blur-reveal" src="">
+        <h1 id="day-title" class="parallax-text"></h1>
+        <p id="day-message"></p>
         
-        <div class="content">
-            <h1 id="day-title"></h1>
-            <p id="day-message"></p>
-            
-            <div class="player">
-                <span>🎵 Background Song</span>
-                <audio id="bg-music" controls loop></audio>
-            </div>
-
-            <div id="voice-section" class="player">
+        <div class="player-section">
+            <audio id="bg-music" controls loop></audio>
+            <div id="voice-section">
                 <span>🎤 Voice Message</span>
                 <audio id="voice-note" controls></audio>
             </div>
-
-            <a href="chapters.html" class="back">Back to Timeline</a>
         </div>
+
+        <button onclick="revealSecret()" class="heart-btn">❤️ Tap to Reveal</button>
+        <div id="secret-msg" class="hidden"></div>
+        
+        <a href="chapters.html" class="back">Back to Timeline</a>
     </div>
 
     <script src="js/days-data.js"></script>
