@@ -74,3 +74,25 @@ background:#111;
 background:#300;
 transform:rotateY(180deg);
 }
+/* THEMES */
+
+body.romantic{
+ background:linear-gradient(45deg,#ff9a9e,#fad0c4);
+}
+
+body.dark{
+ background:#0a0a0a;
+ color:white;
+}
+
+body.galaxy{
+ background:radial-gradient(circle,#0f2027,#203a43,#2c5364);
+}
+
+body.dream{
+ background:linear-gradient(60deg,#a1c4fd,#c2e9fb);
+}
+
+body.memory{
+ background:#fdf6e3;
+}
