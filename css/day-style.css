@@ -1,0 +1,76 @@
+body{
+margin:0;
+font-family:Montserrat;
+overflow:hidden;
+color:white;
+}
+
+/* Galaxy canvas */
+#galaxy{
+position:fixed;
+z-index:-1;
+}
+
+/* Unlock */
+#unlock{
+height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+#rose{
+font-size:80px;
+cursor:pointer;
+animation:float 2s infinite;
+}
+
+@keyframes float{
+50%{transform:translateY(-20px)}
+}
+
+/* Content */
+#content{
+display:none;
+padding:40px;
+}
+
+/* Flip Cards */
+
+.card{
+width:280px;
+height:350px;
+perspective:1000px;
+margin:20px;
+display:inline-block;
+}
+
+.inner{
+width:100%;
+height:100%;
+transition:1s;
+transform-style:preserve-3d;
+}
+
+.card:hover .inner{
+transform:rotateY(180deg);
+}
+
+.front,.back{
+position:absolute;
+width:100%;
+height:100%;
+backface-visibility:hidden;
+border-radius:20px;
+padding:20px;
+}
+
+.front{
+background:#111;
+}
+
+.back{
+background:#300;
+transform:rotateY(180deg);
+}
