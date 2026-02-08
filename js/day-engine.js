@@ -4,27 +4,32 @@ window.onload = function() {
     const data = loveDays[dayId];
 
     if (data) {
+        // Text load karna (Sabse fast hota hai)
         document.getElementById('day-title').innerText = data.title;
         document.getElementById('day-message').innerText = data.message;
-        document.getElementById('day-img').src = data.image;
-        document.getElementById('bg-music').src = data.song;
+        window.secretData = data.hidden;
 
-        // Theme color handle
-        if(data.theme) document.documentElement.style.setProperty('--accent', data.theme);
+        // Image load karna
+        const img = document.getElementById('day-img');
+        img.src = data.image;
 
-        // Voice Note handle
+        // --- MP3 FAST LOADING FIX ---
+        const bgMusic = document.getElementById('bg-music');
+        bgMusic.src = data.song;
+        bgMusic.preload = "auto"; // Browser ko bolna ki turant download shuru kare
+
         if(data.voice && data.voice !== "") {
-            document.getElementById('voice-note').src = data.voice;
+            const voiceNote = document.getElementById('voice-note');
+            voiceNote.src = data.voice;
+            voiceNote.preload = "metadata"; // Sirf length check karega pehle
         } else {
             document.getElementById('voice-section').style.display = "none";
         }
 
-        window.secretData = data.hidden;
+        if(data.theme) document.documentElement.style.setProperty('--accent', data.theme);
+
     } else {
-        document.getElementById('main-layout').innerHTML = `
-            <h2 style="color:var(--accent)">Coming Soon...</h2>
-            <p>Bhai, Day ${dayId} ka data abhi add nahi kiya tune!</p>
-            <a href="chapters.html" style="color:white">Back</a>`;
+        document.getElementById('main-layout').innerHTML = `<h2>Coming Soon...</h2><a href="chapters.html" style="color:white">Back</a>`;
     }
 }
 
