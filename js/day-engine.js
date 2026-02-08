@@ -1,27 +1,49 @@
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const dayId = urlParams.get('d'); // URL se 'd' leta hai (e.g., day.html?d=1)
+    const dayId = urlParams.get('d');
     const data = loveDays[dayId];
 
     if (data) {
+        // 1. Theme Color Fix (Day 2 Pink dikhega)
+        if(data.theme) {
+            document.documentElement.style.setProperty('--accent', data.theme);
+        }
+
+        // 2. Photo Load Fix
+        const img = document.getElementById('day-img');
+        img.src = data.image;
+        
+        // Agar photo load na ho toh error check ke liye
+        img.onerror = function() {
+            console.error("Bhai, photo nahi mili: " + data.image);
+        };
+
+        // 3. Text & Secret
         document.getElementById('day-title').innerText = data.title;
         document.getElementById('day-message').innerText = data.message;
-        document.getElementById('day-img').src = data.image;
-        document.getElementById('bg-music').src = data.song;
-        
-        // Dynamic Styles
-        document.documentElement.style.setProperty('--accent', data.theme);
-        document.getElementById('main-layout').className = `glass-container ${data.layout}`;
+        window.secretData = data.hidden;
 
-        if(data.voice) document.getElementById('voice-note').src = data.voice;
-        else document.getElementById('voice-section').style.display = "none";
+        // 4. Music Fast Loading Fix
+        const bgMusic = document.getElementById('bg-music');
+        bgMusic.src = data.song;
+        bgMusic.load(); // Force load gaana
 
-        window.secret = data.hidden;
+        // Voice section
+        if(data.voice && data.voice !== "") {
+            const vNote = document.getElementById('voice-note');
+            vNote.src = data.voice;
+            vNote.load();
+        } else {
+            const vs = document.getElementById('voice-section');
+            if(vs) vs.style.display = "none";
+        }
+    } else {
+        document.body.innerHTML = "<h2 style='color:white; text-align:center;'>Day Not Found!</h2>";
     }
 }
 
 function revealSecret() {
     const box = document.getElementById('secret-msg');
-    box.innerText = window.secret;
+    box.innerText = window.secretData;
     box.classList.toggle('show');
 }
