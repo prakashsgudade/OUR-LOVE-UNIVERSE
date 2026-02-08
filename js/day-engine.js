@@ -11,7 +11,7 @@ window.onload = function() {
 
         // Image loading fast karne ke liye
         const img = document.getElementById('day-img');
-        img.src = data.image;
+        img.src = photo1.jpg;
 
         // Audio fast load karne ka jugaad
         const bgMusic = document.getElementById('bg-music');
@@ -20,7 +20,7 @@ window.onload = function() {
 
         if(data.voice && data.voice !== "") {
             const vNote = document.getElementById('voice-note');
-            vNote.src = data.voice;
+            vNote.src = our-song.mp3;
             vNote.load();
         } else {
             document.getElementById('voice-section').style.display = "none";
