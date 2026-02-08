@@ -108,10 +108,73 @@ border-radius:8px;
 </div>
 
 <script>
+// ===== LAYOUT ENGINE =====
+
+const layoutType = day % 4;
+
+const wrap = document.querySelector(".wrap");
+
+if(layoutType === 0){
+
+wrap.style.gridTemplateColumns="1fr";
+wrap.style.maxWidth="700px";
+
+}
+
+if(layoutType === 1){
+
+wrap.style.gridTemplateColumns="repeat(3,1fr)";
+
+}
+
+if(layoutType === 2){
+
+wrap.style.transform="rotateY(6deg)";
+wrap.style.gap="40px";
+
+}
+
+if(layoutType === 3){
+
+wrap.style.gridTemplateColumns="repeat(auto-fit,minmax(180px,1fr))";
+
+}
 
 // ===== DAY STATE =====
 const day = parseInt(localStorage.getItem("currentDay")) || 1;
 document.getElementById("title").innerHTML="Day "+day;
+// ===== SURPRISE ENGINE =====
+
+if(day % 5 === 0){
+
+let surprise=document.createElement("div");
+surprise.className="box";
+surprise.innerHTML=`
+<h3>🎁 Hidden Surprise</h3>
+<p>Tum special ho ❤️ Day ${day}</p>
+<button onclick="alert('Secret Unlocked ✨')">Unlock</button>
+`;
+
+wrap.appendChild(surprise);
+
+}
+// ===== ANIMATION ENGINE =====
+
+if(day % 2 === 0){
+
+document.body.style.animation="pulse 6s infinite";
+
+const style=document.createElement("style");
+style.innerHTML=`
+@keyframes pulse{
+0%{filter:hue-rotate(0deg)}
+100%{filter:hue-rotate(360deg)}
+}
+`;
+
+document.head.appendChild(style);
+
+}
 
 
 // ===== AUTO THEMES =====
