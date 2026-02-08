@@ -1,95 +1,45 @@
 :root {
-    --gold: #ffd700;
-    --dark: #050505;
-    --glass: rgba(255, 255, 255, 0.1);
+    --main-color: #ffd700; /* Ye JS se badlega */
 }
 
 body {
-    background-color: var(--dark);
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
+    margin: 0; background: #000; color: white;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; overflow-x: hidden;
 }
 
-/* Glassmorphism Card */
-.main-card {
-    width: 90%;
-    max-width: 400px;
-    background: var(--glass);
+.card {
+    width: 90%; max-width: 400px; padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(15px);
     border-radius: 30px;
-    padding: 20px;
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
-    animation: fadeIn 1.5s ease;
+    border: 2px solid var(--main-color);
+    box-shadow: 0 0 25px var(--main-color);
+    transition: 0.5s; display: flex; flex-direction: column;
 }
 
-.image-section img {
-    width: 100%;
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    border: 2px solid var(--gold);
+/* --- Layout 1: Photo Upar (Standard) --- */
+.layout-top { flex-direction: column; }
+
+/* --- Layout 2: Photo Niche (New Look) --- */
+.layout-bottom { flex-direction: column-reverse; }
+
+/* --- Layout 3: Circle Photo (Romantic) --- */
+.layout-circle img {
+    border-radius: 50% !important;
+    width: 200px !important;
+    height: 200px !important;
+    object-fit: cover;
+    margin: 0 auto 20px auto;
 }
 
-#day-title {
-    font-family: 'Dancing Script', cursive;
-    color: var(--gold);
-    font-size: 2rem;
-    margin: 15px 0 5px 0;
-}
+img { width: 100%; border-radius: 20px; border: 1px solid var(--main-color); margin-bottom: 15px; }
+h1 { color: var(--main-color); font-size: 1.8rem; text-align: center; }
+p { line-height: 1.6; text-align: center; opacity: 0.9; }
 
-#day-date {
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    color: #ccc;
-}
+.player { background: rgba(0,0,0,0.4); padding: 10px; border-radius: 15px; margin-top: 10px; }
+.player span { font-size: 0.7rem; color: var(--main-color); display: block; margin-bottom: 5px; }
+audio { width: 100%; height: 30px; filter: invert(1); }
 
-#day-message {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    font-weight: 300;
-}
-
-.music-box {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 15px;
-    border-radius: 20px;
-}
-
-.player-row {
-    margin-bottom: 10px;
-}
-
-.player-row span {
-    font-size: 0.7rem;
-    display: block;
-    margin-bottom: 5px;
-    color: var(--gold);
-}
-
-audio {
-    width: 100%;
-    height: 30px;
-    filter: sepia(100%) saturate(200%) hue-rotate(40deg); /* Gold theme player */
-}
-
-.back-link {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: white;
-    text-decoration: none;
-    font-size: 0.8rem;
-    opacity: 0.6;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+.back { display: block; text-align: center; margin-top: 20px; color: #fff; text-decoration: none; opacity: 0.5; font-size: 0.8rem; }
