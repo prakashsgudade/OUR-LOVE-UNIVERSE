@@ -106,47 +106,52 @@ border-radius:8px;
 </div>
 
 <script>
-/* ===== DAY SYSTEM ===== */
+
+// ===== DAY STATE (FIRST ALWAYS) =====
 const day = parseInt(localStorage.getItem("currentDay")) || 1;
-document.getElementById("title").innerText = "Day " + day;
+document.getElementById("title").innerHTML="Day "+day;
 
-const wrap = document.getElementById("wrap");
+// ===== SELECT WRAP ONCE =====
+const wrap=document.querySelector(".wrap");
 
-/* ===== AUTO LAYOUT ENGINE ===== */
-const layout = day % 4;
 
-if(layout === 0){
+// ===== LAYOUT ENGINE =====
+const layoutType = day % 4;
+
+if(layoutType===0){
 wrap.style.gridTemplateColumns="1fr";
-wrap.style.maxWidth="650px";
+wrap.style.maxWidth="700px";
 }
 
-if(layout === 1){
+if(layoutType===1){
 wrap.style.gridTemplateColumns="repeat(3,1fr)";
 }
 
-if(layout === 2){
-wrap.style.transform="rotateY(5deg)";
+if(layoutType===2){
+wrap.style.transform="rotateY(6deg)";
 wrap.style.gap="40px";
 }
 
-if(layout === 3){
+if(layoutType===3){
 wrap.style.gridTemplateColumns="repeat(auto-fit,minmax(180px,1fr))";
 }
 
-/* ===== AUTO THEMES ===== */
+
+// ===== AUTO THEMES =====
 const themes=[
 ["#0f2027","#203a43","#2c5364"],
-["#1a0b0b","#000","#330000"],
-["#141e30","#243b55","#000"],
-["#42275a","#734b6d","#000"],
+["#1a0b0b","#000000","#330000"],
+["#141e30","#243b55","#1c1c1c"],
+["#42275a","#734b6d","#000000"],
 ["#000428","#004e92","#000"]
 ];
 
-const t = themes[day % themes.length];
-document.body.style.background =
-`linear-gradient(160deg,${t[0]},${t[1]},${t[2]})`;
+const t=themes[day%themes.length];
+document.body.style.background=
+`linear-gradient(160deg, ${t[0]}, ${t[1]}, ${t[2]})`;
 
-/* ===== MESSAGE ENGINE ===== */
+
+// ===== MESSAGE ENGINE =====
 const msgs=[
 "Tum meri kahani ka sabse khoobsurat hissa ho ❤️",
 "Har din tumhare saath ek naya safar ✨",
@@ -154,75 +159,105 @@ const msgs=[
 "Jahan tum ho wahi meri duniya 🌍",
 "Mohabbat waqt nahi dekhti 💫"
 ];
-document.getElementById("msg").innerText = msgs[day % msgs.length];
 
-/* ===== IMAGE ROTATION ===== */
-const img=document.getElementById("autoImg");
-img.src=`assets/images/photo${(day%2)+1}.jpg`;
-img.onerror=()=>img.src="assets/images/background.jpg";
+document.getElementById("msg").innerHTML=
+msgs[day%msgs.length];
 
-/* ===== AUDIO ROTATION ===== */
+
+// ===== IMAGE ROTATOR =====
+const imgIndex=(day%2)+1;
+document.getElementById("autoImg").src=
+`assets/images/photo${imgIndex}.jpg`;
+
+
+// ===== AUDIO ROTATOR =====
 const tracks=[
-"assets/audio/muskan-message.mp3",
+"assets/audio/muskan-message.mp3.mpeg",
 "assets/audio/our-song.mp3"
 ];
+
 const audio=document.getElementById("v");
-audio.src=tracks[day % tracks.length];
+audio.src=tracks[day%tracks.length];
 
 function play(){
-audio.volume=0;
 audio.play();
-let f=setInterval(()=>{
-if(audio.volume<1) audio.volume+=0.05;
-else clearInterval(f);
-},100);
 }
 
-/* ===== SECRET CARDS ===== */
-for(let i=1;i<=3;i++){
-let b=document.createElement("div");
-b.className="box";
-b.innerHTML=`<h3>Secret Memory</h3><p>Tap to unlock</p>`;
-b.onclick=()=>{
-b.classList.add("secret-unlocked");
-b.innerHTML=`<h3>Unlocked ❤️</h3><p>Day ${day} Emotion ${i}</p>`;
-};
-wrap.appendChild(b);
-}
 
-/* ===== SURPRISE DAY ===== */
-if(day % 5 === 0){
+// ===== SURPRISE ENGINE =====
+if(day%5===0){
+
 let s=document.createElement("div");
 s.className="box";
-s.innerHTML=`<h3>🎁 Surprise</h3><p>Tum bahut special ho ❤️</p>`;
+
+s.innerHTML=`
+<h3>🎁 Hidden Surprise</h3>
+<p>You unlocked Day ${day}</p>
+`;
+
 wrap.appendChild(s);
 }
 
-/* ===== GALAXY ===== */
+
+// ===== SECRET CARDS =====
+for(let i=0;i<3;i++){
+
+let b=document.createElement("div");
+b.className="box";
+
+b.innerHTML=`
+<h3>Secret Memory</h3>
+<p>Tap to reveal</p>
+`;
+
+b.onclick=()=>{
+b.style.boxShadow="0 0 30px hotpink";
+b.innerHTML=`❤️ Hidden Emotion ${i+1}`;
+};
+
+wrap.appendChild(b);
+}
+
+
+// ===== GALAXY =====
 const c=document.getElementById("space");
 const ctx=c.getContext("2d");
-function resize(){c.width=innerWidth;c.height=innerHeight;}
-resize();window.onresize=resize;
+
+function resize(){
+c.width=innerWidth;
+c.height=innerHeight;
+}
+resize();
+window.addEventListener("resize",resize);
 
 let stars=[];
 for(let i=0;i<120;i++){
-stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5});
+stars.push({
+x:Math.random()*c.width,
+y:Math.random()*c.height,
+r:Math.random()*1.5
+});
 }
 
 function anim(){
 ctx.clearRect(0,0,c.width,c.height);
 ctx.fillStyle="white";
+
 stars.forEach(s=>{
 ctx.beginPath();
 ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
 ctx.fill();
+
 s.y+=0.3;
 if(s.y>c.height) s.y=0;
 });
+
 requestAnimationFrame(anim);
 }
 anim();
+
 </script>
+
 
 </body>
 </html>
