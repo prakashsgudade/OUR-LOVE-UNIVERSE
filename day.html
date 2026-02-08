@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 margin:0;
-background:black;
-color:white;
 font-family:Montserrat;
+color:white;
+overflow-x:hidden;
+}
+
+/* GALAXY CANVAS */
+#space{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
 }
 
 /* HEADER */
@@ -20,42 +29,48 @@ font-family:Montserrat;
 text-align:center;
 padding:30px;
 font-family:Cinzel Decorative;
-font-size:28px;
+font-size:32px;
+letter-spacing:2px;
 }
 
 /* GRID */
 .wrap{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:18px;
 padding:20px;
+max-width:1200px;
+margin:auto;
 }
 
 /* GLASS CARDS */
 .box{
-background:rgba(255,255,255,0.05);
-border-radius:14px;
+background:rgba(255,255,255,0.06);
+border-radius:18px;
 padding:20px;
-backdrop-filter:blur(10px);
-transition:.3s;
+backdrop-filter:blur(12px);
+transition:.35s;
 cursor:pointer;
+border:1px solid rgba(255,255,255,0.08);
 }
 
 .box:hover{
-transform:translateY(-6px);
-box-shadow:0 0 20px gold;
+transform:translateY(-8px) scale(1.02);
+box-shadow:0 0 25px rgba(255,215,0,0.4);
 }
 
 img{
 width:100%;
-border-radius:10px;
+border-radius:12px;
 }
 
 button{
-padding:10px 20px;
+padding:12px 20px;
 border:none;
 background:gold;
+font-weight:bold;
 cursor:pointer;
+border-radius:8px;
 }
 
 </style>
@@ -63,19 +78,21 @@ cursor:pointer;
 
 <body>
 
+<canvas id="space"></canvas>
+
 <div class="header" id="title"></div>
 
 <div class="wrap">
 
 <div class="box">
 <h3>Memory Image</h3>
-<img src="assets/images/photo1.jpg">
+<img id="autoImg" src="">
 </div>
 
 <div class="box">
 <h3>Voice Note</h3>
 <button onclick="play()">PLAY</button>
-<audio id="v" src="assets/audio/muskan-message.mp3.mpeg"></audio>
+<audio id="v"></audio>
 </div>
 
 <div class="box">
@@ -87,16 +104,99 @@ cursor:pointer;
 
 <script>
 
-const day = localStorage.getItem("currentDay") || 1;
-
+// ===== DAY STATE =====
+const day = parseInt(localStorage.getItem("currentDay")) || 1;
 document.getElementById("title").innerHTML="Day "+day;
 
+
+// ===== AUTO THEMES =====
+const themes=[
+"#0f2027,#203a43,#2c5364",
+"#1a0b0b,#000000",
+"#141e30,#243b55",
+"#42275a,#734b6d",
+"#000428,#004e92"
+];
+
+document.body.style.background=
+`linear-gradient(160deg,${themes[day%themes.length]})`;
+
+
+// ===== MESSAGE ENGINE =====
+const msgs=[
+"Tum meri kahani ka sabse khoobsurat hissa ho ❤️",
+"Har din tumhare saath ek naya safar ✨",
+"Ye pal bhi ek yaad ban jayega 🌙",
+"Jahan tum ho wahi meri duniya 🌍",
+"Mohabbat waqt nahi dekhti 💫"
+];
+
 document.getElementById("msg").innerHTML=
-"Har din tumhare naam — Chapter "+day;
+msgs[day%msgs.length];
+
+
+// ===== IMAGE ROTATOR =====
+const imgIndex=(day%2)+1;
+document.getElementById("autoImg").src=
+`assets/images/photo${imgIndex}.jpg`;
+
+
+// ===== AUDIO ROTATOR =====
+const tracks=[
+"assets/audio/muskan-message.mp3.mpeg",
+"assets/audio/our-song.mp3"
+];
+
+document.getElementById("v").src=
+tracks[day%tracks.length];
 
 function play(){
 document.getElementById("v").play();
 }
+
+
+// ===== SECRET CARD GENERATOR =====
+const wrap=document.querySelector(".wrap");
+
+for(let i=0;i<3;i++){
+let b=document.createElement("div");
+b.className="box";
+b.innerHTML=
+`
+<h3>Secret Memory ${i+1}</h3>
+<p>Day ${day} ki hidden feeling #${i+1}</p>
+`;
+wrap.appendChild(b);
+}
+
+
+// ===== GALAXY BACKGROUND =====
+const c=document.getElementById("space");
+const ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+let stars=[];
+for(let i=0;i<120;i++){
+stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5});
+}
+
+function anim(){
+ctx.clearRect(0,0,c.width,c.height);
+ctx.fillStyle="white";
+
+stars.forEach(s=>{
+ctx.beginPath();
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fill();
+
+s.y+=0.3;
+if(s.y>c.height) s.y=0;
+});
+
+requestAnimationFrame(anim);
+}
+anim();
 
 </script>
 
