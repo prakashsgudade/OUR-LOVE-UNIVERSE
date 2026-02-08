@@ -4,260 +4,138 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+<title>Day Memory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
+
 body{
 margin:0;
 font-family:Montserrat;
 color:white;
-overflow-x:hidden;
-transition:background 1s ease;
+transition:1s;
 }
 
-/* Galaxy */
-#space{
-position:fixed;
-top:0;
-left:0;
-z-index:-1;
-}
+/* THEMES (auto change per day) */
+.romantic{background:linear-gradient(45deg,#ff416c,#ff4b2b);}
+.dark{background:linear-gradient(45deg,#141e30,#243b55);}
+.galaxy{background:black url("assets/images/stars.jpg") center/cover;}
+.dream{background:linear-gradient(45deg,#8e2de2,#4a00e0);}
+.memory{background:linear-gradient(45deg,#42275a,#734b6d);}
 
-/* Header */
-.header{
+/* CONTENT BOX */
+.container{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 text-align:center;
-padding:30px;
-font-family:Cinzel Decorative;
-font-size:32px;
-letter-spacing:2px;
-}
-
-/* Grid */
-.wrap{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
 padding:20px;
-max-width:1200px;
-margin:auto;
-transition:.6s;
+animation:fade 1.2s ease;
 }
 
-/* Cards */
-.box{
-background:rgba(255,255,255,0.06);
-border-radius:18px;
-padding:20px;
-backdrop-filter:blur(12px);
-cursor:pointer;
-transition:.35s;
-border:1px solid rgba(255,255,255,0.08);
+@keyframes fade{
+from{opacity:0; transform:translateY(30px);}
+to{opacity:1;}
 }
 
-.box:hover{
-transform:translateY(-8px) scale(1.02);
-box-shadow:0 0 30px rgba(255,215,0,0.4);
+h1{
+font-family:Cinzel;
+font-size:42px;
+margin-bottom:10px;
 }
 
-.secret-unlocked{
-box-shadow:0 0 35px hotpink;
+p{
+max-width:500px;
+font-size:18px;
 }
 
-img{
-width:100%;
-border-radius:12px;
+/* IMAGE STYLE RANDOM */
+.img{
+margin-top:20px;
+max-width:80%;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,0,0,.6);
+transition:1s;
 }
 
-button{
-padding:12px 20px;
-border:none;
-background:gold;
-font-weight:bold;
-cursor:pointer;
-border-radius:8px;
+.rotate{transform:rotate(-4deg)}
+.zoom{transform:scale(1.05)}
+.circle{border-radius:50%}
+
+.message{
+margin-top:20px;
+font-size:20px;
+color:gold;
 }
+
 </style>
 </head>
 
 <body>
 
-<canvas id="space"></canvas>
+<div class="container">
 
-<div class="header" id="title"></div>
+<h1 id="title"></h1>
+<p id="text"></p>
 
-<div class="wrap" id="wrap">
+<img id="photo" class="img">
 
-<div class="box">
-<h3>Memory Image</h3>
-<img id="autoImg">
-</div>
-
-<div class="box">
-<h3>Voice Note</h3>
-<button onclick="play()">PLAY</button>
-<audio id="v"></audio>
-</div>
-
-<div class="box">
-<h3>Message</h3>
-<p id="msg"></p>
-</div>
+<div id="msg" class="message"></div>
 
 </div>
+
+<script src="js/days-data.js"></script>
 
 <script>
 
-// ===== DAY STATE (FIRST ALWAYS) =====
-const day = parseInt(localStorage.getItem("currentDay")) || 1;
-document.getElementById("title").innerHTML="Day "+day;
+// GET DAY NUMBER
+const day = localStorage.getItem("currentDay") || 1;
 
-// ===== SELECT WRAP ONCE =====
-const wrap=document.querySelector(".wrap");
-
-
-// ===== LAYOUT ENGINE =====
-const layoutType = day % 4;
-
-if(layoutType===0){
-wrap.style.gridTemplateColumns="1fr";
-wrap.style.maxWidth="700px";
-}
-
-if(layoutType===1){
-wrap.style.gridTemplateColumns="repeat(3,1fr)";
-}
-
-if(layoutType===2){
-wrap.style.transform="rotateY(6deg)";
-wrap.style.gap="40px";
-}
-
-if(layoutType===3){
-wrap.style.gridTemplateColumns="repeat(auto-fit,minmax(180px,1fr))";
-}
-
-
-// ===== AUTO THEMES =====
-const themes=[
-["#0f2027","#203a43","#2c5364"],
-["#1a0b0b","#000000","#330000"],
-["#141e30","#243b55","#1c1c1c"],
-["#42275a","#734b6d","#000000"],
-["#000428","#004e92","#000"]
-];
-
-const t=themes[day%themes.length];
-document.body.style.background=
-`linear-gradient(160deg, ${t[0]}, ${t[1]}, ${t[2]})`;
-
-
-// ===== MESSAGE ENGINE =====
-const msgs=[
-"Tum meri kahani ka sabse khoobsurat hissa ho ❤️",
-"Har din tumhare saath ek naya safar ✨",
-"Ye pal bhi ek yaad ban jayega 🌙",
-"Jahan tum ho wahi meri duniya 🌍",
-"Mohabbat waqt nahi dekhti 💫"
-];
-
-document.getElementById("msg").innerHTML=
-msgs[day%msgs.length];
-
-
-// ===== IMAGE ROTATOR =====
-const imgIndex=(day%2)+1;
-document.getElementById("autoImg").src=
-`assets/images/photo${imgIndex}.jpg`;
-
-
-// ===== AUDIO ROTATOR =====
-const tracks=[
-"assets/audio/muskan-message.mp3.mpeg",
-"assets/audio/our-song.mp3"
-];
-
-const audio=document.getElementById("v");
-audio.src=tracks[day%tracks.length];
-
-function play(){
-audio.play();
-}
-
-
-// ===== SURPRISE ENGINE =====
-if(day%5===0){
-
-let s=document.createElement("div");
-s.className="box";
-
-s.innerHTML=`
-<h3>🎁 Hidden Surprise</h3>
-<p>You unlocked Day ${day}</p>
-`;
-
-wrap.appendChild(s);
-}
-
-
-// ===== SECRET CARDS =====
-for(let i=0;i<3;i++){
-
-let b=document.createElement("div");
-b.className="box";
-
-b.innerHTML=`
-<h3>Secret Memory</h3>
-<p>Tap to reveal</p>
-`;
-
-b.onclick=()=>{
-b.style.boxShadow="0 0 30px hotpink";
-b.innerHTML=`❤️ Hidden Emotion ${i+1}`;
+// LOAD DATA
+const data = DAYS[day] || {
+title:"Future Memory",
+text:"Ye din abhi likhna baaki hai ❤️",
+img:"assets/images/photo1.jpg"
 };
 
-wrap.appendChild(b);
-}
+// SHOW CONTENT
+document.getElementById("title").innerText =
+"Day "+day+" — "+data.title;
+
+document.getElementById("text").innerText =
+data.text;
+
+document.getElementById("photo").src =
+data.img;
 
 
-// ===== GALAXY =====
-const c=document.getElementById("space");
-const ctx=c.getContext("2d");
+// ===== AUTO THEME =====
+const themes=["romantic","dark","galaxy","dream","memory"];
+document.body.classList.add(themes[day%themes.length]);
 
-function resize(){
-c.width=innerWidth;
-c.height=innerHeight;
-}
-resize();
-window.addEventListener("resize",resize);
 
-let stars=[];
-for(let i=0;i<120;i++){
-stars.push({
-x:Math.random()*c.width,
-y:Math.random()*c.height,
-r:Math.random()*1.5
-});
-}
+// ===== IMAGE STYLE RANDOM =====
+const styles=["rotate","zoom","circle"];
+document.getElementById("photo")
+.classList.add(styles[day%styles.length]);
 
-function anim(){
-ctx.clearRect(0,0,c.width,c.height);
-ctx.fillStyle="white";
 
-stars.forEach(s=>{
-ctx.beginPath();
-ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-ctx.fill();
+// ===== MESSAGE SURPRISE =====
+const messages=[
+"Yeh pal special hai ✨",
+"Tum yaad ho ❤️",
+"Ek aur kahani likh di 🖊️",
+"Dil ne save kar liya 💾",
+"Forever memory 🌙"
+];
 
-s.y+=0.3;
-if(s.y>c.height) s.y=0;
-});
-
-requestAnimationFrame(anim);
-}
-anim();
+document.getElementById("msg").innerText =
+messages[Math.floor(Math.random()*messages.length)];
 
 </script>
-
 
 </body>
 </html>
