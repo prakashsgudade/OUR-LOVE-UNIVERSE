@@ -38,5 +38,15 @@ const loveDays = {
         layout: "flip-3d", // Nayi Class ka naam
         effect: "snow",    // Naya Falling Effect
         hidden: "Secret: Main tumhe kabhi nahi khona chahta."
+    },
+    "5": {
+        title: "A Hidden Surprise 🎁",
+        message: "Kuch yaadein milti nahi, dhoondni padti hain...",
+        image: "assets/images/photo5.jpg",
+        song: "assets/audio/surprise.mp3",
+        theme: "#ffcc00", // Bright Yellow/Gold
+        layout: "scratch-card", // Nayi Class
+        effect: "confetti",     // Party wala effect
+        hidden: "Surprise! I love you more than yesterday."
     }
 };
