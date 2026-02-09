@@ -52,3 +52,12 @@ function revealSecret() {
     box.innerText = window.secretData;
     box.classList.toggle('show');
 }
+// Existing onload function ke andar ye line jodo:
+if(data.layout === "flip-3d") {
+    document.getElementById('main-layout').classList.add('flip-card-view');
+}
+
+// Particle system mein 'snow' wala option add karo:
+if(data.effect === "snow") {
+    startParticles('❄️');
+}
