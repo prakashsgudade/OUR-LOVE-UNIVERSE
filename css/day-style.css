@@ -190,3 +190,35 @@ audio {
     text-shadow: 0 0 5px #fff;
     font-size: 1rem;
 }
+
+/* --- DAY 5: SCRATCH CARD LAYOUT --- */
+.scratch-card {
+    border: 3px dashed var(--accent) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+#scratch-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    z-index: 10;
+    border-radius: 20px;
+}
+
+.img-frame {
+    position: relative;
+    background: #1a1a1a;
+}
+
+/* Confetti Effect (Day 5 Special) */
+.particle-confetti {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    position: fixed;
+    animation: fall 3s linear infinite;
+}
