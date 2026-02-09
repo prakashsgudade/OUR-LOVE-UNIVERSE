@@ -6,8 +6,7 @@ body {
     background: #000; 
     color: white; 
     font-family: 'Montserrat', sans-serif; 
-    margin: 0; 
-    padding: 0;
+    margin: 0; padding: 0;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -15,36 +14,32 @@ body {
     overflow-x: hidden;
 }
 
-/* Ye Wrapper card ko screen ke beech mein rakhega */
 .main-wrapper {
     width: 100%;
-    max-width: 1200px; /* Laptop ke liye max width */
     padding: 15px;
     display: flex;
     justify-content: center;
-    align-items: center;
     box-sizing: border-box;
 }
 
-/* Card jo har device pe adjust hoga */
 .glass-container {
-    background: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1.5px solid var(--accent);
+    background: rgba(20, 20, 20, 0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--accent);
     border-radius: 25px;
     padding: 20px;
-    width: 95%;           /* Mobile pe 95% width lega */
-    max-width: 420px;     /* Laptop pe 420px se bada nahi hoga */
+    width: 100%;
+    max-width: 400px; /* Laptop pe perfect size */
     text-align: center;
     box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-    transition: all 0.3s ease;
+    position: relative;
+    z-index: 5;
 }
 
-/* Photo Frame - Ye sabse important hai responsive ke liye */
 .img-frame { 
     width: 100%;
-    aspect-ratio: 1 / 1; /* Photo ko hamesha Square rakhega (Best for Mobile/Laptop) */
+    aspect-ratio: 1 / 1;
     border-radius: 15px;
     overflow: hidden;
     margin-bottom: 15px;
@@ -55,133 +50,46 @@ body {
 #day-img { 
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Photo stretch nahi hogi, perfectly fit hogi */
+    object-fit: cover;
     display: block;
 }
 
-/* Scratch Canvas ko bhi responsive banaya */
+/* Blur logic */
+.blur-reveal { filter: blur(20px); transition: 1.5s ease; }
+.blur-reveal:hover { filter: blur(0); }
+
+/* Scratch Canvas */
 #scratch-canvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     width: 100% !important;
     height: 100% !important;
-    border-radius: 15px;
-}
-
-/* Title size adjust karega screen ke hisab se */
-h1 {
-    font-size: clamp(1.8rem, 5vw, 2.5rem); /* Choti screen pe chota, badi pe bada */
-    margin: 10px 0;
-}
-
-/* Laptop/Desktop ke liye thoda extra space */
-@media (min-width: 1024px) {
-    .glass-container {
-        max-width: 450px;
-        padding: 30px;
-    }
-}
-
-@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
-/* Cinematic Layout for Day 3+ */
-.cinematic-view {
-    max-width: 800px !important;
-    background: rgba(0,0,0,0.6) !important;
-    border: 2px solid var(--accent) !important;
-    box-shadow: 0 0 50px var(--accent);
-    transform: perspective(1000px) rotateX(2deg); /* 3D Feel */
-}
-
-/* Floating Particles */
-.particle {
-    position: fixed;
-    top: -5vh;
-    font-size: 1.5rem;
-    pointer-events: none;
-    z-index: 0;
-    animation: fall linear infinite;
-}
-
-@keyframes fall {
-    to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-}
-
-/* 3D Photo Animation */
-.cinematic-view .blur-reveal {
-    animation: floatImage 4s ease-in-out infinite;
-}
-
-@keyframes floatImage {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-/* --- DAY 4: 3D FLIP LAYOUT --- */
-.flip-card-view {
-    perspective: 1000px;
-    background: rgba(0, 0, 0, 0.4) !important;
-    border: 2px solid var(--accent) !important;
-    box-shadow: 0 0 40px var(--accent) !important;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-/* Card hover par thoda tilt hoga */
-.flip-card-view:hover {
-    transform: rotateY(5deg) rotateX(5deg);
-}
-
-/* Photo ki nayi style */
-.flip-card-view .img-frame {
-    border: 4px double var(--accent);
-    padding: 5px;
-    background: #000;
-    box-shadow: inset 0 0 20px var(--accent);
-}
-
-/* Message box styling */
-.flip-card-view .message-box {
-    background: linear-gradient(45deg, rgba(255,255,255,0.05), transparent);
-    padding: 15px;
-    border-left: 3px solid var(--accent);
-    font-style: italic;
-}
-
-/* Snow Falling Animation */
-.particle-snow {
-    color: #fff;
-    text-shadow: 0 0 5px #fff;
-    font-size: 1rem;
-}
-
-/* --- DAY 5: SCRATCH CARD LAYOUT --- */
-.scratch-card {
-    border: 3px dashed var(--accent) !important;
-    position: relative;
-    overflow: hidden;
-}
-
-#scratch-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     cursor: crosshair;
     z-index: 10;
-    border-radius: 20px;
 }
 
-.img-frame {
-    position: relative;
-    background: #1a1a1a;
+h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); margin: 10px 0; font-family: 'Great Vibes', cursive; color: var(--accent); }
+p { font-size: 0.95rem; color: #ccc; line-height: 1.5; }
+
+/* Audio & Buttons */
+.audio-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; margin-bottom: 10px; }
+.audio-box span { font-size: 0.7rem; display: block; margin-bottom: 5px; color: var(--accent); }
+audio { width: 100%; height: 30px; filter: invert(1); }
+
+.heart-btn { 
+    background: var(--accent); border: none; border-radius: 50px; 
+    padding: 12px 25px; color: #000; font-weight: bold; width: 100%; cursor: pointer;
 }
 
-/* Confetti Effect (Day 5 Special) */
-.particle-confetti {
-    width: 10px;
-    height: 10px;
-    background: var(--accent);
-    position: fixed;
-    animation: fall 3s linear infinite;
-}
+.hidden { display: none; margin-top: 15px; color: var(--accent); font-style: italic; }
+.hidden.show { display: block; animation: fadeIn 1s; }
+
+/* Particles */
+.particle { position: fixed; top: -5vh; pointer-events: none; z-index: 1; animation: fall linear infinite; }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+
+/* --- SPECIAL LAYOUTS --- */
+.cinematic-view { max-width: 500px !important; border-width: 2px !important; box-shadow: 0 0 50px var(--accent); }
+.flip-card-view { transform: perspective(1000px) rotateX(2deg); border-style: double !important; }
+.scratch-card { border-style: dashed !important; }
