@@ -28,5 +28,15 @@ const loveDays = {
         layout: "cinematic", // Naya layout type
         animation: "float-3d", // 3D effect
         particles: "stars" // Girte huye sitare
+    },
+    "4": {
+        title: "Hamari Secret Memory 🔐",
+        message: "Ye pal mere dil ke sabse kareeb hai...",
+        image: "assets/images/photo4.jpg",
+        song: "assets/audio/romantic-piano.mp3",
+        theme: "#00d2ff", // Neon Blue Theme
+        layout: "flip-3d", // Nayi Class ka naam
+        effect: "snow",    // Naya Falling Effect
+        hidden: "Secret: Main tumhe kabhi nahi khona chahta."
     }
 };
