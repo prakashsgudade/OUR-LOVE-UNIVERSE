@@ -16,5 +16,14 @@ const loveDays = {
         voice: "",
         theme: "#ff4d6d", // Pink for Day 2
         hidden: "I missed you today."
+    },
+    "3": {
+        title: "Hamari Teesri Mulakat 😍",
+        message: "Aaj ka din bahut special tha kyunki...",
+        image: "assets/images/photo3.jpg", // Make sure photo3.jpg folder mein ho
+        song: "assets/audio/romantic.mp3.mpeg",
+        voice: "",
+        theme: "#a2d2ff", // Day 3 ke liye Light Blue color
+        hidden: "Tumne aaj blue dress pehni thi, bahut pyari lag rahi thi!"
     }
 };
