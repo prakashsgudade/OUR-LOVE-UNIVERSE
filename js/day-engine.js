@@ -4,41 +4,46 @@ window.onload = function() {
     const data = loveDays[dayId];
 
     if (data) {
-        // 1. Theme Color Fix (Day 2 Pink dikhega)
-        if(data.theme) {
-            document.documentElement.style.setProperty('--accent', data.theme);
+        // Theme Apply
+        if(data.theme) document.documentElement.style.setProperty('--accent', data.theme);
+
+        // Layout Switcher (Day 3+ ke liye)
+        if(data.layout === "cinematic") {
+            document.getElementById('main-layout').classList.add('cinematic-view');
         }
 
-        // 2. Photo Load Fix
-        const img = document.getElementById('day-img');
-        img.src = data.image;
-        
-        // Agar photo load na ho toh error check ke liye
-        img.onerror = function() {
-            console.error("Bhai, photo nahi mili: " + data.image);
-        };
-
-        // 3. Text & Secret
+        // Content Fill
+        document.getElementById('day-img').src = data.image;
         document.getElementById('day-title').innerText = data.title;
         document.getElementById('day-message').innerText = data.message;
         window.secretData = data.hidden;
 
-        // 4. Music Fast Loading Fix
+        // Music & Voice
         const bgMusic = document.getElementById('bg-music');
         bgMusic.src = data.song;
-        bgMusic.load(); // Force load gaana
+        bgMusic.load();
 
-        // Voice section
-        if(data.voice && data.voice !== "") {
-            const vNote = document.getElementById('voice-note');
-            vNote.src = data.voice;
-            vNote.load();
+        if(data.voice) {
+            document.getElementById('voice-note').src = data.voice;
         } else {
-            const vs = document.getElementById('voice-section');
-            if(vs) vs.style.display = "none";
+            document.getElementById('voice-section').style.display = "none";
         }
-    } else {
-        document.body.innerHTML = "<h2 style='color:white; text-align:center;'>Day Not Found!</h2>";
+
+        // Particle System (Stars/Hearts)
+        if(data.particles) startParticles(data.particles);
+    }
+}
+
+function startParticles(type) {
+    const container = document.getElementById('dynamic-body');
+    const symbol = type === "stars" ? "⭐" : "❤️";
+    for (let i = 0; i < 25; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.innerText = symbol;
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        container.appendChild(p);
     }
 }
 
