@@ -61,3 +61,43 @@ if(data.layout === "flip-3d") {
 if(data.effect === "snow") {
     startParticles('❄️');
 }
+
+// Onload ke andar ye switch check karo
+if(data.layout === "scratch-card") {
+    setupScratchEffect();
+}
+
+function setupScratchEffect() {
+    const frame = document.querySelector('.img-frame');
+    const canvas = document.createElement('canvas');
+    canvas.id = 'scratch-canvas';
+    frame.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    canvas.width = frame.offsetWidth;
+    canvas.height = frame.offsetHeight;
+    
+    // Silver Paint Layer
+    ctx.fillStyle = '#C0C0C0';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Scratching logic
+    let isDrawing = false;
+    const scratch = (e) => {
+        if (!isDrawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.pageX || e.touches[0].pageX) - rect.left;
+        const y = (e.pageY || e.touches[0].pageY) - rect.top;
+        
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, 30, 0, Math.PI * 2);
+        ctx.fill();
+    };
+
+    canvas.addEventListener('mousedown', () => isDrawing = true);
+    canvas.addEventListener('mousemove', scratch);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('touchstart', () => isDrawing = true);
+    canvas.addEventListener('touchmove', scratch);
+}
