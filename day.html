@@ -4,34 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Our Memory | ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/day-style.css">
 </head>
-<body id="dynamic-body">
+<body>
     <div class="main-wrapper">
         <div class="glass-container" id="main-layout">
-            <div class="img-frame">
-                <img id="day-img" src="" alt="Memory Photo">
+            <div class="img-frame" id="img-wrapper">
+                <img id="day-img" src="" alt="Memory">
             </div>
             
             <h1 id="day-title"></h1>
             <p id="day-message"></p>
             
             <div class="player-section">
-                <div class="audio-box">
-                    <span>🎵 Background Music</span>
-                    <audio id="bg-music" controls loop></audio>
-                </div>
-                <div id="voice-section" class="audio-box">
-                    <span>🎤 Voice Message</span>
-                    <audio id="voice-note" controls></audio>
-                </div>
+                <div class="audio-box"><span>🎵 Music</span><audio id="bg-music" controls loop></audio></div>
+                <div id="voice-section" class="audio-box"><span>🎤 Voice</span><audio id="voice-note" controls></audio></div>
             </div>
 
             <button onclick="revealSecret()" class="heart-btn">❤️ Tap to Reveal</button>
             <div id="secret-msg" class="hidden"></div>
             
-            <a href="chapters.html" style="color:#777; text-decoration:none; display:block; margin-top:15px; font-size:0.8rem;">← Back to Timeline</a>
+            <a href="chapters.html" style="color:#666; text-decoration:none; display:block; margin-top:15px; font-size:0.8rem;">← Back</a>
         </div>
     </div>
     <script src="js/days-data.js"></script>
