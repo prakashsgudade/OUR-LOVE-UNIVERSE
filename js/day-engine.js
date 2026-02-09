@@ -5,8 +5,8 @@ window.onload = function() {
 
     if (data) {
         if(data.theme) document.documentElement.style.setProperty('--accent', data.theme);
-        const mainLayout = document.getElementById('main-layout');
         const img = document.getElementById('day-img');
+        const layout = document.getElementById('main-layout');
 
         img.src = data.image;
         document.getElementById('day-title').innerText = data.title;
@@ -15,13 +15,14 @@ window.onload = function() {
 
         img.onload = function() {
             if(data.layout === "scratch-card") {
-                mainLayout.classList.add('scratch-card');
+                layout.classList.add('scratch-card');
                 setupScratchEffect();
             } else if(data.layout === "flip-3d") {
-                mainLayout.classList.add('flip-card-view');
+                layout.classList.add('flip-card-view');
             } else if(data.layout === "cinematic") {
-                mainLayout.classList.add('cinematic-view');
+                layout.classList.add('cinematic-view');
             } else {
+                // Day 1 & 2 logic: Open hote hi blur
                 img.classList.add('blur-reveal');
             }
         };
@@ -41,11 +42,8 @@ function setupScratchEffect() {
     canvas.id = 'scratch-canvas';
     frame.appendChild(canvas);
     const ctx = canvas.getContext('2d');
-    
-    // Canvas size exact photo ke barabar
     canvas.width = img.offsetWidth;
     canvas.height = img.offsetHeight;
-    
     ctx.fillStyle = '#C0C0C0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
@@ -56,30 +54,31 @@ function setupScratchEffect() {
         const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
         const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath(); ctx.arc(x, y, 35, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI * 2); ctx.fill();
     };
-
     canvas.addEventListener('mousedown', () => isDrawing = true);
     canvas.addEventListener('mousemove', scratch);
     canvas.addEventListener('mouseup', () => isDrawing = false);
-    canvas.addEventListener('touchstart', (e) => { isDrawing = true; });
+    canvas.addEventListener('touchstart', (e) => isDrawing = true);
     canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); });
 }
 
 function startParticles(type) {
     const container = document.body;
-    let symbol = (type === "snow") ? "❄️" : (type === "stars") ? "⭐" : "❤️";
-    for (let i = 0; i < 15; i++) {
+    let symbol = (type === "snow") ? "❄️" : (type === "stars") ? "⭐" : (type === "✨") ? "✨" : "❤️";
+    for (let i = 0; i < 20; i++) {
         const p = document.createElement('div');
-        p.className = 'particle'; p.innerText = symbol;
+        p.className = 'particle';
+        p.innerText = symbol;
         p.style.left = Math.random() * 100 + 'vw';
         p.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        document.body.appendChild(p);
+        p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        container.appendChild(p);
     }
 }
 
 function revealSecret() {
     const box = document.getElementById('secret-msg');
-    box.innerText = window.secretData || "Surprise! ❤️";
+    box.innerText = window.secretData || "I Love You! ❤️";
     box.classList.toggle('show');
 }
