@@ -5,7 +5,7 @@ const loveDays = {
         image: "assets/images/photo1.jpg", 
         song: "assets/audio/our-song.mp3",
         voice: "assets/audio/muskan-message.mp3.mpeg",
-        theme: "#d4af37", // Gold for Day 1
+        theme: "#d4af37",
         hidden: "Secret: Tum meri ho!"
     },
     "2": {
@@ -14,16 +14,19 @@ const loveDays = {
         image: "assets/images/photo2.jpg",
         song: "assets/audio/our-song.mp3",
         voice: "",
-        theme: "#ff4d6d", // Pink for Day 2
+        theme: "#ff4d6d",
         hidden: "I missed you today."
     },
+    // --- DAY 3 SE ADVANCED FEATURES SHURU ---
     "3": {
-        title: "Hamari Teesri Mulakat 😍",
-        message: "Aaj ka din bahut special tha kyunki...",
-        image: "assets/images/photo3.jpg", // Make sure photo3.jpg folder mein ho
-        song: "assets/audio/romantic.mp3.mpeg",
-        voice: "",
-        theme: "#a2d2ff", // Day 3 ke liye Light Blue color
-        hidden: "Tumne aaj blue dress pehni thi, bahut pyari lag rahi thi!"
+        title: "3D Galaxy of Us 🌌",
+        message: "Aaj hum sitaron ke beech hain...",
+        image: "assets/images/photo3.jpg",
+        song: "assets/audio/romantic-bg.mp3",
+        theme: "#6a11cb", // Purple theme
+        hidden: "You are my universe.",
+        layout: "cinematic", // Naya layout type
+        animation: "float-3d", // 3D effect
+        particles: "stars" // Girte huye sitare
     }
 };
