@@ -5,43 +5,44 @@ window.onload = function() {
 
     if (data) {
         if(data.theme) document.documentElement.style.setProperty('--accent', data.theme);
-        
+        const mainLayout = document.getElementById('main-layout');
         const img = document.getElementById('day-img');
-        const layout = document.getElementById('main-layout');
 
         img.src = data.image;
         document.getElementById('day-title').innerText = data.title;
         document.getElementById('day-message').innerText = data.message;
         window.secretData = data.hidden;
 
-        // Photo Load hone ke baad layout set karein
         img.onload = function() {
             if(data.layout === "scratch-card") {
+                mainLayout.classList.add('scratch-card');
                 setupScratchEffect();
-            } else if(data.layout !== "cinematic" && data.layout !== "flip-3d") {
+            } else if(data.layout === "flip-3d") {
+                mainLayout.classList.add('flip-card-view');
+            } else if(data.layout === "cinematic") {
+                mainLayout.classList.add('cinematic-view');
+            } else {
                 img.classList.add('blur-reveal');
             }
         };
 
         document.getElementById('bg-music').src = data.song;
-        if(data.voice) {
-            document.getElementById('voice-note').src = data.voice;
-        } else {
-            document.getElementById('voice-section').style.display = "none";
-        }
+        if(data.voice) document.getElementById('voice-note').src = data.voice;
+        else document.getElementById('voice-section').style.display = "none";
 
         if(data.particles || data.effect) startParticles(data.particles || data.effect);
     }
 }
 
 function setupScratchEffect() {
-    const frame = document.getElementById('img-wrapper');
+    const frame = document.getElementById('img-container');
     const img = document.getElementById('day-img');
     const canvas = document.createElement('canvas');
     canvas.id = 'scratch-canvas';
     frame.appendChild(canvas);
-    
     const ctx = canvas.getContext('2d');
+    
+    // Canvas size exact photo ke barabar
     canvas.width = img.offsetWidth;
     canvas.height = img.offsetHeight;
     
@@ -52,10 +53,10 @@ function setupScratchEffect() {
     const scratch = (e) => {
         if (!isDrawing) return;
         const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX || e.touches[0].clientX) - rect.left;
-        const y = (e.clientY || e.touches[0].clientY) - rect.top;
+        const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+        const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, y, 35, 0, Math.PI * 2); ctx.fill();
     };
 
     canvas.addEventListener('mousedown', () => isDrawing = true);
@@ -79,6 +80,6 @@ function startParticles(type) {
 
 function revealSecret() {
     const box = document.getElementById('secret-msg');
-    box.innerText = window.secretData;
+    box.innerText = window.secretData || "Surprise! ❤️";
     box.classList.toggle('show');
 }
