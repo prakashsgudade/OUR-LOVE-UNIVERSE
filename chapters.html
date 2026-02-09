@@ -113,25 +113,39 @@
 
     let container = document.getElementById("timeline");
 
+    // JS se din create ho rahe hain
     for(let i=1; i<=TOTAL_DAYS; i++){
         let node = document.createElement("div");
         node.className = "chapter-node";
+        
+        // Check kar rahe hain ki kya is din ka koi special naam 'days-data.js' mein hai?
+        // Agar hai toh wo dikhao, nahi toh bas "Day 3", "Day 4" dikhao.
+        let dayTitle = (loveDays && loveDays[i]) ? loveDays[i].title : `Day ${i}`;
+        let subText = (loveDays && loveDays[i]) ? "Unlock Memory ❤️" : "Coming Soon...";
+
         node.innerHTML = `
             <div class="node-dot"></div>
             <div class="card" onclick="loadChapter(${i})">
-                <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">
-                    Day ${i}
+                <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.1rem;">
+                    ${dayTitle}
                 </span><br>
-                <small>Enter Memory</small>
+                <small style="color:rgba(255,255,255,0.6);">${subText}</small>
             </div>
         `;
         container.appendChild(node);
     }
 
+    // Yeh function JS se day.html pe bhejta hai ID ke saath
     function loadChapter(i) {
+        // Agar data nahi hai toh alert dikha sakte ho (Optional)
+        if (!loveDays[i]) {
+            alert("Sabr rakho Muskan! Ye memory abhi likhi ja rahi hai... ❤️");
+            return;
+        }
         window.location.href = `day.html?d=${i}`;
     }
 
+    // Jump to day logic
     function jumpToDay(){
         let input = document.getElementById("daySearch");
         let num = parseInt(input.value);
@@ -145,16 +159,18 @@
             setTimeout(() => { card.classList.remove('jump-highlight'); }, 2500);
             input.value = ""; 
         } else {
-            alert("Sabr rakho Muskan! Wo din abhi aane wala hai ❤️");
+            alert("Ye din abhi dur hai ❤️");
         }
     }
 
+    // Welcome Notification
     window.onload = () => {
         const notif = document.getElementById('notification');
         notif.style.opacity = "1";
         setTimeout(() => { notif.style.opacity = "0"; }, 3000);
     };
 
+    // Scroll Arrows Logic
     window.onscroll = function() {
         let up = document.getElementById("scrollUp");
         let down = document.getElementById("scrollDown");
@@ -167,16 +183,17 @@
     document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
     document.getElementById("scrollDown").onclick = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
 
+    // Star Background Animation
     const c=document.getElementById("space"); const ctx=c.getContext("2d");
     c.width=innerWidth; c.height=innerHeight;
     let stars=[];
-    for(let i=0; i<100; i++) stars.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*1.5});
+    for(let i=0; i<150; i++) stars.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*1.5});
     function anim(){
         ctx.clearRect(0,0,c.width,c.height);
         ctx.fillStyle="white";
         stars.forEach(s=>{
             ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
-            s.y += 0.3; if(s.y > c.height) s.y = 0;
+            s.y += 0.4; if(s.y > c.height) s.y = 0;
         });
         requestAnimationFrame(anim);
     }
