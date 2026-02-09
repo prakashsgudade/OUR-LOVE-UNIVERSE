@@ -8,37 +8,32 @@
     <link rel="stylesheet" href="css/day-style.css">
 </head>
 <body id="dynamic-body">
-    
     <div class="main-wrapper">
         <div class="glass-container" id="main-layout">
             <div class="img-frame">
                 <img id="day-img" src="" alt="Memory Photo">
             </div>
             
-            <h1 id="day-title" class="title-font"></h1>
-            
-            <div class="message-box">
-                <p id="day-message"></p>
-            </div>
+            <h1 id="day-title"></h1>
+            <p id="day-message"></p>
             
             <div class="player-section">
                 <div class="audio-box">
                     <span>🎵 Background Music</span>
-                    <audio id="bg-music" controls loop preload="auto"></audio>
+                    <audio id="bg-music" controls loop></audio>
                 </div>
                 <div id="voice-section" class="audio-box">
                     <span>🎤 Voice Message</span>
-                    <audio id="voice-note" controls preload="metadata"></audio>
+                    <audio id="voice-note" controls></audio>
                 </div>
             </div>
 
             <button onclick="revealSecret()" class="heart-btn">❤️ Tap to Reveal</button>
             <div id="secret-msg" class="hidden"></div>
             
-            <a href="chapters.html" class="back-link">← Back to Timeline</a>
+            <a href="chapters.html" style="color:#777; text-decoration:none; display:block; margin-top:15px; font-size:0.8rem;">← Back to Timeline</a>
         </div>
     </div>
-
     <script src="js/days-data.js"></script>
     <script src="js/day-engine.js"></script>
 </body>
