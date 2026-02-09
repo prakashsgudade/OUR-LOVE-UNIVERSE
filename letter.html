@@ -15,15 +15,18 @@
             align-items: center;
             margin: 0; 
             font-family: 'Montserrat', sans-serif;
-            overflow: hidden; /* Prevent scrolling during typewriter */
-            padding: 20px;
+            /* Scroll enable kar diya hai */
+            overflow-y: auto; 
+            padding: 40px 20px;
             box-sizing: border-box;
         }
 
-        /* Heart Beat in background - Responsive Size */
+        /* Heart Beat Background */
         .heart-bg {
-            position: absolute; 
-            font-size: clamp(20rem, 80vw, 50rem); /* Mobile pe chota, laptop pe bada */
+            position: fixed; /* Fixed taaki scroll karte waqt piche hi rahe */
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(20rem, 80vw, 50rem);
             color: rgba(212, 175, 55, 0.03);
             z-index: -1; 
             animation: beat 3s infinite;
@@ -32,33 +35,34 @@
 
         .container { 
             width: 100%;
-            max-width: 650px; /* Laptop pe width limit */
-            padding: clamp(20px, 5vw, 50px); /* Responsive padding */
+            max-width: 650px;
+            padding: clamp(25px, 5vw, 50px);
             text-align: center; 
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px); /* iPhone support */
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 30px;
             border: 1px solid rgba(212, 175, 55, 0.1);
             position: relative;
             z-index: 10;
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            margin: auto; /* Centering for scroll */
         }
 
         #typewriter { 
             font-family: 'Great Vibes', cursive; 
-            /* Clamp font size: Mobile (1.6rem) to Desktop (2.5rem) */
             font-size: clamp(1.6rem, 6vw, 2.5rem); 
             color: #ffb3b3; 
             line-height: 1.5; 
-            min-height: 200px; /* Text jump na kare isliye fixed space */
+            min-height: 150px;
             text-shadow: 0 0 10px rgba(255, 179, 179, 0.2);
             word-wrap: break-word;
+            margin-bottom: 20px;
         }
         
         .btn-hidden {
             display: inline-block; 
-            margin-top: 40px; 
+            margin-top: 30px; 
             text-decoration: none;
             color: #d4af37; 
             border: 1px solid #d4af37; 
@@ -68,7 +72,7 @@
             letter-spacing: 2px;
             opacity: 0; 
             transform: translateY(20px);
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1s ease-out;
             font-weight: bold;
             text-transform: uppercase;
         }
@@ -82,19 +86,16 @@
             background: #d4af37; 
             color: #000; 
             box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); 
-            transform: scale(1.05);
         }
 
         @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        /* Mobile specific adjustments */
-        @media (max-width: 480px) {
-            .container { padding: 30px 15px; border-radius: 20px; }
-            #typewriter { min-height: 250px; } /* Extra space for long text on mobile */
-        }
+        /* Custom Scrollbar for premium look */
+        body::-webkit-scrollbar { width: 6px; }
+        body::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -106,27 +107,29 @@
     </div>
 
     <script>
-        const text = "Suno, ye website maine isliye nahi banayi ki main coding jaanta hoon... Ye maine isliye banayi kyunki mai tumse bahot pyar karta hu ab shayad tum soch rahi hogi ki pyar karta hu to dil mai rakho na mujhe kyu pareshan karte fir rahe ho ,mai tumhe batata hu,  ager mai thoda sa pyar karta to chupa leta ,lekin jyada hai to kaise chupau . mera pyar tumhre liye bahot jyada  is liye tumhare liye meri feelings itni zyada hain ki wo ek message mein fit nahi aati. Har din yahan ek naya raaz khulega... sirf tumhare liye.";
+        const text = "Suno, ye website maine isliye nahi banayi ki main coding jaanta hoon... Ye maine isliye banayi kyunki mai tumse bahot pyar karta hu ab shayad tum soch rahi hogi ki pyar karta hu to dil mai rakho na mujhe kyu pareshan karte fir rahe ho ,mai tumhe batata hu,  ager mai thoda sa pyar karta to chupa leta ,lekin jyada hai to kaise chupau . mera pyar tumhre liye bahot jyada hai  is liye tumhare liye meri feelings itni zyada hain ki wo ek message mein fit nahi aati. Har din yahan ek naya raaz khulega... sirf tumhare liye.";
         let i = 0;
-        
+        let isTyping = false;
+
         function typeWriter() {
             if (i < text.length) {
+                isTyping = true;
                 document.getElementById("typewriter").innerHTML += text.charAt(i);
                 i++;
-                
-                // Dot par thoda pause, baaki normal speed
                 let speed = text.charAt(i-1) === '.' ? 600 : 50;
                 setTimeout(typeWriter, speed);
             } else {
-                const btn = document.getElementById('nextBtn');
-                btn.classList.add('btn-show');
+                isTyping = false;
+                document.getElementById('nextBtn').classList.add('btn-show');
             }
         }
 
-        // Ensuring the page is fully loaded before starting
-        window.addEventListener('load', () => {
-            setTimeout(typeWriter, 1000); // 1 second ka initial delay feel ke liye
-        });
+        // Refresh handle karne ke liye window.onload
+        window.onload = () => {
+            // Clear text before starting to avoid double typing on refresh
+            document.getElementById("typewriter").innerHTML = "";
+            setTimeout(typeWriter, 800);
+        };
     </script>
 </body>
 </html>
