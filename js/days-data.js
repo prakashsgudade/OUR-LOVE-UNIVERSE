@@ -50,11 +50,11 @@ const loveDays = {
         hidden: "Surprise! I love you more than yesterday."
     },
 "6": {
-    "title": "A Virtual Hug for You",
-    "message": "Jab bhi bura lage ya meri yaad aaye, bas is photo ko daba ke rakhna... feel karna main wahi hoon. ❤️",
-    "image": "images/photo6.jpg", 
+    "title": "A Virtual Hug for You ❤️",
+    "message": "Jab main paas na hoon, toh bas ise daba ke rakhna... main hamesha tere saath hoon.",
+    "image": "assets/images/photo6.jpg", 
     "song": "audio/hug-song.mp3",
-    "hidden": "I'm always here for you, baby! 🤗",
+    "hidden": "I'm always here for you, my queen! 🤗",
     "theme": "#ff4d6d",
     "layout": "virtual-hug", 
     "particles": "hearts"
