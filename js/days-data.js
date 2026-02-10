@@ -48,5 +48,16 @@ const loveDays = {
         layout: "scratch-card", // Nayi Class
         effect: "confetti",     // Party wala effect
         hidden: "Surprise! I love you more than yesterday."
-    }
+    },
+    // Is line ko Day 5 ke niche copy kar
+"6": {
+    "title": "A Virtual Hug for You",
+    "message": "Jab bhi bura lage ya meri yaad aaye, bas is photo ko daba ke rakhna... feel karna main wahi hoon. ❤️",
+    "image": "images/day6.jpg", 
+    "song": "audio/hug-song.mp3",
+    "hidden": "I'm always here for you, baby! 🤗",
+    "theme": "#ff4d6d",
+    "layout": "virtual-hug", 
+    "particles": "hearts"
+},
 };
