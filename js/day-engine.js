@@ -17,31 +17,23 @@ window.onload = function() {
             if(data.layout === "scratch-card") {
                 layout.classList.add('scratch-card');
                 setupScratchEffect();
-            } else if(data.layout === "flip-3d") {
-                layout.classList.add('flip-card-view');
-            } else if(data.layout === "cinematic") {
-                layout.classList.add('cinematic-view');
-            } else {
-                // Blur Logic for Day 1 & 2
+            } else if(data.layout !== "flip-3d" && data.layout !== "cinematic") {
                 img.classList.add('blur-reveal');
 
-                // MOBILE HOLD TO UNBLUR FIX
-                const unblur = () => { img.style.filter = "blur(0)"; };
+                // UNBLUR ONLY ON IMAGE CLICK/TOUCH
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Stop document from re-blurring
+                    img.style.filter = "blur(0)";
+                });
+
+                // RE-BLUR ON DOCUMENT TOUCH/SCROLL
                 const reblur = () => { img.style.filter = "blur(35px)"; };
-
-                // Touch Events (Mobile)
-                img.addEventListener('touchstart', (e) => { 
-                    unblur();
-                }, {passive: true});
-
-                img.addEventListener('touchend', () => { 
-                    reblur();
-                }, {passive: true});
-
-                // Mouse Events (PC fallback)
-                img.addEventListener('mousedown', unblur);
-                img.addEventListener('mouseup', reblur);
-                img.addEventListener('mouseleave', reblur);
+                
+                document.addEventListener('click', reblur);
+                window.addEventListener('scroll', reblur);
+                document.addEventListener('touchstart', (e) => {
+                    if (e.target !== img) reblur();
+                });
             }
         };
 
@@ -60,13 +52,10 @@ function setupScratchEffect() {
     canvas.id = 'scratch-canvas';
     frame.appendChild(canvas);
     const ctx = canvas.getContext('2d');
-    
     canvas.width = img.clientWidth;
     canvas.height = img.clientHeight;
-    
     ctx.fillStyle = '#C0C0C0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
     let isDrawing = false;
     const scratch = (e) => {
         if (!isDrawing) return;
@@ -76,7 +65,6 @@ function setupScratchEffect() {
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI * 2); ctx.fill();
     };
-
     canvas.addEventListener('mousedown', () => isDrawing = true);
     canvas.addEventListener('mousemove', scratch);
     canvas.addEventListener('mouseup', () => isDrawing = false);
