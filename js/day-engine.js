@@ -22,20 +22,11 @@ window.onload = function() {
             } else if(data.layout === "cinematic") {
                 layout.classList.add('cinematic-view');
             } else {
-                // FORCE BLUR LOGIC
+                // Day 1 & 2 Blur Logic
                 img.classList.add('blur-reveal');
-                
-                // Jab tak daba ke rakhoge, blur hatega
-                const unblur = () => { img.style.filter = "blur(0)"; };
-                const reblur = () => { img.style.filter = "blur(35px)"; };
-
-                img.addEventListener('mousedown', unblur);
-                img.addEventListener('mouseup', reblur);
-                img.addEventListener('mouseleave', reblur);
-                
-                // Mobile Touch
-                img.addEventListener('touchstart', (e) => { unblur(); });
-                img.addEventListener('touchend', (e) => { reblur(); });
+                // Mobile Touch Support
+                img.addEventListener('touchstart', () => { img.style.filter = "blur(0)"; });
+                img.addEventListener('touchend', () => { img.style.filter = "blur(35px)"; });
             }
         };
 
@@ -47,21 +38,6 @@ window.onload = function() {
     }
 }
 
-function startParticles(type) {
-    const layer = document.getElementById('particles-layer');
-    let symbol = (type === "snow") ? "❄️" : (type === "stars") ? "⭐" : (type === "✨") ? "✨" : "❤️";
-    for (let i = 0; i < 20; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.innerText = symbol;
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        p.style.fontSize = (Math.random() * 20 + 10) + 'px';
-        layer.appendChild(p);
-    }
-}
-
-// Scratch, Reveal functions as usual...
 function setupScratchEffect() {
     const frame = document.getElementById('img-container');
     const img = document.getElementById('day-img');
@@ -69,10 +45,13 @@ function setupScratchEffect() {
     canvas.id = 'scratch-canvas';
     frame.appendChild(canvas);
     const ctx = canvas.getContext('2d');
-    canvas.width = img.offsetWidth;
-    canvas.height = img.offsetHeight;
+    
+    canvas.width = img.clientWidth;
+    canvas.height = img.clientHeight;
+    
     ctx.fillStyle = '#C0C0C0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
     let isDrawing = false;
     const scratch = (e) => {
         if (!isDrawing) return;
@@ -82,6 +61,7 @@ function setupScratchEffect() {
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI * 2); ctx.fill();
     };
+
     canvas.addEventListener('mousedown', () => isDrawing = true);
     canvas.addEventListener('mousemove', scratch);
     canvas.addEventListener('mouseup', () => isDrawing = false);
@@ -89,8 +69,21 @@ function setupScratchEffect() {
     canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); });
 }
 
+function startParticles(type) {
+    const layer = document.getElementById('particles-layer');
+    let symbol = (type === "snow") ? "❄️" : (type === "stars") ? "⭐" : "❤️";
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle'; p.innerText = symbol;
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        p.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        layer.appendChild(p);
+    }
+}
+
 function revealSecret() {
     const box = document.getElementById('secret-msg');
-    box.innerText = window.secretData || "Surprise! ❤️";
+    box.innerText = window.secretData || "I Love You! ❤️";
     box.classList.toggle('show');
 }
