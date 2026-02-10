@@ -20,20 +20,22 @@ window.onload = function() {
             } else if(data.layout !== "flip-3d" && data.layout !== "cinematic") {
                 img.classList.add('blur-reveal');
 
-                // UNBLUR ONLY ON IMAGE CLICK/TOUCH
+                // MOBILE SPECIFIC LOGIC
                 img.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Stop document from re-blurring
-                    img.style.filter = "blur(0)";
+                    if (window.matchMedia("(hover: none)").matches) {
+                        e.stopPropagation();
+                        img.style.filter = "blur(0)";
+                    }
                 });
 
-                // RE-BLUR ON DOCUMENT TOUCH/SCROLL
-                const reblur = () => { img.style.filter = "blur(35px)"; };
+                const reblur = () => { 
+                    if (window.matchMedia("(hover: none)").matches) {
+                        img.style.filter = "blur(35px)"; 
+                    }
+                };
                 
                 document.addEventListener('click', reblur);
                 window.addEventListener('scroll', reblur);
-                document.addEventListener('touchstart', (e) => {
-                    if (e.target !== img) reblur();
-                });
             }
         };
 
