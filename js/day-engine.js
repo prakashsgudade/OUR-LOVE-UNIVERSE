@@ -22,11 +22,26 @@ window.onload = function() {
             } else if(data.layout === "cinematic") {
                 layout.classList.add('cinematic-view');
             } else {
-                // Day 1 & 2 Blur Logic
+                // Blur Logic for Day 1 & 2
                 img.classList.add('blur-reveal');
-                // Mobile Touch Support
-                img.addEventListener('touchstart', () => { img.style.filter = "blur(0)"; });
-                img.addEventListener('touchend', () => { img.style.filter = "blur(35px)"; });
+
+                // MOBILE HOLD TO UNBLUR FIX
+                const unblur = () => { img.style.filter = "blur(0)"; };
+                const reblur = () => { img.style.filter = "blur(35px)"; };
+
+                // Touch Events (Mobile)
+                img.addEventListener('touchstart', (e) => { 
+                    unblur();
+                }, {passive: true});
+
+                img.addEventListener('touchend', () => { 
+                    reblur();
+                }, {passive: true});
+
+                // Mouse Events (PC fallback)
+                img.addEventListener('mousedown', unblur);
+                img.addEventListener('mouseup', reblur);
+                img.addEventListener('mouseleave', reblur);
             }
         };
 
@@ -84,6 +99,6 @@ function startParticles(type) {
 
 function revealSecret() {
     const box = document.getElementById('secret-msg');
-    box.innerText = window.secretData || "I Love You! ❤️";
+    box.innerText = window.secretData || "Surprise! ❤️";
     box.classList.toggle('show');
 }
