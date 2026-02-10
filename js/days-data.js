@@ -51,9 +51,9 @@ const loveDays = {
     },
 "6": {
     "title": "A Virtual Hug for You ❤️",
-    "message": "Jab main paas na hoon, toh bas ise daba ke rakhna... main hamesha tere saath hoon.",
+    "message": "Understand the beats of my heart. ...because who knows if tomorrow will come or not.",
     "image": "assets/images/photo6.jpg", 
-    "song": "audio/hug-song.mp3",
+    "song": "audio/heart-beat.mp3",
     "hidden": "I'm always here for you, my queen! 🤗",
     "theme": "#ff4d6d",
     "layout": "virtual-hug", 
