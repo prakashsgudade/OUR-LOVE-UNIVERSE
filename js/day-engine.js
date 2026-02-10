@@ -14,28 +14,50 @@ window.onload = function() {
         window.secretData = data.hidden;
 
         img.onload = function() {
+            // --- LAYOUT CHECKER ---
             if(data.layout === "scratch-card") {
                 layout.classList.add('scratch-card');
                 setupScratchEffect();
-            } else if(data.layout !== "flip-3d" && data.layout !== "cinematic") {
-                img.classList.add('blur-reveal');
+            } 
+            else if(data.layout === "virtual-hug") {
+                // DAY 6 SPECIAL LOGIC
+                layout.classList.add('pulse-card');
+                const hugHeart = document.createElement('div');
+                hugHeart.className = 'hug-overlay';
+                hugHeart.innerHTML = '❤️';
+                document.getElementById('img-container').appendChild(hugHeart);
 
-                // MOBILE SPECIFIC LOGIC
+                let hugTimer;
+                const startHug = () => {
+                    layout.classList.add('vibrate', 'hug-active');
+                    if (navigator.vibrate) navigator.vibrate(200);
+                    hugTimer = setTimeout(() => { revealSecret(); }, 2000);
+                };
+                const stopHug = () => {
+                    layout.classList.remove('vibrate', 'hug-active');
+                    clearTimeout(hugTimer);
+                };
+
+                img.addEventListener('mousedown', startHug);
+                img.addEventListener('mouseup', stopHug);
+                img.addEventListener('touchstart', startHug);
+                img.addEventListener('touchend', stopHug);
+            }
+            else if(data.layout === "flip-3d") {
+                layout.classList.add('flip-card-view');
+            } 
+            else {
+                // Default Blur Logic for Day 1, 2 etc.
+                img.classList.add('blur-reveal');
                 img.addEventListener('click', (e) => {
                     if (window.matchMedia("(hover: none)").matches) {
                         e.stopPropagation();
                         img.style.filter = "blur(0)";
                     }
                 });
-
-                const reblur = () => { 
-                    if (window.matchMedia("(hover: none)").matches) {
-                        img.style.filter = "blur(35px)"; 
-                    }
-                };
-                
-                document.addEventListener('click', reblur);
-                window.addEventListener('scroll', reblur);
+                document.addEventListener('click', () => {
+                    if (window.matchMedia("(hover: none)").matches) img.style.filter = "blur(35px)";
+                });
             }
         };
 
@@ -47,6 +69,7 @@ window.onload = function() {
     }
 }
 
+// Baki niche ke functions (setupScratchEffect, startParticles, revealSecret) pehle jaise hi rahenge
 function setupScratchEffect() {
     const frame = document.getElementById('img-container');
     const img = document.getElementById('day-img');
@@ -76,7 +99,7 @@ function setupScratchEffect() {
 
 function startParticles(type) {
     const layer = document.getElementById('particles-layer');
-    let symbol = (type === "snow") ? "❄️" : (type === "stars") ? "⭐" : "❤️";
+    let symbol = (type === "snow") ? "❄️" : (type === "stars") ? "⭐" : (type === "hearts") ? "❤️" : "❤️";
     for (let i = 0; i < 20; i++) {
         const p = document.createElement('div');
         p.className = 'particle'; p.innerText = symbol;
@@ -90,5 +113,5 @@ function startParticles(type) {
 function revealSecret() {
     const box = document.getElementById('secret-msg');
     box.innerText = window.secretData || "Surprise! ❤️";
-    box.classList.toggle('show');
+    box.classList.add('show');
 }
