@@ -30,11 +30,16 @@ body {
 
 #day-img { width: 100%; height: auto; max-height: 60vh; object-fit: contain; display: block; }
 
-/* SMOOTH BLUR TRANSITION */
+/* SMOOTH BLUR */
 .blur-reveal { 
     filter: blur(35px); 
-    transition: filter 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
+    transition: filter 0.5s ease-in-out; 
     cursor: pointer; 
+}
+
+/* Laptop Cursor Logic */
+@media (hover: hover) {
+    .blur-reveal:hover { filter: blur(0); }
 }
 
 #scratch-canvas {
