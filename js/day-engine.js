@@ -14,13 +14,17 @@ window.onload = function() {
         window.secretData = data.hidden;
 
         img.onload = function() {
-            // --- LAYOUT CHECKER ---
+            // ==========================================
+            // YAHAN LAYOUT CHANGE HOTA HAI (CHEF'S KITCHEN)
+            // ==========================================
+
             if(data.layout === "scratch-card") {
+                // Layout 1: Scratch Card (Day 5)
                 layout.classList.add('scratch-card');
                 setupScratchEffect();
             } 
             else if(data.layout === "virtual-hug") {
-                // DAY 6 SPECIAL LOGIC
+                // Layout 2: Virtual Hug (Day 6) - Pulse + Long Press
                 layout.classList.add('pulse-card');
                 const hugHeart = document.createElement('div');
                 hugHeart.className = 'hug-overlay';
@@ -37,17 +41,32 @@ window.onload = function() {
                     layout.classList.remove('vibrate', 'hug-active');
                     clearTimeout(hugTimer);
                 };
-
                 img.addEventListener('mousedown', startHug);
                 img.addEventListener('mouseup', stopHug);
                 img.addEventListener('touchstart', startHug);
                 img.addEventListener('touchend', stopHug);
             }
+            else if(data.layout === "infinity-portal") {
+                // Layout 3: Infinity Portal (Day 7) - Rotation + Double Tap
+                layout.classList.add('portal-view');
+                
+                let lastTap = 0;
+                img.addEventListener('touchstart', function(e) {
+                    let currentTime = new Date().getTime();
+                    let tapLength = currentTime - lastTap;
+                    if (tapLength < 300 && tapLength > 0) {
+                        createBurst(); // Double tap par hearts nikalenge
+                        if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
+                    }
+                    lastTap = currentTime;
+                });
+                img.addEventListener('dblclick', createBurst);
+            }
             else if(data.layout === "flip-3d") {
                 layout.classList.add('flip-card-view');
             } 
             else {
-                // Default Blur Logic for Day 1, 2 etc.
+                // Default: Blur Logic (Day 1, 2, 3, 4)
                 img.classList.add('blur-reveal');
                 img.addEventListener('click', (e) => {
                     if (window.matchMedia("(hover: none)").matches) {
@@ -69,7 +88,21 @@ window.onload = function() {
     }
 }
 
-// Baki niche ke functions (setupScratchEffect, startParticles, revealSecret) pehle jaise hi rahenge
+// --- HELPER FUNCTIONS (Kaam karne wali machine) ---
+
+function createBurst() {
+    for(let i=0; i<15; i++) {
+        setTimeout(() => {
+            const h = document.createElement('div');
+            h.className = 'floating-heart';
+            h.innerHTML = '❤️';
+            h.style.left = (20 + Math.random() * 60) + 'vw';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 2000);
+        }, i * 100);
+    }
+}
+
 function setupScratchEffect() {
     const frame = document.getElementById('img-container');
     const img = document.getElementById('day-img');
@@ -99,7 +132,7 @@ function setupScratchEffect() {
 
 function startParticles(type) {
     const layer = document.getElementById('particles-layer');
-    let symbol = (type === "snow") ? "❄️" : (type === "stars") ? "⭐" : (type === "hearts") ? "❤️" : "❤️";
+    let symbol = (type === "snow") ? "❄️" : (type === "stars") ? "⭐" : "❤️";
     for (let i = 0; i < 20; i++) {
         const p = document.createElement('div');
         p.className = 'particle'; p.innerText = symbol;
