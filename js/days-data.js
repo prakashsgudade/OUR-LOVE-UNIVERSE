@@ -59,4 +59,15 @@ const loveDays = {
     "layout": "virtual-hug", 
     "particles": "hearts"
 },
+    
+"7": {
+    "title": "Forever & Always",
+    "message": "Ye 7 din toh sirf shuruat hain, mujhe pura jeevan tumhare saath aise hi bitana hai. Happy Valentine's Day! ❤️",
+    "image": "assets/images/day7.jpg", 
+    "song": "audio/love-muskan.mp3",
+    "hidden": "Will you be my Valentine forever? 💍",
+    "theme": "#e63946",
+    "layout": "infinity-portal", 
+    "particles": "stars"
+}, 
 };
