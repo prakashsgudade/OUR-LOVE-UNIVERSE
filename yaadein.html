@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Archives | Muskan</title>
     <link rel="stylesheet" href="css/main-style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <style>
         .archive-body { 
             overflow: hidden; 
@@ -13,9 +13,9 @@
             height: 100vh; 
             position: relative; 
             margin: 0;
+            touch-action: none; /* Mobile scroll fix */
         }
         
-        /* Floating Container */
         .floating-container {
             width: 100%; height: 100%;
             position: relative;
@@ -30,26 +30,24 @@
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
             cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s ease;
+            will-change: transform; /* Performance boost */
         }
 
         .photo-bubble img { 
             width: 100%; height: 100%; 
             object-fit: cover; 
             opacity: 0.8; 
-            transition: 0.3s;
         }
         
         .photo-bubble:hover { 
-            transform: scale(1.3) rotate(5deg); 
+            transform: scale(1.15); 
             z-index: 100; 
             border-color: gold; 
             box-shadow: 0 0 30px gold;
         }
 
-        .photo-bubble:hover img { opacity: 1; }
-
-        /* Modal for Full View */
+        /* Modal / Full View */
         .modal {
             display: none;
             position: fixed;
@@ -57,37 +55,43 @@
             width: 100%; height: 100%;
             background: rgba(0,0,0,0.95);
             z-index: 1000;
-            cursor: zoom-out;
+            cursor: pointer;
         }
 
         .modal-content {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 85%; max-width: 500px;
+            width: 90%; max-width: 450px;
             text-align: center;
         }
 
         .modal-content img {
             width: 100%;
             border: 2px solid gold;
-            border-radius: 10px;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
         }
 
         #modalCaption {
             color: gold;
             margin-top: 15px;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        /* RESPONSIVE QUERIES */
+        @media (max-width: 600px) {
+            .status-bar h2 { font-size: 0.7rem !important; }
+            .status-bar a { font-size: 0.6rem !important; padding: 4px 8px !important; }
+            #modalCaption { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body class="archive-body futuristic-bg">
 
-    <div class="status-bar" style="padding: 20px; color: gold; position: absolute; z-index: 10; width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center;">
-        <a href="home.html" style="color: #00f2ff; text-decoration: none; font-family: 'Orbitron'; border: 1px solid #00f2ff; padding: 5px 15px;"><< BACK TO HUB</a>
-        <h2 style="font-family: 'Orbitron'; margin: 0; font-size: 1rem;">ARCHIVE_MEMORIES_v1.0</h2>
+    <div class="status-bar" style="padding: 15px; color: gold; position: absolute; z-index: 10; width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center;">
+        <a href="home.html" style="color: #00f2ff; text-decoration: none; font-family: 'Orbitron'; border: 1px solid #00f2ff; padding: 5px 12px; font-size: 0.8rem;"><< HUB</a>
+        <h2 style="font-family: 'Orbitron'; margin: 0; font-size: 0.9rem; letter-spacing: 1px;">ARCHIVE_v1.0</h2>
     </div>
 
     <div class="floating-container" id="bubble-field"></div>
@@ -96,55 +100,59 @@
         <div class="modal-content">
             <img id="modalImg" src="">
             <p id="modalCaption"></p>
+            <p style="color: #444; font-size: 0.7rem; font-family: 'Orbitron';">TAP ANYWHERE TO CLOSE</p>
         </div>
     </div>
 
     <script>
-        // FIXED DATA: Added missing commas and fixed single quotes
         const memories = [
             { src: 'assets/images/yaadein/image1.jpg', caption: 'The day my life changed. ❤️' },
             { src: 'assets/images/yaadein/image2.jpg', caption: 'That perfect smile. ✨' },
             { src: 'assets/images/yaadein/image3.jpg', caption: 'Memories worth a thousand years.' },
-            { src: 'assets/images/yaadein/image4.jpg', caption: "Baby, I'll give all my love in whole of my life. ❤️" },
-            { src: 'assets/images/yaadein/image5.jpg', caption: 'I know your love will keep me happy. ✨' },
-            { src: 'assets/images/yaadein/image6.jpg', caption: "You're my breaths, always stay close to me." }
+            { src: 'assets/images/yaadein/image4.jpg', caption: "Baby, I'll give all my love for my whole life. ❤️" },
+            { src: 'assets/images/yaadein/image5.jpg', caption: 'Your love keeps me happy. ✨' },
+            { src: 'assets/images/yaadein/image6.jpg', caption: "You're my breath, stay close. ♾️" }
         ];
 
         const container = document.getElementById('bubble-field');
+        const isMobile = window.innerWidth < 600;
 
-        memories.forEach((mem, index) => {
+        memories.forEach((mem) => {
             const bubble = document.createElement('div');
             bubble.className = 'photo-bubble';
             
-            const size = Math.random() * 80 + 120; // Size 120px to 200px
+            // Mobile par bubbles thode chote rakhenge
+            const size = isMobile ? (Math.random() * 40 + 80) : (Math.random() * 60 + 120); 
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
             
-            // Random Positions
-            bubble.style.left = Math.random() * 70 + 10 + 'vw';
+            // Initial Random Position
+            bubble.style.left = Math.random() * 80 + 5 + 'vw';
             bubble.style.top = Math.random() * 70 + 15 + 'vh';
 
-            bubble.innerHTML = `<img src="${mem.src}">`;
+            bubble.innerHTML = `<img src="${mem.src}" loading="lazy">`;
             
-            // Floating Animation via JS (Smoother than CSS for multiple bubbles)
-            let posX = (Math.random() - 0.5) * 2;
-            let posY = (Math.random() - 0.5) * 2;
+            // Movement Logic
+            let speed = isMobile ? 0.03 : 0.05; // Mobile par slow taaki battery bache
+            let posX = (Math.random() - 0.5) * speed;
+            let posY = (Math.random() - 0.5) * speed;
             
             function animate() {
                 let currentLeft = parseFloat(bubble.style.left);
                 let currentTop = parseFloat(bubble.style.top);
 
-                if (currentLeft <= 0 || currentLeft >= 90) posX *= -1;
-                if (currentTop <= 10 || currentTop >= 85) posY *= -1;
+                if (currentLeft <= 2 || currentLeft >= 85) posX *= -1;
+                if (currentTop <= 12 || currentTop >= 80) posY *= -1;
 
-                bubble.style.left = (currentLeft + posX * 0.02) + 'vw';
-                bubble.style.top = (currentTop + posY * 0.02) + 'vh';
+                bubble.style.left = (currentLeft + posX) + 'vw';
+                bubble.style.top = (currentTop + posY) + 'vh';
 
                 requestAnimationFrame(animate);
             }
             animate();
             
-            bubble.onclick = () => {
+            bubble.onclick = (e) => {
+                e.stopPropagation();
                 document.getElementById('modalImg').src = mem.src;
                 document.getElementById('modalCaption').innerText = mem.caption;
                 document.getElementById('photoModal').style.display = 'block';
