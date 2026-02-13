@@ -19,3 +19,13 @@ function startMagic() {
     }, 200);
 }
 startMagic();
+// js/effects.js
+function updateClock() {
+    const now = new Date();
+    const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
+                    now.getMinutes().toString().padStart(2, '0') + ":" + 
+                    now.getSeconds().toString().padStart(2, '0');
+    document.getElementById('live-clock').innerText = timeStr;
+}
+setInterval(updateClock, 1000);
+updateClock();
