@@ -8,18 +8,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <style>
         .archive-body { 
-            overflow: hidden; 
             background: radial-gradient(circle, #000428, #000); 
-            height: 100vh; 
-            position: relative; 
+            min-height: 200vh; /* Scroll allow karne ke liye height zyada rakhi hai */
             margin: 0;
-            touch-action: none; /* Mobile scroll fix */
+            position: relative;
+            color: white;
+            overflow-x: hidden;
         }
         
+        /* Pull to Refresh Indicator */
+        #refresh-tip {
+            position: fixed;
+            top: -50px;
+            left: 0; width: 100%;
+            text-align: center;
+            color: gold;
+            font-family: 'Orbitron';
+            font-size: 0.8rem;
+            transition: 0.3s;
+            z-index: 1000;
+        }
+
         .floating-container {
-            width: 100%; height: 100%;
-            position: relative;
-            z-index: 2;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
         }
 
         /* Bubble Style */
@@ -31,67 +45,46 @@
             box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
             cursor: pointer;
             transition: transform 0.3s ease;
-            will-change: transform; /* Performance boost */
         }
 
-        .photo-bubble img { 
-            width: 100%; height: 100%; 
-            object-fit: cover; 
-            opacity: 0.8; 
-        }
-        
-        .photo-bubble:hover { 
-            transform: scale(1.15); 
-            z-index: 100; 
-            border-color: gold; 
-            box-shadow: 0 0 30px gold;
-        }
+        .photo-bubble img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+        .photo-bubble:hover { transform: scale(1.1); border-color: gold; box-shadow: 0 0 25px gold; z-index: 50; }
 
-        /* Modal / Full View */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            cursor: pointer;
+            z-index: 2000;
         }
 
         .modal-content {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%; max-width: 450px;
+            width: 85%; max-width: 400px;
             text-align: center;
         }
 
-        .modal-content img {
-            width: 100%;
-            border: 2px solid gold;
-            border-radius: 15px;
-        }
+        .modal-content img { width: 100%; border: 2px solid gold; border-radius: 15px; }
+        #modalCaption { color: gold; margin-top: 15px; font-family: 'Dancing Script'; font-size: 1.3rem; }
 
-        #modalCaption {
-            color: gold;
-            margin-top: 15px;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.4rem;
-        }
-
-        /* RESPONSIVE QUERIES */
+        /* Mobile specific adjustments */
         @media (max-width: 600px) {
-            .status-bar h2 { font-size: 0.7rem !important; }
-            .status-bar a { font-size: 0.6rem !important; padding: 4px 8px !important; }
-            #modalCaption { font-size: 1.1rem; }
+            .archive-body { min-height: 300vh; } /* Mobile par lamba scroll */
+            .status-bar h2 { font-size: 0.8rem !important; }
         }
     </style>
 </head>
 <body class="archive-body futuristic-bg">
 
-    <div class="status-bar" style="padding: 15px; color: gold; position: absolute; z-index: 10; width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center;">
-        <a href="home.html" style="color: #00f2ff; text-decoration: none; font-family: 'Orbitron'; border: 1px solid #00f2ff; padding: 5px 12px; font-size: 0.8rem;"><< HUB</a>
-        <h2 style="font-family: 'Orbitron'; margin: 0; font-size: 0.9rem; letter-spacing: 1px;">ARCHIVE_v1.0</h2>
+    <div id="refresh-tip">↻ PULL TO REFRESH UNIVERSE</div>
+
+    <div class="status-bar" style="padding: 15px; color: gold; position: fixed; top: 0; z-index: 100; width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
+        <a href="home.html" style="color: #00f2ff; text-decoration: none; font-family: 'Orbitron'; border: 1px solid #00f2ff; padding: 5px 12px; font-size: 0.7rem;"><< HUB</a>
+        <h2 style="font-family: 'Orbitron'; margin: 0; font-size: 0.9rem;">YAADEIN_v1.1</h2>
     </div>
 
     <div class="floating-container" id="bubble-field"></div>
@@ -100,7 +93,6 @@
         <div class="modal-content">
             <img id="modalImg" src="">
             <p id="modalCaption"></p>
-            <p style="color: #444; font-size: 0.7rem; font-family: 'Orbitron';">TAP ANYWHERE TO CLOSE</p>
         </div>
     </div>
 
@@ -109,44 +101,44 @@
             { src: 'assets/images/yaadein/image1.jpg', caption: 'The day my life changed. ❤️' },
             { src: 'assets/images/yaadein/image2.jpg', caption: 'That perfect smile. ✨' },
             { src: 'assets/images/yaadein/image3.jpg', caption: 'Memories worth a thousand years.' },
-            { src: 'assets/images/yaadein/image4.jpg', caption: "Baby, I'll give all my love for my whole life. ❤️" },
+            { src: 'assets/images/yaadein/image4.jpg', caption: "Baby, I'll give all my love. ❤️" },
             { src: 'assets/images/yaadein/image5.jpg', caption: 'Your love keeps me happy. ✨' },
             { src: 'assets/images/yaadein/image6.jpg', caption: "You're my breath, stay close. ♾️" }
+            // Yahan aur photos add kar sakte ho...
         ];
 
         const container = document.getElementById('bubble-field');
         const isMobile = window.innerWidth < 600;
 
-        memories.forEach((mem) => {
+        // Creating bubbles across the long scrollable page
+        memories.forEach((mem, i) => {
             const bubble = document.createElement('div');
             bubble.className = 'photo-bubble';
             
-            // Mobile par bubbles thode chote rakhenge
-            const size = isMobile ? (Math.random() * 40 + 80) : (Math.random() * 60 + 120); 
+            const size = isMobile ? (Math.random() * 40 + 90) : (Math.random() * 60 + 130); 
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
             
-            // Initial Random Position
-            bubble.style.left = Math.random() * 80 + 5 + 'vw';
-            bubble.style.top = Math.random() * 70 + 15 + 'vh';
+            // Randomly spread bubbles across the entire scrollable height
+            bubble.style.left = Math.random() * 75 + 5 + 'vw';
+            bubble.style.top = Math.random() * (isMobile ? 250 : 150) + 10 + 'vh';
 
             bubble.innerHTML = `<img src="${mem.src}" loading="lazy">`;
             
-            // Movement Logic
-            let speed = isMobile ? 0.03 : 0.05; // Mobile par slow taaki battery bache
-            let posX = (Math.random() - 0.5) * speed;
-            let posY = (Math.random() - 0.5) * speed;
+            // Simple Floating motion
+            let posX = (Math.random() - 0.5) * 0.05;
+            let posY = (Math.random() - 0.5) * 0.05;
             
             function animate() {
                 let currentLeft = parseFloat(bubble.style.left);
                 let currentTop = parseFloat(bubble.style.top);
 
                 if (currentLeft <= 2 || currentLeft >= 85) posX *= -1;
-                if (currentTop <= 12 || currentTop >= 80) posY *= -1;
+                // Vertical limits based on page height
+                if (currentTop <= 5 || currentTop >= (isMobile ? 280 : 180)) posY *= -1;
 
                 bubble.style.left = (currentLeft + posX) + 'vw';
                 bubble.style.top = (currentTop + posY) + 'vh';
-
                 requestAnimationFrame(animate);
             }
             animate();
@@ -157,8 +149,18 @@
                 document.getElementById('modalCaption').innerText = mem.caption;
                 document.getElementById('photoModal').style.display = 'block';
             };
-
             container.appendChild(bubble);
+        });
+
+        // Pull to Refresh Logic
+        let touchStart = 0;
+        window.addEventListener('touchstart', (e) => { touchStart = e.touches[0].pageY; });
+        window.addEventListener('touchmove', (e) => {
+            const touchMove = e.touches[0].pageY;
+            if (window.scrollY === 0 && touchMove > touchStart + 80) {
+                document.getElementById('refresh-tip').style.top = '20px';
+                setTimeout(() => { location.reload(); }, 1200);
+            }
         });
     </script>
 </body>
