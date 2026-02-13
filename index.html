@@ -3,147 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Queen | Muskan</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Montserrat:wght@300&display=swap" rel="stylesheet">
-
+    <title>For Muskan ❤️</title>
+    <link rel="stylesheet" href="css/royal-theme.css">
     <style>
-        :root { --gold: #d4af37; }
-
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #050505; color: white;
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        /* Falling Stars Background */
-        #star-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
-
-        .star {
-            position: absolute;
-            color: var(--gold);
-            font-size: 1.2rem;
-            filter: drop-shadow(0 0 5px var(--gold));
-            user-select: none;
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Content Card */
-        .gate {
-            position: relative; z-index: 10;
-            width: 100%; display: flex; justify-content: center; align-items: center;
-        }
-
-        .main-content {
-            text-align: center;
-            width: 85%; max-width: 450px;
+        /* Mobile Responsive Tweaks */
+        .login-container {
+            width: 90%;
+            max-width: 400px;
+            margin: auto;
             padding: 40px 20px;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px;
-            /* Border ko tere screenshot jaisa banaya hai */
         }
-
-        .royal-name {
-            font-family: 'Cinzel Decorative', cursive;
-            font-size: clamp(2.5rem, 10vw, 4.5rem); /* Responsive font */
-            color: var(--gold);
-            letter-spacing: 5px; margin: 0;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
-        }
-
-        .love-quote {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.4rem, 5vw, 2rem);
-            color: var(--gold);
-            margin: 20px 0 40px 0;
-            line-height: 1.4;
-            font-style: italic;
-        }
-
-        .royal-btn {
-            background: transparent;
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            padding: 12px 30px;
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 1rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        .royal-btn:hover {
-            background: var(--gold);
-            color: black;
-            box-shadow: 0 0 20px var(--gold);
+        h1 { font-size: 1.5rem; margin-bottom: 30px; }
+        input { width: 80%; margin-bottom: 20px; }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 1.2rem; }
+            .heart-loader { width: 40px; height: 40px; }
+            .heart-loader:before, .heart-loader:after { width: 40px; height: 40px; }
+            .heart-loader:before { top: -20px; }
+            .heart-loader:after { left: 20px; }
         }
     </style>
 </head>
-<body>
+<body class="entry-body">
 
-    <div id="star-container"></div>
-
-    <audio id="bgMusic" loop>
-        <source src="assets/audio/romantic.mp3.mpeg" type="audio/mpeg">
-    </audio>
-
-    <section class="gate">
-        <div class="main-content">
-            <h1 class="royal-name">MUSKAN</h1>
-            <p class="love-quote">"In your smile, I see something more beautiful than the stars."</p>
-            
-            <button class="royal-btn" onclick="openKingdom()">Enter Our Story</button>
-        </div>
-    </section>
+    <div class="login-container">
+        <div class="heart-loader"></div>
+        <h1>Enter my favorite person's name to unlock the universe</h1>
+        
+        <input type="text" id="userName" placeholder="Type 'Muskan'..." autocomplete="off">
+        <br>
+        <button onclick="unlockUniverse()">Enter Her World</button>
+        
+        <p id="errorMsg" style="color: #ff4d4d; display:none; margin-top:15px;">Arey! Ye toh mera universe nahi hai. ❤️</p>
+    </div>
 
     <script>
-        // Star Creator Script
-        function createStars() {
-            const container = document.getElementById('star-container');
-            const starCount = 40; // Kitne stars chahiye
-            const icons = ['★', '⭐', '✦', '✨'];
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.innerText = icons[Math.floor(Math.random() * icons.length)];
+        function unlockUniverse() {
+            const name = document.getElementById('userName').value.trim().toLowerCase();
+            if(name === "muskan") {
+                // Ek pyara sa transition effect
+                document.body.style.transition = "2s";
+                document.body.style.backgroundColor = "black";
+                document.querySelector('.login-container').style.opacity = "0";
                 
-                // Random position and timing
-                star.style.left = Math.random() * 100 + 'vw';
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
-                star.style.animationDelay = Math.random() * 5 + 's';
-                star.style.fontSize = (Math.random() * 10 + 10) + 'px';
-                
-                container.appendChild(star);
+                setTimeout(() => {
+                    window.location.href = "chapters.html"; // Next Page
+                }, 1500);
+            } else {
+                document.getElementById('errorMsg').style.display = "block";
             }
         }
-
-        function openKingdom() {
-            const music = document.getElementById('bgMusic');
-            music.play().catch(() => console.log("Music play blocked"));
-            
-            setTimeout(() => {
-                window.location.href = "letter.html";
-            }, 300);
-        }
-
-        // Initialize stars
-        createStars();
     </script>
 </body>
 </html>
