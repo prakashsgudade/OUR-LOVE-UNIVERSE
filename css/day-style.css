@@ -3,71 +3,57 @@
 
 body { 
     background: #000; color: white; font-family: 'Quicksand', sans-serif; 
-    min-height: 100vh; 
-    overflow-y: auto; /* Scroll Enable Kiya */
-    overflow-x: hidden;
-    display: block; /* Flex hata diya taaki scrolling smooth ho */
+    min-height: 100vh; overflow-y: auto; overflow-x: hidden; display: block;
 }
 
-/* Particles Layer - Sabse Aage */
-#particles-layer {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 99999; /* Extreme Front */
-}
+/* Particles Sabse Aage */
+#particles-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999; }
 
-.main-wrapper { 
-    width: 92%; max-width: 420px; 
-    margin: 40px auto; /* Margin taaki top/bottom se chipke nahi */
-    position: relative; z-index: 10; 
-}
+.main-wrapper { width: 92%; max-width: 420px; margin: 40px auto; position: relative; z-index: 10; }
 
 .glass-container { 
-    background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-radius: 40px; padding: 25px; text-align: center; 
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); border-radius: 40px; padding: 25px; 
+    text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); border-top: 5px solid var(--accent);
     box-shadow: 0 25px 60px rgba(0,0,0,1);
-    border-top: 5px solid var(--accent);
 }
 
-/* Glowing Border for Photo */
+/* Photo Border & Frame */
 .img-frame { 
-    width: 100%; height: 350px; border-radius: 25px; 
-    margin-bottom: 20px; overflow: hidden; position: relative;
-    background: #050505; display: flex; align-items: center; justify-content: center;
-    border: 3px solid var(--accent);
-    box-shadow: 0 0 20px var(--accent);
+    width: 100%; height: 350px; border-radius: 25px; margin-bottom: 20px; overflow: hidden; 
+    position: relative; background: #050505; display: flex; align-items: center; justify-content: center;
+    border: 3px solid var(--accent); box-shadow: 0 0 20px var(--accent);
 }
-.img-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.blur-reveal { filter: blur(40px); transition: 0.8s ease; }
+.img-frame img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.8s ease; }
 
-/* Audio Cards */
-.audio-card {
-    background: rgba(255,255,255,0.07); border-radius: 15px;
-    padding: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.1);
-    text-align: left;
-}
-.audio-card label { font-size: 0.75rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 8px; }
-audio { width: 100%; height: 30px; filter: invert(1) hue-rotate(180deg); }
+.blur-reveal { filter: blur(40px); cursor: pointer; }
+.blur-reveal.clear { filter: blur(0); }
 
-/* Buttons & Secrets */
-.heart-btn { 
-    width: 100%; border: none; border-radius: 50px; padding: 18px; 
-    font-weight: 700; color: #000; cursor: pointer; font-size: 1rem; margin-top: 10px;
+/* Day 6 Hug Effect */
+.hug-pulse { animation: pulse 2s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+
+/* Separate Audio Style */
+.audio-card { 
+    background: rgba(255,255,255,0.07); border-radius: 15px; padding: 12px; margin-bottom: 12px; 
+    border: 1px solid rgba(255,255,255,0.1); text-align: left;
 }
+.audio-card label { font-size: 0.75rem; font-weight: 700; color: var(--accent); display: block; margin-bottom: 5px; }
+audio { width: 100%; height: 30px; filter: invert(1); }
+
+.heart-btn { width: 100%; border: none; border-radius: 50px; padding: 18px; font-weight: 700; color: #000; cursor: pointer; font-size: 1rem; margin-top: 10px; }
+
 .secret-box { 
     max-height: 0; opacity: 0; overflow: hidden; transition: 0.5s ease;
-    background: rgba(255,255,255,0.05); border-radius: 20px;
+    background: rgba(255,255,255,0.05); border-radius: 20px; 
 }
 .secret-box.show { max-height: 200px; opacity: 1; padding: 20px; margin-top: 15px; border: 1px dashed var(--accent); }
 
-/* Particle Styling */
-.particle { 
-    position: fixed; top: -5vh; pointer-events: none; 
-    animation: fall linear infinite; 
-    color: var(--accent); /* Particle ka color theme wala hoga */
-    text-shadow: 0 0 10px var(--accent);
-}
+.particle { position: fixed; top: -5vh; pointer-events: none; animation: fall linear infinite; text-shadow: 0 0 10px var(--accent); }
 @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
 #day-title { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 15px 0; }
-#day-message { line-height: 1.6; color: #eee; margin-bottom: 25px; }
+#day-message { line-height: 1.6; color: #eee; margin-bottom: 25px; text-align: left; border-left: 3px solid var(--accent); padding-left: 15px; }
+
+#scratch-canvas { position: absolute; top:0; left:0; width:100%; height:100%; z-index:5; cursor: crosshair; }
+
+.back-link { display: inline-block; margin-top: 20px; color: var(--accent); text-decoration: none; font-size: 0.8rem; border-bottom: 1px solid; }
