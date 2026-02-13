@@ -70,4 +70,26 @@ const loveDays = {
     "layout": "infinity-portal", 
     "particles": "stars"
 }, 
+ // DAY 8: Pehla naya layout
+    "8": {
+        title: "Our Gallery",
+        message: "Muskan, look at these smiles...",
+        layout: "gallery",
+        theme: "#ff4d6d",
+        items: [
+            { img: "assets/images/m1.jpg", cap: "Pehli Mulakat" },
+            { img: "assets/images/m2.jpg", cap: "Late Night Talks" }
+        ]
+    },
+
+    // DAY 9: Music Vibe
+    "9": {
+        title: "The Beat of My Heart",
+        message: "Ye gaana sunte hi tumhari yaad aati hai.",
+        layout: "music-player",
+        image: "assets/images/muskan-profile.jpg",
+        song: "assets/audio/special.mp3",
+        theme: "#8b5cf6"
+    },
+   
 };
