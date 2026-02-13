@@ -1,44 +1,71 @@
-.royal-name {
-    font-family: 'Cinzel Decorative', cursive;
-    /* Mobile pe 2.5rem, Laptop pe 5rem tak jayega apne aap */
-    font-size: clamp(2.5rem, 8vw, 5rem); 
-    color: #d4af37;
-    margin-bottom: 10px; 
-    letter-spacing: 3px;
-    text-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
-    word-wrap: break-word; /* Mobile pe naam na kate */
+/* css/royal-theme.css */
+body.entry-body {
+    background: radial-gradient(circle, #0f0c29, #302b63, #24243e);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    overflow: hidden;
 }
 
-.love-quote {
-    font-family: 'Great Vibes', cursive;
-    /* Mobile pe 1.2rem, Laptop pe 2rem */
-    font-size: clamp(1.2rem, 4vw, 2rem); 
-    color: #f0e68c;
-    margin-bottom: 30px;
-    padding: 0 10px;
+.login-container {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 215, 0, 0.3); /* Gold border */
 }
 
-.royal-btn {
-    background: transparent; 
-    border: 1px solid #d4af37;
-    color: #d4af37; 
-    padding: clamp(10px, 2vw, 15px) clamp(20px, 5vw, 40px); 
+.heart-loader {
+    width: 60px;
+    height: 60px;
+    background-color: #ff4d4d;
+    margin: 20px auto;
+    position: relative;
+    transform: rotate(-45deg);
+    animation: heartBeat 1.2s infinite;
+    box-shadow: 0 0 20px #ff4d4d;
+}
+
+.heart-loader:before, .heart-loader:after {
+    content: "";
+    width: 60px;
+    height: 60px;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart-loader:before { top: -30px; left: 0; }
+.heart-loader:after { left: 30px; top: 0; }
+
+input {
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 1.1rem;
+    width: 250px;
+    text-align: center;
+}
+
+button {
+    padding: 12px 30px;
+    border-radius: 25px;
+    border: none;
+    background: #ffd700; /* Royal Gold */
+    color: #000;
+    font-weight: bold;
     cursor: pointer;
-    font-family: 'Cinzel Decorative'; 
-    transition: 0.5s;
-    font-size: clamp(0.8rem, 2vw, 1rem);
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    transition: 0.3s;
 }
 
-.royal-btn:hover { 
-    background: #d4af37; 
-    color: black; 
-    box-shadow: 0 0 20px #d4af37; 
-}
-
-/* Chote phones ke liye extra setting */
-@media (max-width: 480px) {
-    .royal-name { letter-spacing: 1px; }
-    .gate { padding: 15px; }
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #ffd700;
 }
