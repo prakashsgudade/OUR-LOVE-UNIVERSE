@@ -5,68 +5,124 @@ window.onload = function() {
 
     if (!data) return;
 
-    // Set Global Accent Color
     document.documentElement.style.setProperty('--accent', data.theme);
-
     const body = document.getElementById('dynamic-body');
     
-    // Check Layout Type
     if (data.layout === "gallery") renderGallery(data, body);
     else if (data.layout === "music-player") renderMusicPlayer(data, body);
     else renderClassic(data, body, dayId);
 
-    // Start Particles
     if(data.particles || data.effect) startParticles(data.particles || data.effect);
 };
 
 function renderClassic(data, container, dayId) {
     let dayNum = parseInt(dayId);
-    let extraHTML = "";
-    let layoutClass = "";
-
-    if (data.layout === "scratch-card") { layoutClass = "scratch-mode"; extraHTML = `<canvas id="scratch-canvas"></canvas>`; }
-    else if (data.layout === "virtual-hug") { layoutClass = "hug-mode"; }
-    else if (data.layout === "infinity-portal") { layoutClass = "portal-view"; }
+    let extraHTML = (data.layout === "scratch-card") ? `<canvas id="scratch-canvas"></canvas>` : "";
 
     container.innerHTML = `
         <div id="particles-layer"></div>
-        <div class="classic-vibe">
-            <div class="main-wrapper">
-                <div class="glass-container ${layoutClass}" id="main-card">
-                    <div class="img-frame" id="img-container">
-                        ${extraHTML}
-                        <img id="day-img" src="${data.image}" class="${dayNum <= 4 ? 'blur-reveal' : ''}">
-                    </div>
-                    <h1 id="day-title" style="color: ${data.theme}">${data.title}</h1>
-                    <p id="day-message">${data.message}</p>
-                    
-                    <div class="audio-section">
-                        <div class="audio-box"><audio controls loop src="${data.song}"></audio></div>
-                        ${data.voice ? `<div class="audio-box"><audio controls src="${data.voice}"></audio></div>` : ''}
-                    </div>
-
-                    <button class="heart-btn" style="background: ${data.theme}" onclick="revealSecret('${data.hidden}')">Tap to Reveal Secret</button>
-                    <div id="secret-msg" style="margin-top:15px; font-weight:600; color:${data.theme}; display:none;"></div>
-                    
-                    <a href="chapters.html" class="back-link">← Back to Timeline</a>
+        <div class="main-wrapper">
+            <div class="glass-container" id="main-card">
+                <div class="img-frame" id="img-container">
+                    ${extraHTML}
+                    <img id="day-img" src="${data.image}" class="${dayNum <= 4 ? 'blur-reveal' : ''}">
                 </div>
+                <h1 id="day-title" style="color: ${data.theme}">${data.title}</h1>
+                <p id="day-message">${data.message}</p>
+                <audio id="main-audio" loop src="${data.song}"></audio>
+                <button class="heart-btn" style="background: ${data.theme}" onclick="toggleSecret('${data.hidden}')">Tap to Reveal Secret</button>
+                <div id="secret-msg" class="secret-box"></div>
+                <a href="chapters.html" class="back-link">← Back to Timeline</a>
             </div>
-        </div>
-    `;
+        </div>`;
 
-    // Special Interactions
     const img = document.getElementById('day-img');
-    if (dayNum <= 4) {
-        img.onclick = () => img.style.filter = "blur(0)";
-    }
+    const audio = document.getElementById('main-audio');
+
+    // Auto Play on first click
+    document.body.onclick = () => { audio.play().catch(()=>{}); };
+
+    if (dayNum <= 4) img.onclick = () => img.style.filter = "blur(0)";
     if (data.layout === "scratch-card") initScratch();
     if (data.layout === "virtual-hug") initHug(data.hidden);
+    if (data.layout === "infinity-portal") initHeartBloom();
 }
 
-function revealSecret(msg) {
+function toggleSecret(msg) {
     const box = document.getElementById('secret-msg');
-    box.innerText = msg;
-    box.style.display = "block";
+    if (box.classList.contains('show')) {
+        box.classList.remove('show');
+    } else {
+        box.innerText = msg;
+        box.classList.add('show');
+    }
+}
+
+function initHug(secret) {
+    const img = document.getElementById('day-img');
+    let timer;
+    const start = () => {
+        if (navigator.vibrate) navigator.vibrate(200); // VIBRATION FIX
+        img.style.transform = "scale(0.95)";
+        timer = setTimeout(() => { toggleSecret(secret); }, 1500);
+    };
+    const end = () => { img.style.transform = "scale(1)"; clearTimeout(timer); };
+    img.ontouchstart = start; img.ontouchend = end;
+    img.onmousedown = start; img.onmouseup = end;
+}
+
+function initHeartBloom() {
+    const frame = document.getElementById('img-container');
+    frame.onclick = () => {
+        for(let i=0; i<10; i++) {
+            const h = document.createElement('div');
+            h.className = 'bloom-heart'; h.innerHTML = '❤️';
+            h.style.left = '50%'; h.style.top = '50%';
+            h.style.setProperty('--tx', (Math.random()*300-150)+'px');
+            h.style.setProperty('--ty', (Math.random()*300-150)+'px');
+            frame.appendChild(h);
+            setTimeout(() => h.remove(), 1000);
+        }
+    };
+}
+
+function renderGallery(data, container) {
+    container.innerHTML = `
+    <div class="main-wrapper">
+        <div class="glass-container">
+            <h1 id="day-title" style="color:${data.theme}">${data.title}</h1>
+            <div class="gallery-grid">
+                ${data.items.map(i => `<div class="gal-item"><img src="${i.img}"><p>${i.cap}</p></div>`).join('')}
+            </div>
+            <a href="chapters.html" class="back-link">← Back</a>
+        </div>
+    </div>`;
+}
+
+function renderMusicPlayer(data, container) {
+    container.innerHTML = `
+    <div class="main-wrapper">
+        <div class="glass-container">
+            <div class="img-frame"><img src="${data.image}" style="border-radius:50%"></div>
+            <h1 id="day-title" style="color:${data.theme}">${data.title}</h1>
+            <audio controls autoplay src="${data.song}" style="width:100%; margin-top:20px; filter:invert(1)"></audio>
+            <br><a href="chapters.html" class="back-link">← Back</a>
+        </div>
+    </div>`;
+}
+
+function startParticles(type) {
+    const layer = document.createElement('div');
+    layer.id = "particles-layer"; document.body.appendChild(layer);
+    const symbol = (type === "stars") ? "⭐" : (type === "snow") ? "❄️" : "❤️";
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle'; p.innerText = symbol;
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        p.style.fontSize = (Math.random() * 20 + 10) + "px";
+        layer.appendChild(p);
+    }
 }
 
 function initScratch() {
@@ -79,31 +135,8 @@ function initScratch() {
         const x = (e.pageX || e.touches[0].pageX) - rect.left;
         const y = (e.pageY || e.touches[0].pageY) - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath(); ctx.arc(x, y, 30, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, y, 35, 0, Math.PI * 2); ctx.fill();
     };
     canvas.ontouchmove = (e) => { scratch(e); e.preventDefault(); };
+    canvas.onmousemove = (e) => { if(e.buttons === 1) scratch(e); };
 }
-
-function initHug(secret) {
-    const card = document.getElementById('main-card');
-    let timer;
-    card.ontouchstart = () => { 
-        card.classList.add('vibrate'); 
-        timer = setTimeout(() => { revealSecret(secret); card.classList.remove('vibrate'); }, 2000);
-    };
-    card.ontouchend = () => { card.classList.remove('vibrate'); clearTimeout(timer); };
-}
-
-function startParticles(type) {
-    const layer = document.getElementById('particles-layer');
-    const symbol = (type === "stars") ? "⭐" : (type === "snow") ? "❄️" : "❤️";
-    for (let i = 0; i < 15; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle'; p.innerText = symbol;
-        p.style.left = Math.random() * 100 + "vw";
-        p.style.animationDuration = (Math.random() * 3 + 2) + "s";
-        layer.appendChild(p);
-    }
-}
-
-// Baki Gallery aur Music Player logic yahan add kar sakte ho...
