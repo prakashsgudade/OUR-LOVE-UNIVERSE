@@ -3,87 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muskan's Command Center</title>
-    <link rel="stylesheet" href="css/main-style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>Unlock the Universe | For Muskan</title>
+    <link rel="stylesheet" href="css/royal-theme.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <style>
+        /* Mobile Friendly Design */
+        body.entry-body {
+            background: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .login-container {
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        h1 { color: #fff; font-size: 1.1rem; margin-bottom: 20px; line-height: 1.5; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 25px;
+            border: 1px solid #00f2ff;
+            background: transparent;
+            color: #fff;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 30px;
+            border-radius: 25px;
+            border: none;
+            background: #00f2ff;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+        }
+    </style>
 </head>
-<body class="futuristic-bg">
+<body class="entry-body">
 
-    <div class="scanline"></div>
-    <div class="grid-overlay"></div>
-
-    <div class="main-dashboard">
-        <header class="dash-header">
-            <div class="status-bar">
-                <span>STATUS: <span class="online">ONLINE</span></span>
-                <span id="live-clock">00:00:00</span>
-                <span>SYSTEM: LOVING MUSKAN</span>
-            </div>
-            <h1>UNIVERSE CONTROL CENTER</h1>
-        </header>
-
-        <div class="control-grid">
-            
-            <a href="letter.html" class="control-card">
-                <div class="card-icon">💌</div>
-                <div class="card-info">
-                    <h3>SECURE MESSAGE</h3>
-                    <p>Read the encrypted feelings.</p>
-                </div>
-            </a>
-
-            <a href="memory.html" class="control-card">
-                <div class="card-icon">📸</div>
-                <div class="card-info">
-                    <h3>ARCHIVES</h3>
-                    <p>Access past memories.</p>
-                </div>
-            </a>
-
-            <a href="chapters.html" class="control-card highlight">
-                <div class="card-icon">🚀</div>
-                <div class="card-info">
-                    <h3>VOYAGE</h3>
-                    <p>Start the 10-day mission.</p>
-                </div>
-            </a>
-
-            <a href="#" class="control-card">
-                <div class="card-icon">🎙️</div>
-                <div class="card-info">
-                    <h3>VOICE LOGS</h3>
-                    <p>Listen to secret notes.</p>
-                </div>
-            </a>
-
-            <div class="control-card locked">
-                <div class="card-icon">🔒</div>
-                <div class="card-info">
-                    <h3>FUTURE SLOT</h3>
-                    <p>Coming soon...</p>
-                </div>
-            </div>
-
-            <div class="control-card locked">
-                <div class="card-icon">🔒</div>
-                <div class="card-info">
-                    <h3>FUTURE SLOT</h3>
-                    <p>Coming soon...</p>
-                </div>
-            </div>
-
-        </div>
-
-        <footer class="dash-footer">
-            <div class="music-player">
-                <p>NOW PLAYING: Our Special Song.mp3</p>
-                <div class="visualizer">
-                    <span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-        </footer>
+    <div class="login-container">
+        <div class="heart-loader"></div> <h1>Enter my favorite person's name to unlock the universe</h1>
+        
+        <input type="text" id="passInput" placeholder="Who is my world?" autocomplete="off">
+        <button onclick="checkAccess()">UNLOCK</button>
+        
+        <p id="error" style="color: #ff4d4d; display:none; margin-top:10px; font-size: 0.8rem;">
+            Ouch! That's not her name. ❤️
+        </p>
     </div>
 
-    <script src="js/effects.js"></script>
+    <script>
+        function checkAccess() {
+            const name = document.getElementById('passInput').value.trim().toLowerCase();
+            const error = document.getElementById('error');
+
+            if (name === "muskan") {
+                // Screen fade out effect
+                document.querySelector('.login-container').style.opacity = "0";
+                document.querySelector('.login-container').style.transition = "1s";
+                
+                setTimeout(() => {
+                    // YAHAN HAI LINK: Seedha home.html par bhej raha hai
+                    window.location.href = "home.html"; 
+                }, 1000);
+            } else {
+                error.style.display = "block";
+                // Input shake effect
+                const input = document.getElementById('passInput');
+                input.style.borderColor = "red";
+                setTimeout(() => { input.style.borderColor = "#00f2ff"; }, 1000);
+            }
+        }
+    </script>
 </body>
 </html>
