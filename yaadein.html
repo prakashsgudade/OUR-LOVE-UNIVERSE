@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Archives | Muskan</title>
+    <link rel="stylesheet" href="css/main-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        .archive-body { overflow: hidden; background: #000; height: 100vh; position: relative; }
+        
+        .floating-container {
+            width: 100%; height: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Bubble Style */
+        .photo-bubble {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid #00f2ff;
+            overflow: hidden;
+            box-shadow: 0 0 15px #00f2ff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: float-around 20s infinite linear;
+        }
+
+        .photo-bubble img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+        .photo-bubble:hover { transform: scale(1.2); z-index: 100; border-color: gold; }
+
+        /* Modal for Full View */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%; max-width: 600px;
+            background: rgba(0,0,0,0.9);
+            border: 1px solid gold;
+            padding: 10px; z-index: 1000;
+        }
+
+        @keyframes float-around {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, 50px) rotate(5deg); }
+            66% { transform: translate(-20px, 20px) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+    </style>
+</head>
+<body class="archive-body futuristic-bg">
+
+    <div class="status-bar" style="padding: 20px; color: gold; position: absolute; z-index: 10;">
+        <a href="home.html" style="color: #00f2ff; text-decoration: none;"><< BACK TO HUB</a>
+        <h2 style="font-family: 'Orbitron'; margin-top: 10px;">ARCHIVE_MEMORIES_v1.0</h2>
+    </div>
+
+    <div class="floating-container" id="bubble-field">
+        </div>
+
+    <div id="photoModal" class="modal" onclick="this.style.display='none'">
+        <img id="modalImg" src="" style="width: 100%;">
+        <p id="modalCaption" style="color: white; text-align: center; margin-top: 10px; font-family: sans-serif;"></p>
+    </div>
+
+    <script>
+        const memories = [
+            { src: 'assets/images/memories/image1.jpg', caption: 'The day my life changed. ❤️' },
+            { src: 'assets/images/memories/image2.jpg', caption: 'That perfect smile. ✨' },
+            { src: 'assets/images/memories/image3.jpg', caption: 'Memories worth a thousand years.' }
+            // Jitni chaho photos yahan add karo
+        ];
+
+        const container = document.getElementById('bubble-field');
+
+        memories.forEach((mem, index) => {
+            const bubble = document.createElement('div');
+            bubble.className = 'photo-bubble';
+            
+            // Random size aur position
+            const size = Math.random() * 100 + 100; // 100px se 200px
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 80 + 'vw';
+            bubble.style.top = Math.random() * 80 + 'vh';
+            bubble.style.animationDelay = (Math.random() * 5) + 's';
+
+            bubble.innerHTML = `<img src="${mem.src}">`;
+            
+            bubble.onclick = () => {
+                document.getElementById('modalImg').src = mem.src;
+                document.getElementById('modalCaption').innerText = mem.caption;
+                document.getElementById('photoModal').style.display = 'block';
+            };
+
+            container.appendChild(bubble);
+        });
+    </script>
+</body>
+</html>
