@@ -3,37 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encrypted Letter | Muskan</title>
+    <title>Encrypted Message | For Muskan</title>
     <link rel="stylesheet" href="css/main-style.css">
     <link rel="stylesheet" href="css/royal-theme.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        /* Sirf is file ke liye special styling */
+        .terminal-box {
+            border: 1px solid #00f2ff;
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            padding: 30px;
+            margin-top: 50px;
+            position: relative;
+        }
+        .terminal-box::before {
+            content: "SECURE CONNECTION ESTABLISHED";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #000;
+            padding: 0 10px;
+            font-size: 0.7rem;
+            color: #00f2ff;
+        }
+    </style>
 </head>
-<body class="letter-body">
+<body class="futuristic-bg">
 
-    <canvas id="canvas-bg"></canvas>
-
-    <div class="letter-wrapper">
-        <header class="letter-header">
-            <div class="back-link"><a href="home.html">← EXIT SECURE VAULT</a></div>
-            <div class="decryption-status">DECRYPTING EMOTIONS... <span class="percent">100%</span></div>
+    <div class="main-dashboard">
+        <header class="dash-header">
+            <div class="status-bar">
+                <a href="home.html" style="color: gold; text-decoration: none;"><< BACK TO HUB</a>
+                <span id="live-clock">00:00:00</span>
+            </div>
+            <h1 style="color: gold; font-family: 'Orbitron';">ENCRYPTED MESSAGE</h1>
         </header>
 
-        <main class="letter-container">
-            <div class="hologram-effect"></div>
-            
-            <div class="text-content">
-                <h2 class="dear-title">Subject: My Infinite Universe</h2>
-                
-                <div id="typewriter" class="message-body"></div>
-                
-                <div class="signature" style="display:none;">
-                    <p>Truly & Forever Yours,</p>
-                    <span class="my-name">[Tera Naam]</span>
+        <div class="terminal-box">
+            <div id="typewriter" class="message-body" style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #fff; line-height: 1.8;">
                 </div>
+
+            <div id="signature" style="display:none; text-align: right; margin-top: 30px; color: gold;">
+                <p>— Yours Forever, [Prakash]</p>
             </div>
-        </main>
+        </div>
     </div>
 
-    <script src="js/effects.js"></script>
+    <script>
+        // Time logic for this page
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+
+        // Typewriter Logic
+        const text = `Muskan, ye message specially encrypted hai sirf aapke liye. 
+        aap mere universe ka wo hissa hai jo kabhi badal nahi sakta. 
+        Main chahta hoon ki aap jaise-jaise is website ko explore karo, 
+        aapko har roz ek naya ehsaas mile. Ye humari infinite story ki shurwaat hai... ❤️
+        love you bayko`;
+
+        let index = 0;
+        function typing() {
+            if (index < text.length) {
+                document.getElementById("typewriter").innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typing, 50);
+            } else {
+                document.getElementById("signature").style.display = "block";
+            }
+        }
+        window.onload = typing;
+    </script>
 </body>
 </html>
