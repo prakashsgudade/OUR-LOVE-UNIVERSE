@@ -29,3 +29,33 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock();
+// js/effects.js letters.html
+// js/effects.js - Secure Message Logic
+const message = `Muskan... Tu jaanti hai? Ye universe kitna bada hai, lekin mere liye tu hi uska center hai. 
+Is "Secure Message Vault" mein meri wo saari baatein hain jo main shabdon mein nahi keh paaya. 
+
+Tu sirf meri pasand nahi, tu meri wo sukoon wali jagah hai jahan main khud ko bhul jaata hoon. 
+Ye safar jo humne shuru kiya hai, ye sirf 10 dinon ya 5000 pages ka nahi hai... ye infinite hai. 
+
+Jitna tum scroll karogi, utna mera pyaar milega. 
+Happy Journey through our Love Universe! ❤️`;
+
+let i = 0;
+const speed = 50; // Typing speed in ms
+
+function typeWriter() {
+    if (i < message.length) {
+        document.getElementById("typewriter").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+    } else {
+        // Typing khatam hone ke baad signature dikhao
+        document.querySelector('.signature').style.display = 'block';
+    }
+}
+
+// Page load hone par shuru karein
+window.onload = () => {
+    typeWriter();
+    // Tumhara background canvas code bhi yahan aa sakta hai (optional)
+};
