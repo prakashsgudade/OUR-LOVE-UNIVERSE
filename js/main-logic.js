@@ -1,13 +1,18 @@
-/* ===== Main Navigation Function ===== */
-function openKingdom() {
-    console.log("Button clicked! JS is working."); // Ye browser console mein dikhega
-
-    // Music play karne ka code (optional)
-    var audio = document.getElementById("bgMusic");
-    if (audio) {
-        audio.play();
+// js/main-logic.js
+function checkPassword() {
+    const input = document.getElementById('passwordInput').value.trim();
+    const error = document.getElementById('errorMessage');
+    
+    // Check if name is Muskan (case insensitive)
+    if (input.toLowerCase() === "muskan") {
+        // Shandaar transition ke liye alert ya direct redirect
+        alert("Correct! Welcome to your universe, Muskan. ❤️");
+        window.location.href = "chapters.html"; // Ye use home page par le jayega
+    } else {
+        error.style.display = "block";
+        // Shake effect on input
+        const inputField = document.getElementById('passwordInput');
+        inputField.style.border = "2px solid red";
+        setTimeout(() => { inputField.style.border = "none"; }, 1000);
     }
-
-    // JS se page change karne ka sahi tarika
-    window.location.href = "letter.html";
 }
