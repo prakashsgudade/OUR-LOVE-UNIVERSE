@@ -1,14 +1,24 @@
-:root { --accent: #d4af37; }
-
-body { 
-    background: #000; color: white; font-family: 'Montserrat', sans-serif; 
-    margin: 0; padding: 0; min-height: 100vh;
-    display: flex; justify-content: center; align-items: center; overflow-x: hidden;
+:root { 
+    --accent: #d4af37; 
+    --primary-color: #ff4d6d;
+    --bg-dark: #0a0a0a;
 }
 
-#particles-layer {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 9999;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { 
+    background: #000; 
+    color: white; 
+    font-family: 'Poppins', 'Montserrat', sans-serif; 
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- CLASSSIC VIBE (Day 1-7) --- */
+.classic-vibe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main-wrapper { width: 100%; padding: 15px; display: flex; justify-content: center; box-sizing: border-box; }
@@ -28,120 +38,94 @@ body {
     display: flex; align-items: center; justify-content: center;
 }
 
-#day-img { width: 100%; height: auto; max-height: 60vh; object-fit: contain; display: block; }
+.img-frame img { width: 100%; height: auto; max-height: 60vh; object-fit: contain; display: block; }
 
-/* SMOOTH BLUR */
-.blur-reveal { 
-    filter: blur(35px); 
-    transition: filter 0.5s ease-in-out; 
-    cursor: pointer; 
+.heart-btn { 
+    background: var(--accent); border: none; border-radius: 50px; 
+    padding: 15px; width: 100%; font-weight: bold; cursor: pointer; 
+    color: #000; margin-top: 10px; transition: 0.3s;
 }
 
-/* Laptop Cursor Logic */
-@media (hover: hover) {
-    .blur-reveal:hover { filter: blur(0); }
+.secret-box {
+    margin-top: 15px; padding: 10px; border-radius: 10px;
+    background: rgba(212, 175, 55, 0.1); color: var(--accent);
+    border: 1px dashed var(--accent); font-style: italic;
 }
 
-#scratch-canvas {
-    position: absolute; top: 0; left: 0;
-    width: 100% !important; height: 100% !important;
-    z-index: 10; border-radius: 15px;
+.hidden { display: none; }
+
+/* --- LAYOUT: MODERN GALLERY (Day 8+) --- */
+.layout-gallery { background: var(--bg-dark); padding: 40px 20px; display: block; }
+
+.layout-gallery header { text-align: center; margin-bottom: 40px; }
+.layout-gallery h1 { font-family: 'Dancing Script', cursive; font-size: 4rem; color: var(--accent); }
+
+.gallery-grid { 
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 25px; max-width: 1100px; margin: auto; 
 }
 
-.particle { position: absolute; top: -5vh; pointer-events: none; animation: fall linear infinite; }
-@keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+.mem-card { 
+    background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden; 
+    transition: 0.4s; border: 1px solid rgba(255,255,255,0.1);
+}
+.mem-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+.mem-card img { width: 100%; height: 250px; object-fit: cover; }
+.mem-info { padding: 15px; text-align: center; }
 
-h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); margin: 10px 0; font-family: 'Great Vibes', cursive; color: var(--accent); }
-p { font-size: 0.95rem; color: #ccc; line-height: 1.5; }
-.audio-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; margin-bottom: 10px; }
-audio { width: 100%; height: 30px; filter: invert(1); }
-.heart-btn { background: var(--accent); border: none; border-radius: 50px; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; color: #000; }
-.hidden { display: none; margin-top: 15px; color: var(--accent); font-style: italic; }
-.hidden.show { display: block; }
-.back-link { color: #777; text-decoration: none; display: block; margin-top: 15px; font-size: 0.8rem; }
-
-/* --- DAY 6: VIRTUAL HUG EFFECT --- */
-.pulse-card {
-    animation: heartbeat 1.5s infinite ease-in-out;
+/* --- LAYOUT: MUSIC PLAYER (Day 9+) --- */
+.layout-player { 
+    background: radial-gradient(circle at center, #1e1b4b 0%, #000 100%); 
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
 
-@keyframes heartbeat {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
+.player-card {
+    background: rgba(255,255,255,0.03); backdrop-filter: blur(20px);
+    padding: 40px; border-radius: 40px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.1); width: 90%; max-width: 400px;
 }
 
-.hug-overlay {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: 10rem;
-    color: rgba(255, 77, 109, 0.6);
-    pointer-events: none;
-    z-index: 20;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+.art-circle { width: 180px; height: 180px; margin: 0 auto 30px; position: relative; }
+.art-circle img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent); z-index: 2; position: relative; }
 
-.hug-active .hug-overlay {
-    transform: translate(-50%, -50%) scale(1);
+.pulse-ring { 
+    position: absolute; width: 100%; height: 100%; border: 2px solid var(--accent); 
+    border-radius: 50%; animation: pulse 2s infinite; 
 }
-
-.vibrate {
-    animation: shake 0.2s infinite;
-}
-
-@keyframes shake {
-    0% { transform: translate(1px, 1px); }
-    20% { transform: translate(-1px, -2px); }
-    100% { transform: translate(1px, -1px); }
-}
-/* --- DAY 7: INFINITY PORTAL --- */
-.portal-view #day-img {
-    border-radius: 50%;
-    border: 5px double var(--accent);
-    box-shadow: 0 0 30px var(--accent);
-    animation: portalRotate 20s linear infinite;
-    transform: scale(0.9);
-}
-
-@keyframes portalRotate {
-    from { transform: rotate(0deg) scale(0.9); }
-    to { transform: rotate(360deg) scale(0.9); }
-}
-
-/* Double Tap Heart Animation */
-.floating-heart {
-    position: fixed;
-    bottom: 0;
-    font-size: 2rem;
-    color: #ff4d6d;
-    user-select: none;
-    pointer-events: none;
-    z-index: 10000;
-    animation: flyUp 2s ease-out forwards;
-}
-
-@keyframes flyUp {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-100vh) scale(2); opacity: 0; }
-}
-/* --- NEW UNLIMITED LAYOUTS --- */
-
-/* Layout: Gallery */
-.layout-gallery { background: #0a0a0a; padding: 20px; }
-.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: auto; }
-.mem-card { background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden; transition: 0.3s; }
-.mem-card img { width: 100%; height: 200px; object-fit: cover; }
-.mem-info { padding: 10px; text-align: center; }
-
-/* Layout: Music Player */
-.layout-player { background: radial-gradient(circle, #1e1b4b, #0f172a); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.art-circle { width: 180px; height: 180px; border-radius: 50%; position: relative; margin-bottom: 20px; }
-.art-circle img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; z-index: 2; position: relative; }
-.pulse-ring { position: absolute; width: 100%; height: 100%; border: 2px solid var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
 @keyframes pulse { 0% {transform: scale(1); opacity: 1;} 100% {transform: scale(1.5); opacity: 0;} }
 
-/* Timeline */
-.layout-timeline { padding: 50px 20px; }
-.line { position: fixed; left: 50%; top: 0; width: 2px; height: 100%; background: var(--accent); z-index: -1; }
-.t-card { background: rgba(20,20,20,0.8); border: 1px solid var(--accent); padding: 20px; border-radius: 15px; margin: 40px auto; max-width: 500px; }
+.connection-meter { margin: 25px 0; }
+.connection-meter span { font-weight: bold; color: var(--accent); font-size: 1.5rem; }
+.bar { background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; margin-top: 10px; overflow: hidden; }
+.fill { background: var(--accent); height: 100%; width: 0%; transition: 0.1s; }
+
+.p-btn { 
+    background: white; color: black; border: none; padding: 15px 30px; 
+    border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s;
+}
+.p-btn:hover { background: var(--accent); transform: scale(1.05); }
+
+/* --- LAYOUT: TIMELINE --- */
+.layout-timeline { padding: 60px 20px; background: #050505; }
+.timeline-line { position: fixed; left: 50%; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--accent), transparent); z-index: 1; transform: translateX(-50%); }
+
+.t-card { 
+    background: rgba(20,20,20,0.8); border: 1px solid var(--accent); 
+    padding: 25px; border-radius: 20px; margin: 40px auto; 
+    max-width: 500px; position: relative; z-index: 2; backdrop-filter: blur(10px);
+}
+.t-time { color: var(--accent); font-weight: bold; font-size: 0.8rem; letter-spacing: 2px; }
+
+/* --- SHARED ELEMENTS --- */
+.nav-links { text-align: center; margin-top: 30px; padding-bottom: 40px; }
+.nav-links a, .back-link { color: #777; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+.nav-links a:hover { color: var(--accent); }
+
+h1 { font-family: 'Great Vibes', cursive; color: var(--accent); }
+.audio-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; margin-bottom: 10px; }
+audio { width: 100%; height: 30px; filter: invert(1); }
+
+@media (max-width: 600px) {
+    .timeline-line { left: 30px; transform: none; }
+    .t-card { margin-left: 50px; }
+}
