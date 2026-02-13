@@ -69,3 +69,87 @@ button:hover {
     transform: scale(1.1);
     box-shadow: 0 0 15px #ffd700;
 }
+/* css/royal-theme.css letters.css */
+/* Letter Body Setup */
+.letter-body {
+    background: #020205;
+    margin: 0;
+    overflow: hidden;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#canvas-bg { position: fixed; top: 0; left: 0; z-index: -1; }
+
+.letter-wrapper {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.letter-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid gold;
+    font-size: 0.8rem;
+    color: gold;
+}
+
+.back-link a { color: gold; text-decoration: none; border: 1px solid gold; padding: 5px 10px; }
+
+/* The Letter Box */
+.letter-container {
+    flex-grow: 1;
+    margin-top: 30px;
+    background: rgba(255, 215, 0, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    position: relative;
+    padding: 40px;
+    overflow-y: auto;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 40px rgba(0,0,0,1);
+}
+
+.hologram-effect {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 5px;
+    background: linear-gradient(to right, transparent, gold, transparent);
+    animation: scanLine 4s linear infinite;
+}
+
+.dear-title {
+    font-family: 'Orbitron', sans-serif;
+    color: gold;
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+    border-left: 4px solid gold;
+    padding-left: 15px;
+}
+
+.message-body {
+    font-family: 'Dancing Script', cursive; /* Handwritten feel in a digital world */
+    font-size: 1.5rem;
+    line-height: 1.8;
+    color: #f0f0f0;
+    text-shadow: 0 0 5px rgba(255,255,255,0.3);
+}
+
+.signature {
+    margin-top: 40px;
+    text-align: right;
+    animation: fadeIn 2s forwards;
+}
+
+.my-name {
+    font-size: 2rem;
+    color: gold;
+}
+
+/* Animations */
+@keyframes scanLine {
+    0% { top: 0; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
