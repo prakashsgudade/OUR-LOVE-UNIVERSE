@@ -7,8 +7,17 @@
     <link rel="stylesheet" href="css/main-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <style>
-        .archive-body { overflow: hidden; background: #000; height: 100vh; position: relative; }
+        .archive-body { 
+            overflow: hidden; 
+            background: radial-gradient(circle at center, #001a1a 0%, #000 100%); 
+            height: 100vh; 
+            position: relative; 
+            margin: 0;
+        }
         
+        /* Floating Particles Background */
+        #bg-canvas { position: absolute; top:0; left:0; z-index: 1; opacity: 0.5; }
+
         .floating-container {
             width: 100%; height: 100%;
             position: relative;
@@ -21,74 +30,91 @@
             border-radius: 50%;
             border: 2px solid #00f2ff;
             overflow: hidden;
-            box-shadow: 0 0 15px #00f2ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
             cursor: pointer;
-            transition: transform 0.3s ease;
-            animation: float-around 20s infinite linear;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: float-around 15s infinite ease-in-out;
         }
 
-        .photo-bubble img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
-        .photo-bubble:hover { transform: scale(1.2); z-index: 100; border-color: gold; }
+        .photo-bubble img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
+        
+        .photo-bubble:hover { 
+            transform: scale(1.3) rotate(5deg); 
+            z-index: 100; 
+            border-color: gold; 
+            box-shadow: 0 0 30px gold;
+        }
+        .photo-bubble:hover img { opacity: 1; }
 
         /* Modal for Full View */
         .modal {
             display: none;
             position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%; max-width: 600px;
-            background: rgba(0,0,0,0.9);
-            border: 1px solid gold;
-            padding: 10px; z-index: 1000;
+            width: 85%; max-width: 500px;
+            text-align: center;
         }
+        .modal-content img { width: 100%; border: 2px solid gold; box-shadow: 0 0 20px gold; border-radius: 10px; }
 
         @keyframes float-around {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, 50px) rotate(5deg); }
-            66% { transform: translate(-20px, 20px) rotate(-5deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(20px, -30px); }
+            66% { transform: translate(-20px, 20px); }
         }
     </style>
 </head>
 <body class="archive-body futuristic-bg">
 
-    <div class="status-bar" style="padding: 20px; color: gold; position: absolute; z-index: 10;">
-        <a href="home.html" style="color: #00f2ff; text-decoration: none;"><< BACK TO HUB</a>
-        <h2 style="font-family: 'Orbitron'; margin-top: 10px;">ARCHIVE_MEMORIES_v1.0</h2>
+    <div class="status-bar" style="padding: 20px; color: gold; position: absolute; z-index: 10; width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center;">
+        <a href="home.html" style="color: #00f2ff; text-decoration: none; font-family: 'Orbitron'; border: 1px solid #00f2ff; padding: 5px 15px;"><< BACK</a>
+        <h2 style="font-family: 'Orbitron'; margin: 0; font-size: 1rem;">ARCHIVE_MEMORIES_v1.0</h2>
     </div>
 
-    <div class="floating-container" id="bubble-field">
-        </div>
+    <div class="floating-container" id="bubble-field"></div>
 
     <div id="photoModal" class="modal" onclick="this.style.display='none'">
-        <img id="modalImg" src="" style="width: 100%;">
-        <p id="modalCaption" style="color: white; text-align: center; margin-top: 10px; font-family: sans-serif;"></p>
+        <div class="modal-content">
+            <img id="modalImg" src="">
+            <p id="modalCaption" style="color: gold; font-size: 1.2rem; margin-top: 15px; font-family: 'Orbitron';"></p>
+            <p style="color: #666; font-size: 0.8rem;">(Click anywhere to close)</p>
+        </div>
     </div>
 
     <script>
+        // FIXED DATA ARRAY
         const memories = [
             { src: 'assets/images/yaadein/image1.jpg', caption: 'The day my life changed. ❤️' },
             { src: 'assets/images/yaadein/image2.jpg', caption: 'That perfect smile. ✨' },
-            { src: 'assets/images/yaadein/image3.jpg', caption: 'Memories worth a thousand years.' }
-            { src: 'assets/images/yaadein/image4.jpg', caption:  'baby I'll give all my love in whole of my life. ❤️' },
+            { src: 'assets/images/yaadein/image3.jpg', caption: 'Memories worth a thousand years.' },
+            { src: 'assets/images/yaadein/image4.jpg', caption: "Baby, I'll give all my love in my whole life. ❤️" }, // Fixed quotes
             { src: 'assets/images/yaadein/image5.jpg', caption: 'I know your love will keep me happy. ✨' },
-            { src: 'assets/images/yaadein/image6.jpg', caption: 'You're my breaths, always stay close to me.' }
-            // Jitni chaho photos yahan add karo
+            { src: 'assets/images/yaadein/image6.jpg', caption: "You're my breaths, always stay close to me." }
         ];
 
         const container = document.getElementById('bubble-field');
 
-        memories.forEach((mem, index) => {
+        memories.forEach((mem) => {
             const bubble = document.createElement('div');
             bubble.className = 'photo-bubble';
             
-            // Random size aur position
-            const size = Math.random() * 100 + 100; // 100px se 200px
+            const size = Math.random() * 80 + 120; // 120px to 200px
             bubble.style.width = size + 'px';
             bubble.style.height = size + 'px';
-            bubble.style.left = Math.random() * 80 + 'vw';
-            bubble.style.top = Math.random() * 80 + 'vh';
-            bubble.style.animationDelay = (Math.random() * 5) + 's';
+            
+            // Randomly placing them but keeping inside screen
+            bubble.style.left = Math.random() * 70 + 5 + 'vw';
+            bubble.style.top = Math.random() * 70 + 15 + 'vh';
+            
+            bubble.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            bubble.style.animationDelay = (Math.random() * -20) + 's';
 
             bubble.innerHTML = `<img src="${mem.src}">`;
             
