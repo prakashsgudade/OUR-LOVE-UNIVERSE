@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Memories ❤️</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Noto+Nastaliq+Urdu&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 body{
 margin:0;
-font-family:Segoe UI;
+font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
 background:linear-gradient(135deg,#141e30,#243b55);
 color:white;
 display:flex;
 align-items:center;
 justify-content:center;
 min-height:100vh;
+padding: 20px 0;
 }
 
 .container{
@@ -23,46 +25,73 @@ width:95%;
 max-width:850px;
 background:rgba(255,255,255,0.08);
 backdrop-filter:blur(12px);
-padding:20px;
-border-radius:20px;
+padding:30px;
+border-radius:25px;
 text-align:center;
+box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
+
+h2 { font-family: 'Dancing Script', cursive; font-size: 40px; margin-bottom: 10px; color: #ff4da6; }
 
 .photo-box{
 width:100%;
-height:320px;
+height:400px;
 display:flex;
 align-items:center;
 justify-content:center;
-background:black;
-border-radius:15px;
+background: #000;
+border-radius:20px;
 overflow:hidden;
-margin-top:15px;
+margin-top:20px;
+/* Beautiful Animated Border */
+border: 4px solid transparent;
+background-image: linear-gradient(#000, #000), linear-gradient(90deg, #ff0066, #00e1ff);
+background-origin: border-box;
+background-clip: content-box, border-box;
+box-shadow: 0 0 20px rgba(255, 0, 102, 0.4);
 }
 
 #photo{
 max-width:100%;
 max-height:100%;
-object-fit:contain;
+object-fit:cover; /* This makes photos look better in the frame */
+transition: 0.5s ease-in-out;
 }
 
 #letter{
-margin-top:15px;
-font-size:19px;
-min-height:80px;
+margin-top:20px;
+font-size:22px;
+min-height:100px;
+line-height: 1.6;
+white-space: pre-line;
+color: #f0f0f0;
+}
+
+.urdu-text {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    direction: rtl;
+    font-size: 26px;
+    display: block;
 }
 
 button{
-padding:12px 20px;
+padding:14px 25px;
 border:none;
-border-radius:25px;
-background:#ff0066;
+border-radius:30px;
+background: linear-gradient(90deg, #ff0066, #ff4da6);
 color:white;
+font-weight: bold;
 cursor:pointer;
-margin-top:10px;
+margin: 10px;
+transition: 0.3s;
 }
 
-.music{margin-top:20px;}
+button:hover{ transform: scale(1.05); box-shadow: 0 0 15px #ff0066; }
+
+.music{margin-top:25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;}
+input[type="file"] { margin: 10px 0; color: #ccc; }
+
+audio { margin-top: 10px; filter: invert(100%); width: 80%; }
 </style>
 
 </head>
@@ -73,35 +102,62 @@ margin-top:10px;
 
 <h2>Memories ❤️</h2>
 
-<button onclick="generate()">Generate Letter</button>
+<button onclick="generate()">Generate Letter & Next Photo</button>
 
 <div id="letter"></div>
 
-<input type="file" id="photos" multiple accept="image/*">
-
 <div class="photo-box">
-<img id="photo">
+<img id="photo" src="https://via.placeholder.com/800x400?text=Upload+Your+Memories">
+</div>
+
+<div style="margin-top:20px;">
+    <p>Step 1: Upload Photos</p>
+    <input type="file" id="photos" multiple accept="image/*">
 </div>
 
 <div class="music">
-<h3>🎵 Add Song</h3>
+<h3>🎵 Step 2: Add Song</h3>
 <input type="file" id="music" accept="audio/*">
 <br>
 <audio id="player" controls></audio>
 </div>
 
-<button onclick="clearData()">Reset Photos</button>
+<button style="background: #444;" onclick="clearData()">Reset All Photos</button>
 
 </div>
 
 <script>
+// Thousands of combinations with localized scripts
+const beginnings = [
+    "Muskan,\nकभी कभी लगता है मेरी ज़िंदगी एक blank page थी… और तुम उस पर लिखी हुई सबसे खूबसूरत कहानी हो।",
+    "My Dearest,\nIn a world full of temporary things, you are my forever and my only constant.",
+    "Muskan,\nतू माझ्यासाठी फक्त प्रेम नाही, तर जगण्याचं खरं कारण आहेस. तू सोबत असली की जग जिंकल्यासारखं वाटतं।",
+    "<span class='urdu-text'>تمہاری مسکراہٹ میرے دل کے سارے زخموں کا مرہم ہے۔ عشق تو وہ ہے جو روح میں اتر جائے۔</span>",
+    "Muskan,\nIf my heart was a song, you’d be the most beautiful melody in it. I found my home in your eyes.",
+    "प्रिय,\nमाझ्या आयुष्याचा खरा अर्थ म्हणजे फक्त 'तू'. प्रत्येक जन्मी मला तूच हवी आहेस।",
+    "<span class='urdu-text'>تم میری زندگی کی وہ کتاب ہو، جسے میں بار بار پڑھنا چاہتا ہوں۔</span>",
+    "Muskan, tum meri zindagi ka wo savera ho, jisne mere saare andheron ko mita diya."
+];
 
-const letters=[
-"Tum meri har soch ki shuruaat ho ❤️",
-"Tum meri yaadon ki sabse khoobsurat tasveer ho.",
-"Har letter ke saath ek yaad badalti hai.",
-"Tum meri kahani ka favourite frame ho.",
-"Tum ho to sab perfect hai."
+const middles = [
+    "मेरी हर सांस में तुम्हारा नाम है। तुमसे मिलकर ऐसा लगा जैसे बिछड़ा हुआ कोई हिस्सा मिल गया हो।",
+    "Every beat of my heart belongs to you. You make me want to be a better person every single day.",
+    "तू माझी ती सावली आहेस, जी कधीच मला सोडून जाणार नाही. तुझ्या डोळ्यात पाहिलं की मला माझं अख्खं जग दिसतं।",
+    "<span class='urdu-text'>تم میری روح کی وہ پیاس ہو جو صرف دیدار سے بجھتی ہے۔ خدا نے تمہیں بنا کر میری قسمت ہی بدل دی۔</span>",
+    "You are my anchor in this chaotic sea of life. Loving you is the easiest thing I've ever done.",
+    "तुझी एक स्माईल माझा दिवस बनवते. मला तुझ्यासोबत म्हातारं व्हायचं आहे, हातात हात घालून।",
+    "तुम्हारे बिना हर खुशी अधूरी लगती है। मेरी हर सुबह तुम्हारे नाम से शुरू होती है।",
+    "<span class='urdu-text'>تیری آنکھوں میں وہ سکون ہے جو دنیا کے کسی کونے میں نہیں ملتا۔</span>"
+];
+
+const endings = [
+    "बस इतना ही कहना है—मेरी हर दुआ में तुम हो। ❤️",
+    "Stay with me forever, because you are my universe. ✨",
+    "तू माझा तो विश्वास आहेस जो कधीच नाही तुटणार। I Love You! 🌸",
+    "<span class='urdu-text'>تم میری زندگی کی سب سے حسین حقیقت ہو۔ ہمیشہ ایسے ہی رہنا۔</span>",
+    "You're my soulmate, my best friend, and my everything. Forever yours.",
+    "सोबत तुझी असावी, आयुष्यभर माझी साथ असावी. फक्त तू! 😘",
+    "ये कोई Algorithm नहीं समझेगा, पर दिल जानता है—तुम मेरा Best Decision हो।"
 ];
 
 let pics=[];
@@ -109,52 +165,60 @@ let index=0;
 
 // LOAD SAVED PHOTOS
 window.onload=()=>{
-let saved=localStorage.getItem("muskanPhotos");
-if(saved){
-pics=JSON.parse(saved);
-if(pics.length>0) photo.src=pics[0];
-}
+    let saved=localStorage.getItem("muskanPhotos");
+    if(saved){
+        pics=JSON.parse(saved);
+        if(pics.length>0) document.getElementById("photo").src=pics[0];
+    }
 };
 
 // ADD PHOTOS
-photos.onchange=e=>{
-pics=[];
-let readers=[];
+document.getElementById("photos").onchange=e=>{
+    pics=[];
+    let files = Array.from(e.target.files);
+    let count = 0;
 
-[...e.target.files].forEach(f=>{
-const r=new FileReader();
-r.onload=ev=>{
-pics.push(ev.target.result);
-
-if(pics.length===e.target.files.length){
-localStorage.setItem("muskanPhotos",JSON.stringify(pics));
-photo.src=pics[0];
-}
-}
-r.readAsDataURL(f);
-});
+    files.forEach(f=>{
+        const r=new FileReader();
+        r.onload=ev=>{
+            pics.push(ev.target.result);
+            count++;
+            if(count === files.length){
+                localStorage.setItem("muskanPhotos",JSON.stringify(pics));
+                document.getElementById("photo").src=pics[0];
+                alert("Photos saved successfully!");
+            }
+        }
+        r.readAsDataURL(f);
+    });
 };
 
 // LETTER + PHOTO CHANGE
 function generate(){
-letter.innerText=
-letters[Math.floor(Math.random()*letters.length)];
+    let b = beginnings[Math.floor(Math.random() * beginnings.length)];
+    let m = middles[Math.floor(Math.random() * middles.length)];
+    let e = endings[Math.floor(Math.random() * endings.length)];
+    
+    document.getElementById("letter").innerHTML = b + "<br>" + m + "<br>" + e;
 
-if(pics.length>0){
-index=(index+1)%pics.length;
-photo.src=pics[index];
-}
+    if(pics.length>0){
+        index=(index+1)%pics.length;
+        document.getElementById("photo").src=pics[index];
+    }
 }
 
 // RESET
 function clearData(){
-localStorage.removeItem("muskanPhotos");
-location.reload();
+    if(confirm("Are you sure you want to reset photos?")){
+        localStorage.removeItem("muskanPhotos");
+        location.reload();
+    }
 }
 
 // MUSIC
-music.onchange=e=>{
-player.src=URL.createObjectURL(e.target.files[0]);
+document.getElementById("music").onchange=e=>{
+    document.getElementById("player").src=URL.createObjectURL(e.target.files[0]);
+    document.getElementById("player").play();
 }
 
 </script>
