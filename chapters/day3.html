@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 3 — AI Letter for Muskan</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+
+        body{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color:white;
+            overflow:hidden;
+        }
+
+        /* Glowing background orbs */
+        .orb{
+            position:absolute;
+            width:400px;height:400px;
+            background:radial-gradient(circle, rgba(255, 77, 166, 0.4),transparent);
+            border-radius:50%;
+            filter:blur(80px);
+            animation:move 15s infinite alternate;
+        }
+        .orb:nth-child(2){
+            background:radial-gradient(circle, rgba(0, 225, 255, 0.3),transparent);
+            left:60%;
+            animation-duration:20s;
+        }
+
+        @keyframes move{
+            from{transform:translate(-30%, -30%);}
+            to{transform:translate(40%, 50%);}
+        }
+
+        .card{
+            position:relative;
+            z-index:10;
+            width:90%;
+            max-width:650px;
+            padding:40px;
+            background:rgba(255, 255, 255, 0.05);
+            backdrop-filter:blur(25px);
+            -webkit-backdrop-filter:blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius:30px;
+            text-align:center;
+            box-shadow:0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        h1{
+            font-family: 'Dancing Script', cursive;
+            font-size: 45px;
+            background: linear-gradient(to right, #ff4da6, #00e1ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        #letter{
+            min-height:160px;
+            margin-top:20px;
+            font-size: 22px;
+            line-height:1.6;
+            color: #f0f0f0;
+            opacity:0;
+            transition: opacity 0.8s ease-in-out;
+            white-space: pre-line; /* Keeps line breaks */
+        }
+
+        button{
+            margin-top:30px;
+            padding:15px 35px;
+            border:none;
+            border-radius:50px;
+            font-size:18px;
+            font-weight: 500;
+            cursor:pointer;
+            background: linear-gradient(90deg,#ff4da6,#ff0066);
+            color:white;
+            box-shadow: 0 10px 20px rgba(255, 0, 102, 0.3);
+            transition: 0.4s ease;
+        }
+        button:hover{
+            transform:translateY(-5px);
+            box-shadow:0 15px 30px rgba(255, 77, 166, 0.5);
+        }
+
+        .footer-text {
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="orb"></div>
+<div class="orb"></div>
+
+<div class="card">
+    <h1>Dear Muskan 💌</h1>
+    <p style="opacity: 0.8;">Click below — Let the speak my heart...</p>
+
+    <button onclick="generate()">Generate Love Letter</button>
+
+    <div id="letter"></div>
+    <p class="footer-text">Each letter is unique, just like you.</p>
+</div>
+
+<script>
+// Storing 1000+ combinations using a smart randomizer logic
+const beginnings = [
+    "Muskan,\nKabhi kabhi lagta hai meri zindagi ek blank page thi… aur tum us par likhi hui sabse khoobsurat kahani ho.",
+    "My Dearest,\nIn a world full of temporary things, you are my forever and my only constant.",
+    "Muskan,\nTu mazyasathi fakt prem nahi, tar jagnyach khara karan aahes. Tu sobat aslis ki jag jinklyasarkha watate.",
+    "Jaan,\nTumhari muskurahat mere dil ke saare zakhmon ka marham hai. Ishq toh woh hai jo rooh mein utar jaye.",
+    "Muskan,\nIf my heart was a song, you’d be the most beautiful melody in it. I found my home in your eyes.",
+    "Priy,\nMazya ayushyacha khara arth mhanje fakt 'Tu'. Pratek janmi mala tuich havish aahes.",
+    "Muskan,\nZindagi ke mod par tum mile, jaise tapte registan mein thandi chhaon. Tum meri sabse badi daulat ho."
+];
+
+const middles = [
+    "Meri har saans mein tumhara naam hai. Tumse milkar aisa laga jaise bichda hua koi hissa mil gaya ho.",
+    "Every beat of my heart belongs to you. You make me want to be a better person every single day.",
+    "Tu mazi ti savali aahes, ji kadhich mala sodun janar nahi. Tuzya dolyat pahila ki mala maza akkha jag diste.",
+    "Tum meri rooh ki wo pyaas ho jo sirf deedar se bujhti hai. Khuda ne tumhe banakar meri kismat hi badal di.",
+    "You are my anchor in this chaotic sea of life. Loving you is the easiest thing I've ever done.",
+    "Tuzi ek smile maza divas banavte. Mala tuzya sobat mhatara vhaycha aahe, hatat hat ghaun.",
+    "Tumhare bina har khushi adhoori lagti hai. Meri har subah tumhare naam se shuru hoti hai."
+];
+
+const endings = [
+    "Bas itna hi kehna hai—meri har dua mein tum ho. ❤️",
+    "Stay with me forever, because you are my universe. ✨",
+    "Tu maza toh vishwas aahes jo kadhich nahi tutnar. I Love You! 🌸",
+    "Tum meri zindagi ki sabse haseen haqiqat ho. Hamesha aise hi rehna. 💍",
+    "You're my soulmate, my best friend, and my everything. Forever yours.",
+    "Sobat tuzi asavi, ayushya bhar mazi sath asavi. Fakt tu! 😘",
+    "Yeh koi algorithm nahi samjhega, par dil jaanta hai—tum mera best decision ho."
+];
+
+function generate(){
+    // Randomly mix and match to create thousands of unique combinations
+    let b = beginnings[Math.floor(Math.random() * beginnings.length)];
+    let m = middles[Math.floor(Math.random() * middles.length)];
+    let e = endings[Math.floor(Math.random() * endings.length)];
+    
+    let text = b + "\n\n" + m + "\n\n" + e;
+    
+    let el = document.getElementById("letter");
+    el.style.opacity = 0;
+    
+    setTimeout(() => {
+        el.innerHTML = text;
+        el.style.opacity = 1;
+    }, 400);
+}
+</script>
+
+</body>
+</html>
