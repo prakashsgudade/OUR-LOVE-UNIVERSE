@@ -23,7 +23,6 @@
             width: 100%; min-height: 100vh;
         }
 
-        /* Animated Space Background */
         #nebula-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; pointer-events: none;
@@ -35,18 +34,18 @@
             background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%);
         }
 
-        /* --- RESPONSIVE PHOTO MODULE --- */
+        /* --- FIXED PHOTO MODULE --- */
         .photo-container {
             position: relative;
-            width: clamp(140px, 20vw, 180px); /* Responsive Size */
-            height: clamp(140px, 20vw, 180px);
+            width: clamp(150px, 25vw, 200px); 
+            height: clamp(150px, 25vw, 200px);
             margin: 20px auto;
             z-index: 20;
         }
 
         .photo-ring {
             position: absolute;
-            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            top: -12px; left: -12px; right: -12px; bottom: -12px;
             border: 2px solid var(--accent);
             border-radius: 50%;
             border-left-color: transparent;
@@ -62,104 +61,75 @@
             overflow: hidden;
             border: 4px solid #000;
             box-shadow: var(--neon-shadow);
+            background: #000; /* Taaki load hote waqt black dikhe */
         }
 
         .muskan-frame img {
             width: 100%; height: 100%;
+            /* --- YEAH HAI FIX: SIR NA KATE ISLIYE TOP POSITION --- */
             object-fit: cover;
-            transition: transform 0.5s ease, opacity 1s ease-in-out;
+            object-position: top center; 
+            transition: transform 0.6s ease, opacity 0.8s ease-in-out;
         }
 
-        /* --- CYBER HEADER --- */
         .header-box {
-            padding: 15px;
-            text-align: center;
+            padding: 15px; text-align: center;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .status-line {
-            display: flex; 
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Orbitron'; 
-            font-size: clamp(0.55rem, 2vw, 0.7rem);
-            letter-spacing: 2px; 
-            max-width: 1200px; 
-            margin: 0 auto 10px;
-            color: var(--accent);
-            flex-wrap: wrap; /* Important for mobile */
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'Orbitron'; font-size: clamp(0.6rem, 2vw, 0.75rem);
+            letter-spacing: 2px; max-width: 1200px; margin: 0 auto 10px;
+            color: var(--accent); flex-wrap: wrap; gap: 10px;
         }
 
         .glitch-title {
-            font-family: 'Orbitron';
-            font-weight: 900;
-            font-size: clamp(1.2rem, 5vw, 2.4rem);
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            transition: color 1s ease;
+            font-family: 'Orbitron'; font-weight: 900;
+            font-size: clamp(1.3rem, 5vw, 2.5rem);
+            letter-spacing: 5px; text-transform: uppercase;
         }
 
-        /* --- RESPONSIVE GRID SYSTEM --- */
         .grid-system {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 20px; 
-            padding: 20px;
-            max-width: 1300px; 
-            margin: 0 auto; 
-            width: 100%;
+            gap: 20px; padding: 20px;
+            max-width: 1300px; margin: 0 auto; width: 100%;
             box-sizing: border-box;
         }
 
         .cyber-card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 4px;
-            position: relative;
-            text-decoration: none;
-            overflow: hidden;
-            transition: 0.3s ease-in-out;
+            padding: 25px; border-radius: 4px;
+            position: relative; text-decoration: none;
+            overflow: hidden; transition: 0.3s ease-in-out;
             backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cyber-card::before {
-            content: ""; position: absolute; top: 0; left: 0;
-            width: 4px; height: 100%; background: var(--accent);
-            transform: scaleY(0); transition: 0.3s;
+            display: flex; flex-direction: column;
         }
 
         .cyber-card:hover {
             background: rgba(255, 255, 255, 0.08);
             transform: translateY(-5px);
             border-color: var(--accent);
-            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2);
         }
 
-        .cyber-card:hover::before { transform: scaleY(1); }
-
-        .icon-box { font-size: 2.2rem; margin-bottom: 12px; transition: 0.4s; }
-        .card-title { font-family: 'Orbitron'; font-size: 1rem; color: #fff; margin: 0; letter-spacing: 1px; }
-        .card-desc { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 8px; line-height: 1.4; }
+        .icon-box { font-size: 2.2rem; margin-bottom: 12px; }
+        .card-title { font-family: 'Orbitron'; font-size: 1rem; color: #fff; margin: 0; }
+        .card-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 8px; line-height: 1.4; }
 
         .footer-terminal {
-            margin-top: auto; padding: 20px;
-            text-align: center; font-family: 'Orbitron';
-            font-size: 0.6rem; color: rgba(255,255,255,0.3);
-            letter-spacing: 2px;
+            margin-top: auto; padding: 20px; text-align: center;
+            font-family: 'Orbitron'; font-size: 0.6rem;
+            color: rgba(255,255,255,0.3); letter-spacing: 2px;
         }
 
-        /* --- MOBILE SPECIFIC FIXES --- */
         @media (max-width: 480px) {
             .status-line { justify-content: center; text-align: center; }
             .status-line span { width: 100%; }
-            .grid-system { padding: 10px; }
-            .cyber-card { padding: 20px; }
         }
     </style>
 </head>
@@ -191,31 +161,26 @@
                 <h3 class="card-title">SECURE MESSAGE</h3>
                 <p class="card-desc">Decrypted emotional data streams for your eyes only.</p>
             </a>
-
             <a href="yaadein.html" class="cyber-card">
                 <span class="icon-box">📸</span>
                 <h3 class="card-title">MEMO-BANKS</h3>
                 <p class="card-desc">High-resolution visual archives of our shared existence.</p>
             </a>
-
             <a href="chapters.html" class="cyber-card">
                 <span class="icon-box">🚀</span>
                 <h3 class="card-title">TIMELINE</h3>
                 <p class="card-desc">Reviewing cosmic milestones from Day 01 to infinity.</p>
             </a>
-
             <a href="memory.html" class="cyber-card">
                 <span class="icon-box">🎙️</span>
                 <h3 class="card-title">AUDIO LOGS</h3>
                 <p class="card-desc">Frequency analysis of secret voice notes and whispers.</p>
             </a>
-
             <a href="chapters/home-chapters.html" class="cyber-card">
                 <span class="icon-box">❤️</span>
                 <h3 class="card-title">HEART-SYNC</h3>
                 <p class="card-desc">Real-time biometric status: Infinite Bond active.</p>
             </a>
-
             <a href="chapters/home-chapters.html" class="cyber-card">
                 <span class="icon-box">💎</span>
                 <h3 class="card-title">VAULT-X</h3>
@@ -224,18 +189,14 @@
         </div>
 
         <footer class="footer-terminal">
-            <p>V6.0 NEBULA-RESPONSIVE // BUILT FOR MUSKAN // 2026</p>
+            <p>V7.0 NEBULA-RESPONSIVE-FIX // BUILT FOR MUSKAN // 2026</p>
         </footer>
     </div>
 
     <script>
         const folder = "assets/images/home/";
-        
-        // --- PHOTO LIST AUTOMATION (m1.jpg TO m70.jpg) ---
         const images = [];
-        for (let i = 1; i <= 70; i++) {
-            images.push(`m${i}.jpg`);
-        }
+        for (let i = 1; i <= 70; i++) { images.push(`m${i}.jpg`); }
         
         const neonColors = ['#00f2ff', '#ff00ff', '#00ffaa', '#ffd700', '#ff3e3e', '#7000ff'];
         let idx = 0;
@@ -251,7 +212,7 @@
                 img.src = folder + images[idx];
                 img.style.opacity = '1';
                 idx = (idx + 1) % images.length;
-            }, 800);
+            }, 600);
         }
 
         const canvas = document.getElementById('nebula-canvas');
@@ -263,23 +224,15 @@
         resize();
 
         for(let i=0; i<80; i++) {
-            dots.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                v: Math.random() * 0.5 + 0.2,
-                s: Math.random() * 1.5
-            });
+            dots.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, v: Math.random() * 0.5 + 0.2, s: Math.random() * 1.5 });
         }
 
         function draw() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
             ctx.fillStyle = "rgba(255,255,255,0.2)";
             dots.forEach(d => {
-                ctx.beginPath();
-                ctx.arc(d.x, d.y, d.s, 0, Math.PI*2);
-                ctx.fill();
-                d.y -= d.v;
-                if(d.y < 0) d.y = canvas.height;
+                ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI*2); ctx.fill();
+                d.y -= d.v; if(d.y < 0) d.y = canvas.height;
             });
             requestAnimationFrame(draw);
         }
@@ -289,7 +242,7 @@
             document.getElementById('clock-display').innerText = new Date().toLocaleTimeString('en-US', {hour12: false});
         }, 1000);
 
-        setInterval(syncSystem, 7000);
+        setInterval(syncSystem, 6000);
         syncSystem();
     </script>
 </body>
