@@ -1,1 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Infinite Voyage | Muskan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f2ff;
+            --neon-gold: #ffd700;
+            --space-black: #00050a;
+        }
 
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--space-black);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Starry Background Effect */
+        .stars-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #001a33 0%, #000 100%);
+            z-index: -1;
+        }
+
+        /* Header */
+        .chapter-header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+            background: rgba(0,0,0,0.8);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .chapter-header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: var(--neon-gold);
+            margin: 0;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .back-btn {
+            position: absolute;
+            left: 20px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-size: 0.8rem;
+            border: 1px solid var(--neon-cyan);
+            padding: 5px 10px;
+        }
+
+        /* Timeline Container */
+        .timeline {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--neon-cyan), transparent);
+            transform: translateX(-50%);
+        }
+
+        /* Chapter Card */
+        .chapter-card {
+            width: 100%;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .chapter-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-content {
+            width: 80%;
+            background: rgba(0, 242, 255, 0.05);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            position: relative;
+            text-decoration: none;
+            color: white;
+            text-align: center;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .card-content:hover {
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+            transform: scale(1.03);
+        }
+
+        .day-label {
+            color: var(--neon-gold);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .day-title {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            color: white;
+        }
+
+        .day-hint {
+            font-size: 0.7rem;
+            color: #888;
+            font-family: sans-serif;
+            margin-top: 10px;
+        }
+
+        /* Footer Loader */
+        .loader {
+            text-align: center;
+            padding: 40px;
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+        }
+
+        /* Responsive Mobile */
+        @media (max-width: 600px) {
+            .card-content { width: 95%; }
+            .timeline::before { left: 20px; }
+            .chapter-card { justify-content: flex-start; padding-left: 40px; box-sizing: border-box; }
+            .chapter-header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-bg"></div>
+
+    <header class="chapter-header">
+        <a href="../home.html" class="back-btn"><< HUB</a>
+        <h1>Our Love Voyage</h1>
+        <p style="font-size: 0.6rem; color: var(--neon-cyan); margin-top: 5px;">EXPLORING INFINITY TOGETHER</p>
+    </header>
+
+    <div class="timeline" id="chapter-list">
+        </div>
+
+    <div class="loader" id="loading-trigger">
+        SCANNING NEW DIMENSIONS...
+    </div>
+
+    <script>
+        let currentDay = 1;
+        const totalDaysAtOnce = 10; // Ek baar mein 10 din load honge
+        const chapterList = document.getElementById('chapter-list');
+        const loader = document.getElementById('loading-trigger');
+
+        // Titles array (Inhe tum change kar sakte ho)
+        const dayTitles = [
+            "The Beginning", "First Interaction", "Deep Connection", 
+            "Moonlight Talk", "Special Feelings", "Our First Vibe",
+            "Universe's Plan", "Pure Magic", "Heartbeat Sync", "Infinity & Beyond"
+        ];
+
+        function createChapterCard(dayNum) {
+            const card = document.createElement('div');
+            card.className = 'chapter-card';
+            
+            // Link path check: day1.html, day2.html etc.
+            const dayTitle = dayTitles[(dayNum - 1) % dayTitles.length];
+            
+            card.innerHTML = `
+                <a href="day${dayNum}.html" class="card-content">
+                    <div class="day-label">CHAPTER ${dayNum}</div>
+                    <div class="day-title">${dayTitle}</div>
+                    <div class="day-hint">Tap to unlock this memory</div>
+                </a>
+            `;
+            
+            chapterList.appendChild(card);
+
+            // Animation for appearance
+            setTimeout(() => {
+                card.classList.add('show');
+            }, 100);
+        }
+
+        function loadMoreChapters() {
+            for(let i = 0; i < totalDaysAtOnce; i++) {
+                createChapterCard(currentDay);
+                currentDay++;
+            }
+        }
+
+        // Infinite Scroll Logic
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                loadMoreChapters();
+            }
+        }, { threshold: 1 });
+
+        observer.observe(loader);
+
+        // Initial Load
+        loadMoreChapters();
+    </script>
+</body>
+</html>
