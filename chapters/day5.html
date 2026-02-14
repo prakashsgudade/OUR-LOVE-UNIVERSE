@@ -3,232 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memories Universe ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Dancing+Script:wght@600&family=Poppins:wght@300;500&family=Noto+Nastaliq+Urdu&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <title>Day 06 | AI Memory Universe ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Dancing+Script:wght@700&family=Poppins:wght@300;500&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: white; font-family: 'Poppins', sans-serif; overflow-x: hidden; min-height: 100vh; }
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-pink: #ff007a;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
 
-        /* --- Password Overlay --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #000; color: white; font-family: 'Poppins', sans-serif; 
+            overflow-x: hidden; min-height: 100vh;
+        }
+
+        /* --- UI Layering --- */
+        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        #main-content { position: relative; z-index: 10; opacity: 0; transition: 1.5s; display: none; }
+
+        /* --- Password Logic --- */
         #lock-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, #1a1a2e, #000); z-index: 1000; 
+            background: radial-gradient(circle, #0a0a2e, #000); z-index: 2000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         .pass-box {
-            background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 30px;
-            border: 1px solid #ff007a; text-align: center; backdrop-filter: blur(15px);
-            box-shadow: 0 0 30px rgba(255, 0, 122, 0.2);
+            background: var(--glass); padding: 40px; border-radius: 30px;
+            border: 1px solid var(--neon-blue); text-align: center; backdrop-filter: blur(20px);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
         }
         input[type="password"] {
-            background: transparent; border: 1px solid #00d4ff; padding: 12px;
+            background: transparent; border: 1px solid var(--neon-pink); padding: 12px;
             color: white; border-radius: 15px; margin: 20px 0; outline: none; 
-            text-align: center; font-family: 'Orbitron';
+            text-align: center; font-family: 'Orbitron'; width: 200px;
         }
 
-        /* --- Main Content --- */
-        #main-content { display: none; opacity: 0; transition: 1.5s; position: relative; z-index: 10; }
-        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
-
+        /* --- Main Glass Container --- */
         .container {
-            width: 95%; max-width: 800px; margin: 40px auto;
-            background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(15px);
-            padding: 30px; border-radius: 30px; text-align: center;
+            width: 92%; max-width: 850px; margin: 30px auto;
+            background: var(--glass); backdrop-filter: blur(25px);
+            padding: 35px; border-radius: 40px; text-align: center;
             border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 0 60px rgba(0,0,0,1);
         }
 
-        h2 { font-family: 'Dancing Script', cursive; font-size: 45px; color: #ff4da6; margin-bottom: 10px; }
+        h2 { font-family: 'Dancing Script', cursive; font-size: 48px; color: var(--neon-pink); text-shadow: 0 0 15px var(--neon-pink); }
 
-        /* --- Beautiful Image Frame --- */
-        .photo-box {
-            width: 100%; height: 450px; display: flex; align-items: center; justify-content: center;
-            background: #000; border-radius: 25px; overflow: hidden; margin-top: 20px;
-            border: 4px solid transparent;
-            background-image: linear-gradient(#000, #000), linear-gradient(135deg, #ff007a, #00d4ff);
-            background-origin: border-box; background-clip: content-box, border-box;
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.3);
-            position: relative;
+        /* --- Smooth Photo Frame --- */
+        .photo-frame {
+            width: 100%; height: 450px; margin: 25px 0;
+            border-radius: 25px; overflow: hidden;
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            background: #050505; position: relative;
+            box-shadow: inset 0 0 50px #000;
         }
         #photo { 
-            max-width: 100%; max-height: 100%; object-fit: contain; 
-            transition: opacity 0.8s ease; opacity: 1; 
+            width: 100%; height: 100%; object-fit: contain; 
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(1.1);
         }
 
-        #letter {
-            margin: 25px 0; font-size: 22px; min-height: 120px;
-            line-height: 1.6; white-space: pre-line; transition: opacity 0.5s;
+        /* --- AI Letter Box --- */
+        .letter-box {
+            min-height: 150px; margin-bottom: 30px;
+            font-size: 20px; line-height: 1.6; color: #eee;
+            transition: 0.5s; position: relative;
         }
+        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 26px; line-height: 2.2; }
 
-        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 28px; }
-
-        /* --- Buttons --- */
-        .btn {
-            padding: 15px 30px; border: none; border-radius: 50px;
-            background: linear-gradient(90deg, #ff007a, #00d4ff);
-            color: white; font-weight: bold; cursor: pointer; transition: 0.3s;
-            font-family: 'Orbitron', sans-serif; font-size: 0.9rem;
+        /* --- Futuristic Button --- */
+        .gen-btn {
+            padding: 18px 45px; border: none; border-radius: 50px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+            color: white; font-weight: bold; cursor: pointer;
+            font-family: 'Orbitron', sans-serif; letter-spacing: 2px;
+            box-shadow: 0 0 30px rgba(255, 0, 122, 0.4);
+            transition: 0.4s; text-transform: uppercase;
         }
-        .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #ff007a; }
+        .gen-btn:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 0 50px var(--neon-blue); }
 
-        .music-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-        audio { filter: invert(100%); width: 100%; margin-top: 15px; }
-        
-        input[type="file"] { margin: 15px 0; font-size: 12px; }
+        /* --- Navigation --- */
+        .nav-cluster { margin-top: 35px; display: flex; justify-content: center; gap: 15px; }
+        .nav-btn {
+            background: rgba(255,255,255,0.05); color: #fff; border: 1px solid #444;
+            padding: 10px 20px; border-radius: 12px; font-family: 'Orbitron'; font-size: 10px;
+            cursor: pointer; text-decoration: none; transition: 0.3s;
+        }
+        .nav-btn:hover { background: #fff; color: #000; }
+
+        @media (max-width: 600px) { .photo-frame { height: 300px; } h2 { font-size: 32px; } }
     </style>
 </head>
 <body>
 
     <div id="lock-screen">
         <div class="pass-box">
-            <h2 style="font-family: 'Orbitron'; font-size: 1.2rem; color: #00d4ff; letter-spacing: 2px;">SECURED UNIVERSE</h2>
-            <input type="password" id="passInput" placeholder="Enter Name...">
+            <h2 style="font-family: 'Orbitron'; font-size: 1.1rem; color: var(--neon-blue);">SECURE LINK ESTABLISHED</h2>
+            <input type="password" id="passInput" placeholder="Identity Code...">
             <br>
-            <button class="btn" onclick="checkPass()">ACCESS MEMORIES</button>
+            <button class="gen-btn" style="padding: 12px 30px;" onclick="checkPass()">ENTER UNIVERSE</button>
         </div>
     </div>
 
     <div id="main-content">
-        <canvas id="universe"></canvas>
+        <canvas id="universe-bg"></canvas>
         <div class="container">
-            <h2>Our Universe ❤️</h2>
+            <h2>Our Infinite Love ❤️</h2>
+
+            <div class="photo-frame">
+                <img id="photo" src="../assets/images/photo1.jpg">
+            </div>
+
+            <div class="letter-box" id="ai-letter">
+                "Muskan, click the button to generate a new memory fragment..."
+            </div>
+
+            <button class="gen-btn" onclick="generateEverything()">GENERATE MEMORY</button>
+
+            <div class="nav-cluster">
+                <button class="nav-btn" onclick="smoothNav('home-chapters.html')">← HUB</button>
+                <button class="nav-btn" onclick="smoothNav('day7.html')" style="border-color: var(--neon-blue);">DAY 07 →</button>
+            </div>
             
-            <button class="btn" onclick="generate()">NEXT MEMORY</button>
-
-            <div id="letter">"Click to reveal a message, Muskan..."</div>
-
-            <div class="photo-box">
-                <img id="photo" src="https://via.placeholder.com/800x400?text=Your+Universe+Is+Empty">
-            </div>
-
-            <div style="margin-top: 20px;">
-                <p style="font-size: 12px; opacity: 0.6;">Upload Your Favorite Photos Together</p>
-                <input type="file" id="photos-input" multiple accept="image/*">
-            </div>
-
-            <div class="music-section">
-                <h3 style="font-family: 'Orbitron'; font-size: 0.8rem;">🎵 UNIVERSE MELODY</h3>
-                <input type="file" id="music-input" accept="audio/*">
-                <audio id="player" controls loop></audio>
-            </div>
-
-            <button style="background: #222; margin-top: 20px; font-size: 10px;" onclick="clearData()">WIPE DATA</button>
+            <audio id="bgMusic" loop src="../assets/audio/our-song.mp3"></audio>
         </div>
     </div>
 
 <script>
-    // --- 1. Password Protection ---
+    // --- 1. UNLIMITED ASSET POOL (Add all your photos here) ---
+    const myPhotos = [
+        "../assets/images/photo1.jpg",
+        "../assets/images/photo2.jpg",
+        "../assets/images/photo3.jpg",
+        "../assets/images/photo4.jpg",
+        "../assets/images/photo5.jpg" // Bhai jitne chahiye utne paths add kar de
+    ];
+
+    // --- 2. AI LETTER FRAGMENTS ---
+    const aiBeginnings = [
+        "Muskan,\nकभी सोचा नहीं था कि ज़िंदगी इतनी खूबसूरत हो सकती है...",
+        "My Dearest,\nIn this vast universe, my soul chose you as its home.",
+        "Muskan,\nतुझ्याशी बोलणं म्हणजे जणू आयुष्यातला सर्वात सुंदर क्षण जगणं।",
+        "<span class='urdu-text'>تمہاری ہنسی میرے لیے پوری کائنات کی سب سے پیاری صدا ہے۔</span>",
+        "Dear Love,\nYou are the reason I believe in magic in this digital world."
+    ];
+
+    const aiMiddles = [
+        "जब तुम साथ होती हो, तो वक्त जैसे थम सा जाता है। तुम्हारी सादगी ही मेरी सबसे बड़ी कमजोरी है।",
+        "Every second spent with you feels like a page from a fairytale I never want to end.",
+        "तू फक्त माझी मैत्रीण नाहीस, तर माझ्या हृदयाची प्रत्येक धडधड आहेस।",
+        "<span class='urdu-text'>تم سے مل کر ایسا لگا جیسے بچھڑی ہوئی روح کو اپنا گھر مل گیا ہو۔</span>",
+        "You are the dream I never want to wake up from, my constant in this changing world."
+    ];
+
+    const aiEndings = [
+        "बस हमेशा ऐसे ही रहना, क्योंकि तुम्हारे बिना ये कसम अधूरी है। ❤️",
+        "Stay with me until the stars stop shining. I am yours, infinitely. ✨",
+        "तू आहेस म्हणून मी आहे. I Love You Forever! 🌸",
+        "<span class='urdu-text'>تم میری زندگی کی سب سے خوبصورت حقیقت ہو۔</span>",
+        "This isn't just a message; it's a heartbeat wrapped in words."
+    ];
+
+    // --- 3. MASTER GENERATOR ENGINE ---
+    function generateEverything() {
+        const photo = document.getElementById('photo');
+        const letterBox = document.getElementById('ai-letter');
+
+        // Transition Effect Start
+        photo.style.transform = 'scale(0.9) rotate(-2deg)';
+        photo.style.opacity = '0';
+        letterBox.style.opacity = '0';
+        letterBox.style.transform = 'translateY(10px)';
+
+        setTimeout(() => {
+            // Random Photo Select
+            const randomPic = myPhotos[Math.floor(Math.random() * myPhotos.length)];
+            photo.src = randomPic;
+
+            // AI Letter Assemble
+            const b = aiBeginnings[Math.floor(Math.random() * aiBeginnings.length)];
+            const m = aiMiddles[Math.floor(Math.random() * aiMiddles.length)];
+            const e = aiEndings[Math.floor(Math.random() * aiEndings.length)];
+            
+            letterBox.innerHTML = `${b}<br>${m}<br>${e}`;
+
+            // Transition Effect End
+            photo.onload = () => {
+                photo.style.transform = 'scale(1) rotate(0deg)';
+                photo.style.opacity = '1';
+                letterBox.style.opacity = '1';
+                letterBox.style.transform = 'translateY(0px)';
+            };
+        }, 600);
+    }
+
+    // --- 4. NAVIGATION & SECURITY ---
     function checkPass() {
         const pass = document.getElementById('passInput').value.toLowerCase();
         if(pass === "muskan") {
             document.getElementById('lock-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            setTimeout(() => { document.getElementById('main-content').style.opacity = '1'; }, 100);
-            initUniverse(); 
-        } else {
-            alert("Wrong Access Key! Think about who this is for...");
-        }
+            setTimeout(() => { 
+                document.getElementById('main-content').style.opacity = '1'; 
+                initStars();
+                document.getElementById('bgMusic').play();
+            }, 100);
+        } else { alert("Access Denied! Think of your name..."); }
     }
 
-    // --- 2. Advanced Letters ---
-    const beginnings = [
-        "Muskan,\nकभी कभी लगता है मेरी ज़िंदगी एक blank page थी… और तुम उस पर लिखी हुई सबसे खूबसूरत कहानी हो।",
-        "My Dearest,\nIn a world full of temporary things, you are my forever and my only constant.",
-        "Muskan,\nतू माझ्यासाठी फक्त प्रेम नाही, तर जगण्याचं खरं कारण आहेस।",
-        "<span class='urdu-text'>تمہاری مسکراہٹ میرے دل کے سارے زخموں کا مرہم ہے۔</span>",
-        "Muskan, tum meri zindagi ka wo savera ho, jisne mere saare andheron ko mita diya."
-    ];
-
-    const middles = [
-        "मेरी हर सांस में तुम्हारा नाम है। तुमसे मिलकर ऐसा लगा जैसे बिछड़ा हुआ कोई हिस्सा मिल गया हो।",
-        "Every beat of my heart belongs to you. You make me want to be a better person.",
-        "तू माझी ती सावली आहेस, जी कधीच मला सोडून जाणार नाही।",
-        "<span class='urdu-text'>تم میری روح کی وہ پیاس ہو جو صرف دیدار سے بجھتی ہے۔</span>",
-        "तुझी एक स्माईल माझा दिवस बनवते. मला तुझ्यासोबत म्हातारं व्हायचं आहे।"
-    ];
-
-    const endings = [
-        "बस इतना ही कहना है—मेरी हर दुआ में तुम हो। ❤️",
-        "Stay with me forever, because you are my universe. ✨",
-        "तू माझा तो विश्वास आहेस जो कधीच नाही तुटणार। I Love You! 🌸",
-        "<span class='urdu-text'>تم میری زندگی کی سب سے حسین حقیقت ہو۔</span>",
-        "ये कोई Algorithm नहीं समझेगा, पर दिल जानता है—तुम मेरा Best Decision हो।"
-    ];
-
-    // --- 3. Photo & Logic ---
-    let pics = [];
-    let currentIndex = 0;
-
-    window.onload = () => {
-        const saved = localStorage.getItem("muskan_memories");
-        if(saved) {
-            pics = JSON.parse(saved);
-            if(pics.length > 0) document.getElementById("photo").src = pics[0];
-        }
-    };
-
-    document.getElementById("photos-input").onchange = e => {
-        const files = Array.from(e.target.files);
-        pics = [];
-        let loaded = 0;
-        files.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = ev => {
-                pics.push(ev.target.result);
-                loaded++;
-                if(loaded === files.length) {
-                    localStorage.setItem("muskan_memories", JSON.stringify(pics));
-                    document.getElementById("photo").src = pics[0];
-                    alert("Universe Updated with " + loaded + " Photos!");
-                }
-            };
-            reader.readAsDataURL(file);
-        });
-    };
-
-    function generate() {
-        // Smooth transitions
-        const letterEl = document.getElementById("letter");
-        const photoEl = document.getElementById("photo");
-        
-        letterEl.style.opacity = 0;
-        photoEl.style.opacity = 0;
-
-        setTimeout(() => {
-            // New Text
-            let b = beginnings[Math.floor(Math.random() * beginnings.length)];
-            let m = middles[Math.floor(Math.random() * middles.length)];
-            let e = endings[Math.floor(Math.random() * endings.length)];
-            letterEl.innerHTML = b + "<br>" + m + "<br>" + e;
-            
-            // New Photo
-            if(pics.length > 0) {
-                currentIndex = (currentIndex + 1) % pics.length;
-                photoEl.src = pics[currentIndex];
-            }
-
-            letterEl.style.opacity = 1;
-            photoEl.style.opacity = 1;
-        }, 600);
+    function smoothNav(url) {
+        document.body.style.opacity = '0';
+        setTimeout(() => { window.location.href = url; }, 800);
     }
 
-    function clearData() {
-        if(confirm("Wipe all universe data?")) {
-            localStorage.clear();
-            location.reload();
-        }
-    }
-
-    document.getElementById("music-input").onchange = e => {
-        const player = document.getElementById("player");
-        player.src = URL.createObjectURL(e.target.files[0]);
-        player.play();
-    };
-
-    // --- 4. Starfield Background ---
-    function initUniverse() {
-        const canvas = document.getElementById('universe');
+    // --- 5. DYNAMIC STARFIELD ---
+    function initStars() {
+        const canvas = document.getElementById('universe-bg');
         const ctx = canvas.getContext('2d');
         let w = canvas.width = window.innerWidth;
         let h = canvas.height = window.innerHeight;
@@ -237,14 +229,14 @@
         for(let i=0; i<200; i++) {
             stars.push({
                 x: Math.random()*w, y: Math.random()*h,
-                size: Math.random()*2,
-                v: Math.random()*0.3 + 0.1
+                size: Math.random()*1.5,
+                v: Math.random()*0.4 + 0.1
             });
         }
 
         function draw() {
             ctx.clearRect(0,0,w,h);
-            ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
             stars.forEach(s => {
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
