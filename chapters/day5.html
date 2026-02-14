@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memories</title>
+
+<style>
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#141e30,#243b55);
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+}
+
+.container{
+width:95%;
+max-width:850px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+padding:20px;
+border-radius:20px;
+text-align:center;
+}
+
+/* FULL PHOTO SHOW */
+.photo-box{
+width:100%;
+height:320px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:black;
+border-radius:15px;
+overflow:hidden;
+margin-top:15px;
+}
+
+#photo{
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+}
+
+/* letter */
+#letter{
+margin-top:15px;
+font-size:19px;
+min-height:80px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:25px;
+background:#ff0066;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Memories ❤️</h2>
+
+<button onclick="generate()">Generate Letter</button>
+
+<div id="letter"></div>
+
+<input type="file" id="photos" multiple accept="image/*">
+
+<div class="photo-box">
+<img id="photo">
+</div>
+
+</div>
+
+<script>
+
+const letters=[
+"Tum meri har soch ki shuruaat ho ❤️",
+"Tumhari tasveer — meri duniya ka best frame hai.",
+"Har letter badle… par feelings nahi.",
+"Tum ho to yaadein zinda lagti hain.",
+"Har click — tumhari ek aur yaad."
+];
+
+let pics=[];
+let index=0;
+
+// LOAD PHOTOS
+photos.onchange=e=>{
+pics=[];
+index=0;
+
+[...e.target.files].forEach(f=>{
+const r=new FileReader();
+r.onload=ev=>{
+pics.push(ev.target.result);
+if(pics.length===1){
+photo.src=pics[0];
+}
+}
+r.readAsDataURL(f);
+});
+};
+
+// GENERATE LETTER + CHANGE PHOTO
+function generate(){
+
+// change letter
+letter.innerText=
+letters[Math.floor(Math.random()*letters.length)];
+
+// change photo sequentially
+if(pics.length>0){
+index=(index+1)%pics.length;
+photo.src=pics[index];
+}
+
+}
+
+</script>
+
+</body>
+</html>
