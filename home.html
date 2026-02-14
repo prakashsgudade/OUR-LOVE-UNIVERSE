@@ -21,7 +21,6 @@
             color: white;
             overflow-x: hidden;
             width: 100%; min-height: 100vh;
-            cursor: crosshair;
         }
 
         /* Animated Space Background */
@@ -36,11 +35,12 @@
             background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%);
         }
 
-        /* --- ADVANCED PHOTO MODULE --- */
+        /* --- RESPONSIVE PHOTO MODULE --- */
         .photo-container {
             position: relative;
-            width: 180px; height: 180px;
-            margin: 30px auto;
+            width: clamp(140px, 20vw, 180px); /* Responsive Size */
+            height: clamp(140px, 20vw, 180px);
+            margin: 20px auto;
             z-index: 20;
         }
 
@@ -54,15 +54,6 @@
             animation: rotate 4s linear infinite;
         }
 
-        .photo-ring-inner {
-            position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border: 1px dashed var(--accent);
-            border-radius: 50%;
-            animation: rotate 8s linear reverse infinite;
-            opacity: 0.5;
-        }
-
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .muskan-frame {
@@ -71,7 +62,6 @@
             overflow: hidden;
             border: 4px solid #000;
             box-shadow: var(--neon-shadow);
-            position: relative;
         }
 
         .muskan-frame img {
@@ -82,7 +72,7 @@
 
         /* --- CYBER HEADER --- */
         .header-box {
-            padding: 25px;
+            padding: 15px;
             text-align: center;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(20px);
@@ -90,75 +80,87 @@
         }
 
         .status-line {
-            display: flex; justify-content: space-between;
-            font-family: 'Orbitron'; font-size: 0.7rem;
-            letter-spacing: 3px; max-width: 1200px; margin: 0 auto 15px;
-            color: var(--accent); text-transform: uppercase;
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron'; 
+            font-size: clamp(0.55rem, 2vw, 0.7rem);
+            letter-spacing: 2px; 
+            max-width: 1200px; 
+            margin: 0 auto 10px;
+            color: var(--accent);
+            flex-wrap: wrap; /* Important for mobile */
+            gap: 10px;
         }
 
         .glitch-title {
             font-family: 'Orbitron';
             font-weight: 900;
-            font-size: clamp(1.4rem, 6vw, 2.4rem);
-            letter-spacing: 8px;
+            font-size: clamp(1.2rem, 5vw, 2.4rem);
+            letter-spacing: 5px;
             text-transform: uppercase;
-            position: relative;
-            display: inline-block;
             transition: color 1s ease;
         }
 
-        /* --- INTERACTIVE GRID --- */
+        /* --- RESPONSIVE GRID SYSTEM --- */
         .grid-system {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 25px; padding: 40px 20px;
-            max-width: 1300px; margin: 0 auto; width: 100%;
+            /* Yahan columns screen ke size ke hisaab se adjust honge */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+            padding: 20px;
+            max-width: 1300px; 
+            margin: 0 auto; 
+            width: 100%;
             box-sizing: border-box;
         }
 
         .cyber-card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 4px; /* Industrial look */
+            padding: 25px;
+            border-radius: 4px;
             position: relative;
             text-decoration: none;
             overflow: hidden;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.3s ease-in-out;
             backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
         }
 
         .cyber-card::before {
             content: ""; position: absolute; top: 0; left: 0;
             width: 4px; height: 100%; background: var(--accent);
-            transform: scaleY(0); transition: 0.4s;
+            transform: scaleY(0); transition: 0.3s;
         }
 
         .cyber-card:hover {
             background: rgba(255, 255, 255, 0.08);
-            transform: translateX(10px);
+            transform: translateY(-5px);
             border-color: var(--accent);
-            box-shadow: -10px 0 20px rgba(0, 242, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.1);
         }
 
         .cyber-card:hover::before { transform: scaleY(1); }
 
-        .icon-box { font-size: 2.5rem; margin-bottom: 15px; display: block; filter: grayscale(1); transition: 0.4s; }
-        .cyber-card:hover .icon-box { filter: grayscale(0) drop-shadow(0 0 10px var(--accent)); }
-
-        .card-title { font-family: 'Orbitron'; font-size: 1.1rem; color: #fff; margin: 0; letter-spacing: 1px; }
-        .card-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 10px; line-height: 1.5; }
+        .icon-box { font-size: 2.2rem; margin-bottom: 12px; transition: 0.4s; }
+        .card-title { font-family: 'Orbitron'; font-size: 1rem; color: #fff; margin: 0; letter-spacing: 1px; }
+        .card-desc { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 8px; line-height: 1.4; }
 
         .footer-terminal {
-            margin-top: auto; padding: 30px;
+            margin-top: auto; padding: 20px;
             text-align: center; font-family: 'Orbitron';
-            font-size: 0.65rem; color: rgba(255,255,255,0.3);
-            letter-spacing: 4px; border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.6rem; color: rgba(255,255,255,0.3);
+            letter-spacing: 2px;
         }
 
-        @media (max-width: 600px) {
-            .status-line { flex-direction: column; gap: 10px; text-align: center; }
-            .photo-container { width: 140px; height: 140px; }
+        /* --- MOBILE SPECIFIC FIXES --- */
+        @media (max-width: 480px) {
+            .status-line { justify-content: center; text-align: center; }
+            .status-line span { width: 100%; }
+            .grid-system { padding: 10px; }
+            .cyber-card { padding: 20px; }
         }
     </style>
 </head>
@@ -169,14 +171,13 @@
     <div class="main-wrapper">
         <header class="header-box">
             <div class="status-line">
-                <span><i id="pulse">●</i> CONNECTION: SECURE</span>
+                <span>● SECURE</span>
                 <span id="clock-display">00:00:00</span>
                 <span>PRAKASH: <span id="loving-text">LOVING MUSKAN</span></span>
             </div>
 
             <div class="photo-container">
                 <div class="photo-ring"></div>
-                <div class="photo-ring-inner"></div>
                 <div class="muskan-frame">
                     <img id="dynamic-muskan" src="assets/images/home/m1.jpg" alt="Muskan">
                 </div>
@@ -189,71 +190,65 @@
             <a href="letters.html" class="cyber-card">
                 <span class="icon-box">💌</span>
                 <h3 class="card-title">SECURE MESSAGE</h3>
-                <p class="card-desc">Decrypted emotional data streams specifically coded for your eyes only.</p>
+                <p class="card-desc">Decrypted emotional data streams for your eyes only.</p>
             </a>
 
             <a href="yaadein.html" class="cyber-card">
                 <span class="icon-box">📸</span>
                 <h3 class="card-title">MEMO-BANKS</h3>
-                <p class="card-desc">Accessing high-resolution visual archives of our shared temporal existence.</p>
+                <p class="card-desc">High-resolution visual archives of our shared existence.</p>
             </a>
 
             <a href="chapters.html" class="cyber-card">
                 <span class="icon-box">🚀</span>
                 <h3 class="card-title">TIMELINE</h3>
-                <p class="card-desc">Reviewing cosmic milestones from Day 01 to the present infinity.</p>
+                <p class="card-desc">Reviewing cosmic milestones from Day 01 to infinity.</p>
             </a>
 
             <a href="memory.html" class="cyber-card">
                 <span class="icon-box">🎙️</span>
                 <h3 class="card-title">AUDIO LOGS</h3>
-                <p class="card-desc">Frequency analysis of secret voice notes and whispered frequencies.</p>
+                <p class="card-desc">Frequency analysis of secret voice notes and whispers.</p>
             </a>
 
             <a href="chapters/home-chapters.html" class="cyber-card">
                 <span class="icon-box">❤️</span>
                 <h3 class="card-title">HEART-SYNC</h3>
-                <p class="card-desc">Real-time biometric heartbeat monitoring. Status: Infinite Bond.</p>
+                <p class="card-desc">Real-time biometric status: Infinite Bond active.</p>
             </a>
 
             <a href="chapters/home-chapters.html" class="cyber-card">
                 <span class="icon-box">💎</span>
                 <h3 class="card-title">VAULT-X</h3>
-                <p class="card-desc">Highly classified love files and encrypted digital treasures.</p>
+                <p class="card-desc">Encrypted digital treasures and classified love files.</p>
             </a>
         </div>
 
         <footer class="footer-terminal">
-            <p>SYSTEM CORE V6.0 // NEBULA-EDITION // BUILT FOR MUSKAN // 2026</p>
+            <p>V6.0 NEBULA-RESPONSIVE // BUILT FOR MUSKAN // 2026</p>
         </footer>
     </div>
 
     <script>
-        // 1. CONFIGURATION
         const folder = "assets/images/home/";
         const images = ["m1.jpg", "m2.jpg", "m3.jpg", "m4.jpg", "m5.jpg"];
         const neonColors = ['#00f2ff', '#ff00ff', '#00ffaa', '#ffd700', '#ff3e3e', '#7000ff'];
         let idx = 0;
 
-        // 2. DYNAMIC UPDATER (Photos + Colors)
         function syncSystem() {
             const nextColor = neonColors[Math.floor(Math.random() * neonColors.length)];
             document.documentElement.style.setProperty('--accent', nextColor);
             
-            // Image Crossfade
             const img = document.getElementById('dynamic-muskan');
             img.style.opacity = '0';
-            img.style.transform = 'scale(1.2)';
-
+            
             setTimeout(() => {
                 img.src = folder + images[idx];
                 img.style.opacity = '1';
-                img.style.transform = 'scale(1)';
                 idx = (idx + 1) % images.length;
             }, 800);
         }
 
-        // 3. BACKGROUND ANIMATION (Stars & Nebula)
         const canvas = document.getElementById('nebula-canvas');
         const ctx = canvas.getContext('2d');
         let dots = [];
@@ -262,12 +257,12 @@
         window.addEventListener('resize', resize);
         resize();
 
-        for(let i=0; i<100; i++) {
+        for(let i=0; i<80; i++) {
             dots.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 v: Math.random() * 0.5 + 0.2,
-                s: Math.random() * 2
+                s: Math.random() * 1.5
             });
         }
 
@@ -285,14 +280,12 @@
         }
         draw();
 
-        // 4. CLOCK & BOOTUP
         setInterval(() => {
             document.getElementById('clock-display').innerText = new Date().toLocaleTimeString('en-US', {hour12: false});
         }, 1000);
 
-        setInterval(syncSystem, 7000); // Har 7 second mein change
+        setInterval(syncSystem, 7000);
         syncSystem();
-
     </script>
 </body>
 </html>
