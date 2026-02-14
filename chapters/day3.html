@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day 3 — AI Letter for Muskan</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;500&family=Noto+Nastaliq+Urdu&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -15,13 +15,12 @@
             display:flex;
             align-items:center;
             justify-content:center;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color:white;
             overflow:hidden;
         }
 
-        /* Glowing background orbs */
         .orb{
             position:absolute;
             width:400px;height:400px;
@@ -44,7 +43,7 @@
         .card{
             position:relative;
             z-index:10;
-            width:90%;
+            width:95%;
             max-width:650px;
             padding:40px;
             background:rgba(255, 255, 255, 0.05);
@@ -66,14 +65,23 @@
         }
 
         #letter{
-            min-height:160px;
+            min-height:180px;
             margin-top:20px;
-            font-size: 22px;
-            line-height:1.6;
+            font-size: 20px;
+            line-height:1.8;
             color: #f0f0f0;
             opacity:0;
             transition: opacity 0.8s ease-in-out;
-            white-space: pre-line; /* Keeps line breaks */
+            white-space: pre-line;
+        }
+
+        /* Special styling for Urdu parts within the text */
+        .urdu-text {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            direction: rtl;
+            font-size: 24px;
+            display: block;
+            margin: 10px 0;
         }
 
         button{
@@ -93,12 +101,6 @@
             transform:translateY(-5px);
             box-shadow:0 15px 30px rgba(255, 77, 166, 0.5);
         }
-
-        .footer-text {
-            margin-top: 20px;
-            font-size: 12px;
-            opacity: 0.5;
-        }
     </style>
 </head>
 
@@ -109,53 +111,47 @@
 
 <div class="card">
     <h1>Dear Muskan 💌</h1>
-    <p style="opacity: 0.8;">Click below — Let the speak my heart...</p>
-
     <button onclick="generate()">Generate Love Letter</button>
-
     <div id="letter"></div>
-    <p class="footer-text">Each letter is unique, just like you.</p>
 </div>
 
 <script>
-// Storing 1000+ combinations using a smart randomizer logic
 const beginnings = [
-    "Muskan,\nKabhi kabhi lagta hai meri zindagi ek blank page thi… aur tum us par likhi hui sabse khoobsurat kahani ho.",
+    "Muskan,\nकभी कभी लगता है मेरी ज़िंदगी एक blank page थी… और तुम उस पर लिखी हुई सबसे खूबसूरत कहानी हो।",
     "My Dearest,\nIn a world full of temporary things, you are my forever and my only constant.",
-    "Muskan,\nTu mazyasathi fakt prem nahi, tar jagnyach khara karan aahes. Tu sobat aslis ki jag jinklyasarkha watate.",
-    "Jaan,\nTumhari muskurahat mere dil ke saare zakhmon ka marham hai. Ishq toh woh hai jo rooh mein utar jaye.",
+    "Muskan,\nतू माझ्यासाठी फक्त प्रेम नाही, तर जगण्याचं खरं कारण आहेस. तू सोबत असली की जग जिंकल्यासारखं वाटतं.",
+    "<span class='urdu-text'>تمہاری مسکراہٹ میرے دل کے سارے زخموں کا مرہم ہے۔ عشق تو وہ ہے جو روح میں اتر جائے۔</span>",
     "Muskan,\nIf my heart was a song, you’d be the most beautiful melody in it. I found my home in your eyes.",
-    "Priy,\nMazya ayushyacha khara arth mhanje fakt 'Tu'. Pratek janmi mala tuich havish aahes.",
-    "Muskan,\nZindagi ke mod par tum mile, jaise tapte registan mein thandi chhaon. Tum meri sabse badi daulat ho."
+    "प्रिय,\nमाझ्या आयुष्याचा खरा अर्थ म्हणजे फक्त 'तू'. प्रत्येक जन्मी मला तूच हवी आहेस.",
+    "<span class='urdu-text'>تم میری زندگی کی وہ کتاب ہو، جسے میں بار بار پڑھنا چاہتا ہوں۔</span>"
 ];
 
 const middles = [
-    "Meri har saans mein tumhara naam hai. Tumse milkar aisa laga jaise bichda hua koi hissa mil gaya ho.",
+    "मेरी हर सांस में तुम्हारा नाम है। तुमसे मिलकर ऐसा लगा जैसे बिछड़ा हुआ कोई हिस्सा मिल गया हो।",
     "Every beat of my heart belongs to you. You make me want to be a better person every single day.",
-    "Tu mazi ti savali aahes, ji kadhich mala sodun janar nahi. Tuzya dolyat pahila ki mala maza akkha jag diste.",
-    "Tum meri rooh ki wo pyaas ho jo sirf deedar se bujhti hai. Khuda ne tumhe banakar meri kismat hi badal di.",
+    "तू माझी ती सावली आहेस, जी कधीच मला सोडून जाणार नाही. तुझ्या डोळ्यात पाहिलं की मला माझं अख्खं जग दिसतं.",
+    "<span class='urdu-text'>تم میری روح کی وہ پیاس ہو جو صرف دیدار سے بجھتی ہے۔ خدا نے تمہیں بنا کر میری قسمت ہی بدل دی۔</span>",
     "You are my anchor in this chaotic sea of life. Loving you is the easiest thing I've ever done.",
-    "Tuzi ek smile maza divas banavte. Mala tuzya sobat mhatara vhaycha aahe, hatat hat ghaun.",
-    "Tumhare bina har khushi adhoori lagti hai. Meri har subah tumhare naam se shuru hoti hai."
+    "तुझी एक स्माईल माझा दिवस बनवते. मला तुझ्यासोबत म्हातारं व्हायचं आहे, हातात हात घालून.",
+    "तुम्हारे बिना हर खुशी अधूरी लगती है। मेरी हर सुबह तुम्हारे नाम से शुरू होती है।"
 ];
 
 const endings = [
-    "Bas itna hi kehna hai—meri har dua mein tum ho. ❤️",
+    "बस इतना ही कहना है—मेरी हर दुआ में तुम हो। ❤️",
     "Stay with me forever, because you are my universe. ✨",
-    "Tu maza toh vishwas aahes jo kadhich nahi tutnar. I Love You! 🌸",
-    "Tum meri zindagi ki sabse haseen haqiqat ho. Hamesha aise hi rehna. 💍",
+    "तू माझा तो विश्वास आहेस जो कधीच नाही तुटणार. I Love You! 🌸",
+    "<span class='urdu-text'>تم میری زندگی کی سب سے حسین حقیقت ہو۔ ہمیشہ ایسے ہی رہنا۔</span>",
     "You're my soulmate, my best friend, and my everything. Forever yours.",
-    "Sobat tuzi asavi, ayushya bhar mazi sath asavi. Fakt tu! 😘",
-    "Yeh koi algorithm nahi samjhega, par dil jaanta hai—tum mera best decision ho."
+    "सोबत तुझी असावी, आयुष्यभर माझी साथ असावी. फक्त तू! 😘",
+    "ये कोई Algorithm नहीं समझेगा, पर दिल जानता है—तुम मेरा Best Decision हो।"
 ];
 
 function generate(){
-    // Randomly mix and match to create thousands of unique combinations
     let b = beginnings[Math.floor(Math.random() * beginnings.length)];
     let m = middles[Math.floor(Math.random() * middles.length)];
     let e = endings[Math.floor(Math.random() * endings.length)];
     
-    let text = b + "\n\n" + m + "\n\n" + e;
+    let text = b + "<br><br>" + m + "<br><br>" + e;
     
     let el = document.getElementById("letter");
     el.style.opacity = 0;
