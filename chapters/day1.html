@@ -157,7 +157,7 @@
     </div>
 
     <div class="back-nav">
-        <button onclick="navWithEffect('../home-chapters.html')" class="royal-btn">← Chapter Hub</button>
+        <button onclick="smoothNav('home-chapters.html')" class="royal-btn">← Chapter Hub</button>
     </div>
 
     <script>
@@ -185,8 +185,8 @@
             }
         }
 
-        // --- 3. NAVIGATION WITH FADE ---
-        function navWithEffect(url) {
+        // --- 3. NAVIGATION WITH FADE (LOCKED PATHS) ---
+        function smoothNav(url) {
             document.body.style.opacity = '0';
             setTimeout(() => {
                 window.location.href = url;
@@ -199,11 +199,11 @@
             if(btn.classList.contains('locked')) {
                 alert("Sabar rakho Muskan! Day 02 kal khulega ❤️");
             } else {
-                navWithEffect('day2.html');
+                smoothNav('day2.html');
             }
         }
 
-        // --- 4. EXTRAS (Timer, Music, Voice) ---
+        // --- 4. EXTRAS ---
         function updateClock() {
             const relationshipStart = new Date(2023, 9, 7); 
             const diff = new Date() - relationshipStart;
