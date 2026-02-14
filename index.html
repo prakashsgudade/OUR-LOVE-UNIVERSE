@@ -2,56 +2,223 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Muskan ❤️</title>
-    <link rel="stylesheet" href="css/royal-theme.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AETHERIS-X | Muskan's Realm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Mobile Responsive Tweaks */
-        .login-container {
-            width: 90%;
-            max-width: 400px;
-            margin: auto;
-            padding: 40px 20px;
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg: #010103;
         }
-        h1 { font-size: 1.5rem; margin-bottom: 30px; }
-        input { width: 80%; margin-bottom: 20px; }
-        
-        @media (max-width: 480px) {
-            h1 { font-size: 1.2rem; }
-            .heart-loader { width: 40px; height: 40px; }
-            .heart-loader:before, .heart-loader:after { width: 40px; height: 40px; }
-            .heart-loader:before { top: -20px; }
-            .heart-loader:after { left: 20px; }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            background: var(--bg);
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
         }
+
+        /* --- QUANTUM BACKGROUND --- */
+        #starfield {
+            position: fixed; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #0a0a1a 0%, #010103 100%);
+            z-index: 1;
+        }
+
+        /* --- THE CORE HUD --- */
+        .nexus-core {
+            position: relative; z-index: 10;
+            width: 320px; height: 320px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .orb-outer {
+            position: absolute; width: 100%; height: 100%;
+            border: 1px solid var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+            animation: pulse 4s infinite alternate;
+        }
+
+        .orb-spinning {
+            position: absolute; width: 115%; height: 115%;
+            border: 2px dashed var(--secondary);
+            border-radius: 50%;
+            animation: rotate 15s linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.5; } 100% { transform: scale(1.05); opacity: 1; } }
+
+        /* --- INPUT INTERFACE --- */
+        .interface-box {
+            position: relative; z-index: 20;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glitch-text {
+            font-size: 0.7rem; letter-spacing: 5px;
+            color: var(--primary); text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        input {
+            background: transparent; border: none;
+            border-bottom: 1px solid var(--primary);
+            color: white; text-align: center;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.2rem; padding: 10px;
+            outline: none; width: 220px;
+            transition: 0.5s;
+        }
+
+        input:focus {
+            border-bottom: 2px solid var(--secondary);
+            text-shadow: 0 0 15px var(--primary);
+        }
+
+        button {
+            margin-top: 30px;
+            background: transparent; border: 1px solid var(--primary);
+            color: var(--primary); padding: 12px 30px;
+            font-size: 0.8rem; cursor: pointer;
+            letter-spacing: 3px; border-radius: 4px;
+            transition: 0.5s; overflow: hidden;
+        }
+
+        button:hover {
+            background: var(--primary); color: #000;
+            box-shadow: 0 0 40px var(--primary);
+        }
+
+        /* --- SYSTEM OVERLAY --- */
+        #system-log {
+            position: fixed; bottom: 20px; left: 20px;
+            font-family: monospace; font-size: 0.6rem;
+            color: rgba(0, 242, 255, 0.5);
+            text-align: left; pointer-events: none;
+        }
+
+        /* --- ACCESS GRANTED OVERLAY --- */
+        #access-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100;
+            display: none; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+
+        .scanning-line {
+            width: 100%; height: 2px; background: var(--primary);
+            position: absolute; top: 0;
+            animation: scan 2s linear infinite;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
     </style>
 </head>
-<body class="entry-body">
+<body>
 
-    <div class="login-container">
-        <div class="heart-loader"></div>
-        <h1>Enter my favorite person's name to unlock the universe</h1>
+    <canvas id="starfield"></canvas>
+
+    <div id="system-log">
+        SYS_VER: 10.0.1<br>
+        LOC: GALAXY_SECTOR_7<br>
+        STATUS: WAITING_FOR_MUSKAN...
+    </div>
+
+    <div class="nexus-core">
+        <div class="orb-outer"></div>
+        <div class="orb-spinning"></div>
         
-        <input type="text" id="userName" placeholder="Type 'Muskan'..." autocomplete="off">
-        <br>
-        <button onclick="unlockUniverse()">Enter Her World</button>
-        
-        <p id="errorMsg" style="color: #ff4d4d; display:none; margin-top:15px;">Arey! Ye toh mera universe nahi hai. ❤️</p>
+        <div class="interface-box">
+            <div class="glitch-text">Soul-Key Interface</div>
+            <input type="password" id="soulKey" placeholder="••••••••" autocomplete="off">
+            <br>
+            <button onclick="igniteUniverse()">IGNITE PORTAL</button>
+        </div>
+    </div>
+
+    <div id="access-layer">
+        <div class="scanning-line"></div>
+        <h2 id="status-text" style="letter-spacing: 10px; color: var(--primary);">VALIDATING...</h2>
+        <div id="progress" style="font-size: 3rem; margin-top: 20px;">0%</div>
     </div>
 
     <script>
-        function unlockUniverse() {
-            const name = document.getElementById('userName').value.trim().toLowerCase();
-            if(name === "muskan") {
-                // Ek pyara sa transition effect
-                document.body.style.transition = "2s";
-                document.body.style.backgroundColor = "black";
-                document.querySelector('.login-container').style.opacity = "0";
+        // 1. STARFIELD ANIMATION
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function initStars() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            for(let i=0; i<200; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    z: Math.random() * canvas.width,
+                    o: Math.random()
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                let x = (s.x - canvas.width/2) * (canvas.width / s.z) + canvas.width/2;
+                let y = (s.y - canvas.height/2) * (canvas.width / s.z) + canvas.height/2;
+                let size = (1 - s.z / canvas.width) * 3;
+                ctx.fillStyle = `rgba(0, 242, 255, ${s.o})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI*2);
+                ctx.fill();
+                s.z -= 2;
+                if(s.z <= 0) s.z = canvas.width;
+            });
+            requestAnimationFrame(drawStars);
+        }
+
+        initStars();
+        drawStars();
+
+        // 2. IGNITION LOGIC
+        async function igniteUniverse() {
+            const key = document.getElementById('soulKey').value.trim().toLowerCase();
+            const access = document.getElementById('access-layer');
+            const statusText = document.getElementById('status-text');
+            const progress = document.getElementById('progress');
+
+            if(key === "muskan") {
+                access.style.display = "flex";
                 
+                const steps = ["SCANNING BIOMETRICS", "DECODING LOVE-HASH", "UNFOLDING SPACE-TIME", "ACCESS GRANTED"];
+                for(let i=0; i<=100; i++) {
+                    progress.innerText = i + "%";
+                    if(i % 25 === 0) statusText.innerText = steps[i/25];
+                    await new Promise(r => setTimeout(r, 30));
+                }
+
+                document.body.style.filter = "brightness(5) whiteout";
                 setTimeout(() => {
-                    window.location.href = "letter.html"; // Next Page
-                }, 1500);
+                    window.location.href = "letter.html";
+                }, 1000);
+
             } else {
-                document.getElementById('errorMsg').style.display = "block";
+                alert("ACCESS DENIED: ONLY MUSKAN CAN OPEN THIS.");
             }
         }
     </script>
