@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Muskan's Command Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- ALL CSS IN ONE PLACE --- */
         :root {
             --neon-cyan: #00f2ff;
             --neon-gold: #ffd700;
@@ -21,14 +20,17 @@
             background: var(--bg-dark);
             color: white;
             overflow-x: hidden;
+            width: 100%;
         }
 
-        /* Futuristic Background */
         .futuristic-bg {
             background: radial-gradient(circle, #001233 0%, #000000 100%);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* Scanline effect */
         .scanline {
             width: 100%;
             height: 100px;
@@ -36,16 +38,13 @@
             background: linear-gradient(0deg, rgba(0, 242, 255, 0) 0%, rgba(0, 242, 255, 0.1) 50%, rgba(0, 242, 255, 0) 100%);
             opacity: 0.1;
             position: fixed;
-            bottom: 100%;
+            pointer-events: none;
             animation: scanline 8s linear infinite;
         }
 
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: -100%; }
-        }
+        @keyframes scanline { 0% { top: -100px; } 100% { top: 100%; } }
 
-        /* Header & Status Bar */
+        /* Header */
         .dash-header {
             padding: 20px;
             text-align: center;
@@ -57,31 +56,28 @@
             justify-content: space-between;
             font-size: 0.7rem;
             color: var(--neon-gold);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin-bottom: 10px;
         }
-
-        .online { color: #00ff00; text-shadow: 0 0 5px #00ff00; }
 
         h1 {
-            font-size: 1.8rem;
-            margin: 10px 0;
-            color: white;
+            font-size: clamp(1.2rem, 5vw, 1.8rem); /* Font screen ke hisaab se adjust hoga */
             text-shadow: 0 0 10px var(--neon-cyan);
+            margin: 10px 0;
         }
 
-        /* --- THE RESPONSIVE GRID --- */
+        /* --- THE RESPONSIVE GRID (MAIN PART) --- */
         .control-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Desktop: 3 Columns */
+            /* Laptop pe 3, Tablet pe 2, Mobile pe 1 column automatic banega */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             gap: 20px;
-            padding: 40px 20px;
-            max-width: 1100px;
+            padding: 30px 20px;
+            max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* Card Styles */
         .control-card {
             background: rgba(0, 242, 255, 0.05);
             border: 1px solid rgba(0, 242, 255, 0.2);
@@ -89,64 +85,42 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            gap: 20px;
+            transition: 0.3s ease-in-out;
+            border-radius: 5px;
         }
 
         .control-card:hover {
-            background: rgba(0, 242, 255, 0.1);
+            background: rgba(0, 242, 255, 0.15);
             border-color: var(--neon-cyan);
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
-            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            transform: scale(1.02);
         }
 
-        .card-icon { font-size: 2rem; }
-        
-        .card-info h3 {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--neon-gold);
+        .card-icon { font-size: 2.5rem; }
+        .card-info h3 { margin: 0; font-size: 1rem; color: var(--neon-gold); }
+        .card-info p { margin: 5px 0 0; font-size: 0.7rem; color: rgba(255,255,255,0.7); }
+
+        .highlight { border-color: var(--neon-gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+        .locked { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
+
+        /* Responsive Fix for Mobile */
+        @media (max-width: 600px) {
+            .control-grid {
+                grid-template-columns: 1fr; /* Sirf ek card dikhega puri width pe */
+                padding: 20px 15px;
+            }
+            .card-icon { font-size: 2rem; }
+            .status-bar { flex-direction: column; align-items: center; gap: 5px; }
         }
 
-        .card-info p {
-            margin: 5px 0 0;
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Highlight Card (Special Glow) */
-        .highlight {
-            border-color: var(--neon-gold);
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-        }
-
-        /* Locked Card */
-        .locked {
-            opacity: 0.4;
-            cursor: not-allowed;
-            filter: grayscale(1);
-        }
-
-        /* Footer & Player */
         .dash-footer {
+            margin-top: auto;
             padding: 20px;
-            border-top: 1px solid rgba(0, 242, 255, 0.2);
             text-align: center;
-        }
-
-        .music-player p { font-size: 0.7rem; color: var(--neon-cyan); }
-
-        /* --- RESPONSIVE MEDIA QUERIES --- */
-        @media (max-width: 992px) {
-            .control-grid { grid-template-columns: repeat(2, 1fr); } /* Tablets: 2 Columns */
-        }
-
-        @media (max-width: 650px) {
-            .control-grid { grid-template-columns: 1fr; } /* Mobile: 1 Column */
-            h1 { font-size: 1.3rem; }
-            .status-bar { flex-direction: column; gap: 5px; }
+            font-size: 0.8rem;
+            color: var(--neon-cyan);
+            border-top: 1px solid rgba(0, 242, 255, 0.2);
         }
     </style>
 </head>
@@ -154,98 +128,66 @@
 
     <div class="scanline"></div>
 
-    <div class="main-dashboard">
-        <header class="dash-header">
-            <div class="status-bar">
-                <span>STATUS: <span class="online">ONLINE</span></span>
-                <span id="live-clock">00:00:00</span>
-                <span>SYSTEM: LOVING MUSKAN</span>
-            </div>
-            <h1>UNIVERSE CONTROL CENTER</h1>
-        </header>
-
-        <div class="control-grid">
-            
-            <a href="letters.html" class="control-card">
-                <div class="card-icon">💌</div>
-                <div class="card-info">
-                    <h3>SECURE MESSAGE</h3>
-                    <p>Read the encrypted feelings.</p>
-                </div>
-            </a>
-
-            <a href="yaadein.html" class="control-card">
-                <div class="card-icon">📸</div>
-                <div class="card-info">
-                    <h3>ARCHIVES</h3>
-                    <p>Access past memories.</p>
-                </div>
-            </a>
-
-            <a href="chapters.html" class="control-card highlight">
-                <div class="card-icon">🚀</div>
-                <div class="card-info">
-                    <h3>LOVE STORY</h3>
-                    <p>Every moment is a milestone...</p>
-                </div>   
-            </a>
-
-            <a href="memory.html" class="control-card">
-                <div class="card-icon">🎙️</div>
-                <div class="card-info">
-                    <h3>VOICE LOGS</h3>
-                    <p>Listen to secret notes.</p>
-                </div>
-            </a>
-
-            <a href="chapter.html" class="control-card">
-                <div class="card-icon">❤️</div>
-                <div class="card-info">
-                    <h3>HEARTBEAT</h3>
-                    <p>Syncing since Day 01.</p>
-                </div>
-            </a>
-
-            <a href="vault.html" class="control-card">
-                <div class="card-icon">💎</div>
-                <div class="card-info">
-                    <h3>DATA VAULT</h3>
-                    <p>Classified love files.</p>
-                </div>
-            </a>
-
-            <div class="control-card locked">
-                <div class="card-icon">🔒</div>
-                <div class="card-info">
-                    <h3>FUTURE SLOT</h3>
-                    <p>Incoming Transmission...</p>
-                </div>
-            </div>
-
+    <header class="dash-header">
+        <div class="status-bar">
+            <span>STATUS: <span style="color:#00ff00;">ONLINE</span></span>
+            <span id="live-clock">00:00:00</span>
+            <span>SYSTEM: LOVING MUSKAN</span>
         </div>
+        <h1>UNIVERSE CONTROL CENTER</h1>
+    </header>
 
-        <footer class="dash-footer">
-            <div class="music-player">
-                <p>SYSTEM STATUS: ALL ENGINES GO</p>
-            </div>
-        </footer>
+    <div class="control-grid">
+        <a href="letters.html" class="control-card">
+            <div class="card-icon">💌</div>
+            <div class="card-info"><h3>SECURE MESSAGE</h3><p>Read the encrypted feelings.</p></div>
+        </a>
+
+        <a href="yaadein.html" class="control-card">
+            <div class="card-icon">📸</div>
+            <div class="card-info"><h3>ARCHIVES</h3><p>Access past memories.</p></div>
+        </a>
+
+        <a href="chapters.html" class="control-card highlight">
+            <div class="card-icon">🚀</div>
+            <div class="card-info"><h3>LOVE STORY</h3><p>Every moment is a milestone...</p></div>   
+        </a>
+
+        <a href="memory.html" class="control-card">
+            <div class="card-icon">🎙️</div>
+            <div class="card-info"><h3>VOICE LOGS</h3><p>Listen to secret notes.</p></div>
+        </a>
+
+        <a href="stats.html" class="control-card">
+            <div class="card-icon">❤️</div>
+            <div class="card-info"><h3>HEARTBEAT</h3><p>Syncing since Day 01.</p></div>
+        </a>
+
+        <a href="vault.html" class="control-card">
+            <div class="card-icon">💎</div>
+            <div class="card-info"><h3>DATA VAULT</h3><p>Classified love files.</p></div>
+        </a>
+
+        <div class="control-card locked">
+            <div class="card-icon">🔒</div>
+            <div class="card-info"><h3>FUTURE SLOT</h3><p>Incoming Transmission...</p></div>
+        </div>
     </div>
 
+    <footer class="dash-footer">
+        <p>CORE SYSTEM VERSION 2.0 | BUILT FOR MUSKAN</p>
+    </footer>
+
     <script>
-        // 1. Live Clock Function
         function updateClock() {
             const clock = document.getElementById('live-clock');
             const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ":" + 
-                         now.getMinutes().toString().padStart(2, '0') + ":" + 
-                         now.getSeconds().toString().padStart(2, '0');
-            clock.innerText = time;
+            clock.innerText = now.getHours().toString().padStart(2, '0') + ":" + 
+                              now.getMinutes().toString().padStart(2, '0') + ":" + 
+                              now.getSeconds().toString().padStart(2, '0');
         }
         setInterval(updateClock, 1000);
         updateClock();
-
-        // 2. Simple Matrix Effect Console Log
-        console.log("%c SYSTEM ONLINE: LOVE CORE ACTIVATED ", "background: #000; color: #00f2ff; font-weight: bold;");
     </script>
 </body>
 </html>
