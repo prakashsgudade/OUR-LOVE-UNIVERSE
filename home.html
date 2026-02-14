@@ -1,89 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muskan's Command Center</title>
-    <link rel="stylesheet" href="css/main-style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muskan's Command Center</title>
+    <link rel="stylesheet" href="css/main-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Responsive Grid Logic */
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Laptop par 3 columns */
+            gap: 20px;
+            padding: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .control-grid { grid-template-columns: repeat(2, 1fr); } /* Tablet par 2 */
+        }
+
+        @media (max-width: 600px) {
+            .control-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; } /* Mobile par 2 */
+            .card-info h3 { font-size: 0.8rem; }
+            .card-info p { font-size: 0.6rem; }
+            .dash-header h1 { font-size: 1.2rem; }
+        }
+    </style>
 </head>
 <body class="futuristic-bg">
 
-    <div class="scanline"></div>
-    <div class="grid-overlay"></div>
+    <div class="scanline"></div>
+    <div class="grid-overlay"></div>
 
-    <div class="main-dashboard">
-        <header class="dash-header">
-            <div class="status-bar">
-                <span>STATUS: <span class="online">ONLINE</span></span>
-                <span id="live-clock">00:00:00</span>
-                <span>SYSTEM: LOVING MUSKAN</span>
-            </div>
-            <h1>UNIVERSE CONTROL CENTER</h1>
-        </header>
+    <div class="main-dashboard">
+        <header class="dash-header">
+            <div class="status-bar">
+                <span>STATUS: <span class="online">ONLINE</span></span>
+                <span id="live-clock">00:00:00</span>
+                <span>SYSTEM: LOVING MUSKAN</span>
+            </div>
+            <h1>UNIVERSE CONTROL CENTER</h1>
+        </header>
 
-        <div class="control-grid">
-            
-            <a href="letters.html" class="control-card">
-                <div class="card-icon">💌</div>
-                <div class="card-info">
-                    <h3>SECURE MESSAGE</h3>
-                    <p>Read the encrypted feelings.</p>
-                </div>
-            </a>
+        <div class="control-grid">
+            
+            <a href="letters.html" class="control-card">
+                <div class="card-icon">💌</div>
+                <div class="card-info">
+                    <h3>SECURE MESSAGE</h3>
+                    <p>Read the encrypted feelings.</p>
+                </div>
+            </a>
 
-            <a href="yaadein.html" class="control-card">
-                <div class="card-icon">📸</div>
-                <div class="card-info">
-                    <h3>ARCHIVES</h3>
-                    <p>Access past memories.</p>
-                </div>
-            </a>
+            <a href="yaadein.html" class="control-card">
+                <div class="card-icon">📸</div>
+                <div class="card-info">
+                    <h3>ARCHIVES</h3>
+                    <p>Access past memories.</p>
+                </div>
+            </a>
 
-            <a href="chapters.html" class="control-card highlight">
-                <div class="card-icon">🚀</div>
-                <div class="card-info">
-                    <h3>LOVE STORY</h3>
-                    <p>Every moment is a milestone...</p>
-                </div>   
-            </a>
+            <a href="chapters.html" class="control-card highlight">
+                <div class="card-icon">🚀</div>
+                <div class="card-info">
+                    <h3>LOVE STORY</h3>
+                    <p>Every moment is a milestone...</p>
+                </div>   
+            </a>
 
-            <a href="memory.html" class="control-card">
-                <div class="card-icon">🎙️</div>
-                <div class="card-info">
-                    <h3>VOICE LOGS</h3>
-                    <p>Listen to secret notes.</p>
-                </div>
-            </a>
+            <a href="memory.html" class="control-card">
+                <div class="card-icon">🎙️</div>
+                <div class="card-info">
+                    <h3>VOICE LOGS</h3>
+                    <p>Listen to secret notes.</p>
+                </div>
+            </a>
 
-            <div class="control-card locked">
-                <div class="card-icon">🔒</div>
-                <div class="card-info">
-                    <h3>FUTURE SLOT</h3>
-                    <p>Coming soon...</p>
-                </div>
-            </div>
+            <a href="videos.html" class="control-card">
+                <div class="card-icon">🎬</div>
+                <div class="card-info">
+                    <h3>NEBULA VIDEOS</h3>
+                    <p>Visualizing our timeline.</p>
+                </div>
+            </a>
 
-            <div class="control-card locked">
-                <div class="card-icon">🔒</div>
-                <div class="card-info">
-                    <h3>FUTURE SLOT</h3>
-                    <p>Coming soon...</p>
-                </div>
-            </div>
+            <a href="stats.html" class="control-card">
+                <div class="card-icon">❤️</div>
+                <div class="card-info">
+                    <h3>HEARTBEAT</h3>
+                    <p>Syncing since Day 1.</p>
+                </div>
+            </a>
 
-        </div>
+            <a href="places.html" class="control-card">
+                <div class="card-icon">📍</div>
+                <div class="card-info">
+                    <h3>GALAXY MAP</h3>
+                    <p>Our special coordinates.</p>
+                </div>
+            </a>
 
-        <footer class="dash-footer">
-            <div class="music-player">
-                <p>NOW PLAYING: Our Special Song.mp3</p>
-                <div class="visualizer">
-                    <span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-        </footer>
-    </div>
+            <a href="vault.html" class="control-card">
+                <div class="card-icon">💎</div>
+                <div class="card-info">
+                    <h3>DATA VAULT</h3>
+                    <p>Classified love files.</p>
+                </div>
+            </a>
 
-    <script src="js/effects.js"></script>
+            <a href="wishes.html" class="control-card">
+                <div class="card-icon">🌠</div>
+                <div class="card-info">
+                    <h3>TRANSMISSION</h3>
+                    <p>Signals to your heart.</p>
+                </div>
+            </a>
+
+            <div class="control-card locked">
+                <div class="card-icon">🔒</div>
+                <div class="card-info">
+                    <h3>FUTURE SLOT</h3>
+                    <p>Coming soon...</p>
+                </div>
+            </div>
+
+            <div class="control-card locked">
+                <div class="card-icon">🔒</div>
+                <div class="card-info">
+                    <h3>FUTURE SLOT</h3>
+                    <p>Coming soon...</p>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="dash-footer">
+            <div class="music-player">
+                <p>NOW PLAYING: Our Special Song.mp3</p>
+                <div class="visualizer">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/effects.js"></script>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
