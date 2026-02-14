@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Memories</title>
+<title>Memories ❤️</title>
 
 <style>
 body{
@@ -28,7 +28,6 @@ border-radius:20px;
 text-align:center;
 }
 
-/* FULL PHOTO SHOW */
 .photo-box{
 width:100%;
 height:320px;
@@ -47,7 +46,6 @@ max-height:100%;
 object-fit:contain;
 }
 
-/* letter */
 #letter{
 margin-top:15px;
 font-size:19px;
@@ -61,8 +59,10 @@ border-radius:25px;
 background:#ff0066;
 color:white;
 cursor:pointer;
+margin-top:10px;
 }
 
+.music{margin-top:20px;}
 </style>
 
 </head>
@@ -83,31 +83,51 @@ cursor:pointer;
 <img id="photo">
 </div>
 
+<div class="music">
+<h3>🎵 Add Song</h3>
+<input type="file" id="music" accept="audio/*">
+<br>
+<audio id="player" controls></audio>
+</div>
+
+<button onclick="clearData()">Reset Photos</button>
+
 </div>
 
 <script>
 
 const letters=[
 "Tum meri har soch ki shuruaat ho ❤️",
-"Tumhari tasveer — meri duniya ka best frame hai.",
-"Har letter badle… par feelings nahi.",
-"Tum ho to yaadein zinda lagti hain.",
-"Har click — tumhari ek aur yaad."
+"Tum meri yaadon ki sabse khoobsurat tasveer ho.",
+"Har letter ke saath ek yaad badalti hai.",
+"Tum meri kahani ka favourite frame ho.",
+"Tum ho to sab perfect hai."
 ];
 
 let pics=[];
 let index=0;
 
-// LOAD PHOTOS
+// LOAD SAVED PHOTOS
+window.onload=()=>{
+let saved=localStorage.getItem("muskanPhotos");
+if(saved){
+pics=JSON.parse(saved);
+if(pics.length>0) photo.src=pics[0];
+}
+};
+
+// ADD PHOTOS
 photos.onchange=e=>{
 pics=[];
-index=0;
+let readers=[];
 
 [...e.target.files].forEach(f=>{
 const r=new FileReader();
 r.onload=ev=>{
 pics.push(ev.target.result);
-if(pics.length===1){
+
+if(pics.length===e.target.files.length){
+localStorage.setItem("muskanPhotos",JSON.stringify(pics));
 photo.src=pics[0];
 }
 }
@@ -115,19 +135,26 @@ r.readAsDataURL(f);
 });
 };
 
-// GENERATE LETTER + CHANGE PHOTO
+// LETTER + PHOTO CHANGE
 function generate(){
-
-// change letter
 letter.innerText=
 letters[Math.floor(Math.random()*letters.length)];
 
-// change photo sequentially
 if(pics.length>0){
 index=(index+1)%pics.length;
 photo.src=pics[index];
 }
+}
 
+// RESET
+function clearData(){
+localStorage.removeItem("muskanPhotos");
+location.reload();
+}
+
+// MUSIC
+music.onchange=e=>{
+player.src=URL.createObjectURL(e.target.files[0]);
 }
 
 </script>
