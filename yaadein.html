@@ -2,166 +2,240 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Archives | Muskan</title>
-    <link rel="stylesheet" href="css/main-style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quantum Memories | Muskan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
     <style>
-        .archive-body { 
-            background: radial-gradient(circle, #000428, #000); 
-            min-height: 200vh; /* Scroll allow karne ke liye height zyada rakhi hai */
-            margin: 0;
-            position: relative;
-            color: white;
-            overflow-x: hidden;
+        :root {
+            --accent: #00f2ff;
+            --neon-purple: #7000ff;
+            --glass: rgba(255, 255, 255, 0.05);
         }
-        
-        /* Pull to Refresh Indicator */
-        #refresh-tip {
-            position: fixed;
-            top: -50px;
-            left: 0; width: 100%;
-            text-align: center;
-            color: gold;
-            font-family: 'Orbitron';
-            font-size: 0.8rem;
-            transition: 0.3s;
+
+        body, html {
+            margin: 0; padding: 0;
+            background: #020205;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* --- HYPER-SPACE BACKGROUND --- */
+        #canvas-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+            background: radial-gradient(circle at center, #0a0a1a 0%, #000 100%);
+        }
+
+        .scroll-wrapper {
+            position: relative; z-index: 10;
+            min-height: 400vh; /* Deep scrolling for immersion */
+        }
+
+        /* --- FUTURISTIC NAVIGATION --- */
+        .nav-header {
+            position: fixed; top: 0; width: 100%;
+            padding: 20px; box-sizing: border-box;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass);
+            display: flex; justify-content: space-between; align-items: center;
             z-index: 1000;
         }
 
-        .floating-container {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0; left: 0;
+        .hub-btn {
+            color: var(--accent); text-decoration: none;
+            font-family: 'Orbitron'; font-size: 0.7rem;
+            letter-spacing: 2px; border: 1px solid var(--accent);
+            padding: 8px 15px; border-radius: 2px;
+            transition: 0.3s;
+        }
+        .hub-btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent); }
+
+        /* --- FLOATING BUBBLE CORE --- */
+        .bubble-field {
+            position: relative; width: 100%; height: 100%;
         }
 
-        /* Bubble Style */
-        .photo-bubble {
+        .memory-bubble {
             position: absolute;
             border-radius: 50%;
-            border: 2px solid #00f2ff;
+            background: var(--glass);
+            border: 1px solid rgba(0, 242, 255, 0.3);
             overflow: hidden;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+            display: flex; align-items: center; justify-content: center;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .photo-bubble img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
-        .photo-bubble:hover { transform: scale(1.1); border-color: gold; box-shadow: 0 0 25px gold; z-index: 50; }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
+        .memory-bubble img {
             width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%);
+            transition: 0.5s;
+        }
+
+        .memory-bubble:hover {
+            transform: scale(1.15) translateY(-10px);
+            border-color: var(--accent);
+            z-index: 500;
+            filter: drop-shadow(0 0 20px var(--accent));
+        }
+
+        .memory-bubble:hover img { filter: grayscale(0%); transform: scale(1.1); }
+
+        /* --- HOLOGRAPHIC MODAL --- */
+        .hologram-modal {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95);
-            z-index: 2000;
+            z-index: 2000; backdrop-filter: blur(15px);
+            align-items: center; justify-content: center;
+            animation: fadeIn 0.4s;
         }
 
-        .modal-content {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%; max-width: 400px;
-            text-align: center;
+        .modal-wrap {
+            width: 85%; max-width: 450px; text-align: center;
+            position: relative;
         }
 
-        .modal-content img { width: 100%; border: 2px solid gold; border-radius: 15px; }
-        #modalCaption { color: gold; margin-top: 15px; font-family: 'Dancing Script'; font-size: 1.3rem; }
-
-        /* Mobile specific adjustments */
-        @media (max-width: 600px) {
-            .archive-body { min-height: 300vh; } /* Mobile par lamba scroll */
-            .status-bar h2 { font-size: 0.8rem !important; }
+        .modal-wrap img {
+            width: 100%; border-radius: 10px;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
         }
+
+        .caption-box {
+            margin-top: 20px; font-family: 'Dancing Script';
+            font-size: 1.8rem; color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- PROGRESS INDICATOR --- */
+        .scroll-progress {
+            position: fixed; bottom: 30px; right: 30px;
+            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--accent);
+            writing-mode: vertical-rl; letter-spacing: 5px; opacity: 0.5;
+        }
+
     </style>
 </head>
-<body class="archive-body futuristic-bg">
+<body>
 
-    <div id="refresh-tip">↻ PULL TO REFRESH UNIVERSE</div>
+    <canvas id="canvas-bg"></canvas>
 
-    <div class="status-bar" style="padding: 15px; color: gold; position: fixed; top: 0; z-index: 100; width: 100%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
-        <a href="home.html" style="color: #00f2ff; text-decoration: none; font-family: 'Orbitron'; border: 1px solid #00f2ff; padding: 5px 12px; font-size: 0.7rem;"><< HUB</a>
-        <h2 style="font-family: 'Orbitron'; margin: 0; font-size: 0.9rem;">YAADEIN_v1.1</h2>
+    <div class="nav-header">
+        <a href="home.html" class="hub-btn"> < BACK_HUB </a>
+        <div style="font-family: 'Orbitron'; font-size: 0.8rem; color: #fff;">MEM_ARCHIVE_V2.0</div>
     </div>
 
-    <div class="floating-container" id="bubble-field"></div>
+    <div class="scroll-progress" id="progress-text">DEPTH: 0000</div>
 
-    <div id="photoModal" class="modal" onclick="this.style.display='none'">
-        <div class="modal-content">
-            <img id="modalImg" src="">
-            <p id="modalCaption"></p>
+    <div class="scroll-wrapper" id="field">
+        </div>
+
+    <div class="hologram-modal" id="modal" onclick="closeModal()">
+        <div class="modal-wrap">
+            <img id="mImg" src="">
+            <div class="caption-box" id="mCap"></div>
+            <p style="font-family: Orbitron; font-size: 0.6rem; color: gray; margin-top: 20px;">[ CLICK ANYWHERE TO CLOSE ]</p>
         </div>
     </div>
 
     <script>
-        const memories = [
-            { src: 'assets/images/yaadein/image1.jpg', caption: 'The day my life changed. ❤️' },
-            { src: 'assets/images/yaadein/image2.jpg', caption: 'That perfect smile. ✨' },
-            { src: 'assets/images/yaadein/image3.jpg', caption: 'Memories worth a thousand years.' },
-            { src: 'assets/images/yaadein/image4.jpg', caption: "Baby, I'll give all my love. ❤️" },
-            { src: 'assets/images/yaadein/image5.jpg', caption: 'Your love keeps me happy. ✨' },
-            { src: 'assets/images/yaadein/image6.jpg', caption: "You're my breath, stay close. ♾️" }
-            // Yahan aur photos add kar sakte ho...
+        // 1. DATA ARRAY (Add as many as you want)
+        const memoryData = [
+            { src: 'assets/images/yaadein/image1.jpg', cap: 'Har pal tumhara intezar... ❤️' },
+            { src: 'assets/images/yaadein/image2.jpg', cap: 'Duniya ki sabse khoobsurat muskan. ✨' },
+            { src: 'assets/images/yaadein/image3.jpg', cap: 'Hamari yaadein, hamara jahan.' },
+            { src: 'assets/images/yaadein/image4.jpg', cap: 'Stay with me forever. ♾️' },
+            { src: 'assets/images/yaadein/image5.jpg', cap: 'My universe revolves around you.' },
+            { src: 'assets/images/yaadein/image6.jpg', cap: 'Priceless moments. ❤️' },
+            // Loop will reuse these if more are needed
         ];
 
-        const container = document.getElementById('bubble-field');
+        // 2. GENERATE BUBBLES
+        const field = document.getElementById('field');
+        const totalBubbles = 40; // Total bubbles on page
         const isMobile = window.innerWidth < 600;
 
-        // Creating bubbles across the long scrollable page
-        memories.forEach((mem, i) => {
-            const bubble = document.createElement('div');
-            bubble.className = 'photo-bubble';
+        for (let i = 0; i < totalBubbles; i++) {
+            const data = memoryData[i % memoryData.length]; // Cycle through data
+            const b = document.createElement('div');
+            b.className = 'memory-bubble';
             
-            const size = isMobile ? (Math.random() * 40 + 90) : (Math.random() * 60 + 130); 
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
+            // Random styling
+            const size = isMobile ? Math.random() * 80 + 100 : Math.random() * 120 + 150;
+            b.style.width = size + 'px';
+            b.style.height = size + 'px';
             
-            // Randomly spread bubbles across the entire scrollable height
-            bubble.style.left = Math.random() * 75 + 5 + 'vw';
-            bubble.style.top = Math.random() * (isMobile ? 250 : 150) + 10 + 'vh';
-
-            bubble.innerHTML = `<img src="${mem.src}" loading="lazy">`;
+            // Spread across 400vh (4 times screen height)
+            b.style.left = Math.random() * 80 + 5 + 'vw';
+            b.style.top = Math.random() * 350 + 15 + 'vh';
             
-            // Simple Floating motion
-            let posX = (Math.random() - 0.5) * 0.05;
-            let posY = (Math.random() - 0.5) * 0.05;
+            // Animation Delay
+            b.style.transitionDelay = (Math.random() * 0.2) + 's';
             
-            function animate() {
-                let currentLeft = parseFloat(bubble.style.left);
-                let currentTop = parseFloat(bubble.style.top);
-
-                if (currentLeft <= 2 || currentLeft >= 85) posX *= -1;
-                // Vertical limits based on page height
-                if (currentTop <= 5 || currentTop >= (isMobile ? 280 : 180)) posY *= -1;
-
-                bubble.style.left = (currentLeft + posX) + 'vw';
-                bubble.style.top = (currentTop + posY) + 'vh';
-                requestAnimationFrame(animate);
+            b.innerHTML = `<img src="${data.src}" loading="lazy">`;
+            
+            // Simple Floating Physics
+            let speedX = (Math.random() - 0.5) * 0.3;
+            let speedY = (Math.random() - 0.5) * 0.3;
+            
+            function move() {
+                let x = parseFloat(b.style.left);
+                let y = parseFloat(b.style.top);
+                if(x < 2 || x > 85) speedX *= -1;
+                b.style.left = (x + speedX) + 'vw';
+                b.style.top = (y + speedY) + 'vh';
+                requestAnimationFrame(move);
             }
-            animate();
-            
-            bubble.onclick = (e) => {
-                e.stopPropagation();
-                document.getElementById('modalImg').src = mem.src;
-                document.getElementById('modalCaption').innerText = mem.caption;
-                document.getElementById('photoModal').style.display = 'block';
-            };
-            container.appendChild(bubble);
-        });
+            move();
 
-        // Pull to Refresh Logic
-        let touchStart = 0;
-        window.addEventListener('touchstart', (e) => { touchStart = e.touches[0].pageY; });
-        window.addEventListener('touchmove', (e) => {
-            const touchMove = e.touches[0].pageY;
-            if (window.scrollY === 0 && touchMove > touchStart + 80) {
-                document.getElementById('refresh-tip').style.top = '20px';
-                setTimeout(() => { location.reload(); }, 1200);
-            }
-        });
+            b.onclick = () => openModal(data.src, data.cap);
+            field.appendChild(b);
+        }
+
+        // 3. MODAL LOGIC
+        function openModal(s, c) {
+            document.getElementById('mImg').src = s;
+            document.getElementById('mCap').innerText = c;
+            document.getElementById('modal').style.display = 'flex';
+        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+        // 4. STARFIELD BACKGROUND
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let stars = [];
+
+        for(let i=0; i<150; i++) {
+            stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 1.5, d: Math.random() * 1 });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 242, 255, 0.3)";
+            stars.forEach(s => {
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+                s.y -= s.d; if(s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+
+        // 5. DEPTH TRACKER
+        window.onscroll = () => {
+            let depth = Math.floor(window.scrollY);
+            document.getElementById('progress-text').innerText = `DEPTH: ${depth.toString().padStart(4, '0')}`;
+        };
     </script>
 </body>
 </html>
