@@ -21,7 +21,7 @@
             background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; margin: 0; 
             background: radial-gradient(circle at center, #1a0b0b 0%, #000 100%); 
             overflow-x: hidden;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 0.8s ease-in-out; /* Smooth transition effect */
         }
 
         /* --- Header & Photo --- */
@@ -35,7 +35,7 @@
         .photo-frame img { width: 100%; border-radius: 10px; display: block; }
         .main-caption { font-family: 'Great Vibes'; font-size: 1.8rem; color: #ffb3b3; text-align: center; margin-bottom: 30px; }
 
-        /* --- Grid & Original Cards --- */
+        /* --- Grid & Cards --- */
         .flower-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1100px; margin: 0 auto; }
         .flower-card { height: 250px; perspective: 1000px; cursor: pointer; }
         .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
@@ -149,7 +149,7 @@
                 <div class="card-front"><span class="icon">🌹</span><h3>Next Chapter</h3><p>Ready for Day 02?</p></div>
                 <div class="card-back" style="background:#111;">
                     <h3 id="lockTitle">Day 02 Status</h3>
-                    <p id="lockMsg" style="font-size: 0.8rem;">Wait for the clock to strike midnight.</p>
+                    <p id="lockMsg" style="font-size: 0.8rem;">The journey continues tomorrow.</p>
                     <button id="day2Btn" class="royal-btn locked" onclick="handleDay2(event)">LOCKED 🔒</button>
                 </div>
             </div>
@@ -157,12 +157,14 @@
     </div>
 
     <div class="back-nav">
-        <button onclick="navWithEffect('../home-chapters.html')" class="royal-btn">← Back to Chapters</button>
+        <button onclick="navWithEffect('../home-chapters.html')" class="royal-btn">← Chapter Hub</button>
     </div>
 
     <script>
+        // --- 1. CONFIGURATION ---
         const START_DATE = new Date("2026-02-07T00:00:00"); 
 
+        // --- 2. LOCK SYSTEM ---
         function checkLock() {
             let now = new Date();
             let day2Time = new Date(START_DATE);
@@ -172,15 +174,23 @@
             const title = document.getElementById("lockTitle");
             const msg = document.getElementById("lockMsg");
 
-            // TEST MODE: True karke check kar sakte ho
-            const testMode = true;
+            // Change to 'false' if you want it to be actually locked by date
+            const testMode = true; 
 
             if (testMode || now >= day2Time) {
                 btn.classList.remove("locked");
                 btn.innerHTML = "OPEN DAY 02 →";
                 title.innerText = "Day 02 is Ready!";
-                msg.innerText = "The journey continues...";
+                msg.innerText = "The story unfolds further...";
             }
+        }
+
+        // --- 3. NAVIGATION WITH FADE ---
+        function navWithEffect(url) {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = url;
+            }, 800);
         }
 
         function handleDay2(e) {
@@ -193,15 +203,9 @@
             }
         }
 
-        function navWithEffect(url) {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                window.location.href = url;
-            }, 800);
-        }
-
+        // --- 4. EXTRAS (Timer, Music, Voice) ---
         function updateClock() {
-            const relationshipStart = new Date(2023, 9, 7); // Oct 7, 2023
+            const relationshipStart = new Date(2023, 9, 7); 
             const diff = new Date() - relationshipStart;
             const d = Math.floor(diff / 86400000);
             const h = Math.floor((diff / 3600000) % 24);
@@ -211,9 +215,7 @@
         }
         setInterval(updateClock, 1000); updateClock();
 
-        function playVoice() {
-            document.getElementById('specialVoice').play();
-        }
+        function playVoice() { document.getElementById('specialVoice').play(); }
 
         function toggleSong(e) {
             e.stopPropagation();
