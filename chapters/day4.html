@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muskan | Love Universe Day 4</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Quicksand:wght@300;500&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+            color: white;
+            height: 100vh;
+        }
+
+        /* Canvas for the Starfield */
+        #universe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Hero Content */
+        .content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .glass-portal {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 50%; /* Circle shape for Universe feel */
+            width: 350px;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.2);
+            animation: pulse 4s infinite alternate;
+            pointer-events: all;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, #00d4ff, #ff007a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-width: 250px;
+            opacity: 0.8;
+        }
+
+        .coordinates {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            color: #00d4ff;
+            opacity: 0.5;
+        }
+
+        /* Floating Animation */
+        @keyframes pulse {
+            0% { transform: translateY(0) scale(1); box-shadow: 0 0 50px rgba(0, 212, 255, 0.2); }
+            100% { transform: translateY(-20px) scale(1.05); box-shadow: 0 0 80px rgba(255, 0, 122, 0.3); }
+        }
+
+        /* UI Interaction */
+        .explore-btn {
+            margin-top: 25px;
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .explore-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        @media (max-width: 480px) {
+            .glass-portal { width: 300px; height: 300px; }
+            h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="universe"></canvas>
+
+    <div class="content">
+        <div class="glass-portal">
+            <h2>GALACTIC DAY 04</h2>
+            <h1>MUSKAN</h1>
+            <p>In the vastness of the universe, my stars always align with you.</p>
+            <button class="explore-btn" onclick="boostStars()">BOOST ENERGY</button>
+        </div>
+    </div>
+
+    <div class="coordinates">LAT: 28.6139° N <br> LONG: 77.2090° E <br> STATUS: IN LOVE</div>
+
+    <script>
+        const canvas = document.getElementById('universe');
+        const ctx = canvas.getContext('2d');
+        let w, h, stars = [];
+        let speed = 0.5;
+
+        function init() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < 400; i++) {
+                stars.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    size: Math.random() * 1.5,
+                    vx: (Math.random() - 0.5) * speed,
+                    vy: (Math.random() - 0.5) * speed,
+                    color: Math.random() > 0.5 ? '#00d4ff' : '#ff007a'
+                });
+            }
+        }
+
+        function draw() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, w, h);
+            
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fillStyle = s.color;
+                ctx.fill();
+
+                s.x += s.vx;
+                s.y += s.vy;
+
+                // Wrap around
+                if (s.x < 0) s.x = w;
+                if (s.x > w) s.x = 0;
+                if (s.y < 0) s.y = h;
+                if (s.y > h) s.y = 0;
+            });
+            requestAnimationFrame(draw);
+        }
+
+        function boostStars() {
+            stars.forEach(s => {
+                s.vx *= 10;
+                s.vy *= 10;
+            });
+            setTimeout(() => {
+                stars.forEach(s => {
+                    s.vx /= 10;
+                    s.vy /= 10;
+                });
+            }, 1000);
+        }
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+    </script>
+</body>
+</html>
