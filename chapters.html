@@ -214,43 +214,158 @@
 
 <div id="scrollDown" class="nav-arrow">⬇</div>
 
-<script src="js/days-data.js"></script> <script>
+
+
+<script>
+
     const START_DATE = new Date("2026-02-06");
+
     const TOTAL_DAYS = 5000; 
+
+
 
     let container = document.getElementById("timeline");
 
-    // --- YAHAN HAI LOGIC ---
+
+
     for(let i=1; i<=TOTAL_DAYS; i++){
+
         let node = document.createElement("div");
+
         node.className = "chapter-node";
 
-        // Check kar rahe hain ki kya days-data.js mein is Day ka koi naam hai?
-        let dayTitle = (typeof loveDays !== 'undefined' && loveDays[i]) ? loveDays[i].title : `Day ${i}`;
-        let subText = (typeof loveDays !== 'undefined' && loveDays[i]) ? "Unlock Memory ❤️" : "Coming Soon...";
-
         node.innerHTML = `
+
             <div class="node-dot"></div>
+
             <div class="card" onclick="loadChapter(${i})">
+
                 <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">
-                    ${dayTitle} 
+
+                    Day ${i}
+
                 </span><br>
-                <small>${subText}</small>
+
+                <small>Enter Memory</small>
+
             </div>
+
         `;
+
         container.appendChild(node);
+
     }
 
-    // --- YAHAN SE PAGE KHULTA HAI ---
+
+
     function loadChapter(i) {
-        // Ye line JS se URL banati hai: day.html?d=1, d=2 etc.
+
         window.location.href = `day.html?d=${i}`;
+
     }
 
-    // ... (Baaki Jump function aur Stars animation wahi rahega) ...
-</script>
 
+
+    function jumpToDay(){
+
+        let input = document.getElementById("daySearch");
+
+        let num = parseInt(input.value);
+
+        let nodes = document.querySelectorAll(".chapter-node");
+
+
+
+        if(num >= 1 && num <= nodes.length){
+
+            const targetNode = nodes[num-1];
+
+            targetNode.scrollIntoView({behavior:"smooth", block:"center"});
+
+            const card = targetNode.querySelector('.card');
+
+            card.classList.add('jump-highlight');
+
+            setTimeout(() => { card.classList.remove('jump-highlight'); }, 2500);
+
+            input.value = ""; 
+
+        } else {
+
+            alert("Sabr rakho Muskan! Wo din abhi aane wala hai ❤️");
+
+        }
+
+    }
+
+
+
+    window.onload = () => {
+
+        const notif = document.getElementById('notification');
+
+        notif.style.opacity = "1";
+
+        setTimeout(() => { notif.style.opacity = "0"; }, 3000);
+
+    };
+
+
+
+    window.onscroll = function() {
+
+        let up = document.getElementById("scrollUp");
+
+        let down = document.getElementById("scrollDown");
+
+        if (window.scrollY > 300) up.classList.add("show");
+
+        else up.classList.remove("show");
+
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) down.classList.remove("show");
+
+        else down.classList.add("show");
+
+    };
+
+
+
+    document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
+
+    document.getElementById("scrollDown").onclick = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
+
+
+
+    const c=document.getElementById("space"); const ctx=c.getContext("2d");
+
+    c.width=innerWidth; c.height=innerHeight;
+
+    let stars=[];
+
+    for(let i=0; i<100; i++) stars.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*1.5});
+
+    function anim(){
+
+        ctx.clearRect(0,0,c.width,c.height);
+
+        ctx.fillStyle="white";
+
+        stars.forEach(s=>{
+
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+
+            s.y += 0.3; if(s.y > c.height) s.y = 0;
+
+        });
+
+        requestAnimationFrame(anim);
+
+    }
+
+    anim();
+
+</script>
 
 </body>
 
-</html>  
+</html>
