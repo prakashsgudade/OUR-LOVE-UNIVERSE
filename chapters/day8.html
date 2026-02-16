@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 08 | Cinema Masterpiece</title>
+    <title>Prakash x Muskan | Day 08</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Bebas+Neue&family=Courier+Prime&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
@@ -20,7 +20,7 @@
             background-color: var(--film-black); 
             margin: 0; 
             font-family: 'Courier Prime', monospace; 
-            min-height: 112vh; /* Pull-to-refresh makkhan chalega */
+            min-height: 112vh; /* Makkhan Pull-to-refresh */
             overflow-x: hidden;
             display: flex;
             justify-content: center;
@@ -29,24 +29,33 @@
         .viewport-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             display: flex; flex-direction: column; align-items: center;
-            justify-content: space-between; padding: 15px; z-index: 10;
+            justify-content: space-between; padding: 10px; z-index: 10;
+        }
+
+        /* Real Cinema Vignette */
+        .viewport-container::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 20%, black 150%);
+            z-index: -1; pointer-events: none;
         }
 
         .movie-header { text-align: center; flex-shrink: 0; }
         .movie-title {
-            font-family: 'Bebas Neue'; font-size: clamp(2.2rem, 8vw, 4rem);
-            color: var(--gold); letter-spacing: 5px; margin: 0;
+            font-family: 'Bebas Neue'; font-size: clamp(2.2rem, 8vw, 3.8rem);
+            color: var(--gold); letter-spacing: 4px; margin: 0;
             text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
+        .credits { font-size: 0.55rem; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-top: -5px; }
 
+        /* THE STAGE */
         .cinema-stage {
             flex-grow: 1; display: flex; flex-direction: column;
-            justify-content: center; gap: 10px; width: 100%; max-width: 600px;
+            justify-content: center; gap: 8px; width: 100%; max-width: 600px;
         }
 
         .projector-frame {
-            position: relative; width: 100%; height: 40vh;
-            background: #000; border: 3px solid #1a1a1a;
+            position: relative; width: 100%; height: 42vh;
+            background: #000; border: 3px solid #151515;
             box-shadow: 0 0 40px rgba(0,0,0,1);
             display: flex; align-items: center; justify-content: center;
             overflow: hidden; border-radius: 4px;
@@ -54,8 +63,20 @@
 
         #photo {
             max-width: 100%; max-height: 100%; object-fit: contain;
-            filter: contrast(1.1) brightness(0.9);
-            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Purana Smooth Transition */
+            filter: contrast(1.05) brightness(0.95);
+            transition: 0.3s ease; /* Quick fade for jump effect */
+        }
+
+        /* KHUDNE WALA (PROJECTOR JUMP) ANIMATION */
+        .reel-jump {
+            animation: projectorJump 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes projectorJump {
+            0% { transform: translateY(0) scale(1); filter: brightness(1); }
+            20% { transform: translateY(-15px) scale(0.98); filter: brightness(1.8) blur(1px); }
+            50% { transform: translateY(10px) scale(1.02); filter: brightness(1.2) blur(0.5px); }
+            100% { transform: translateY(0) scale(1); filter: brightness(1); }
         }
 
         .film-scratches {
@@ -64,26 +85,28 @@
             opacity: 0.15; pointer-events: none; z-index: 3; animation: flicker 0.1s infinite;
         }
 
+        /* SCRIPT & SUBTITLES */
         .script-box {
-            background: rgba(255, 255, 255, 0.05); padding: 12px;
-            border-left: 4px solid var(--gold); border-radius: 0 10px 10px 0;
-            transition: 0.5s;
+            background: rgba(255, 255, 255, 0.04); padding: 12px;
+            border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0;
         }
 
-        .label { font-family: 'Bebas Neue'; color: var(--gold); font-size: 0.75rem; margin-bottom: 3px; }
-        .text-content { font-family: 'Special Elite'; font-size: 0.9rem; color: #ddd; margin-bottom: 8px; }
+        .label { font-family: 'Bebas Neue'; color: var(--gold); font-size: 0.7rem; margin-bottom: 2px; }
+        .text-content { font-family: 'Special Elite'; font-size: 0.85rem; color: #ddd; line-height: 1.3; margin-bottom: 6px; }
         
         .subtitle-text { 
             font-family: 'Special Elite'; font-size: 0.95rem; color: var(--gold); 
-            text-align: center; border-top: 1px solid rgba(212,175,55,0.2);
-            padding-top: 8px; font-style: italic;
+            text-align: center; border-top: 1px solid rgba(212,175,55,0.15);
+            padding-top: 6px; font-style: italic;
         }
 
+        /* CONTROLS */
         .btn-area { text-align: center; padding-bottom: 25px; flex-shrink: 0; }
         .main-btn {
             background: var(--gold); color: #000; border: none;
             padding: 12px 35px; font-family: 'Bebas Neue'; font-size: 1.5rem;
             cursor: pointer; clip-path: polygon(8% 0, 92% 0, 100% 50%, 92% 100%, 8% 100%, 0 50%);
+            box-shadow: 0 0 20px rgba(212,175,55,0.3);
         }
 
         @keyframes flicker { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.2; } }
@@ -95,7 +118,8 @@
     <div class="viewport-container">
         <div class="movie-header">
             <h1 class="movie-title">MUSKAN CINEMA</h1>
-            <p style="color: var(--gold); font-size: 0.6rem; letter-spacing: 4px;">FRAME: <span id="sNum">1</span> / 120</p>
+            <div class="credits">Produced by Prakash &bull; Starring Muskan</div>
+            <p style="color: var(--gold); font-size: 0.6rem; letter-spacing: 4px; margin: 5px 0;">REEL: <span id="sNum">1</span> / 120</p>
         </div>
 
         <div class="cinema-stage">
@@ -105,20 +129,20 @@
             </div>
 
             <div class="script-box" id="scriptBox">
-                <div class="label">[ NARRATION ]</div>
-                <div id="nText" class="text-content">A masterpiece is about to unfold...</div>
+                <div class="label">[ THE NARRATION ]</div>
+                <div id="nText" class="text-content">Prakash's world finds its true light here...</div>
                 
-                <div class="label">[ DIALOGUE ]</div>
-                <div id="dText" class="text-content">"Ready for this journey, Muskan?"</div>
+                <div class="label">[ THE DIALOGUE ]</div>
+                <div id="dText" class="text-content">"Muskan, you are the masterpiece I'll always admire."</div>
                 
-                <div id="sText" class="subtitle-text">पिक्चर अभी बाकी है मेरे दोस्त...</div>
+                <div id="sText" class="subtitle-text">हमारी मोहब्बत की फिल्म का सबसे खूबसूरत सीन।</div>
             </div>
         </div>
 
         <div class="btn-area">
-            <button class="main-btn" onclick="nextScene()">NEXT FRAME</button>
+            <button class="main-btn" onclick="nextScene()">NEXT REEL</button>
             <div style="margin-top: 10px;">
-                <a href="home-chapters.html" style="color: var(--gold); text-decoration: none; font-size: 0.7rem; border: 1px solid var(--gold); padding: 5px 15px;">HUB</a>
+                <a href="home-chapters.html" style="color: var(--gold); text-decoration: none; font-size: 0.65rem; border: 1px solid var(--gold); padding: 5px 15px; border-radius: 2px;">EXIT TO HUB</a>
             </div>
         </div>
     </div>
@@ -128,23 +152,25 @@
     const totalPhotos = 120;
     let index = 1;
 
-    // BIG POOLS - NO REPEATS
+    // BEAUTIFUL LINES POOL
     const nPool = [
-        "The lens captured pure magic.", "Art in its most natural form.", "A frame that outshines the stars.", "Writing our destiny in pixels.",
-        "A moment where time stood still.", "Reflections of a soul so beautiful.", "The heart's favorite viewpoint.", "Cinematic excellence at its peak.",
-        "Capturing the light of my life.", "A masterpiece of grace and poise.", "When reality became a movie.", "Every detail tells a story."
+        "Prakash's lens captured his favorite magic.", "A frame where Muskan's smile outshines stars.", "The most precious reel in Prakash's archive.",
+        "A cinematic love story written in the light.", "Every detail here is a tribute to Muskan.", "When Prakash saw perfection through the lens.",
+        "The universe paused for this specific frame.", "A masterpiece titled: My Muskan.", "Writing our destiny one frame at a time.",
+        "The light in this room belongs only to her.", "A soul so bright, it needs no filters.", "Prakash's world, forever centered on her."
     ];
 
     const dPool = [
-        "Muskan, you own the spotlight.", "In this movie of life, you're the lead.", "I could watch this on repeat forever.", "This smile is worth more than any Oscar.",
-        "Tu mazi favorite actress ahes.", "Stay exactly like this, magical.", "The camera loves you as much as I do.", "Simply perfect, no retakes needed.",
-        "The universe conspired to make this frame.", "You are the star of my universe.", "This is my favorite scene so far.", "Words aren't enough for this shot."
+        "Muskan, you are the only star in my sky.", "I'm the luckiest director, and you're my lead.", "Every pixel of this screen loves you, Muskan.",
+        "Stay exactly like this, my beautiful Muse.", "No Oscar can match the value of this smile.", "In the movie of my life, you're the hero.",
+        "Prakash: 'You look like a dream in this one.'", "Muskan: The only actress I'll ever need.", "This scene is my forever favorite.",
+        "Your eyes tell a story I'll never stop reading.", "You make every frame look like a painting.", "The world is watching excellence unfold."
     ];
 
     const sPool = [
-        "तुम्हारी सादगी ही सबसे हसीन है।", "तू आहेस म्हणून सर्व काही सुंदर आहे।", "तेरी आँखों में सारा जहाँ दिखता है।", 
-        "<span class='urdu-text'>تمہاری ہنسی کائنات کا نور ہے۔</span>", "मुस्कान, तुम सच में बहुत खास हो।",
-        "अधूरी बातें जो पूरी होने लगीं।", "तू ही मेरी पहली और आखिरी फिल्म है।", "सौंदर्याची खाण, फक्त माझी मुस्कान।"
+        "मुस्कान, तुम्हारी सादगी ही प्रकाश का सुकून है।", "तू आहेस म्हणून प्रकाशचे जग सुंदर आहे।", "तेरी आँखों में प्रकाश को सारा जहाँ दिखता है।", 
+        "<span class='urdu-text'>تمہاری ہنسی میری کائنات کا نور ہے۔</span>", "प्रकाश की मुस्कान, सिर्फ तुम हो मुस्कान।",
+        "अधूरी बातें जो तुम्हारे आने से पूरी हुईं।", "सौंदर्याची खाण, प्रकाशची प्रिय मुस्कान।", "Every frame is a promise of forever."
     ];
 
     function nextScene() {
@@ -153,26 +179,27 @@
         index++;
         if (index > totalPhotos) index = 1;
 
-        // Purana Effect: Scale & Rotate Transition
-        photo.style.transform = 'scale(0.8) rotate(5deg)';
-        photo.style.opacity = '0';
-        scriptBox.style.opacity = '0';
+        // "Khudne wala" Projector Jump trigger
+        photo.classList.remove('reel-jump');
+        void photo.offsetWidth; // Trigger reflow
+        photo.classList.add('reel-jump');
+
+        // Visual fade for script
+        scriptBox.style.opacity = '0.3';
 
         setTimeout(() => {
             photo.src = basePath + "m" + index + ".jpg";
             document.getElementById('sNum').innerText = index;
             
-            // Logic to prevent exact repetition
+            // Non-repeating randomized combo
             document.getElementById('nText').innerText = nPool[index % nPool.length];
-            document.getElementById('dText').innerText = dPool[(index + 3) % dPool.length];
-            document.getElementById('sText').innerHTML = sPool[(index + 5) % sPool.length];
+            document.getElementById('dText').innerText = dPool[(index + 4) % dPool.length];
+            document.getElementById('sText').innerHTML = sPool[(index + 2) % sPool.length];
 
             photo.onload = () => {
-                photo.style.transform = 'scale(1) rotate(0deg)';
-                photo.style.opacity = '1';
                 scriptBox.style.opacity = '1';
             };
-        }, 400);
+        }, 150); // Speed matched with jump animation
     }
 </script>
 </body>
