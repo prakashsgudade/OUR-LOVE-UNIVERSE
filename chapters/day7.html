@@ -21,7 +21,7 @@
             margin: 0;
             overflow-x: hidden;
             font-family: 'Montserrat', sans-serif;
-            background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png'); /* Premium texture */
+            background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
             transition: opacity 1s ease;
         }
 
@@ -31,8 +31,8 @@
             max-width: 900px;
             margin: 20px auto;
             border: 10px double var(--gold);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 40px 15px;
             position: relative;
             box-shadow: 0 0 50px rgba(0,0,0,1), inset 0 0 100px rgba(212, 175, 55, 0.1);
             text-align: center;
@@ -41,104 +41,112 @@
         .header-title {
             font-family: 'Cinzel Decorative';
             color: var(--gold);
-            font-size: clamp(1.5rem, 8vw, 2.5rem);
+            font-size: clamp(1.5rem, 7vw, 2.5rem);
             letter-spacing: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* --- Magic Mirror (Photo Section) --- */
+        /* --- Magic Mirror (Photo Section Fixed) --- */
         .magic-mirror {
             width: 100%;
-            max-width: 500px;
-            height: 400px;
-            margin: 30px auto;
-            border: 5px solid var(--gold);
-            border-radius: 50% 50% 0 0; /* Dome shape */
+            height: 450px; /* Fixed height for frame */
+            margin: 25px auto;
+            border: 4px solid var(--gold);
+            border-radius: 15px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 0 30px var(--gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
             background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* PHOTO AB NAHI KATEGI */
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
+            opacity: 1;
         }
 
         /* --- Royal Letter Scroll --- */
         .scroll-box {
             background: var(--cream);
             color: #2b1d0e;
-            padding: 30px;
-            margin: 30px auto;
+            padding: 25px;
+            margin: 25px auto;
             border-radius: 5px;
-            position: relative;
             transform: scaleY(0);
             transform-origin: top;
             transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
             font-family: 'Great Vibes', cursive;
             font-size: 1.8rem;
-            min-height: 150px;
+            min-height: 120px;
+            border-left: 15px solid #e3d5b8;
+            border-right: 15px solid #e3d5b8;
         }
 
         .scroll-box.open { transform: scaleY(1); }
 
-        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 24px; line-height: 2.5; }
+        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 22px; line-height: 2.2; }
 
         /* --- Buttons --- */
         .royal-btn {
-            background: var(--gold);
+            background: linear-gradient(145deg, #d4af37, #b8860b);
             color: #000;
-            border: none;
-            padding: 15px 40px;
+            border: 1px solid #000;
+            padding: 18px 45px;
             font-family: 'Cinzel Decorative';
-            font-weight: bold;
-            font-size: 0.9rem;
+            font-weight: 900;
+            font-size: 0.85rem;
             cursor: pointer;
-            border-radius: 2px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            transition: 0.3s;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: 0.4s;
             text-transform: uppercase;
         }
 
         .royal-btn:hover {
             background: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px var(--gold);
+            color: #000;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px var(--gold);
         }
 
         .nav-footer {
-            margin-top: 50px;
+            margin-top: 40px;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         .mini-link {
             color: var(--gold);
             text-decoration: none;
             font-family: 'Cinzel Decorative';
-            font-size: 0.7rem;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
             border-bottom: 1px solid var(--gold);
-            padding-bottom: 2px;
+            padding-bottom: 3px;
+            transition: 0.3s;
         }
+        
+        .mini-link:hover { color: #fff; border-color: #fff; }
 
         /* Decorative Corners */
-        .corner {
-            position: absolute; width: 50px; height: 50px; border: 3px solid var(--gold);
-        }
-        .top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
-        .top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
-        .bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
-        .bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+        .corner { position: absolute; width: 40px; height: 40px; border: 2px solid var(--gold); z-index: 5; }
+        .top-left { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+        .top-right { top: 15px; right: 15px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 15px; left: 15px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 15px; right: 15px; border-left: none; border-top: none; }
 
         @media (max-width: 600px) {
-            .magic-mirror { height: 300px; }
-            .scroll-box { font-size: 1.4rem; }
+            .magic-mirror { height: 350px; }
+            .scroll-box { font-size: 1.4rem; padding: 15px; }
+            .header-title { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -150,95 +158,96 @@
         <div class="corner bottom-left"></div>
         <div class="corner bottom-right"></div>
 
-        <h1 class="header-title">The Royal Chapter</h1>
-        <p style="color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 0.7rem; letter-spacing: 2px;">DAY 07 - INFINITE DEVOTION</p>
+        <h1 class="header-title">Royal Memories</h1>
+        <p style="color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 0.6rem; letter-spacing: 3px; margin-bottom: 20px;">DAY 07 - THE INFINITE SCROLL</p>
 
         <div class="magic-mirror">
-            <img id="photo" src="../assets/images/photo1.jpg" alt="Our Memory">
+            <img id="photo" src="../assets/images/photo1.jpg">
         </div>
 
         <div id="scroll" class="scroll-box">
-            "Muskan, tap the Golden Button to reveal my heart's secrets..."
+            "Muskan, tap the Golden Seal to reveal a royal message..."
         </div>
 
-        <button class="royal-btn" onclick="revealFate()">Reveal Memory</button>
+        <button class="royal-btn" onclick="generateRoyalMemory()">Reveal Memory</button>
 
         <div class="nav-footer">
-            <a href="#" class="mini-link" onclick="smoothNav('home-chapters.html')">← Chapter Hub</a>
-            <a href="#" class="mini-link" id="nextDayBtn" style="opacity: 0.5;">Day 08 Locked 🔒</a>
+            <a href="#" class="mini-link" onclick="smoothNav('home-chapters.html')">← CHAPTER HUB</a>
+            <a href="#" class="mini-link" id="nextDayBtn" style="opacity: 0.4;">DAY 08 LOCKED 🔒</a>
         </div>
     </div>
 
-    <audio id="royalMusic" loop src="../assets/audio/our-song.mp3"></audio>
+    <audio id="royalMusic" src="../assets/audio/our-song.mp3"></audio>
 
 <script>
-    // --- 1. ASSETS ---
-    const photoPool = [
+    // --- 1. PHOTO POOL ---
+    const myPhotos = [
         "../assets/images/photo1.jpg",
         "../assets/images/photo2.jpg",
         "../assets/images/photo3.jpg",
-        "../assets/images/photo4.jpg"
+        "../assets/images/photo4.jpg",
+        "../assets/images/photo5.jpg"
     ];
 
-    const aiLetters = [
-        {
-            text: "Muskan,\nतुम्हारी जगह मेरे दिल में कोई नहीं ले सकता। तुम मेरे महल की मलिका हो। ❤️"
-        },
-        {
-            text: "My Queen,\nIn every life, I would choose you over and over again. ✨"
-        },
-        {
-            text: "<span class='urdu-text'>تم میری زندگی کی سب سے خوبصورت کہانی ہو۔</span>"
-        },
-        {
-            text: "Muskan, tumhara saath hi meri asli daulat hai. Hamesha mere paas rehna. 🌸"
-        }
+    // --- 2. AI ROYAL LETTERS ---
+    const aiBeginnings = [
+        "Muskan,\nइस शाही महल की असली चमक तुम हो...",
+        "My Queen,\nIn the gallery of my heart, you are the masterpiece.",
+        "Muskan,\nतुझं हसणं म्हणजे माझ्यासाठी राजवाड्याचं वैभव आहे।",
+        "<span class='urdu-text'>تمہاری موجودگی میرے دل کے محل کی رونق ہے۔</span>"
     ];
 
-    // --- 2. LOGIC ---
-    function revealFate() {
+    const aiMiddles = [
+        "जैसे एक राजा अपनी सल्तनत से प्यार करता है, मैं अपनी हर सांस से तुम्हें चाहता हूँ।",
+        "Every time I see you, I realize how lucky I am to have found my forever queen.",
+        "तुझ्या डोळ्यात मला माझं संपूर्ण जग दिसतं, जे खूप सुंदर आहे।",
+        "<span class='urdu-text'>تم سے محبت کرنا میری روح کی سب سے خوبصورت عبادت ہے۔</span>"
+    ];
+
+    const aiEndings = [
+        "तुम हमेशा मेरे दिल के सिंहासन पर राज करोगी। ❤️",
+        "Yours forever, across all lifetimes and universes. ✨",
+        "तू फक्त माझी आहेस आणि मी फक्त तुझा. I Love You! 🌸",
+        "<span class='urdu-text'>خدا کرے ہماری یہ محبت ابدی ہو۔</span>"
+    ];
+
+    // --- 3. GENERATOR LOGIC ---
+    function generateRoyalMemory() {
         const scroll = document.getElementById('scroll');
         const photo = document.getElementById('photo');
-        const music = document.getElementById('royalMusic');
-
-        music.play();
-
-        // Close scroll first
+        
+        // Effects
         scroll.classList.remove('open');
         photo.style.opacity = '0';
-        photo.style.transform = 'scale(1.2)';
+        photo.style.transform = 'scale(0.95)';
 
         setTimeout(() => {
-            // Change content
-            const randPhoto = photoPool[Math.floor(Math.random() * photoPool.length)];
-            const randLetter = aiLetters[Math.floor(Math.random() * aiLetters.length)];
+            // Randomize Photo
+            const randImg = myPhotos[Math.floor(Math.random() * myPhotos.length)];
+            photo.src = randImg;
 
-            photo.src = randPhoto;
-            scroll.innerHTML = randLetter.text;
+            // Randomize Letter
+            const b = aiBeginnings[Math.floor(Math.random() * aiBeginnings.length)];
+            const m = aiMiddles[Math.floor(Math.random() * aiMiddles.length)];
+            const e = aiEndings[Math.floor(Math.random() * aiEndings.length)];
+            
+            scroll.innerHTML = `${b}<br>${m}<br>${e}`;
 
-            // Re-open with effect
+            // Re-open
             photo.onload = () => {
                 photo.style.opacity = '1';
                 photo.style.transform = 'scale(1)';
                 scroll.classList.add('open');
             };
-        }, 800);
+        }, 700);
     }
 
-    // --- 3. LOCK & NAVIGATION ---
+    // --- 4. LOCK & NAVIGATION ---
     function checkLock() {
-        const START_DATE = new Date("2026-02-07T00:00:00"); 
-        let now = new Date();
-        let day8Time = new Date(START_DATE);
-        day8Time.setDate(day8Time.getDate() + 7); // Locked for 7 days from start
-
+        const testMode = true; // Set to false when deploying
         const nextBtn = document.getElementById('nextDayBtn');
-        
-        // TEST MODE: change to false for real lock
-        const testMode = true; 
-
-        if (testMode || now >= day8Time) {
-            nextBtn.innerHTML = "Day 08 Ready →";
+        if (testMode) {
+            nextBtn.innerHTML = "DAY 08 READY →";
             nextBtn.style.opacity = "1";
             nextBtn.onclick = () => smoothNav('day8.html');
         }
@@ -246,8 +255,8 @@
 
     function smoothNav(url) {
         document.body.style.opacity = '0';
-        setTimeout(() => { window.location.href = url; }, 1000);
+        setTimeout(() => { window.location.href = url; }, 800);
     }
 </script>
 </body>
-</html>daddddddddd
+</html>
