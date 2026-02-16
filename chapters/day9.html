@@ -2,198 +2,233 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 09 | The Secret Letter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 09 | Prakash ❤️ Muskan</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Special+Elite&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #1a1a1a;
-            --paper: #fdf5e6;
+            --bg: #0a0a0a;
+            --paper: #fff9f0;
             --accent: #d4af37;
-            --ink: #2c3e50;
+            --envelope-red: #8e1d1d;
         }
 
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
             background: var(--bg);
             margin: 0;
-            height: 110vh; /* For pull-to-refresh */
+            min-height: 115vh; /* Makkhan Pull-to-refresh */
+            font-family: 'Special Elite', serif;
             display: flex;
             justify-content: center;
-            align-items: center;
-            font-family: 'Special Elite', serif;
             overflow-x: hidden;
         }
 
-        .viewport {
+        /* Fixed container to keep everything in view */
+        .main-stage {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            display: flex; justify-content: center; align-items: center;
-            perspective: 1000px;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; z-index: 10;
         }
 
-        /* --- ENVELOPE STYLES --- */
-        .envelope-wrapper {
+        /* Floating Hearts Background */
+        .hearts-bg {
+            position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1;
+        }
+
+        /* --- ENVELOPE DESIGN --- */
+        .env-container {
             position: relative;
-            width: 300px; height: 200px;
-            background: #c0392b;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            width: 320px; height: 220px;
             cursor: pointer;
-            transition: 0.5s;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
         }
 
-        .envelope-wrapper.open {
-            transform: translateY(100px);
-        }
-
-        .flap {
-            position: absolute; top: 0; left: 0;
-            width: 0; height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 100px solid #a93226;
-            transform-origin: top;
-            transition: 0.4s 0.2s;
-            z-index: 3;
-        }
-
-        .open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        .pocket {
-            position: absolute; bottom: 0; width: 300px; height: 110px;
-            background: #c0392b; border-top: 2px solid rgba(0,0,0,0.1);
-            z-index: 3;
-        }
-
-        /* --- LETTER STYLES --- */
-        .letter {
-            position: absolute; bottom: 10px; left: 10px;
-            width: 280px; height: 180px;
-            background: var(--paper);
-            padding: 20px;
-            box-sizing: border-box;
-            transition: 0.6s;
-            z-index: 2;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        }
-
-        .open .letter {
-            height: 450px;
-            transform: translateY(-300px);
-            z-index: 4;
-        }
-
-        .letter-content {
-            opacity: 0; transition: 0.5s 0.8s;
-            color: var(--ink);
-        }
-
-        .open .letter-content { opacity: 1; }
-
-        .letter-title {
-            font-family: 'Bebas Neue'; font-size: 1.5rem;
-            color: #c0392b; border-bottom: 1px dashed #c0392b;
-            margin-bottom: 15px;
-        }
-
-        .letter-text { font-size: 0.9rem; line-height: 1.5; }
-
-        .signature {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.4rem; text-align: right;
-            margin-top: 20px; color: #c0392b;
-        }
-
-        /* --- SCRATCH AREA --- */
-        .scratch-container {
-            margin-top: 20px; position: relative;
-            width: 100%; height: 60px;
-            background: #ddd; border: 1px solid #ccc;
+        .envelope {
+            position: relative; width: 100%; height: 100%;
+            background: var(--envelope-red);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
             display: flex; align-items: center; justify-content: center;
         }
 
-        #scratch-canvas {
-            position: absolute; top: 0; left: 0; cursor: crosshair;
+        .envelope::before { /* Flap Front */
+            content: ''; position: absolute; top: 0; z-index: 4;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #721414;
+            transform-origin: top;
+            transition: 0.5s ease;
         }
 
-        .secret-msg { color: var(--accent); font-weight: bold; font-size: 0.8rem; text-align: center; }
+        .open .envelope::before { transform: rotateX(180deg); z-index: 1; }
+
+        .env-text {
+            color: var(--accent); font-family: 'Bebas Neue';
+            font-size: 1.5rem; letter-spacing: 3px; z-index: 3;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* --- ADVANCED LETTER --- */
+        .letter {
+            position: absolute; bottom: 5%; left: 5%;
+            width: 90%; height: 90%;
+            background: var(--paper);
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 2;
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+            opacity: 0;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+
+        .open .letter {
+            transform: translateY(-50%) scale(1.1);
+            top: 40%; height: 380px;
+            opacity: 1; z-index: 5;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .letter-header {
+            font-family: 'Bebas Neue'; font-size: 1.4rem;
+            color: #8e1d1d; border-bottom: 2px solid var(--accent);
+            margin-bottom: 15px; display: flex; justify-content: space-between;
+        }
+
+        .letter-body {
+            font-size: 0.95rem; line-height: 1.5; color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Scratch Card Area */
+        .scratch-box {
+            position: relative; width: 100%; height: 80px;
+            background: #f0f0f0; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; border: 1px dashed var(--accent);
+        }
+
+        .secret-msg {
+            font-family: 'Dancing Script'; font-size: 1.2rem;
+            color: #8e1d1d; text-align: center; font-weight: bold;
+        }
+
+        #scratch-canvas {
+            position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none;
+        }
+
+        .signature {
+            font-family: 'Dancing Script'; font-size: 1.5rem;
+            text-align: right; color: #8e1d1d; margin-top: 15px;
+        }
 
         .hint {
-            position: fixed; bottom: 20px; color: white;
-            font-size: 0.7rem; letter-spacing: 2px; opacity: 0.5;
+            position: absolute; bottom: -40px; width: 100%; text-align: center;
+            color: var(--accent); font-size: 0.7rem; letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        @media (max-width: 400px) {
+            .env-container { width: 280px; height: 180px; }
+            .open .letter { height: 350px; transform: translateY(-45%) scale(1.05); }
         }
     </style>
 </head>
 <body>
 
-    <div class="viewport">
-        <div class="envelope-wrapper" id="envelope" onclick="openLetter()">
-            <div class="flap"></div>
-            <div class="pocket"></div>
-            
-            <div class="letter" id="letter">
-                <div class="letter-content">
-                    <div class="letter-title">FOR MY MUSKAN ❤️</div>
-                    <div class="letter-text">
-                        Prakash here... Aaj 9 din ho gaye aur meri har subah sirf tumhare khayal se shuru hoti hai. 
-                        Tumhe shayad pata nahi par tumhari baatein mere liye kisi therapy se kam nahi. <br><br>
-                        Main bas ye chahta hoon ki hum hamesha aise hi rahein... 
-                        ek dusre ki strength ban kar.
-                    </div>
-                    
-                    <div class="scratch-container">
-                        <div class="secret-msg">YOU ARE MY FOREVER HAPPINESS!</div>
-                        <canvas id="scratch-canvas" width="240" height="60"></canvas>
-                    </div>
+    <div class="hearts-bg" id="heart-container"></div>
 
-                    <div class="signature">With love, Prakash</div>
-                </div>
+    <div class="main-stage">
+        <div class="env-container" id="envContainer" onclick="handleOpen()">
+            <div class="envelope">
+                <span class="env-text">TO: MUSKAN ❤️</span>
             </div>
-        </div>
+            
+            <div class="letter">
+                <div class="letter-header">
+                    <span>DAY 09</span>
+                    <span style="font-size: 0.7rem;">FROM: PRAKASH</span>
+                </div>
+                <div class="letter-body">
+                    Muskan, jaise jaise din beet rahe hain, mujhe realize ho raha hai ki tum sirf ek dost nahi, meri zindegi ki sabse khoobsurat "habit" ban gayi ho. <br><br>
+                    Main shabdon mein thoda kamzor hoon, isliye ye interactive khat likha hai. Niche ghis kar dekho...
+                </div>
+                
+                <div class="scratch-box">
+                    <div class="secret-msg">"Prakash Loves You <br> Beyond The Stars!"</div>
+                    <canvas id="scratch-canvas"></canvas>
+                </div>
 
-        <div class="hint">TAP TO OPEN THE ENVELOPE</div>
+                <div class="signature">Always yours, Prakash</div>
+            </div>
+            <div class="hint" id="hint">TAP TO OPEN ENVELOPE</div>
+        </div>
     </div>
 
     <script>
-        function openLetter() {
-            document.getElementById('envelope').classList.add('open');
-            initScratch();
+        function handleOpen() {
+            const container = document.getElementById('envContainer');
+            if(!container.classList.contains('open')) {
+                container.classList.add('open');
+                document.getElementById('hint').style.display = 'none';
+                createHearts();
+                setTimeout(initScratch, 800);
+            }
         }
 
-        // Scratch Card Logic
+        function createHearts() {
+            const container = document.getElementById('heart-container');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'absolute';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.transition = `transform ${Math.random() * 3 + 2}s linear, opacity 2s`;
+                heart.style.opacity = '0.7';
+                container.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.style.transform = `translateY(-110vh) rotate(${Math.random() * 360}deg)`;
+                    heart.style.opacity = '0';
+                }, 100);
+            }
+        }
+
         function initScratch() {
             const canvas = document.getElementById('scratch-canvas');
             const ctx = canvas.getContext('2d');
-            let isDrawing = false;
+            const box = canvas.parentElement;
+            canvas.width = box.offsetWidth;
+            canvas.height = box.offsetHeight;
 
-            // Cover with silver paint
-            ctx.fillStyle = '#b2bec3';
+            // Cover with Silver
+            ctx.fillStyle = '#bdc3c7';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
+            ctx.font = '12px Special Elite';
+            ctx.fillStyle = '#7f8c8d';
+            ctx.fillText('SCRATCH HERE...', canvas.width/4, canvas.height/1.8);
+
             ctx.globalCompositeOperation = 'destination-out';
 
             function scratch(e) {
-                if (!isDrawing) return;
                 const rect = canvas.getBoundingClientRect();
                 const x = (e.clientX || e.touches[0].clientX) - rect.left;
                 const y = (e.clientY || e.touches[0].clientY) - rect.top;
                 
                 ctx.beginPath();
-                ctx.arc(x, y, 15, 0, Math.PI * 2);
+                ctx.arc(x, y, 18, 0, Math.PI * 2);
                 ctx.fill();
             }
 
-            canvas.addEventListener('mousedown', () => isDrawing = true);
-            canvas.addEventListener('touchstart', () => isDrawing = true);
-            window.addEventListener('mouseup', () => isDrawing = false);
-            window.addEventListener('touchend', () => isDrawing = false);
-            canvas.addEventListener('mousemove', scratch);
-            canvas.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                scratch(e);
-            });
+            canvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) scratch(e); });
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
         }
     </script>
 </body>
