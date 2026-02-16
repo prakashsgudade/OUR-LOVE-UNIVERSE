@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 08 | The Smart Cinema</title>
+    <title>Day 08 | Perfect View Cinema</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Bebas+Neue&family=Courier+Prime&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
@@ -22,114 +22,111 @@
             margin: 0; 
             font-family: 'Courier Prime', monospace; 
             color: var(--paper);
-            min-height: 120vh; /* Thoda extra height scroll ke liye */
+            min-height: 110vh; /* Thoda sa extra refresh pull ke liye */
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Sab kuch screen ke andar fit rakhne ke liye */
+        .main-container {
+            position: fixed; /* Screen par fix rahega */
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        /* Initial Page Fade-in */
-        body {
-            animation: fadeInPage 1.5s ease-in-out;
-        }
-
-        @keyframes fadeInPage {
-            from { opacity: 0; } to { opacity: 1; }
+            justify-content: space-between; /* Content fail jayega space ke hisab se */
+            padding: 15px;
+            z-index: 10;
         }
 
         .bg-glow {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-            z-index: -1; transition: 1s;
+            z-index: -1;
         }
 
-        .cinema-wrapper {
-            width: 95%; max-width: 850px; padding: 40px 20px;
-            position: relative; z-index: 10;
-        }
-
-        .movie-header { text-align: center; margin-bottom: 20px; }
-        
+        /* Header */
+        .movie-header { text-align: center; flex-shrink: 0; }
         .movie-title {
-            font-family: 'Bebas Neue'; font-size: clamp(3rem, 12vw, 5.5rem);
-            color: transparent; -webkit-text-stroke: 1.5px var(--gold);
-            letter-spacing: 8px; margin: 0;
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            font-family: 'Bebas Neue'; font-size: clamp(2rem, 10vw, 4rem);
+            color: transparent; -webkit-text-stroke: 1px var(--gold);
+            letter-spacing: 5px; margin: 0;
         }
 
-        /* Cinematic Frame */
+        /* Center Content Area */
+        .cinema-stage {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            gap: 15px;
+        }
+
+        /* Photo Frame - Ab ye responsive hai */
         .projector-container {
-            position: relative; width: 100%; aspect-ratio: 16/10;
-            background: #000; padding: 10px;
+            position: relative; 
+            width: 100%; 
+            max-height: 45vh; /* Mobile par photo height limit */
+            aspect-ratio: 16/10;
+            background: #000;
             border: 2px solid rgba(212, 175, 55, 0.3);
-            box-shadow: 0 0 60px rgba(0,0,0,1);
+            box-shadow: 0 0 40px rgba(0,0,0,1);
             overflow: hidden;
             display: flex; align-items: center; justify-content: center;
-            border-radius: 8px;
-        }
-
-        .adaptive-border {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border: 4px solid var(--accent);
-            box-shadow: inset 0 0 25px var(--accent), 0 0 20px var(--accent);
-            pointer-events: none; transition: 0.8s ease; opacity: 0.5;
+            border-radius: 5px;
         }
 
         #photo {
             max-width: 100%; max-height: 100%; object-fit: contain;
-            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: contrast(1.1);
-            z-index: 2;
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .film-scratches {
-            position: absolute; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.2; pointer-events: none; z-index: 5;
-            animation: flicker 0.15s infinite;
+        .adaptive-border {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border: 3px solid var(--accent);
+            box-shadow: inset 0 0 15px var(--accent);
+            pointer-events: none; opacity: 0.5; transition: 0.5s;
         }
 
-        /* Script Section */
+        /* Script Section - Compact for Mobile */
         .advanced-script {
-            margin-top: 25px; background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(12px); padding: 25px;
-            border-left: 5px solid var(--gold);
-            border-radius: 0 15px 15px 0;
-            text-align: left; min-height: 180px; transition: 0.5s;
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-left: 4px solid var(--gold);
+            text-align: left;
+            border-radius: 0 10px 10px 0;
         }
 
-        .label { font-family: 'Bebas Neue'; color: var(--gold); font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 5px; }
-        .text-content { margin-bottom: 12px; font-family: 'Special Elite'; font-size: 1.05rem; color: #eee; line-height: 1.4; }
+        .label { font-family: 'Bebas Neue'; color: var(--gold); font-size: 0.9rem; letter-spacing: 1px; }
+        .text-content { font-family: 'Special Elite'; font-size: 0.95rem; color: #eee; margin-bottom: 5px; }
 
-        /* Next Button - Blockbuster Style */
-        .btn-reel { margin-top: 35px; text-align: center; }
-        
+        /* Button - Always Visible */
+        .btn-area { padding-bottom: 20px; flex-shrink: 0; }
         .main-btn {
             background: var(--gold); color: #000;
-            border: none; padding: 18px 50px;
-            font-family: 'Bebas Neue'; font-size: 1.8rem;
+            border: none; padding: 12px 40px;
+            font-family: 'Bebas Neue'; font-size: 1.5rem;
             cursor: pointer; clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-            transition: 0.4s; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
-        .main-btn:active { transform: scale(0.9) rotate(2deg); }
+        .footer-nav { display: flex; gap: 10px; margin-top: 5px; }
+        .nav-btn { color: var(--gold); text-decoration: none; font-size: 0.7rem; border: 1px solid var(--gold); padding: 5px 15px; border-radius: 3px; font-family: 'Bebas Neue'; }
 
-        .footer-links { margin-top: 50px; display: flex; gap: 15px; padding-bottom: 40px; }
-        .nav-btn {
-            color: var(--gold); text-decoration: none; font-size: 0.8rem;
-            border: 1px solid var(--gold); padding: 10px 20px; border-radius: 4px;
-            font-family: 'Bebas Neue'; letter-spacing: 1px;
-        }
+        @keyframes flicker { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.2; } }
+        .film-scratches { position: absolute; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; pointer-events: none; animation: flicker 0.1s infinite; }
 
-        @keyframes flicker { 0% { opacity: 0.1; } 50% { opacity: 0.25; } 100% { opacity: 0.1; } }
-        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 20px; }
-
-        /* Responsive Fixes */
-        @media (max-width: 600px) {
-            .cinema-wrapper { padding: 20px 10px; }
-            .projector-container { aspect-ratio: 1/1; }
-            .advanced-script { padding: 15px; }
+        /* Tablet/Desktop adjust */
+        @media (min-height: 800px) {
+            .projector-container { max-height: 60vh; }
+            .text-content { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -137,36 +134,37 @@
 
     <div class="bg-glow" id="glow"></div>
 
-    <div class="cinema-wrapper">
+    <div class="main-container">
         <div class="movie-header">
             <h1 class="movie-title">MUSKAN CINEMA</h1>
-            <p style="letter-spacing: 4px; color: var(--gold); font-size: 0.7rem;">CHAPTER 08 | FRAME <span id="sNum">1</span> OF 120</p>
+            <p style="color: var(--gold); font-size: 0.6rem; letter-spacing: 3px; margin: 0;">SCENE <span id="sNum">1</span> / 120</p>
         </div>
 
-        <div class="projector-container">
-            <div class="adaptive-border" id="border"></div>
-            <div class="film-scratches"></div>
-            <img id="photo" src="/OUR-LOVE-UNIVERSE/assets/images/home/m1.jpg">
+        <div class="cinema-stage">
+            <div class="projector-container">
+                <div class="adaptive-border" id="border"></div>
+                <div class="film-scratches"></div>
+                <img id="photo" src="/OUR-LOVE-UNIVERSE/assets/images/home/m1.jpg">
+            </div>
+
+            <div class="advanced-script" id="scriptBox">
+                <div class="label">[ NARRATION ]</div>
+                <div id="nText" class="text-content">The magic of Muskan begins...</div>
+                
+                <div class="label">[ DIALOGUE ]</div>
+                <div id="dText" class="text-content">"Ready for 120 frames of love?"</div>
+                
+                <div class="label">[ SUBTITLE ]</div>
+                <div id="sText" class="text-content" style="color: var(--gold);">पिक्चर अभी बाकी है...</div>
+            </div>
         </div>
 
-        <div class="advanced-script" id="scriptBox">
-            <div class="label">[ NARRATION ]</div>
-            <div class="text-content" id="nText">The cinematic universe of our love unfolds...</div>
-            
-            <div class="label">[ DIALOGUE ]</div>
-            <div class="text-content" id="dText">"Muskan, you are the masterpiece I always wanted to witness."</div>
-            
-            <div class="label">[ SUBTITLE ]</div>
-            <div class="text-content" id="sText" style="color: var(--gold);">पिक्चर अभी बाकी है मेरे दोस्त...</div>
-        </div>
-
-        <div class="btn-reel">
+        <div class="btn-area">
             <button class="main-btn" onclick="nextScene()">NEXT SCENE</button>
-        </div>
-
-        <div class="footer-links">
-            <a href="home-chapters.html" class="nav-btn">HUB</a>
-            <a href="day9.html" class="nav-btn" style="opacity: 0.5;">DAY 09 🔒</a>
+            <div class="footer-nav">
+                <a href="home-chapters.html" class="nav-btn">HUB</a>
+                <a href="day9.html" class="nav-btn" style="opacity:0.5">DAY 9</a>
+            </div>
         </div>
     </div>
 
@@ -176,9 +174,9 @@
     let index = 1;
 
     const colors = ["#ffcc00", "#ff0055", "#00f2ff", "#d4af37", "#ffffff", "#00ff77"];
-    const nPool = ["A moment frozen in destiny.", "The lens captures pure perfection.", "Star-lit radiance in every pixel.", "The protagonist of my happiest days.", "Visual poetry at its finest.", "A frame worth a billion words."];
-    const dPool = ["Muskan, you outshine the screen.", "I'm the luckiest director in the world.", "Your smile is a blockbuster hit!", "Simply stunning, no retakes needed.", "The leading lady of my life.", "Stay exactly like this, magical."];
-    const sPool = ["तुम्हारी सादगी ही सबसे हसीन है।", "तू आहेस म्हणून सर्व काही सुंदर आहे।", "तेरी आँखों में सारा जहाँ दिखता है।", "<span class='urdu-text'>تمہاری ہنسی میری کائنات کا نور ہے۔</span>", "मुस्कान, तुम सच में बहुत खास हो।"];
+    const nPool = ["A cinematic masterpiece.", "Capturing the pure magic.", "A frame of absolute beauty.", "Star-lit moments.", "Visual poetry in motion.", "The heart's favorite scene."];
+    const dPool = ["Muskan, you are the lead star.", "Blockbuster smile, as always!", "The leading lady of my life.", "Simply perfect, no retakes.", "I could watch this forever.", "Every frame belongs to you."];
+    const sPool = ["तुम्हारी सादगी ही सबसे हसीन है।", "तू आहेस म्हणून सर्व काही सुंदर आहे।", "तेरी आँखों में सारा जहाँ दिखता है।", "मुस्कान, तुम सच में बहुत खास हो।"];
 
     function nextScene() {
         index++;
@@ -188,37 +186,31 @@
         const border = document.getElementById('border');
         const glow = document.getElementById('glow');
         const scriptBox = document.getElementById('scriptBox');
-        
-        // Update Counter
         document.getElementById('sNum').innerText = index;
 
-        // Smooth Transition - Out
-        photo.style.transform = 'scale(0.8) rotate(-3deg)';
+        // Smooth Fade
         photo.style.opacity = '0';
-        scriptBox.style.opacity = '0.3';
+        photo.style.transform = 'scale(0.95)';
+        scriptBox.style.opacity = '0.5';
 
         setTimeout(() => {
-            // Change Photo
             photo.src = basePath + "m" + index + ".jpg";
 
-            // Random Color Refresh
             const randColor = colors[Math.floor(Math.random() * colors.length)];
-            border.style.boxShadow = `inset 0 0 30px ${randColor}, 0 0 25px ${randColor}`;
             border.style.borderColor = randColor;
+            border.style.boxShadow = `inset 0 0 15px ${randColor}`;
             glow.style.background = `radial-gradient(circle at 50% 50%, ${randColor}11 0%, transparent 70%)`;
 
-            // Change Text
             document.getElementById('nText').innerText = nPool[index % nPool.length];
             document.getElementById('dText').innerText = dPool[index % dPool.length];
             document.getElementById('sText').innerHTML = sPool[index % sPool.length];
 
-            // Smooth Transition - In
             photo.onload = () => {
-                photo.style.transform = 'scale(1) rotate(0deg)';
                 photo.style.opacity = '1';
+                photo.style.transform = 'scale(1)';
                 scriptBox.style.opacity = '1';
             };
-        }, 400);
+        }, 300);
     }
 </script>
 </body>
