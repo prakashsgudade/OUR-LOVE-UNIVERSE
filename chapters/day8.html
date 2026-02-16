@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 08 | The Cinema of Us</title>
+    <title>Day 08 | The Smart Cinema</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Bebas+Neue&family=Courier+Prime&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
@@ -29,12 +29,11 @@
             min-height: 100vh;
         }
 
-        /* --- Film Grain & Flicker Effect --- */
         body::after {
             content: "";
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.15; pointer-events: none; z-index: 100;
+            opacity: 0.1; pointer-events: none; z-index: 100;
         }
 
         .cinema-hall {
@@ -54,14 +53,13 @@
             text-shadow: 0 0 20px rgba(255, 204, 0, 0.4);
         }
 
-        /* --- Projector Screen --- */
         .projector-screen {
             width: 100%;
             aspect-ratio: 4/3;
             background: #000;
             margin: 20px auto;
-            border: 15px solid #333;
-            border-bottom: 40px solid #333;
+            border: 12px solid #333;
+            border-bottom: 35px solid #333;
             border-radius: 5px;
             position: relative;
             overflow: hidden;
@@ -71,163 +69,173 @@
             justify-content: center;
         }
 
-        /* Flicker Animation */
-        @keyframes flicker {
-            0% { opacity: 0.97; }
-            5% { opacity: 0.95; }
-            10% { opacity: 0.9; }
-            15% { opacity: 0.98; }
-            100% { opacity: 1; }
-        }
-
         #photo {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            filter: sepia(0.3) contrast(1.1);
-            transition: 0.5s ease-in-out;
-            animation: flicker 0.2s infinite;
+            filter: sepia(0.1) contrast(1.1);
+            transition: opacity 0.4s ease-in-out;
         }
 
-        /* --- Script Box --- */
+        /* --- Smart Script Box --- */
         .script-box {
-            background: rgba(210, 180, 140, 0.1);
-            border-left: 5px solid var(--glow);
+            background: rgba(210, 180, 140, 0.05);
+            border-left: 4px solid var(--glow);
             padding: 20px;
             margin: 20px 0;
             text-align: left;
-            min-height: 120px;
+            min-height: 160px;
             font-family: 'Special Elite', cursive;
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.6;
         }
 
-        /* --- Ticket Buttons --- */
+        .script-label { color: var(--glow); font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
+
         .btn-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
+            gap: 15px;
+            margin-top: 25px;
             flex-wrap: wrap;
         }
 
         .ticket-btn {
             background: var(--glow);
             color: #000;
-            padding: 15px 30px;
+            padding: 15px 35px;
             font-family: 'Bebas Neue';
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             border: none;
             cursor: pointer;
-            position: relative;
             clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%);
             transition: 0.3s;
         }
 
-        .ticket-btn:hover {
-            transform: scale(1.05) rotate(-2deg);
-            background: #fff;
-        }
+        .ticket-btn:hover { transform: scale(1.05); background: #fff; }
 
         .nav-ticket {
-            background: #444;
+            background: #333;
             color: #fff;
             padding: 10px 20px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-decoration: none;
             clip-path: polygon(5% 0, 95% 0, 100% 50%, 95% 100%, 5% 100%, 0 50%);
+            font-family: 'Bebas Neue';
         }
 
-        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 20px; }
-
-        @media (max-width: 600px) {
-            .projector-screen { border: 8px solid #333; border-bottom: 25px solid #333; }
-            .movie-title { letter-spacing: 5px; }
-        }
+        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 18px; line-height: 2; }
     </style>
 </head>
 <body>
 
     <div class="cinema-hall">
         <h1 class="movie-title">MUSKAN SHOW</h1>
-        <p style="letter-spacing: 3px; font-size: 0.8rem; color: #888;">SCENE 08: THE UNENDING STORY</p>
+        <p style="letter-spacing: 3px; font-size: 0.7rem; color: #666;">EPISODE 08 | SYNCED SCRIPT ACTIVE</p>
 
         <div class="projector-screen">
-            <img id="photo" src="../assets/images/photo1.jpg">
+            <img id="photo" src="/OUR-LOVE-UNIVERSE/assets/images/home/m1.jpg">
         </div>
 
-        <div class="script-box" id="scriptText">
-            [Action]: Click the button to play the next scene of our life...
+        <div class="script-box" id="scriptContent">
+            <div class="script-label">[Narrator]:</div>
+            <div id="narrator">Our story begins with a single frame...</div>
+            <div class="script-label" style="margin-top:10px">[Dialogue]:</div>
+            <div id="dialogue">Muskan, are you ready to see our movie?</div>
+            <div class="script-label" style="margin-top:10px">[Subtitle]:</div>
+            <div id="subtitle">यहाँ से हमारी यादों का सफर शुरू होता है।</div>
         </div>
 
         <div class="btn-container">
             <button class="ticket-btn" onclick="nextScene()">NEXT SCENE</button>
         </div>
 
-        <div class="btn-container" style="margin-top: 50px;">
-            <a href="home-chapters.html" class="nav-ticket">EXIT TO HUB</a>
+        <div class="btn-container" style="margin-top: 40px;">
+            <a href="home-chapters.html" class="nav-ticket">EXIT HALL</a>
             <a href="day9.html" class="nav-ticket" style="background: var(--sepia);">DAY 09 🔒</a>
         </div>
     </div>
 
 <script>
-    // --- 1. PHOTO POOL ---
-    const moviePhotos = [
-        "../assets/images/photo1.jpg",
-        "../assets/images/photo2.jpg",
-        "../assets/images/photo3.jpg",
-        "../assets/images/photo4.jpg",
-        "../assets/images/photo5.jpg"
-    ];
+    // --- 1. CONFIG & SMART CONTENT ---
+    const basePath = "/OUR-LOVE-UNIVERSE/assets/images/home/";
+    let currentIndex = 1;
 
-    // --- 2. AI SCRIPT FRAGMENTS ---
-    const scriptBegins = [
-        "[Dialogue]: Muskan, hamari love story kisi blockbuster movie se kam nahi...",
-        "[Narrator]: In a world full of strangers, two souls found a home in each other.",
-        "[Subtitle]: मुस्कुराना तो तुम्हारी फितरत है, पर मेरी खुशी की वजह तुम हो।",
-        "<span class='urdu-text'>[Scene]: تمہاری آنکھیں جیسے کوئی پرانی کلاسک فلم۔</span>"
-    ];
+    // Isme har photo (m1, m2...) ke liye alag dialogue daal de
+    const movieScript = {
+        1: {
+            n: "The first encounter of two souls.",
+            d: "Muskan, tumhare bina sab kuch adhura sa lagta tha.",
+            s: "मेरी ज़िंदगी की सबसे खूबसूरत शुरुआत तुम हो।"
+        },
+        2: {
+            n: "A moment frozen in time, capturing pure joy.",
+            d: "Tu mazi favourite vyakti ahes, ani hamesha rahashil.",
+            s: "तुझी एक स्माइल माझं अख्खं जग उजळून टाकते।"
+        },
+        3: {
+            n: "When words fail, eyes do the talking.",
+            d: "I could look at this photo and talk to you for hours.",
+            s: "<span class='urdu-text'>تمہاری آنکھیں جیسے کوئی گہری داستاں ہوں۔</span>"
+        },
+        4: {
+            n: "Every adventure is better when we are together.",
+            d: "Ye safar lamba hai, par tum saath ho toh manzil ki parwah nahi.",
+            s: "ये कहानी सिर्फ हमारी है, और बहुत खास है।"
+        },
+        5: {
+            n: "The silent promises made in a single glance.",
+            d: "Promise me, hum hamesha aise hi saath rahenge?",
+            s: "तू आहेस म्हणून मी आहे, कायम सोबत रहा।"
+        }
+        // Bhai agar 5 se zyada photos hain, toh bas 6, 7, 8 aise hi niche add karte jao
+    };
 
-    const scriptMiddles = [
-        "हर मोड़ पर तुमने मेरा हाथ थामा, जैसे किसी परफेक्ट स्क्रिप्ट का हीरो अपनी हिरोइन का थामता है।",
-        "The way you look at me... it's like a slow-motion shot that I want to watch forever.",
-        "तुझ्यासोबतचा प्रत्येक दिवस हा एका अवॉर्ड विनिंग फिल्मसारखा आहे।",
-        "<span class='urdu-text'>محبت کی اس کہانی میں تم میری سب سے پسندیدہ قسط ہو۔</span>"
-    ];
+    // Generic script agar photo index movieScript mein na mile
+    const genericScript = {
+        n: "A beautiful memory from our infinite collection.",
+        d: "Every frame of you is a masterpiece, Muskan.",
+        s: "ये पल हमेशा मेरे दिल के करीब रहेंगे।"
+    };
 
-    const scriptEndings = [
-        "And they lived happily... Actually, our story is just getting started. ❤️",
-        "To be continued... in my heart, forever and always. ✨",
-        "Intermission? Nahi Muskan, hamara prem 'No Interval' wala hai! 🌸",
-        "[End Scene]: तुम मेरी सबसे हसीन हकीकत हो।"
-    ];
-
-    // --- 3. TRANSITION LOGIC ---
+    // --- 2. LOGIC ---
     function nextScene() {
         const photo = document.getElementById('photo');
-        const script = document.getElementById('scriptText');
+        const scriptBox = document.getElementById('scriptContent');
 
-        // Blackout effect like a projector shutter
         photo.style.opacity = '0';
-        photo.style.filter = 'brightness(0)';
-        script.style.opacity = '0';
+        scriptBox.style.opacity = '0';
 
         setTimeout(() => {
-            // Randomize Content
-            const randImg = moviePhotos[Math.floor(Math.random() * moviePhotos.length)];
-            const b = scriptBegins[Math.floor(Math.random() * scriptBegins.length)];
-            const m = scriptMiddles[Math.floor(Math.random() * scriptMiddles.length)];
-            const e = scriptEndings[Math.floor(Math.random() * scriptEndings.length)];
+            currentIndex++;
+            const nextSrc = `${basePath}m${currentIndex}.jpg`;
 
-            photo.src = randImg;
-            script.innerHTML = `${b}<br>${m}<br>${e}`;
+            // Auto-detect image existence
+            const imgChecker = new Image();
+            imgChecker.onload = function() {
+                photo.src = nextSrc;
+                renderScript(currentIndex);
+            };
+            imgChecker.onerror = function() {
+                // If no more photos, loop back to m1
+                currentIndex = 1;
+                photo.src = `${basePath}m1.jpg`;
+                renderScript(1);
+            };
+        }, 400);
+
+        function renderScript(index) {
+            const data = movieScript[index] || genericScript;
+            
+            document.getElementById('narrator').innerHTML = data.n;
+            document.getElementById('dialogue').innerHTML = data.d;
+            document.getElementById('subtitle').innerHTML = data.s;
 
             photo.onload = () => {
                 photo.style.opacity = '1';
-                photo.style.filter = 'sepia(0.3) contrast(1.1)';
-                script.style.opacity = '1';
+                scriptBox.style.opacity = '1';
             };
-        }, 500);
+        }
     }
 </script>
 </body>
