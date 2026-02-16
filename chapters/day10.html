@@ -3,158 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 10 | Prakash's Mixtape</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Dancing+Script&display=swap" rel="stylesheet">
+    <title>Day 10 | Muskan ka Noor</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Cinzel+Decorative:wght@700&family=Playfair+Display:italic,wght@600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --tape-body: #2c3e50;
-            --tape-label: #ecf0f1;
-            --accent-red: #e74c3c;
-            --gold: #d4af37;
+            --royal-black: #05070a;
+            --gold-gradient: linear-gradient(45deg, #a67c00, #ffbf00, #ffdc73, #ffbf00, #a67c00);
+            --gold-solid: #d4af37;
+            --soft-glow: rgba(212, 175, 55, 0.3);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body {
-            background-color: #121212;
-            margin: 0; min-height: 110vh;
+        body { 
+            background-color: var(--royal-black); 
+            margin: 0; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            height: 100vh; perspective: 1200px;
+        }
+
+        /* Moving Dust/Noor Particles */
+        #canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+        /* --- THE ARCHWAY (JHAROKHA) --- */
+        .jharokha-container {
+            position: relative; width: 340px; height: 500px;
+            z-index: 10; transform-style: preserve-3d;
+        }
+
+        /* Outer Frame Border */
+        .frame-border {
+            position: absolute; width: 100%; height: 100%;
+            border: 3px solid var(--gold-solid);
+            border-radius: 170px 170px 10px 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,1), inset 0 0 20px var(--soft-glow);
+            z-index: 20; pointer-events: none;
+        }
+
+        /* THE DOORS (3D OPENING) */
+        .door-system {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; transform-style: preserve-3d;
+        }
+
+        .door {
+            width: 50%; height: 100%;
+            background: #0d1117; 
+            border: 1px solid var(--gold-solid);
+            position: relative; overflow: hidden;
+            transition: 2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 15;
+        }
+
+        .door::after { /* Islamic Pattern on Doors */
+            content: ""; position: absolute; width: 200%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/islamic-art.png');
+            opacity: 0.1;
+        }
+
+        .door-left { border-radius: 170px 0 0 10px; transform-origin: left; }
+        .door-right { border-radius: 0 170px 10px 0; transform-origin: right; }
+
+        /* Open State */
+        .open .door-left { transform: rotateY(-110deg); opacity: 0.3; }
+        .open .door-right { transform: rotateY(110deg); opacity: 0.3; }
+
+        /* CENTRAL TRIGGER (THE MOON) */
+        .moon-lock {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px; height: 80px;
+            background: var(--gold-gradient);
+            border-radius: 50%; z-index: 25;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 0 30px var(--gold-solid);
+            transition: 0.8s;
+        }
+        .moon-lock span { font-size: 2.5rem; filter: drop-shadow(0 0 5px black); }
+        .open .moon-lock { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+
+        /* --- THE NOORANI CONTENT --- */
+        .inner-reveal {
+            position: absolute; width: 100%; height: 100%;
             display: flex; flex-direction: column; align-items: center;
-            font-family: 'Special Elite', serif; color: white;
-            padding-top: 40px;
+            justify-content: center; text-align: center;
+            padding: 30px; opacity: 0; transform: translateZ(-50px);
+            transition: 2s 1s ease-out;
+        }
+        .open .inner-reveal { opacity: 1; transform: translateZ(0); }
+
+        .urdu-glow {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 1.6rem; line-height: 2.5; direction: rtl;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            margin-bottom: 25px;
         }
 
-        /* --- CASSETTE DESIGN --- */
-        .cassette {
-            width: 320px; height: 200px;
-            background: var(--tape-body);
-            border-radius: 12px;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 10px rgba(255,255,255,0.1);
-            border: 4px solid #1a1a1a;
-            margin-bottom: 50px;
-            transition: 0.5s;
+        .hindi-caption {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem; color: #e0e0e0;
+            line-height: 1.6; font-style: italic;
         }
 
-        .label {
-            position: absolute; top: 20px; left: 20px;
-            width: 280px; height: 110px;
-            background: var(--tape-label);
-            border-radius: 5px;
-            padding: 10px;
+        .milestone-text {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 0.7rem; color: var(--gold-solid);
+            letter-spacing: 5px; margin-top: 40px;
         }
 
-        .label-top {
-            border-bottom: 2px solid var(--accent-red);
-            display: flex; justify-content: space-between;
-            font-family: 'Bebas Neue'; color: #333; font-size: 1.2rem;
-        }
-
-        .tape-window {
-            position: absolute; bottom: 15px; left: 60px;
-            width: 160px; height: 50px;
-            background: #1a1a1a; border-radius: 25px;
-            display: flex; justify-content: space-around; align-items: center;
-            overflow: hidden;
-        }
-
-        .wheel {
-            width: 35px; height: 35px;
-            border: 3px dashed #555;
-            border-radius: 50%;
-        }
-
-        .spinning { animation: spin 3s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* --- MESSAGE DISPLAY --- */
-        .lyrics-container {
-            width: 90%; max-width: 350px;
-            text-align: center;
-            opacity: 0; transition: 1s;
-        }
-
-        .lyrics-text {
-            font-size: 1rem; line-height: 1.8;
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        }
-
-        .play-btn {
-            background: var(--accent-red); color: white;
-            border: none; padding: 15px 40px;
-            font-family: 'Bebas Neue'; font-size: 1.5rem;
-            border-radius: 50px; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-            margin-top: 20px;
-        }
-
-        .play-btn:active { transform: scale(0.95); }
-
-        .prakash-note {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.8rem; color: #333; text-align: center; margin-top: 10px;
-        }
-
-        .day-tag {
-            position: fixed; top: 15px; right: 15px;
-            font-family: 'Bebas Neue'; color: var(--gold);
-            letter-spacing: 2px;
-        }
+        /* PULSING LIGHT EFFECT */
+        @keyframes pulse { 0% { box-shadow: 0 0 20px var(--gold-solid); } 50% { box-shadow: 0 0 40px var(--gold-solid); } 100% { box-shadow: 0 0 20px var(--gold-solid); } }
+        .moon-lock { animation: pulse 2s infinite; }
     </style>
 </head>
 <body>
 
-    <div class="day-tag">SIDE A: DAY 10</div>
+    <canvas id="canvas"></canvas>
 
-    <div class="cassette" id="tape">
-        <div class="label">
-            <div class="label-top">
-                <span>PRAKASH'S MIXTAPE</span>
-                <span>Vol. 10</span>
+    <div class="jharokha-container" id="mainContainer">
+        <div class="frame-border"></div>
+        
+        <div class="door-system">
+            <div class="door door-left"></div>
+            <div class="door door-right"></div>
+        </div>
+
+        <div class="moon-lock" onclick="openJharokha()">
+            <span>🌙</span>
+        </div>
+
+        <div class="inner-reveal">
+            <div class="urdu-glow">
+                سبحان اللہ <br>
+                آپ کا کردار ہی آپ کی خوبصورتی ہے۔
             </div>
-            <div class="prakash-note">For Muskan ❤️</div>
-        </div>
-        <div class="tape-window">
-            <div class="wheel" id="w1"></div>
-            <div class="wheel" id="w2"></div>
+            
+            <div class="hindi-caption">
+                "Muskan, <br>
+                Khuda ne tumhe fursat mein banaya hai, <br>
+                Tabhi toh tumhari saadgi mein bhi <br>
+                ek 'Noor' nazar aata hai."
+                <br><br>
+                <span style="color:var(--gold-solid); font-size: 0.8rem;">— Prakash</span>
+            </div>
+
+            <div class="milestone-text">DAY 10 • THE COMPLETION</div>
         </div>
     </div>
-
-    <div class="lyrics-container" id="lyrics">
-        <div class="lyrics-text" id="scrollText">
-            "Muskan, 10 din pehle ye safar shuru hua tha... <br>
-            Har beet-te din ke saath, <br>
-            hamari dosti ki dhun aur gehri ho rahi hai. <br>
-            Ye mixtape sirf gaano ka nahi, <br>
-            hamari un saari baaton ka hai jo <br>
-            maine dil mein chhupa kar rakhi hain. <br><br>
-            Happy 10 Days, My Favorite Star!"
-        </div>
-    </div>
-
-    <button class="play-btn" id="playBtn" onclick="startMixtape()">PLAY MEMORY</button>
 
     <script>
-        function startMixtape() {
-            const btn = document.getElementById('playBtn');
-            const w1 = document.getElementById('w1');
-            const w2 = document.getElementById('w2');
-            const lyrics = document.getElementById('lyrics');
-            const tape = document.getElementById('tape');
-
-            btn.style.display = 'none';
-            w1.classList.add('spinning');
-            w2.classList.add('spinning');
-            
-            // Cassette tilt effect
-            tape.style.transform = 'rotate(-3deg) scale(1.05)';
-
-            setTimeout(() => {
-                lyrics.style.opacity = '1';
-                // You can add audio play here: 
-                // new Audio('your-song-link.mp3').play();
-            }, 500);
+        function openJharokha() {
+            document.getElementById('mainContainer').classList.add('open');
         }
+
+        // --- BACKGROUND NOOR PARTICLES ---
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.1) this.size -= 0.001;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < 100; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].size <= 0.2) {
+                    particles.splice(i, 1);
+                    i--;
+                    particles.push(new Particle());
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        init();
+        animate();
     </script>
 </body>
 </html>
