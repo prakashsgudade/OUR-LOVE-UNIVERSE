@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 08 | Perfect Fit Cinema</title>
+    <title>Day 08 | Real Cinema Experience</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Bebas+Neue&family=Courier+Prime&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --gold: #d4af37;
-            --film-black: #080808;
-            --paper: #e0d5c1;
+            --film-black: #050505;
             --accent: #ffcc00;
         }
 
@@ -21,159 +20,127 @@
             background-color: var(--film-black); 
             margin: 0; 
             font-family: 'Courier Prime', monospace; 
-            color: var(--paper);
             height: 100vh;
-            overflow: hidden; /* Screen se bahar kuch nahi jayega */
-            display: flex;
-            justify-content: center;
-        }
-
-        .bg-glow {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-            z-index: -1;
-        }
-
-        /* Main Wrapper - No Scroll */
-        .main-container {
-            width: 100%;
-            height: 100vh;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            z-index: 10;
         }
 
-        .movie-header { text-align: center; flex-shrink: 0; padding-top: 5px; }
+        /* Cinema Vignette - Makes it feel like a real screen */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 40%, black 150%);
+            z-index: 5; pointer-events: none;
+        }
+
+        .main-container {
+            width: 100%; height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+            padding: 15px; z-index: 10;
+        }
+
+        .movie-header { text-align: center; flex-shrink: 0; }
         .movie-title {
             font-family: 'Bebas Neue'; font-size: clamp(2.5rem, 8vw, 4rem);
-            color: transparent; -webkit-text-stroke: 1px var(--gold);
-            letter-spacing: 5px; margin: 0;
+            color: var(--gold); letter-spacing: 5px; margin: 0;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
         }
 
-        /* Cinema Stage - Photo & Script */
+        /* THE CINEMA STAGE */
         .cinema-stage {
-            width: 100%;
-            max-width: 600px; /* Control width for mobile */
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 10px;
-            overflow: hidden;
+            flex-grow: 1; display: flex; flex-direction: column;
+            justify-content: center; gap: 15px; width: 100%; max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* PHOTO FRAME - FIXED & LOCKED */
-        .projector-container {
-            position: relative;
-            width: 100%;
-            height: 40vh; /* Strictly 40% of screen height */
-            background: #000;
-            border: 2px solid rgba(212, 175, 55, 0.5);
-            box-shadow: 0 0 30px rgba(0,0,0,1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-radius: 8px;
+        /* PROJECTOR FRAME */
+        .projector-frame {
+            position: relative; width: 100%; height: 45vh;
+            background: #000; border: 4px solid #1a1a1a;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; border-radius: 4px;
         }
 
-        /* Photo sizing fix */
+        /* THE PHOTO - "KHUDNE WALA" ANIMATION */
         #photo {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Isse photo kabhi frame se bahar nahi jayegi */
-            transition: 0.5s ease-in-out;
-            z-index: 2;
+            max-width: 100%; max-height: 100%;
+            object-fit: contain; /* Always fits inside */
+            filter: contrast(1.1) brightness(0.9) sepia(0.1);
+            transition: opacity 0.3s;
         }
 
-        .adaptive-border {
+        /* Animation class */
+        .reel-jump {
+            animation: projectorJump 0.6s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes projectorJump {
+            0% { transform: translateY(0) scale(1); filter: brightness(1); }
+            20% { transform: translateY(-15px) scale(0.98); filter: brightness(2); }
+            40% { transform: translateY(10px) scale(1.02); filter: blur(2px); }
+            100% { transform: translateY(0) scale(1); filter: brightness(0.9); }
+        }
+
+        .film-scratches {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border: 3px solid var(--accent);
-            box-shadow: inset 0 0 15px var(--accent);
-            pointer-events: none; z-index: 3; opacity: 0.4;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.2; pointer-events: none; z-index: 3;
+            animation: flicker 0.1s infinite;
         }
 
-        /* SCRIPT - COMPACT */
-        .advanced-script {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            padding: 12px;
-            border-left: 4px solid var(--gold);
-            border-radius: 0 10px 10px 0;
-            max-height: 30vh;
-            overflow-y: auto; /* Agar text bada ho toh andar scroll ho jaye */
+        /* SCRIPT BOX */
+        .script-box {
+            background: rgba(255, 255, 255, 0.05); padding: 15px;
+            border-left: 4px solid var(--gold); border-radius: 0 10px 10px 0;
+            min-height: 120px;
         }
 
-        .label { font-family: 'Bebas Neue'; color: var(--gold); font-size: 0.8rem; letter-spacing: 1px; }
-        .text-content { font-family: 'Special Elite'; font-size: 0.9rem; color: #eee; margin-bottom: 5px; line-height: 1.3; }
+        .label { font-family: 'Bebas Neue'; color: var(--gold); font-size: 0.8rem; margin-bottom: 5px; }
+        .text-content { font-family: 'Special Elite'; font-size: 0.95rem; color: #ccc; line-height: 1.4; }
 
-        /* BUTTONS */
-        .btn-area { 
-            width: 100%;
-            text-align: center;
-            padding-bottom: 15px; 
-            flex-shrink: 0; 
-        }
-
+        /* CONTROLS */
+        .btn-area { text-align: center; padding-bottom: 20px; flex-shrink: 0; }
         .main-btn {
-            background: var(--gold); color: #000;
-            border: none; padding: 12px 35px;
-            font-family: 'Bebas Neue'; font-size: 1.4rem;
-            cursor: pointer; clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-            margin-bottom: 8px;
+            background: var(--gold); color: #000; border: none;
+            padding: 15px 40px; font-family: 'Bebas Neue'; font-size: 1.6rem;
+            cursor: pointer; clip-path: polygon(5% 0, 95% 0, 100% 50%, 95% 100%, 5% 100%, 0 50%);
+            box-shadow: 0 0 20px rgba(212,175,55,0.4);
         }
 
-        .footer-nav { display: flex; justify-content: center; gap: 10px; }
-        .nav-btn { color: var(--gold); text-decoration: none; font-size: 0.7rem; border: 1px solid var(--gold); padding: 5px 15px; border-radius: 3px; font-family: 'Bebas Neue'; }
+        .main-btn:active { transform: scale(0.95); }
 
-        .film-scratches { position: absolute; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; pointer-events: none; z-index: 4; }
-
-        /* Desktop specific adjust */
-        @media (min-width: 768px) {
-            .projector-container { height: 55vh; }
-            .cinema-stage { max-width: 800px; }
-        }
+        @keyframes flicker { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.3; } }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow" id="glow"></div>
-
     <div class="main-container">
         <div class="movie-header">
             <h1 class="movie-title">MUSKAN CINEMA</h1>
-            <p style="color: var(--gold); font-size: 0.6rem; letter-spacing: 3px; margin: 0;">SCENE <span id="sNum">1</span> / 120</p>
+            <p style="color: var(--gold); font-size: 0.6rem; letter-spacing: 5px;">FRAME <span id="sNum">1</span> / 120</p>
         </div>
 
         <div class="cinema-stage">
-            <div class="projector-container">
-                <div class="adaptive-border" id="border"></div>
+            <div class="projector-frame">
                 <div class="film-scratches"></div>
-                <img id="photo" src="/OUR-LOVE-UNIVERSE/assets/images/home/m1.jpg">
+                <img id="photo" src="/OUR-LOVE-UNIVERSE/assets/images/home/m1.jpg" alt="Cinema">
             </div>
 
-            <div class="advanced-script" id="scriptBox">
+            <div class="script-box">
                 <div class="label">[ NARRATION ]</div>
-                <div id="nText" class="text-content">The magic of Muskan begins...</div>
-                
-                <div class="label">[ DIALOGUE ]</div>
-                <div id="dText" class="text-content">"Ready for a blockbuster journey?"</div>
-                
-                <div class="label">[ SUBTITLE ]</div>
-                <div id="sText" class="text-content" style="color: var(--gold);">पिक्चर अभी बाकी है...</div>
+                <div id="nText" class="text-content">A masterpiece is about to unfold.</div>
+                <div class="label" style="margin-top: 10px;">[ DIALOGUE ]</div>
+                <div id="dText" class="text-content">"Har frame mein tumhari hi kahani hai, Muskan."</div>
             </div>
         </div>
 
         <div class="btn-area">
-            <button class="main-btn" onclick="nextScene()">NEXT SCENE</button>
-            <div class="footer-nav">
-                <a href="home-chapters.html" class="nav-btn">HUB</a>
-                <a href="day9.html" class="nav-btn" style="opacity:0.5">DAY 9</a>
+            <button class="main-btn" onclick="nextScene()">NEXT REEL</button>
+            <div style="margin-top: 15px;">
+                <a href="home-chapters.html" style="color: var(--gold); text-decoration: none; font-size: 0.7rem; border: 1px solid var(--gold); padding: 5px 15px;">EXIT HUB</a>
             </div>
         </div>
     </div>
@@ -183,42 +150,29 @@
     const totalPhotos = 120;
     let index = 1;
 
-    const colors = ["#ffcc00", "#ff0055", "#00f2ff", "#d4af37", "#ffffff", "#00ff77"];
-    const nPool = ["A cinematic masterpiece.", "Capturing pure magic.", "A frame of absolute beauty.", "Star-lit moments.", "Visual poetry in motion.", "The heart's favorite scene."];
-    const dPool = ["Muskan, you are the lead star.", "Blockbuster smile, as always!", "The leading lady of my life.", "Simply perfect, no retakes.", "I could watch this forever.", "Every frame belongs to you."];
-    const sPool = ["तुम्हारी सादगी ही सबसे हसीन है।", "तू आहेस म्हणून सर्व काही सुंदर आहे।", "तेरी आँखों में सारा जहाँ दिखता है।", "मुस्कान, तुम सच में बहुत खास हो।"];
+    const nPool = ["The lens captured perfection.", "Cinema's most beautiful face.", "The heart's favorite viewpoint.", "A moment of pure magic.", "Art in its natural form.", "Writing our story in light."];
+    const dPool = ["Muskan, you are the leading lady.", "This scene is a blockbuster hit!", "No retakes needed for this smile.", "My favorite character in life.", "Stay magical, stay you.", "Every pixel belongs to you."];
 
     function nextScene() {
+        const photo = document.getElementById('photo');
+        const nText = document.getElementById('nText');
+        const dText = document.getElementById('dText');
+        const sNum = document.getElementById('sNum');
+
         index++;
         if (index > totalPhotos) index = 1;
 
-        const photo = document.getElementById('photo');
-        const border = document.getElementById('border');
-        const glow = document.getElementById('glow');
-        const scriptBox = document.getElementById('scriptBox');
-        document.getElementById('sNum').innerText = index;
-
-        // Visual Reset for loading
-        photo.style.opacity = '0';
-        scriptBox.style.opacity = '0.5';
+        // "Khudne wala" animation trigger
+        photo.classList.remove('reel-jump');
+        void photo.offsetWidth; // Trigger reflow
+        photo.classList.add('reel-jump');
 
         setTimeout(() => {
             photo.src = basePath + "m" + index + ".jpg";
-
-            const randColor = colors[Math.floor(Math.random() * colors.length)];
-            border.style.borderColor = randColor;
-            border.style.boxShadow = `inset 0 0 15px ${randColor}`;
-            glow.style.background = `radial-gradient(circle at 50% 50%, ${randColor}11 0%, transparent 70%)`;
-
-            document.getElementById('nText').innerText = nPool[index % nPool.length];
-            document.getElementById('dText').innerText = dPool[(index * 2) % dPool.length];
-            document.getElementById('sText').innerHTML = sPool[index % sPool.length];
-
-            photo.onload = () => {
-                photo.style.opacity = '1';
-                scriptBox.style.opacity = '1';
-            };
-        }, 300);
+            sNum.innerText = index;
+            nText.innerText = nPool[index % nPool.length];
+            dText.innerText = dPool[index % dPool.length];
+        }, 200);
     }
 </script>
 </body>
