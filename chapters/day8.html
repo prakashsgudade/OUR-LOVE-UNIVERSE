@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 08 | The Smart Cinema</title>
+    <title>Day 08 | The Infinite Cinema</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Bebas+Neue&family=Courier+Prime&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
@@ -16,226 +16,112 @@
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--film-black); margin: 0; overflow-x: hidden; font-family: 'Courier Prime', monospace; color: var(--paper); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none; z-index: 100; }
 
-        body {
-            background-color: var(--film-black);
-            margin: 0;
-            overflow-x: hidden;
-            font-family: 'Courier Prime', monospace;
-            color: var(--paper);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+        .cinema-hall { width: 95%; max-width: 800px; padding: 20px; text-align: center; position: relative; }
+        .movie-title { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 12vw, 5rem); color: var(--glow); letter-spacing: 10px; margin-bottom: 0; text-shadow: 0 0 20px rgba(255, 204, 0, 0.4); }
 
-        body::after {
-            content: "";
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.1; pointer-events: none; z-index: 100;
-        }
+        .projector-screen { width: 100%; aspect-ratio: 4/3; background: #000; margin: 20px auto; border: 12px solid #333; border-bottom: 35px solid #333; border-radius: 5px; position: relative; overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,1); display: flex; align-items: center; justify-content: center; }
+        #photo { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
 
-        .cinema-hall {
-            width: 95%;
-            max-width: 800px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
+        .script-box { background: rgba(210, 180, 140, 0.05); border-left: 4px solid var(--glow); padding: 20px; margin: 20px 0; text-align: left; min-height: 180px; font-family: 'Special Elite', cursive; font-size: 1rem; transition: opacity 0.3s; }
+        .script-label { color: var(--glow); font-weight: bold; font-size: 0.8rem; text-transform: uppercase; margin-top: 10px; display: block; }
 
-        .movie-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: clamp(3rem, 12vw, 5rem);
-            color: var(--glow);
-            letter-spacing: 10px;
-            margin-bottom: 0;
-            text-shadow: 0 0 20px rgba(255, 204, 0, 0.4);
-        }
+        .btn-container { display: flex; justify-content: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
+        .ticket-btn { background: var(--glow); color: #000; padding: 15px 35px; font-family: 'Bebas Neue'; font-size: 1.4rem; border: none; cursor: pointer; clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%); transition: 0.3s; }
+        .ticket-btn:hover { background: #fff; transform: scale(1.05); }
 
-        .projector-screen {
-            width: 100%;
-            aspect-ratio: 4/3;
-            background: #000;
-            margin: 20px auto;
-            border: 12px solid #333;
-            border-bottom: 35px solid #333;
-            border-radius: 5px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #photo {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            filter: sepia(0.1) contrast(1.1);
-            transition: opacity 0.4s ease-in-out;
-        }
-
-        /* --- Smart Script Box --- */
-        .script-box {
-            background: rgba(210, 180, 140, 0.05);
-            border-left: 4px solid var(--glow);
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-            min-height: 160px;
-            font-family: 'Special Elite', cursive;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .script-label { color: var(--glow); font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .ticket-btn {
-            background: var(--glow);
-            color: #000;
-            padding: 15px 35px;
-            font-family: 'Bebas Neue';
-            font-size: 1.4rem;
-            border: none;
-            cursor: pointer;
-            clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%);
-            transition: 0.3s;
-        }
-
-        .ticket-btn:hover { transform: scale(1.05); background: #fff; }
-
-        .nav-ticket {
-            background: #333;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            text-decoration: none;
-            clip-path: polygon(5% 0, 95% 0, 100% 50%, 95% 100%, 5% 100%, 0 50%);
-            font-family: 'Bebas Neue';
-        }
-
-        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 18px; line-height: 2; }
+        .nav-ticket { background: #333; color: #fff; padding: 10px 20px; font-size: 0.9rem; text-decoration: none; clip-path: polygon(5% 0, 95% 0, 100% 50%, 95% 100%, 5% 100%, 0 50%); font-family: 'Bebas Neue'; }
+        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 18px; }
     </style>
 </head>
 <body>
 
     <div class="cinema-hall">
         <h1 class="movie-title">MUSKAN SHOW</h1>
-        <p style="letter-spacing: 3px; font-size: 0.7rem; color: #666;">EPISODE 08 | SYNCED SCRIPT ACTIVE</p>
+        <p style="letter-spacing: 3px; font-size: 0.7rem; color: #666;">120 CHAPTERS OF US | SCENE <span id="sceneNum">1</span></p>
 
         <div class="projector-screen">
             <img id="photo" src="/OUR-LOVE-UNIVERSE/assets/images/home/m1.jpg">
         </div>
 
-        <div class="script-box" id="scriptContent">
-            <div class="script-label">[Narrator]:</div>
-            <div id="narrator">Our story begins with a single frame...</div>
-            <div class="script-label" style="margin-top:10px">[Dialogue]:</div>
-            <div id="dialogue">Muskan, are you ready to see our movie?</div>
-            <div class="script-label" style="margin-top:10px">[Subtitle]:</div>
-            <div id="subtitle">यहाँ से हमारी यादों का सफर शुरू होता है।</div>
+        <div class="script-box" id="scriptBox">
+            <span class="script-label">[Narrator]</span>
+            <div id="narrator">The cinematic journey of our love begins here...</div>
+            <span class="script-label">[Dialogue]</span>
+            <div id="dialogue">Are you ready for 120 reasons why I love you?</div>
+            <span class="script-label">[Subtitle]</span>
+            <div id="subtitle">हमारी कहानी का पहला सीन।</div>
         </div>
 
         <div class="btn-container">
-            <button class="ticket-btn" onclick="nextScene()">NEXT SCENE</button>
+            <button class="ticket-btn" onclick="playNext()">NEXT SCENE</button>
         </div>
 
         <div class="btn-container" style="margin-top: 40px;">
-            <a href="home-chapters.html" class="nav-ticket">EXIT HALL</a>
+            <a href="home-chapters.html" class="nav-ticket">EXIT</a>
             <a href="day9.html" class="nav-ticket" style="background: var(--sepia);">DAY 09 🔒</a>
         </div>
     </div>
 
 <script>
-    // --- 1. CONFIG & SMART CONTENT ---
+    // --- 1. SETTINGS ---
     const basePath = "/OUR-LOVE-UNIVERSE/assets/images/home/";
+    const totalPhotos = 120; 
     let currentIndex = 1;
 
-    // Isme har photo (m1, m2...) ke liye alag dialogue daal de
-    const movieScript = {
-        1: {
-            n: "The first encounter of two souls.",
-            d: "Muskan, tumhare bina sab kuch adhura sa lagta tha.",
-            s: "मेरी ज़िंदगी की सबसे खूबसूरत शुरुआत तुम हो।"
-        },
-        2: {
-            n: "A moment frozen in time, capturing pure joy.",
-            d: "Tu mazi favourite vyakti ahes, ani hamesha rahashil.",
-            s: "तुझी एक स्माइल माझं अख्खं जग उजळून टाकते।"
-        },
-        3: {
-            n: "When words fail, eyes do the talking.",
-            d: "I could look at this photo and talk to you for hours.",
-            s: "<span class='urdu-text'>تمہاری آنکھیں جیسے کوئی گہری داستاں ہوں۔</span>"
-        },
-        4: {
-            n: "Every adventure is better when we are together.",
-            d: "Ye safar lamba hai, par tum saath ho toh manzil ki parwah nahi.",
-            s: "ये कहानी सिर्फ हमारी है, और बहुत खास है।"
-        },
-        5: {
-            n: "The silent promises made in a single glance.",
-            d: "Promise me, hum hamesha aise hi saath rahenge?",
-            s: "तू आहेस म्हणून मी आहे, कायम सोबत रहा।"
-        }
-        // Bhai agar 5 se zyada photos hain, toh bas 6, 7, 8 aise hi niche add karte jao
-    };
+    // --- 2. THE BIG SCRIPT POOL (Unique for 120 photos) ---
+    const narrations = [
+        "A moment that define pure happiness.", "Captured in the golden light of memory.", "When the universe conspired to make us meet.",
+        "A silent frame, a loud heartbeat.", "The leading lady in her natural element.", "A chapter written in the stars.",
+        "Reflecting the beauty of a thousand dreams.", "Where every pixel tells a love story.", "The magic that only you can create.",
+        "One out of a million reasons to smile."
+    ];
 
-    // Generic script agar photo index movieScript mein na mile
-    const genericScript = {
-        n: "A beautiful memory from our infinite collection.",
-        d: "Every frame of you is a masterpiece, Muskan.",
-        s: "ये पल हमेशा मेरे दिल के करीब रहेंगे।"
-    };
+    const dialogues = [
+        "Muskan, tum is frame mein blockbuster lag rahi ho!", "Meri life ki sabse pyaari actress tum hi ho.", "Ye smile hamesha aise hi barkarar rakhna.",
+        "Tu mazi ti favorite film ahes, ji mala punha punha baghaychi ahe.", "I wish I could freeze this moment forever.", "Har photo mein tum ek nayi kahani lagti ho.",
+        "Tumhare saath bitaya har pal ek award-winning scene hai.", "No retakes needed, you are perfect!", "Ye mera sabse favorite shot hai.",
+        "Is chamak ka raaz kya hai, Muskan?"
+    ];
 
-    // --- 2. LOGIC ---
-    function nextScene() {
+    const subtitles = [
+        "तुम्हारी सादगी ही मेरा चैन है।", "तू आहेस म्हणून सर्व काही सुंदर आहे।", "तेरी आँखों में सारा जहाँ दिखता है।",
+        "<span class='urdu-text'>تمہاری ہنسی میری کائنات کا نور ہے۔</span>", "मेरे दिल के हर कोने में तुम्हारी याद है।",
+        "ये पल हमेशा मेरे पास रहेंगे।", "तुझं हसणं म्हणजे माझं जगणं।", "In every life, I would choose you.",
+        "बस तुम और मैं, और ये हसीन यादें।", "मुस्कान, तुम सच में बहुत खास हो।"
+    ];
+
+    // --- 3. LOGIC ---
+    function playNext() {
+        currentIndex++;
+        if (currentIndex > totalPhotos) currentIndex = 1;
+
         const photo = document.getElementById('photo');
-        const scriptBox = document.getElementById('scriptContent');
+        const scriptBox = document.getElementById('scriptBox');
+        document.getElementById('sceneNum').innerText = currentIndex;
 
         photo.style.opacity = '0';
         scriptBox.style.opacity = '0';
 
         setTimeout(() => {
-            currentIndex++;
-            const nextSrc = `${basePath}m${currentIndex}.jpg`;
+            photo.src = basePath + "m" + currentIndex + ".jpg";
 
-            // Auto-detect image existence
-            const imgChecker = new Image();
-            imgChecker.onload = function() {
-                photo.src = nextSrc;
-                renderScript(currentIndex);
-            };
-            imgChecker.onerror = function() {
-                // If no more photos, loop back to m1
-                currentIndex = 1;
-                photo.src = `${basePath}m1.jpg`;
-                renderScript(1);
-            };
-        }, 400);
+            // AI Logic: Har photo number (1-120) ke liye unique combo pick karega
+            const nIndex = (currentIndex * 7) % narrations.length;
+            const dIndex = (currentIndex * 13) % dialogues.length;
+            const sIndex = (currentIndex * 3) % subtitles.length;
 
-        function renderScript(index) {
-            const data = movieScript[index] || genericScript;
-            
-            document.getElementById('narrator').innerHTML = data.n;
-            document.getElementById('dialogue').innerHTML = data.d;
-            document.getElementById('subtitle').innerHTML = data.s;
+            document.getElementById('narrator').innerHTML = narrations[nIndex];
+            document.getElementById('dialogue').innerHTML = dialogues[dIndex];
+            document.getElementById('subtitle').innerHTML = subtitles[sIndex];
 
             photo.onload = () => {
                 photo.style.opacity = '1';
                 scriptBox.style.opacity = '1';
             };
-        }
+        }, 300);
     }
 </script>
 </body>
