@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 07 | Royal Palace of Love</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Montserrat:wght@300;400&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #d4af37;
+            --royal-red: #4a0404;
+            --cream: #fff5e6;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: var(--royal-red);
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png'); /* Premium texture */
+            transition: opacity 1s ease;
+        }
+
+        /* --- Royal Frame --- */
+        .palace-container {
+            width: 95%;
+            max-width: 900px;
+            margin: 20px auto;
+            border: 10px double var(--gold);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px 20px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,1), inset 0 0 100px rgba(212, 175, 55, 0.1);
+            text-align: center;
+        }
+
+        .header-title {
+            font-family: 'Cinzel Decorative';
+            color: var(--gold);
+            font-size: clamp(1.5rem, 8vw, 2.5rem);
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* --- Magic Mirror (Photo Section) --- */
+        .magic-mirror {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            margin: 30px auto;
+            border: 5px solid var(--gold);
+            border-radius: 50% 50% 0 0; /* Dome shape */
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 30px var(--gold);
+            background: #000;
+        }
+
+        #photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
+        }
+
+        /* --- Royal Letter Scroll --- */
+        .scroll-box {
+            background: var(--cream);
+            color: #2b1d0e;
+            padding: 30px;
+            margin: 30px auto;
+            border-radius: 5px;
+            position: relative;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            min-height: 150px;
+        }
+
+        .scroll-box.open { transform: scaleY(1); }
+
+        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 24px; line-height: 2.5; }
+
+        /* --- Buttons --- */
+        .royal-btn {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            font-family: 'Cinzel Decorative';
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 2px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .royal-btn:hover {
+            background: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px var(--gold);
+        }
+
+        .nav-footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .mini-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-family: 'Cinzel Decorative';
+            font-size: 0.7rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 2px;
+        }
+
+        /* Decorative Corners */
+        .corner {
+            position: absolute; width: 50px; height: 50px; border: 3px solid var(--gold);
+        }
+        .top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+        .top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+        @media (max-width: 600px) {
+            .magic-mirror { height: 300px; }
+            .scroll-box { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body onload="checkLock()">
+
+    <div class="palace-container">
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+
+        <h1 class="header-title">The Royal Chapter</h1>
+        <p style="color: var(--gold); font-family: 'Cinzel Decorative'; font-size: 0.7rem; letter-spacing: 2px;">DAY 07 - INFINITE DEVOTION</p>
+
+        <div class="magic-mirror">
+            <img id="photo" src="../assets/images/photo1.jpg" alt="Our Memory">
+        </div>
+
+        <div id="scroll" class="scroll-box">
+            "Muskan, tap the Golden Button to reveal my heart's secrets..."
+        </div>
+
+        <button class="royal-btn" onclick="revealFate()">Reveal Memory</button>
+
+        <div class="nav-footer">
+            <a href="#" class="mini-link" onclick="smoothNav('home-chapters.html')">← Chapter Hub</a>
+            <a href="#" class="mini-link" id="nextDayBtn" style="opacity: 0.5;">Day 08 Locked 🔒</a>
+        </div>
+    </div>
+
+    <audio id="royalMusic" loop src="../assets/audio/our-song.mp3"></audio>
+
+<script>
+    // --- 1. ASSETS ---
+    const photoPool = [
+        "../assets/images/photo1.jpg",
+        "../assets/images/photo2.jpg",
+        "../assets/images/photo3.jpg",
+        "../assets/images/photo4.jpg"
+    ];
+
+    const aiLetters = [
+        {
+            text: "Muskan,\nतुम्हारी जगह मेरे दिल में कोई नहीं ले सकता। तुम मेरे महल की मलिका हो। ❤️"
+        },
+        {
+            text: "My Queen,\nIn every life, I would choose you over and over again. ✨"
+        },
+        {
+            text: "<span class='urdu-text'>تم میری زندگی کی سب سے خوبصورت کہانی ہو۔</span>"
+        },
+        {
+            text: "Muskan, tumhara saath hi meri asli daulat hai. Hamesha mere paas rehna. 🌸"
+        }
+    ];
+
+    // --- 2. LOGIC ---
+    function revealFate() {
+        const scroll = document.getElementById('scroll');
+        const photo = document.getElementById('photo');
+        const music = document.getElementById('royalMusic');
+
+        music.play();
+
+        // Close scroll first
+        scroll.classList.remove('open');
+        photo.style.opacity = '0';
+        photo.style.transform = 'scale(1.2)';
+
+        setTimeout(() => {
+            // Change content
+            const randPhoto = photoPool[Math.floor(Math.random() * photoPool.length)];
+            const randLetter = aiLetters[Math.floor(Math.random() * aiLetters.length)];
+
+            photo.src = randPhoto;
+            scroll.innerHTML = randLetter.text;
+
+            // Re-open with effect
+            photo.onload = () => {
+                photo.style.opacity = '1';
+                photo.style.transform = 'scale(1)';
+                scroll.classList.add('open');
+            };
+        }, 800);
+    }
+
+    // --- 3. LOCK & NAVIGATION ---
+    function checkLock() {
+        const START_DATE = new Date("2026-02-07T00:00:00"); 
+        let now = new Date();
+        let day8Time = new Date(START_DATE);
+        day8Time.setDate(day8Time.getDate() + 7); // Locked for 7 days from start
+
+        const nextBtn = document.getElementById('nextDayBtn');
+        
+        // TEST MODE: change to false for real lock
+        const testMode = true; 
+
+        if (testMode || now >= day8Time) {
+            nextBtn.innerHTML = "Day 08 Ready →";
+            nextBtn.style.opacity = "1";
+            nextBtn.onclick = () => smoothNav('day8.html');
+        }
+    }
+
+    function smoothNav(url) {
+        document.body.style.opacity = '0';
+        setTimeout(() => { window.location.href = url; }, 1000);
+    }
+</script>
+</body>
+</html>daddddddddd
