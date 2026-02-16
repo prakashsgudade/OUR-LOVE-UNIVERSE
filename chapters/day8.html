@@ -3,125 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 08 | The Infinite Cinema</title>
+    <title>Day 08 | Ultra-Cinema AI</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Bebas+Neue&family=Courier+Prime&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --sepia: #704214;
-            --film-black: #1a1a1a;
-            --paper: #d2b48c;
-            --glow: #ffcc00;
+            --gold: #d4af37;
+            --film-black: #080808;
+            --paper: #e0d5c1;
+            --accent: #ffcc00;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--film-black); margin: 0; overflow-x: hidden; font-family: 'Courier Prime', monospace; color: var(--paper); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none; z-index: 100; }
+        
+        body { 
+            background-color: var(--film-black); 
+            margin: 0; overflow: hidden; 
+            font-family: 'Courier Prime', monospace; 
+            color: var(--paper);
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+        }
 
-        .cinema-hall { width: 95%; max-width: 800px; padding: 20px; text-align: center; position: relative; }
-        .movie-title { font-family: 'Bebas Neue', cursive; font-size: clamp(3rem, 12vw, 5rem); color: var(--glow); letter-spacing: 10px; margin-bottom: 0; text-shadow: 0 0 20px rgba(255, 204, 0, 0.4); }
+        /* --- Cinematic Background Effects --- */
+        .bg-glow {
+            position: fixed; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            z-index: -1; transition: 1s;
+        }
 
-        .projector-screen { width: 100%; aspect-ratio: 4/3; background: #000; margin: 20px auto; border: 12px solid #333; border-bottom: 35px solid #333; border-radius: 5px; position: relative; overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,1); display: flex; align-items: center; justify-content: center; }
-        #photo { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
+        /* --- Main Cinema Stage --- */
+        .cinema-wrapper {
+            width: 95%; max-width: 900px; padding: 20px;
+            position: relative; z-index: 10;
+        }
 
-        .script-box { background: rgba(210, 180, 140, 0.05); border-left: 4px solid var(--glow); padding: 20px; margin: 20px 0; text-align: left; min-height: 180px; font-family: 'Special Elite', cursive; font-size: 1rem; transition: opacity 0.3s; }
-        .script-label { color: var(--glow); font-weight: bold; font-size: 0.8rem; text-transform: uppercase; margin-top: 10px; display: block; }
+        .movie-header {
+            text-align: center; margin-bottom: 20px;
+        }
 
-        .btn-container { display: flex; justify-content: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
-        .ticket-btn { background: var(--glow); color: #000; padding: 15px 35px; font-family: 'Bebas Neue'; font-size: 1.4rem; border: none; cursor: pointer; clip-path: polygon(10% 0, 90% 0, 100% 20%, 100% 80%, 90% 100%, 10% 100%, 0 80%, 0 20%); transition: 0.3s; }
-        .ticket-btn:hover { background: #fff; transform: scale(1.05); }
+        .movie-title {
+            font-family: 'Bebas Neue'; font-size: clamp(3.5rem, 15vw, 6rem);
+            color: transparent; -webkit-text-stroke: 1px var(--gold);
+            letter-spacing: 8px; line-height: 1; margin: 0;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
 
-        .nav-ticket { background: #333; color: #fff; padding: 10px 20px; font-size: 0.9rem; text-decoration: none; clip-path: polygon(5% 0, 95% 0, 100% 50%, 95% 100%, 5% 100%, 0 50%); font-family: 'Bebas Neue'; }
-        .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 18px; }
+        /* --- ULTRA ADVANCED PHOTO FRAME --- */
+        .projector-container {
+            position: relative; width: 100%; aspect-ratio: 16/10;
+            background: #000; padding: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Animated Border Logic */
+        .adaptive-border {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border: 4px solid var(--accent);
+            box-shadow: inset 0 0 20px var(--accent), 0 0 20px var(--accent);
+            pointer-events: none; transition: 0.8s; opacity: 0.5;
+        }
+
+        #photo {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: contrast(1.1) sepia(0.1);
+            z-index: 2;
+        }
+
+        /* Film Scratch Overlay */
+        .film-scratches {
+            position: absolute; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.2; pointer-events: none; z-index: 5;
+            animation: flicker 0.1s infinite;
+        }
+
+        /* --- SCRIPT BOX (GLASSMORPHISM) --- */
+        .advanced-script {
+            margin-top: 25px; background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px); padding: 25px;
+            border-left: 5px solid var(--gold);
+            border-radius: 0 20px 20px 0;
+            text-align: left; min-height: 180px; transition: 0.5s;
+        }
+
+        .label { font-family: 'Bebas Neue'; color: var(--gold); font-size: 1.2rem; letter-spacing: 2px; }
+        .text-content { margin-bottom: 10px; font-family: 'Special Elite'; font-size: 1.05rem; color: #ddd; }
+
+        /* --- CONTROLS --- */
+        .btn-reel {
+            margin-top: 30px; display: flex; justify-content: center; gap: 20px;
+        }
+
+        .main-btn {
+            background: var(--gold); color: #000;
+            border: none; padding: 15px 45px;
+            font-family: 'Bebas Neue'; font-size: 1.8rem;
+            cursor: pointer; clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%, 5% 50%);
+            transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .main-btn:hover { background: #fff; transform: scale(1.1) rotate(-1deg); }
+
+        .nav-btn {
+            color: var(--gold); text-decoration: none; font-size: 0.8rem;
+            text-transform: uppercase; border: 1px solid var(--gold);
+            padding: 8px 15px; border-radius: 5px; transition: 0.3s;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.1; } 50% { opacity: 0.15; } 100% { opacity: 0.1; }
+        }
+
+        @media (max-width: 600px) {
+            .projector-container { aspect-ratio: 1/1; }
+            .advanced-script { min-height: 220px; font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="cinema-hall">
-        <h1 class="movie-title">MUSKAN SHOW</h1>
-        <p style="letter-spacing: 3px; font-size: 0.7rem; color: #666;">120 CHAPTERS OF US | SCENE <span id="sceneNum">1</span></p>
+    <div class="bg-glow" id="glow"></div>
 
-        <div class="projector-screen">
+    <div class="cinema-wrapper">
+        <div class="movie-header">
+            <h1 class="movie-title">MUSKAN CINEMA</h1>
+            <p style="letter-spacing: 5px; color: var(--gold); font-size: 0.7rem; font-weight: bold;">DIRECTOR'S CUT | SCENE <span id="sNum">1</span></p>
+        </div>
+
+        <div class="projector-container" id="frame">
+            <div class="adaptive-border" id="border"></div>
+            <div class="film-scratches"></div>
             <img id="photo" src="/OUR-LOVE-UNIVERSE/assets/images/home/m1.jpg">
         </div>
 
-        <div class="script-box" id="scriptBox">
-            <span class="script-label">[Narrator]</span>
-            <div id="narrator">The cinematic journey of our love begins here...</div>
-            <span class="script-label">[Dialogue]</span>
-            <div id="dialogue">Are you ready for 120 reasons why I love you?</div>
-            <span class="script-label">[Subtitle]</span>
-            <div id="subtitle">हमारी कहानी का पहला सीन।</div>
+        <div class="advanced-script" id="scriptBox">
+            <div class="label">[ THE NARRATION ]</div>
+            <div class="text-content" id="nText">Initiating the most beautiful film ever made...</div>
+            
+            <div class="label">[ THE DIALOGUE ]</div>
+            <div class="text-content" id="dText">"Every frame of this movie belongs to you, Muskan."</div>
+            
+            <div class="label">[ THE SUBTITLE ]</div>
+            <div class="text-content" id="sText" style="color: var(--gold);">पिक्चर अभी बाकी है मेरे दोस्त...</div>
         </div>
 
-        <div class="btn-container">
-            <button class="ticket-btn" onclick="playNext()">NEXT SCENE</button>
+        <div class="btn-reel">
+            <button class="main-btn" onclick="nextScene()">NEXT FRAME</button>
         </div>
 
-        <div class="btn-container" style="margin-top: 40px;">
-            <a href="home-chapters.html" class="nav-ticket">EXIT</a>
-            <a href="day9.html" class="nav-ticket" style="background: var(--sepia);">DAY 09 🔒</a>
+        <div class="btn-reel" style="margin-top: 40px;">
+            <a href="home-chapters.html" class="nav-btn">HUB</a>
+            <a href="day9.html" class="nav-btn" style="opacity: 0.5;">LOCKED</a>
         </div>
     </div>
 
 <script>
-    // --- 1. SETTINGS ---
+    // --- 1. SETTINGS & POOLS ---
     const basePath = "/OUR-LOVE-UNIVERSE/assets/images/home/";
-    const totalPhotos = 120; 
-    let currentIndex = 1;
+    const totalPhotos = 120;
+    let index = 1;
 
-    // --- 2. THE BIG SCRIPT POOL (Unique for 120 photos) ---
-    const narrations = [
-        "A moment that define pure happiness.", "Captured in the golden light of memory.", "When the universe conspired to make us meet.",
-        "A silent frame, a loud heartbeat.", "The leading lady in her natural element.", "A chapter written in the stars.",
-        "Reflecting the beauty of a thousand dreams.", "Where every pixel tells a love story.", "The magic that only you can create.",
-        "One out of a million reasons to smile."
+    const colors = ["#ffcc00", "#ff0055", "#00f2ff", "#d4af37", "#ffffff", "#00ff77"];
+
+    const nPool = [
+        "A cinematic masterpiece unfolding.", "When the lens captured pure magic.", "A frame that outshines the stars.",
+        "Reflections of a soul so beautiful.", "The most precious scene of my life.", "Art in its most natural form.",
+        "A moment where time stood still.", "Writing our destiny in pixels.", "The heart's favorite viewpoint."
     ];
 
-    const dialogues = [
-        "Muskan, tum is frame mein blockbuster lag rahi ho!", "Meri life ki sabse pyaari actress tum hi ho.", "Ye smile hamesha aise hi barkarar rakhna.",
-        "Tu mazi ti favorite film ahes, ji mala punha punha baghaychi ahe.", "I wish I could freeze this moment forever.", "Har photo mein tum ek nayi kahani lagti ho.",
-        "Tumhare saath bitaya har pal ek award-winning scene hai.", "No retakes needed, you are perfect!", "Ye mera sabse favorite shot hai.",
-        "Is chamak ka raaz kya hai, Muskan?"
+    const dPool = [
+        "Muskan, you are the star of my universe.", "I could watch this scene on repeat forever.", "This smile is worth more than any Oscar.",
+        "Tu mazi favorite actress ahes, Muskan.", "In this movie of life, you're the only lead.", "Stay exactly like this, always.",
+        "Every picture tells a story, and yours is my favorite.", "The camera loves you as much as I do."
     ];
 
-    const subtitles = [
-        "तुम्हारी सादगी ही मेरा चैन है।", "तू आहेस म्हणून सर्व काही सुंदर आहे।", "तेरी आँखों में सारा जहाँ दिखता है।",
-        "<span class='urdu-text'>تمہاری ہنسی میری کائنات کا نور ہے۔</span>", "मेरे दिल के हर कोने में तुम्हारी याद है।",
-        "ये पल हमेशा मेरे पास रहेंगे।", "तुझं हसणं म्हणजे माझं जगणं।", "In every life, I would choose you.",
-        "बस तुम और मैं, और ये हसीन यादें।", "मुस्कान, तुम सच में बहुत खास हो।"
+    const sPool = [
+        "तुम्हारी सादगी ही सबसे बड़ी खूबसूरती है।", "तू आहेस म्हणून सर्व काही सुंदर आहे।", "तेरी आँखों में सारा जहाँ दिखता है।",
+        "<span class='urdu-text'>تمہاری ہنسی میری کائنات کا نور ہے۔</span>", "मुस्कान, तुम सच में बहुत खास हो।"
     ];
 
-    // --- 3. LOGIC ---
-    function playNext() {
-        currentIndex++;
-        if (currentIndex > totalPhotos) currentIndex = 1;
+    // --- 2. ENGINE ---
+    function nextScene() {
+        index++;
+        if (index > totalPhotos) index = 1;
 
         const photo = document.getElementById('photo');
+        const border = document.getElementById('border');
+        const glow = document.getElementById('glow');
         const scriptBox = document.getElementById('scriptBox');
-        document.getElementById('sceneNum').innerText = currentIndex;
+        document.getElementById('sNum').innerText = index;
 
+        // Visual Transition Start
+        photo.style.transform = 'scale(0.8) rotate(5deg)';
         photo.style.opacity = '0';
         scriptBox.style.opacity = '0';
 
         setTimeout(() => {
-            photo.src = basePath + "m" + currentIndex + ".jpg";
+            // Update Photo
+            photo.src = basePath + "m" + index + ".jpg";
 
-            // AI Logic: Har photo number (1-120) ke liye unique combo pick karega
-            const nIndex = (currentIndex * 7) % narrations.length;
-            const dIndex = (currentIndex * 13) % dialogues.length;
-            const sIndex = (currentIndex * 3) % subtitles.length;
+            // Update Random Color Theme
+            const randColor = colors[Math.floor(Math.random() * colors.length)];
+            border.style.boxShadow = `inset 0 0 30px ${randColor}, 0 0 30px ${randColor}`;
+            border.style.borderColor = randColor;
+            glow.style.background = `radial-gradient(circle at 50% 50%, ${randColor}22 0%, transparent 70%)`;
 
-            document.getElementById('narrator').innerHTML = narrations[nIndex];
-            document.getElementById('dialogue').innerHTML = dialogues[dIndex];
-            document.getElementById('subtitle').innerHTML = subtitles[sIndex];
+            // Update Script
+            document.getElementById('nText').innerText = nPool[index % nPool.length];
+            document.getElementById('dText').innerText = dPool[index % dPool.length];
+            document.getElementById('sText').innerHTML = sPool[index % sPool.length];
 
+            // Visual Transition End
             photo.onload = () => {
+                photo.style.transform = 'scale(1) rotate(0deg)';
                 photo.style.opacity = '1';
                 scriptBox.style.opacity = '1';
             };
-        }, 300);
+        }, 400);
     }
 </script>
 </body>
