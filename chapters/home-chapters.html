@@ -3,256 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Voyage Pro | Design #3</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+    <title>Infinite Voyage | Design #4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent: #00f2ff;
-            --accent-glow: rgba(0, 242, 255, 0.5);
-            --bg: #050505;
-            --card-bg: rgba(20, 20, 20, 0.6);
-            --border: rgba(255, 255, 255, 0.1);
+            --neon: #00f2ff;
+            --neon-glow: rgba(0, 242, 255, 0.4);
+            --bg: #020408;
+            --card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            margin: 0; padding: 0; box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg);
-            color: white;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
-        /* Animated Mesh Background */
-        .mesh-bg {
+        /* High-Performance Static Background */
+        .bg-gradient {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(at 0% 0%, rgba(0, 242, 255, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(112, 0, 255, 0.15) 0px, transparent 50%);
+            background: radial-gradient(circle at 20% 30%, #0a1122 0%, #020408 100%);
             z-index: -1;
         }
 
-        /* Responsive Header */
+        /* Modern Sticky Header */
         header {
             position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(20px);
-            padding: 1.5rem;
+            top: 0; z-index: 1000;
+            padding: 1rem 5%;
+            background: rgba(2, 4, 8, 0.85);
+            backdrop-filter: blur(25px);
             border-bottom: 1px solid var(--border);
-        }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
 
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            background: linear-gradient(90deg, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
+        .logo {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            letter-spacing: -1px;
+            font-size: 1.2rem;
+            color: var(--neon);
+            text-transform: uppercase;
         }
 
-        /* Search & Controls */
-        .controls {
-            display: grid;
-            grid-template-columns: 2fr 1fr auto;
-            gap: 10px;
+        .search-container {
+            flex-grow: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-container input {
             width: 100%;
-            max-width: 700px;
-        }
-
-        input {
-            background: var(--card-bg);
+            background: rgba(255,255,255,0.05);
             border: 1px solid var(--border);
             padding: 12px 20px;
             border-radius: 12px;
             color: white;
-            font-family: inherit;
-            transition: 0.3s;
-            width: 100%;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        input:focus {
-            border-color: var(--accent);
+        .search-container input:focus {
             outline: none;
-            box-shadow: 0 0 15px var(--accent-glow);
+            border-color: var(--neon);
+            box-shadow: 0 0 20px var(--neon-glow);
+            background: rgba(255,255,255,0.1);
         }
 
-        .btn-main {
-            background: var(--accent);
-            color: black;
-            border: none;
-            padding: 0 20px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 0.9rem;
+        /* Fast Action UI */
+        .controls-hub {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
-        .btn-main:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--accent-glow);
-        }
-
-        /* Responsive Grid System */
-        .chapter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .chapter-card {
-            background: var(--card-bg);
+        .qty-input {
+            width: 80px;
+            background: transparent;
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 25px;
-            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            padding: 10px;
+            border-radius: 8px;
+            color: var(--neon);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .btn-launch {
+            background: var(--neon);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 800;
             cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .btn-launch:active { transform: scale(0.95); }
+
+        /* Smooth Grid Engine */
+        .voyage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 5%;
+            max-width: 1600px;
+            margin: 0 auto;
+            will-change: transform;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
-            animation: fadeIn 0.5s ease backwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .chapter-card:hover {
-            border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-10px);
-        }
-
-        .chapter-card .badge {
-            font-size: 0.7rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .chapter-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            font-family: 'Space Grotesk';
-        }
-
-        /* Quick Nav Buttons */
-        .fab-container {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            justify-content: flex-end;
+            min-height: 200px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--neon);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-num {
+            font-family: 'Syncopate';
+            font-size: 0.7rem;
+            color: var(--neon);
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        /* Floating Nav Arrows */
+        .floating-nav {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             z-index: 1000;
         }
 
-        .fab {
-            width: 50px;
-            height: 50px;
-            background: var(--accent);
+        .scroll-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 18px;
+            background: var(--neon);
             border: none;
-            border-radius: 15px;
-            color: black;
-            font-size: 1.2rem;
-            font-weight: bold;
+            color: #000;
+            font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.3);
+            transition: 0.3s;
+            display: grid;
+            place-items: center;
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            .controls { grid-template-columns: 1fr; }
-            .chapter-grid { grid-template-columns: 1fr; }
-            header { padding: 1rem; }
+        .scroll-btn:hover { transform: scale(1.1); filter: brightness(1.2); }
+
+        /* Responsive Layouts */
+        @media (max-width: 768px) {
+            header { padding: 1rem; justify-content: center; }
+            .search-container { order: 3; max-width: 100%; }
+            .voyage-grid { grid-template-columns: 1fr; padding: 1rem; }
+            .card { min-height: 160px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="mesh-bg"></div>
+    <div class="bg-gradient"></div>
 
     <header>
-        <div class="nav-content">
-            <h1>Infinite Memories</h1>
-            <div class="controls">
-                <input type="text" id="search" placeholder="Search a memory..." oninput="filter()">
-                <input type="number" id="qty" placeholder="Chapters" min="1">
-                <button class="btn-main" onclick="initTimeline()">GENERATE</button>
-            </div>
+        <div class="logo">VOYAGE.v4</div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search Memory..." oninput="smartSearch()">
+        </div>
+        <div class="controls-hub">
+            <input type="number" id="chapterCount" class="qty-input" value="20">
+            <button class="btn-launch" onclick="engineGenerate()">Generate</button>
         </div>
     </header>
 
-    <div class="chapter-grid" id="container">
+    <div class="voyage-grid" id="mainGrid">
         </div>
 
-    <div class="fab-container">
-        <button class="fab" onclick="window.scrollTo(0,0)">↑</button>
-        <button class="fab" onclick="window.scrollTo(0,document.body.scrollHeight)">↓</button>
+    <div class="floating-nav">
+        <button class="scroll-btn" onclick="window.scrollTo(0,0)">↑</button>
+        <button class="scroll-btn" onclick="window.scrollTo(0,document.body.scrollHeight)">↓</button>
     </div>
 
     <script>
-        const titles = ["Quantum Bond", "Neon Soul", "Digital Heart", "Echoes of Us", "Binary Love", "Cyber Dream", "Stellar Link", "Pulse of Infinity"];
+        const titles = ["NEON GENESIS", "STARDUST ECHO", "CYBER PULSE", "SILENT VOID", "QUANTUM SOUL", "INFINITE LOOP", "GOLDEN RATIO", "BINARY LOVE"];
 
-        function initTimeline() {
-            const container = document.getElementById('container');
-            const qty = document.getElementById('qty').value || 12;
-            container.innerHTML = '';
+        function engineGenerate() {
+            const grid = document.getElementById('mainGrid');
+            const count = document.getElementById('chapterCount').value || 12;
+            
+            // Fast Clear
+            grid.innerHTML = '';
+            
+            // DocumentFragment use for 10x Performance
+            const fragment = document.createDocumentFragment();
 
-            let fragment = document.createDocumentFragment();
-
-            for(let i = 1; i <= qty; i++) {
+            for (let i = 1; i <= count; i++) {
                 const title = titles[Math.floor(Math.random() * titles.length)];
-                const card = document.createElement('div');
-                card.className = 'chapter-card';
-                card.style.animationDelay = `${i * 0.05}s`; // Staggered animation
-                card.onclick = () => window.location.href = `day${i}.html`;
+                const card = document.createElement('a');
+                card.href = `day${i}.html`;
+                card.className = 'card';
                 
                 card.innerHTML = `
-                    <span class="badge">Day ${i}</span>
-                    <h3>${title}</h3>
-                    <p style="color: #888; font-size: 0.8rem;">Click to explore this dimension of our story.</p>
+                    <div class="card-num">CHAPTER // ${i.toString().padStart(3, '0')}</div>
+                    <div class="card-title">${title}</div>
+                    <div style="font-size: 0.7rem; margin-top: 10px; color: #666;">ACCESS MEMORY DATA ></div>
                 `;
+                
                 fragment.appendChild(card);
             }
-            container.appendChild(fragment);
+
+            // Single DOM hit
+            grid.appendChild(fragment);
         }
 
-        function filter() {
-            const val = document.getElementById('search').value.toLowerCase();
-            const cards = document.querySelectorAll('.chapter-card');
+        function smartSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
             
-            cards.forEach(card => {
-                const text = card.innerText.toLowerCase();
-                card.style.display = text.includes(val) ? 'block' : 'none';
+            // Batch style updates for speed
+            requestAnimationFrame(() => {
+                cards.forEach(card => {
+                    const content = card.textContent.toLowerCase();
+                    card.style.display = content.includes(query) ? 'flex' : 'none';
+                });
             });
         }
 
-        // Auto-load 12 chapters on start
-        window.onload = initTimeline;
+        // Initialize on load
+        window.onload = engineGenerate;
     </script>
 </body>
 </html>
