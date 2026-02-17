@@ -3,226 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Infinite Voyage | Muskan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <title>Infinite Voyage Engine | Design #2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Dancing+Script:wght@600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-cyan: #00f2ff;
-            --neon-gold: #ffd700;
-            --space-black: #00050a;
+            --neon-main: #00f2ff;
+            --neon-alt: #7000ff;
+            --gold: #ffd700;
+            --bg-dark: #030303;
         }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
 
         body {
             margin: 0;
-            padding: 0;
-            background: var(--space-black);
+            background: var(--bg-dark);
             color: white;
             font-family: 'Orbitron', sans-serif;
             overflow-x: hidden;
         }
 
-        /* Starry Background Effect */
-        .stars-bg {
+        /* Particles Background Simulation */
+        .bg-canvas {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #001a33 0%, #000 100%);
+            background: radial-gradient(circle at 50% 50%, #0a001a 0%, #000 100%);
             z-index: -1;
         }
 
-        /* Header */
-        .chapter-header {
-            text-align: center;
-            padding: 40px 20px;
-            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
-            background: rgba(0,0,0,0.8);
+        /* Futuristic Header */
+        .smart-nav {
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--neon-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
 
-        .chapter-header h1 {
+        .title-glow {
             font-family: 'Dancing Script', cursive;
             font-size: 2.5rem;
-            color: var(--neon-gold);
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
             margin: 0;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
-        .back-btn {
-            position: absolute;
-            left: 20px; top: 50%;
-            transform: translateY(-50%);
-            color: var(--neon-cyan);
-            text-decoration: none;
-            font-size: 0.8rem;
-            border: 1px solid var(--neon-cyan);
-            padding: 5px 10px;
+        /* Action Bar */
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 600px;
         }
 
-        /* Timeline Container */
-        .timeline {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
+        .action-bar input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-main);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: white;
+            font-family: 'Orbitron';
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .action-bar input:focus { box-shadow: 0 0 15px var(--neon-main); }
+
+        .btn-voyage {
+            background: var(--neon-main);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-voyage:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-main); }
+
+        /* Advanced Timeline Layout */
+        .timeline-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
             position: relative;
         }
 
-        .timeline::before {
-            content: '';
+        .timeline-line {
             position: absolute;
             left: 50%;
-            width: 2px;
+            width: 4px;
             height: 100%;
-            background: linear-gradient(to bottom, var(--neon-cyan), transparent);
+            background: linear-gradient(var(--neon-main), var(--neon-alt), transparent);
             transform: translateX(-50%);
+            box-shadow: 0 0 15px var(--neon-main);
         }
 
-        /* Chapter Card */
-        .chapter-card {
+        /* Chapter Cards */
+        .chapter-node {
             width: 100%;
-            margin-bottom: 60px;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .chapter-node:nth-child(even) { justify-content: flex-end; }
+
+        .chapter-box {
+            width: 45%;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .chapter-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .chapter-box:hover::before { left: 100%; }
+
+        .chapter-box:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--neon-main);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.2);
+        }
+
+        .chapter-num { font-size: 0.8rem; color: var(--neon-alt); letter-spacing: 3px; }
+        .chapter-name { font-size: 1.5rem; margin: 10px 0; color: #fff; font-family: 'Syncopate'; }
+
+        /* Float Controls */
+        .float-nav {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 9999;
+        }
+
+        .nav-circle {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--bg-dark);
+            border: 2px solid var(--neon-main);
+            color: var(--neon-main);
             display: flex;
             justify-content: center;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
-        }
-
-        .chapter-card.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card-content {
-            width: 80%;
-            background: rgba(0, 242, 255, 0.05);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            padding: 25px;
-            border-radius: 15px;
-            position: relative;
-            text-decoration: none;
-            color: white;
-            text-align: center;
-            transition: 0.3s;
-            backdrop-filter: blur(5px);
-        }
-
-        .card-content:hover {
-            border-color: var(--neon-gold);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
-            transform: scale(1.03);
-        }
-
-        .day-label {
-            color: var(--neon-gold);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .day-title {
+            align-items: center;
+            cursor: pointer;
             font-size: 1.5rem;
-            margin: 10px 0;
-            color: white;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
         }
 
-        .day-hint {
-            font-size: 0.7rem;
-            color: #888;
-            font-family: sans-serif;
-            margin-top: 10px;
-        }
+        .nav-circle:hover { background: var(--neon-main); color: black; box-shadow: 0 0 30px var(--neon-main); }
 
-        /* Footer Loader */
-        .loader {
-            text-align: center;
-            padding: 40px;
-            color: var(--neon-cyan);
-            font-size: 0.8rem;
-            letter-spacing: 3px;
-        }
+        /* Search Filter Glow */
+        .searching { border-color: var(--gold) !important; box-shadow: 0 0 20px var(--gold) !important; }
 
-        /* Responsive Mobile */
-        @media (max-width: 600px) {
-            .card-content { width: 95%; }
-            .timeline::before { left: 20px; }
-            .chapter-card { justify-content: flex-start; padding-left: 40px; box-sizing: border-box; }
-            .chapter-header h1 { font-size: 1.8rem; }
+        @media (max-width: 768px) {
+            .timeline-line { left: 20px; }
+            .chapter-box { width: 85%; margin-left: 50px; }
+            .chapter-node, .chapter-node:nth-child(even) { justify-content: flex-start; }
+            .title-glow { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="stars-bg"></div>
+    <div class="bg-canvas"></div>
 
-    <header class="chapter-header">
-        <a href="../home.html" class="back-btn"><< HUB</a>
-        <h1>Our Love Voyage</h1>
-        <p style="font-size: 0.6rem; color: var(--neon-cyan); margin-top: 5px;">EXPLORING INFINITY TOGETHER</p>
-    </header>
-
-    <div class="timeline" id="chapter-list">
+    <nav class="smart-nav">
+        <h1 class="title-glow">Love Voyage Engine</h1>
+        <div class="action-bar">
+            <input type="text" id="searchBar" placeholder="Search memory..." onkeyup="filterChapters()">
+            <input type="number" id="genCount" placeholder="Qty">
+            <button class="btn-voyage" onclick="generateTimeline()">Init Voyage</button>
         </div>
+    </nav>
 
-    <div class="loader" id="loading-trigger">
-        SCANNING NEW DIMENSIONS...
+    <div class="timeline-container">
+        <div class="timeline-line"></div>
+        <div id="timeline-flow"></div>
+    </div>
+
+    <div class="float-nav">
+        <div class="nav-circle" onclick="window.scrollTo(0,0)">▲</div>
+        <div class="nav-circle" onclick="window.scrollTo(0, document.body.scrollHeight)">▼</div>
     </div>
 
     <script>
-        let currentDay = 1;
-        const totalDaysAtOnce = 10; // Ek baar mein 10 din load honge
-        const chapterList = document.getElementById('chapter-list');
-        const loader = document.getElementById('loading-trigger');
+        const titles = ["Echoes of Soul", "Neon Dreams", "Stellar Sync", "Quantum Love", "Infinite Pulse", "Nebula Whisper", "Binary Heart", "Cosmic Bond"];
+        
+        function generateTimeline() {
+            const count = document.getElementById('genCount').value || 10;
+            const container = document.getElementById('timeline-flow');
+            container.innerHTML = ''; // Reset
 
-        // Titles array (Inhe tum change kar sakte ho)
-        const dayTitles = [
-            "The Beginning", "First Interaction", "Deep Connection", 
-            "Moonlight Talk", "Special Feelings", "Our First Vibe",
-            "Universe's Plan", "Pure Magic", "Heartbeat Sync", "Infinity & Beyond"
-        ];
+            let html = '';
+            for(let i = 1; i <= count; i++) {
+                const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+                html += `
+                    <div class="chapter-node">
+                        <div class="chapter-box" onclick="location.href='day${i}.html'">
+                            <div class="chapter-num">MEMORY UNIT ${i}</div>
+                            <div class="chapter-name">${randomTitle}</div>
+                            <div style="font-size: 0.7rem; color: #888;">STATUS: ENCRYPTED > TAP TO DECODE</div>
+                        </div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
 
-        function createChapterCard(dayNum) {
-            const card = document.createElement('div');
-            card.className = 'chapter-card';
-            
-            // Link path check: day1.html, day2.html etc.
-            const dayTitle = dayTitles[(dayNum - 1) % dayTitles.length];
-            
-            card.innerHTML = `
-                <a href="day${dayNum}.html" class="card-content">
-                    <div class="day-label">CHAPTER ${dayNum}</div>
-                    <div class="day-title">${dayTitle}</div>
-                    <div class="day-hint">Tap to unlock this memory</div>
-                </a>
-            `;
-            
-            chapterList.appendChild(card);
-
-            // Animation for appearance
-            setTimeout(() => {
-                card.classList.add('show');
-            }, 100);
+            // Scroll to start of timeline
+            window.scrollTo(0, container.offsetTop - 150);
         }
 
-        function loadMoreChapters() {
-            for(let i = 0; i < totalDaysAtOnce; i++) {
-                createChapterCard(currentDay);
-                currentDay++;
-            }
+        function filterChapters() {
+            const query = document.getElementById('searchBar').value.toLowerCase();
+            const boxes = document.querySelectorAll('.chapter-node');
+            
+            boxes.forEach(box => {
+                const text = box.innerText.toLowerCase();
+                if(text.includes(query)) {
+                    box.style.display = 'flex';
+                    if(query !== "") box.querySelector('.chapter-box').classList.add('searching');
+                    else box.querySelector('.chapter-box').classList.remove('searching');
+                } else {
+                    box.style.display = 'none';
+                }
+            });
         }
 
-        // Infinite Scroll Logic
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                loadMoreChapters();
-            }
-        }, { threshold: 1 });
-
-        observer.observe(loader);
-
-        // Initial Load
-        loadMoreChapters();
+        // Initial Auto-Gen
+        window.onload = () => {
+            document.getElementById('genCount').value = 15;
+            generateTimeline();
+        };
     </script>
 </body>
 </html>
