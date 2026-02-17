@@ -2,266 +2,257 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinite Voyage Engine | Design #2</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Dancing+Script:wght@600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Voyage Pro | Design #3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-main: #00f2ff;
-            --neon-alt: #7000ff;
-            --gold: #ffd700;
-            --bg-dark: #030303;
+            --accent: #00f2ff;
+            --accent-glow: rgba(0, 242, 255, 0.5);
+            --bg: #050505;
+            --card-bg: rgba(20, 20, 20, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        * { box-sizing: border-box; scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
-            margin: 0;
-            background: var(--bg-dark);
+            background-color: var(--bg);
             color: white;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Particles Background Simulation */
-        .bg-canvas {
+        /* Animated Mesh Background */
+        .mesh-bg {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #0a001a 0%, #000 100%);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(at 0% 0%, rgba(0, 242, 255, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(112, 0, 255, 0.15) 0px, transparent 50%);
             z-index: -1;
         }
 
-        /* Futuristic Header */
-        .smart-nav {
+        /* Responsive Header */
+        header {
             position: sticky;
             top: 0;
-            z-index: 1000;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            background: rgba(5, 5, 5, 0.8);
             backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--neon-main);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
+            gap: 1.5rem;
             align-items: center;
-            gap: 15px;
         }
 
-        .title-glow {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            color: var(--gold);
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-            margin: 0;
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
-        /* Action Bar */
-        .action-bar {
-            display: flex;
+        /* Search & Controls */
+        .controls {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
             gap: 10px;
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
         }
 
-        .action-bar input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--neon-main);
-            border-radius: 50px;
+        input {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
             padding: 12px 20px;
+            border-radius: 12px;
             color: white;
-            font-family: 'Orbitron';
-            outline: none;
+            font-family: inherit;
             transition: 0.3s;
-        }
-
-        .action-bar input:focus { box-shadow: 0 0 15px var(--neon-main); }
-
-        .btn-voyage {
-            background: var(--neon-main);
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        .btn-voyage:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--neon-main); }
-
-        /* Advanced Timeline Layout */
-        .timeline-container {
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 0 20px;
-            position: relative;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 50%;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(var(--neon-main), var(--neon-alt), transparent);
-            transform: translateX(-50%);
-            box-shadow: 0 0 15px var(--neon-main);
-        }
-
-        /* Chapter Cards */
-        .chapter-node {
             width: 100%;
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 80px;
-            position: relative;
         }
 
-        .chapter-node:nth-child(even) { justify-content: flex-end; }
+        input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
 
-        .chapter-box {
-            width: 45%;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 20px;
-            position: relative;
+        .btn-main {
+            background: var(--accent);
+            color: black;
+            border: none;
+            padding: 0 20px;
+            border-radius: 12px;
+            font-weight: 700;
             cursor: pointer;
-            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--accent-glow);
+        }
+
+        /* Responsive Grid System */
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .chapter-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px;
+            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            position: relative;
             overflow: hidden;
+            animation: fadeIn 0.5s ease backwards;
         }
 
-        .chapter-box::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.1), transparent);
-            transition: 0.5s;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .chapter-box:hover::before { left: 100%; }
-
-        .chapter-box:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--neon-main);
-            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.2);
+        .chapter-card:hover {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-10px);
         }
 
-        .chapter-num { font-size: 0.8rem; color: var(--neon-alt); letter-spacing: 3px; }
-        .chapter-name { font-size: 1.5rem; margin: 10px 0; color: #fff; font-family: 'Syncopate'; }
+        .chapter-card .badge {
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
 
-        /* Float Controls */
-        .float-nav {
+        .chapter-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-family: 'Space Grotesk';
+        }
+
+        /* Quick Nav Buttons */
+        .fab-container {
             position: fixed;
-            right: 30px;
-            bottom: 30px;
+            right: 20px;
+            bottom: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            z-index: 9999;
+            gap: 10px;
+            z-index: 1000;
         }
 
-        .nav-circle {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: var(--bg-dark);
-            border: 2px solid var(--neon-main);
-            color: var(--neon-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .fab {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border: none;
+            border-radius: 15px;
+            color: black;
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
-            font-size: 1.5rem;
-            transition: 0.3s;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        .nav-circle:hover { background: var(--neon-main); color: black; box-shadow: 0 0 30px var(--neon-main); }
-
-        /* Search Filter Glow */
-        .searching { border-color: var(--gold) !important; box-shadow: 0 0 20px var(--gold) !important; }
-
-        @media (max-width: 768px) {
-            .timeline-line { left: 20px; }
-            .chapter-box { width: 85%; margin-left: 50px; }
-            .chapter-node, .chapter-node:nth-child(even) { justify-content: flex-start; }
-            .title-glow { font-size: 1.8rem; }
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .controls { grid-template-columns: 1fr; }
+            .chapter-grid { grid-template-columns: 1fr; }
+            header { padding: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-canvas"></div>
+    <div class="mesh-bg"></div>
 
-    <nav class="smart-nav">
-        <h1 class="title-glow">Love Voyage Engine</h1>
-        <div class="action-bar">
-            <input type="text" id="searchBar" placeholder="Search memory..." onkeyup="filterChapters()">
-            <input type="number" id="genCount" placeholder="Qty">
-            <button class="btn-voyage" onclick="generateTimeline()">Init Voyage</button>
+    <header>
+        <div class="nav-content">
+            <h1>Infinite Memories</h1>
+            <div class="controls">
+                <input type="text" id="search" placeholder="Search a memory..." oninput="filter()">
+                <input type="number" id="qty" placeholder="Chapters" min="1">
+                <button class="btn-main" onclick="initTimeline()">GENERATE</button>
+            </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="timeline-container">
-        <div class="timeline-line"></div>
-        <div id="timeline-flow"></div>
-    </div>
+    <div class="chapter-grid" id="container">
+        </div>
 
-    <div class="float-nav">
-        <div class="nav-circle" onclick="window.scrollTo(0,0)">▲</div>
-        <div class="nav-circle" onclick="window.scrollTo(0, document.body.scrollHeight)">▼</div>
+    <div class="fab-container">
+        <button class="fab" onclick="window.scrollTo(0,0)">↑</button>
+        <button class="fab" onclick="window.scrollTo(0,document.body.scrollHeight)">↓</button>
     </div>
 
     <script>
-        const titles = ["Echoes of Soul", "Neon Dreams", "Stellar Sync", "Quantum Love", "Infinite Pulse", "Nebula Whisper", "Binary Heart", "Cosmic Bond"];
-        
-        function generateTimeline() {
-            const count = document.getElementById('genCount').value || 10;
-            const container = document.getElementById('timeline-flow');
-            container.innerHTML = ''; // Reset
+        const titles = ["Quantum Bond", "Neon Soul", "Digital Heart", "Echoes of Us", "Binary Love", "Cyber Dream", "Stellar Link", "Pulse of Infinity"];
 
-            let html = '';
-            for(let i = 1; i <= count; i++) {
-                const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-                html += `
-                    <div class="chapter-node">
-                        <div class="chapter-box" onclick="location.href='day${i}.html'">
-                            <div class="chapter-num">MEMORY UNIT ${i}</div>
-                            <div class="chapter-name">${randomTitle}</div>
-                            <div style="font-size: 0.7rem; color: #888;">STATUS: ENCRYPTED > TAP TO DECODE</div>
-                        </div>
-                    </div>
+        function initTimeline() {
+            const container = document.getElementById('container');
+            const qty = document.getElementById('qty').value || 12;
+            container.innerHTML = '';
+
+            let fragment = document.createDocumentFragment();
+
+            for(let i = 1; i <= qty; i++) {
+                const title = titles[Math.floor(Math.random() * titles.length)];
+                const card = document.createElement('div');
+                card.className = 'chapter-card';
+                card.style.animationDelay = `${i * 0.05}s`; // Staggered animation
+                card.onclick = () => window.location.href = `day${i}.html`;
+                
+                card.innerHTML = `
+                    <span class="badge">Day ${i}</span>
+                    <h3>${title}</h3>
+                    <p style="color: #888; font-size: 0.8rem;">Click to explore this dimension of our story.</p>
                 `;
+                fragment.appendChild(card);
             }
-            container.innerHTML = html;
-
-            // Scroll to start of timeline
-            window.scrollTo(0, container.offsetTop - 150);
+            container.appendChild(fragment);
         }
 
-        function filterChapters() {
-            const query = document.getElementById('searchBar').value.toLowerCase();
-            const boxes = document.querySelectorAll('.chapter-node');
+        function filter() {
+            const val = document.getElementById('search').value.toLowerCase();
+            const cards = document.querySelectorAll('.chapter-card');
             
-            boxes.forEach(box => {
-                const text = box.innerText.toLowerCase();
-                if(text.includes(query)) {
-                    box.style.display = 'flex';
-                    if(query !== "") box.querySelector('.chapter-box').classList.add('searching');
-                    else box.querySelector('.chapter-box').classList.remove('searching');
-                } else {
-                    box.style.display = 'none';
-                }
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                card.style.display = text.includes(val) ? 'block' : 'none';
             });
         }
 
-        // Initial Auto-Gen
-        window.onload = () => {
-            document.getElementById('genCount').value = 15;
-            generateTimeline();
-        };
+        // Auto-load 12 chapters on start
+        window.onload = initTimeline;
     </script>
 </body>
 </html>
