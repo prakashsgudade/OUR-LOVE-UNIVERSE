@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 14 | AR Love Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Arial', sans-serif; }
+
+        /* --- AR CAMERA BACKGROUND --- */
+        #video-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1; transform: scaleX(-1); /* Mirror mode */
+        }
+
+        /* --- OVERLAY LAYER --- */
+        .ar-overlay {
+            position: relative; z-index: 10; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; background: rgba(0,0,0,0.3); /* Slight tint for readability */
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- FLOATING PHOTO FRAME --- */
+        .ar-frame {
+            width: 220px; height: 220px; border: 3px solid #d4af37;
+            border-radius: 50%; overflow: hidden;
+            box-shadow: 0 0 30px #d4af37, inset 0 0 20px #d4af37;
+            animation: float 4s ease-in-out infinite;
+            margin-bottom: 30px;
+        }
+        .ar-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        /* --- MESSAGE OVERLAY --- */
+        .glass-card {
+            width: 85%; max-width: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px); border: 1px solid rgba(212,175,55,0.5);
+            border-radius: 20px; padding: 25px; text-align: center;
+            color: #fff; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .day-title {
+            font-family: 'Cinzel Decorative', cursive; color: #d4af37;
+            font-size: 0.8rem; letter-spacing: 5px; margin-bottom: 15px;
+        }
+
+        .ar-msg {
+            font-size: 1.1rem; line-height: 1.6; font-style: italic;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .sig {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
+            color: #d4af37; margin-top: 15px;
+        }
+
+        /* --- START BUTTON (Needed for Camera Access) --- */
+        #start-ar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100; color: #d4af37;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; text-align: center; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="start-ar" onclick="initAR()">
+        <h1 style="font-family: 'Cinzel Decorative';">DAY 14</h1>
+        <p style="margin-top:20px; letter-spacing: 2px;">CLICK TO OPEN YOUR <br> VALENTINE PORTAL</p>
+    </div>
+
+    <video id="video-bg" autoplay playsinline></video>
+
+    <div class="ar-overlay">
+        <div class="ar-frame">
+            <img src="../assets/images/home/m1.jpg" alt="Muskan">
+        </div>
+
+        <div class="glass-card">
+            <div class="day-title">VALENTINE'S AR OVERLAY</div>
+            <div class="ar-msg">
+                "Muskan, <br>
+                Is aaine mein dekho... <br>
+                is jahan ki sabse khoobsurat <br>
+                cheez tum ho, aur mera pyar <br>
+                hamesha tumhare saath hai."
+            </div>
+            <div class="sig">Prakash ❤️</div>
+        </div>
+    </div>
+
+    <script>
+        async function initAR() {
+            const startBtn = document.getElementById('start-ar');
+            const video = document.getElementById('video-bg');
+
+            try {
+                // Request Camera
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "user" }, 
+                    audio: false 
+                });
+                video.srcObject = stream;
+                startBtn.style.display = 'none'; // Hide start screen
+            } catch (err) {
+                alert("Please allow camera access for the AR experience!");
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
