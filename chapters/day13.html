@@ -3,166 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 13 | The Sacred Reflection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Cinzel:wght@700&family=Dancing+Script:wght@700&family=Montserrat:wght@200&display=swap" rel="stylesheet">
+    <title>Day 13 | Prakash & Muskan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Cinzel:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --gold: #d4af37;
-            --bg: #030303;
-            --glass: rgba(255, 255, 255, 0.05);
+            --bg: #050505;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body, html {
-            margin: 0; padding: 0; background-color: var(--bg);
-            color: white; font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden; scroll-behavior: smooth;
+        body {
+            margin: 0; padding: 0; background: var(--bg);
+            color: white; font-family: 'Arial', sans-serif;
+            display: flex; flex-direction: column; align-items: center;
+            overflow-x: hidden;
         }
 
-        /* --- BACKGROUND GRADIENT --- */
-        .bg-gradient {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #030303 100%);
-            z-index: -1;
-        }
-
-        /* --- UNIQUE 3D PHOTO LAYOUT --- */
-        .hero-section {
-            height: 100vh; display: flex; align-items: center; justify-content: center;
-            perspective: 1000px; padding: 20px;
-        }
-
-        .diamond-frame {
-            position: relative; width: 300px; height: 400px;
-            transform: rotateY(-10deg) rotateX(10deg);
-            transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        /* --- THE ADVANCED PHOTO LAYOUT --- */
+        .shrine-wrapper {
+            margin-top: 40px; position: relative;
+            padding: 10px; border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 150px 150px 20px 20px;
             z-index: 10;
         }
 
-        .diamond-frame:hover, .diamond-frame:active {
-            transform: rotateY(0deg) rotateX(0deg) scale(1.05);
+        .photo-frame {
+            width: 280px; height: 380px;
+            border-radius: 140px 140px 15px 15px;
+            overflow: hidden; border: 3px solid var(--gold);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
         }
 
-        .photo-wrapper {
+        .photo-frame img {
             width: 100%; height: 100%;
-            border: 2px solid var(--gold);
-            border-radius: 40px 0 40px 0; /* Unique Arched Cut */
-            overflow: hidden; box-shadow: 20px 20px 60px rgba(0,0,0,0.8);
-            background: #000;
+            object-fit: cover; /* Photo stretch nahi hogi */
+            display: block;
         }
 
-        .photo-wrapper img {
-            width: 100%; height: 100%; object-fit: cover;
-            opacity: 0.9; transition: 1s;
+        /* --- TEXT CONTENT --- */
+        .message-card {
+            width: 90%; max-width: 380px; margin-top: -50px;
+            background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(20px);
+            border: 1px solid var(--gold); border-radius: 30px;
+            padding: 40px 20px 30px; text-align: center;
+            z-index: 20; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
-        .frame-label {
-            position: absolute; bottom: -20px; right: -20px;
-            font-family: 'Cinzel', serif; color: var(--gold);
-            font-size: 0.7rem; letter-spacing: 5px; background: var(--bg);
-            padding: 10px 20px; border: 1px solid var(--gold);
-        }
-
-        /* --- CONTENT SCROLL --- */
-        .scroll-reveal {
-            padding: 80px 20px; display: flex; flex-direction: column; align-items: center;
-        }
-
-        .glass-card {
-            background: var(--glass); backdrop-filter: blur(20px);
-            border-left: 5px solid var(--gold); padding: 40px 25px;
-            width: 100%; max-width: 380px; text-align: center;
-            border-radius: 0 30px 30px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-        }
-
-        .urdu-shine {
+        .urdu-text {
             font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 1.8rem; color: var(--gold); line-height: 2.5;
-            margin-bottom: 20px; direction: rtl;
+            font-size: 1.6rem; color: var(--gold); line-height: 2.8;
+            margin-bottom: 15px;
         }
 
-        .message-p {
-            font-size: 1rem; line-height: 1.8; color: #ccc;
-            font-weight: 200; letter-spacing: 1px;
+        .deep-msg {
+            font-size: 1.05rem; line-height: 1.8; color: #eee;
+            font-style: italic; margin-bottom: 25px;
         }
+
+        .symbols { font-size: 30px; margin-bottom: 10px; }
 
         .signature {
-            font-family: 'Dancing Script', cursive; font-size: 2.5rem;
-            color: var(--gold); margin-top: 30px;
+            font-family: 'Dancing Script', cursive; font-size: 2.4rem;
+            color: var(--gold);
         }
 
-        /* --- SYMBOL MERGE --- */
-        .merge-icon {
-            margin: 20px 0; font-size: 30px; display: flex;
-            justify-content: center; gap: 30px; opacity: 0.6;
+        .day-tag {
+            font-family: 'Cinzel'; font-size: 0.6rem; letter-spacing: 5px;
+            color: #555; margin-top: 20px;
         }
-
-        .scroll-text {
-            position: absolute; bottom: 30px; color: var(--gold);
-            font-size: 0.6rem; letter-spacing: 3px; animation: bounce 2s infinite;
-        }
-        @keyframes bounce { 0%, 100% {transform:translateY(0)} 50% {transform:translateY(-10px)} }
-
     </style>
 </head>
 <body>
 
-    <div class="bg-gradient"></div>
-
-    <section class="hero-section">
-        <div class="diamond-frame">
-            <div class="photo-wrapper">
-                <img src="assets/images/home/m1.jpg" alt="Muskan">
-            </div>
-            <div class="frame-label">NOOR-E-MUSKAN</div>
+    <div class="shrine-wrapper">
+        <div class="photo-frame">
+            <img src="../assets/images/home/m1.jpg" alt="Muskan's Photo">
         </div>
-        <div class="scroll-text">SCROLL FOR SUKOON ↓</div>
-    </section>
+    </div>
 
-    <section class="scroll-reveal">
-        <div class="glass-card">
-            <div class="urdu-shine">
-                تیرا ساتھ، میرا سکون
-            </div>
-
-            <div class="merge-icon">
-                <span>🪷</span>
-                <span>🌙</span>
-            </div>
-
-            <div class="message-p">
-                "Muskan, <br>
-                Zindagi ke 13 dinon ne mujhe sikhaya ki <br>
-                ibadat kisi bhi raste se ho... <br>
-                agar dil saaf ho toh manzil mil hi jati hai. <br><br>
-                Main apne <b>'Zen'</b> se tumhare <b>'Imaan'</b> tak <br>
-                ek aisa rasta banana chahta hoon <br>
-                jahan sirf Mohabbat ka 'Prakash' ho. <br>
-                Tum meri her dua ka 'Ameen' ho."
-            </div>
-
-            <div class="signature">Prakash</div>
-            <p style="font-size: 0.5rem; letter-spacing: 5px; color: #666; margin-top: 20px;">DAY THIRTEEN | UNBREAKABLE</p>
+    <div class="message-card">
+        <div class="symbols">🪷 🌙</div>
+        <div class="urdu-text">تیرا نور، میرا سکون</div>
+        
+        <div class="deep-msg">
+            "Muskan, <br>
+            Buddhist granthon mein likha hai ki 'Prem' hi moksh hai. <br>
+            Aur tumhare chehre par jo 'Noor' hai, <br>
+            wahi meri ibadat hai. <br><br>
+            Day 13: Hamare darmiyan dharam ki koi deewar nahi, <br>
+            sirf dosti aur mohabbat ka 'Prakash' hai."
         </div>
 
-        <button onclick="window.scrollTo({top:0, behavior:'smooth'})" style="margin-top:40px; background:none; border:1px solid var(--gold); color:var(--gold); padding:10px 20px; border-radius:50px; cursor:pointer;">RE-ENLIGHTEN</button>
-    </section>
+        <div class="signature">Prakash</div>
+        <div class="day-tag">THIRTEEN DAYS OF TRUTH</div>
+    </div>
 
-    <script>
-        // JS Scroll Parallax for the 3D Frame
-        window.addEventListener('scroll', () => {
-            const scroll = window.pageYOffset;
-            const frame = document.querySelector('.diamond-frame');
-            // Smoothly straighten the frame as user scrolls
-            const rotateY = -10 + (scroll / 50);
-            const rotateX = 10 - (scroll / 50);
-            
-            if(scroll < 500) {
-                frame.style.transform = `rotateY(${rotateY > 0 ? 0 : rotateY}deg) rotateX(${rotateX < 0 ? 0 : rotateX}deg)`;
-            }
-        });
-    </script>
 </body>
 </html>
