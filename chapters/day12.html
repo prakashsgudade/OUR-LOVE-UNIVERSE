@@ -3,127 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 13 | Eternal Union</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Cinzel:wght@700&family=Dancing+Script:wght@700&family=Playfair+Display:italic,wght@400&display=swap" rel="stylesheet">
+    <title>Day 13 | The Eternal Bond</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@700&family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --gold: #d4af37;
-            --silver: #f0f0f0;
-            --bg: #060606;
+            --silver: #e0e0e0;
+            --bg-deep: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body, html {
-            margin: 0; padding: 0; background-color: var(--bg);
-            color: white; font-family: 'Playfair Display', serif;
+            margin: 0; padding: 0; background-color: var(--bg-deep);
+            color: white; font-family: 'Quicksand', sans-serif;
             overflow-x: hidden; scroll-behavior: smooth;
         }
 
         /* --- BACKGROUND PARTICLES --- */
-        #canvas { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none; }
+        #particle-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO PORTRAIT SECTION --- */
         .hero {
             height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; text-align: center;
-            position: relative; z-index: 10;
+            align-items: center; justify-content: center; position: relative; z-index: 10;
         }
 
-        .shrine-gate {
-            width: 280px; height: 380px;
-            border: 3px solid var(--gold);
-            border-radius: 140px 140px 20px 20px;
-            overflow: hidden; box-shadow: 0 0 50px rgba(212, 175, 55, 0.4);
-            transform: scale(0.9); transition: 1.5s ease-out;
+        .shrine-frame {
+            width: 270px; height: 370px;
+            border: 2px solid var(--gold);
+            border-radius: 135px 135px 20px 20px; /* Royal Arch */
+            overflow: hidden; box-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
+            transform: scale(0.95); transition: 1.5s ease-out;
+            position: relative;
         }
 
-        .shrine-gate img { width: 100%; height: 100%; object-fit: cover; }
+        .shrine-frame img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: contrast(1.1) brightness(1.1);
+        }
 
-        .scroll-indicator {
-            position: absolute; bottom: 30px; animation: bounce 2s infinite;
-            color: var(--gold); font-size: 0.7rem; letter-spacing: 3px;
+        .scroll-down {
+            position: absolute; bottom: 40px; color: var(--gold);
+            font-size: 0.65rem; letter-spacing: 4px; font-family: 'Cinzel Decorative';
+            animation: bounce 2s infinite; text-align: center;
         }
 
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
 
-        /* --- SCROLL CONTENT SECTION --- */
-        .content-section {
-            padding: 100px 20px; position: relative; z-index: 10;
+        /* --- CONTENT SECTION --- */
+        .scroll-content {
+            padding: 50px 20px 100px; position: relative; z-index: 10;
             display: flex; flex-direction: column; align-items: center;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px); border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 30px; padding: 40px 25px; width: 100%; max-width: 380px;
-            text-align: center; margin-bottom: 50px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        .glass-scroll {
+            background: var(--glass); backdrop-filter: blur(25px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 30px; padding: 45px 25px; width: 100%; max-width: 380px;
+            text-align: center; margin-bottom: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
 
-        .urdu-calligraphy {
+        .urdu-text {
             font-family: 'Noto Nastaliq Urdu', serif;
-            font-size: 1.8rem; color: var(--gold); line-height: 2.5;
-            margin-bottom: 30px; direction: rtl;
+            font-size: 1.7rem; color: var(--gold); line-height: 2.8;
+            margin-bottom: 25px; direction: rtl;
         }
 
-        .main-msg { font-size: 1.1rem; line-height: 1.8; color: #efefef; }
+        .message-body {
+            font-size: 1.05rem; line-height: 1.9; color: #e0e0e0;
+            font-style: italic;
+        }
 
-        .symbol-float {
-            font-size: 40px; margin: 30px 0; opacity: 0.8;
+        .message-body b { color: var(--gold); }
+
+        .symbols-union {
+            font-size: 35px; margin: 25px 0; opacity: 0.9;
             filter: drop-shadow(0 0 10px var(--gold));
+            display: flex; justify-content: center; gap: 20px;
         }
 
         .signature {
-            font-family: 'Dancing Script', cursive; font-size: 2.5rem;
+            font-family: 'Dancing Script', cursive; font-size: 2.6rem;
             color: var(--gold); margin-top: 20px;
         }
 
-        /* --- JS REFRESH REVEAL --- */
-        .reveal { opacity: 0; transform: translateY(50px); transition: 1.5s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        /* --- REFRESH BUTTON --- */
+        .refresh-btn {
+            background: none; border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--gold); padding: 12px 25px; border-radius: 50px;
+            font-size: 0.7rem; letter-spacing: 2px; cursor: pointer;
+            transition: 0.3s; margin-top: 20px;
+        }
+
+        .refresh-btn:active { background: var(--gold); color: black; }
+
+        /* --- JS REVEAL ANIMATION --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
     </style>
 </head>
 <body>
 
-    <canvas id="canvas"></canvas>
+    <canvas id="particle-canvas"></canvas>
 
     <section class="hero">
-        <div class="shrine-gate" id="heroPhoto">
-            <img src="assets/images/home/m1.jpg" alt="Muskan">
+        <div class="shrine-frame" id="photoFrame">
+            <img src="../assets/image/home/m1.jpg" alt="Muskan">
         </div>
-        <div class="scroll-indicator">SCROLL DOWN MY NOOR ↓</div>
+        <div class="scroll-down">SCROLL FOR MAGIC ↓</div>
     </section>
 
-    <section class="content-section">
-        <div class="glass-card reveal">
-            <div class="urdu-calligraphy">محبت میں ہی شانتی ہے</div>
+    <section class="scroll-content">
+        <div class="glass-scroll reveal">
+            <div class="urdu-text">عشق کا کوئی مذہب نہیں ہوتا</div>
             
-            <div class="symbol-float">🪷 🌙</div>
-
-            <div class="main-msg">
-                "Muskan, <br>
-                Zindagi ke do kinare ho sakte hain, <br>
-                lekin darya (river) ek hi hai. <br><br>
-                Mera Buddhist <b>'Sukoon'</b> aur tumhari Islamic <b>'Dua'</b> <br>
-                milkar ek aisa jahan banate hain jise log <br>
-                <b>Mohabbat</b> kehte hain. <br><br>
-                Day 13: Tumse milkar maine jaana ki <br>
-                Khuda aur Buddha dono sirf <br>
-                dil ki sacchai dekhte hain."
+            <div class="symbols-union">
+                <span>🪷</span>
+                <span>🌙</span>
             </div>
 
-            <div class="signature">Always Your Prakash</div>
-            <p style="font-family: 'Cinzel'; font-size: 0.6rem; color: var(--gold); margin-top: 20px; letter-spacing: 5px;">THIRTEEN DAYS OF BLISS</p>
+            <div class="message-body">
+                "Muskan, <br>
+                Zindagi ke 13 din aur mere liye <br>
+                sadiyon ka sukoon... <br><br>
+                Mera Buddhist <b>'Prakash'</b> (Light) tabhi pura hai <br>
+                jab usme tumhara Islamic <b>'Noor'</b> shamil ho. <br>
+                Hum dono ka rishta dharam se nahi, <br>
+                ruhaniyat aur sacchai se juda hai."
+            </div>
+
+            <div class="signature">Prakash ❤️ Muskan</div>
+            <p style="font-family: 'Cinzel Decorative'; font-size: 0.6rem; color: #666; margin-top: 25px; letter-spacing: 5px;">DAY 13 | ETERNAL PEACE</p>
         </div>
 
-        <button onclick="location.reload()" style="background:none; border:1px solid var(--gold); color:var(--gold); padding:10px 20px; border-radius:50px; font-size:0.7rem; cursor:pointer; opacity:0.5;">REFRESH THE MAGIC</button>
+        <button class="refresh-btn" onclick="window.scrollTo({top:0, behavior:'smooth'}); setTimeout(()=>location.reload(), 800);">REFRESH THE FEEL</button>
     </section>
 
     <script>
-        // Particle System
-        const canvas = document.getElementById('canvas');
+        // --- PARTICLE BACKGROUND ---
+        const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -133,15 +156,15 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2;
-                this.speedY = Math.random() * -0.3;
+                this.size = Math.random() * 1.5;
+                this.speedY = Math.random() * -0.2;
             }
             update() {
                 this.y += this.speedY;
                 if (this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = 'rgba(212, 175, 55, 0.4)';
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.3)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -149,7 +172,7 @@
         }
 
         function init() {
-            for (let i = 0; i < 80; i++) particles.push(new Particle());
+            for (let i = 0; i < 70; i++) particles.push(new Particle());
         }
 
         function animate() {
@@ -158,25 +181,30 @@
             requestAnimationFrame(animate);
         }
 
-        // Scroll Reveal Logic
+        // --- SCROLL EFFECTS ---
         window.addEventListener('scroll', () => {
             const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+
             reveals.forEach(r => {
-                const windowHeight = window.innerHeight;
                 const revealTop = r.getBoundingClientRect().top;
-                if (revealTop < windowHeight - 150) {
-                    r.classList.add('visible');
+                if (revealTop < windowHeight - 100) {
+                    r.classList.add('active');
                 }
             });
 
-            // Parallax effect for photo
+            // Parallax on Photo
             const scroll = window.pageYOffset;
-            document.getElementById('heroPhoto').style.transform = `scale(${0.9 + scroll/2000}) translateY(${scroll/5}px)`;
+            const frame = document.getElementById('photoFrame');
+            frame.style.transform = `scale(${1 - scroll/3000}) translateY(${scroll/8}px)`;
         });
 
         init(); animate();
-        // Trigger photo animation on load
-        window.onload = () => { document.getElementById('heroPhoto').style.transform = "scale(1)"; };
+        
+        // Initial load animation
+        window.onload = () => {
+            document.getElementById('photoFrame').style.transform = "scale(1)";
+        };
     </script>
 </body>
 </html>
