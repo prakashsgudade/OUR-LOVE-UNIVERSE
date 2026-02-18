@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 13 | The Sacred Reflection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Cinzel:wght@700&family=Dancing+Script:wght@700&family=Montserrat:wght@200&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #d4af37;
+            --bg: #030303;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            margin: 0; padding: 0; background-color: var(--bg);
+            color: white; font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden; scroll-behavior: smooth;
+        }
+
+        /* --- BACKGROUND GRADIENT --- */
+        .bg-gradient {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #030303 100%);
+            z-index: -1;
+        }
+
+        /* --- UNIQUE 3D PHOTO LAYOUT --- */
+        .hero-section {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            perspective: 1000px; padding: 20px;
+        }
+
+        .diamond-frame {
+            position: relative; width: 300px; height: 400px;
+            transform: rotateY(-10deg) rotateX(10deg);
+            transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 10;
+        }
+
+        .diamond-frame:hover, .diamond-frame:active {
+            transform: rotateY(0deg) rotateX(0deg) scale(1.05);
+        }
+
+        .photo-wrapper {
+            width: 100%; height: 100%;
+            border: 2px solid var(--gold);
+            border-radius: 40px 0 40px 0; /* Unique Arched Cut */
+            overflow: hidden; box-shadow: 20px 20px 60px rgba(0,0,0,0.8);
+            background: #000;
+        }
+
+        .photo-wrapper img {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.9; transition: 1s;
+        }
+
+        .frame-label {
+            position: absolute; bottom: -20px; right: -20px;
+            font-family: 'Cinzel', serif; color: var(--gold);
+            font-size: 0.7rem; letter-spacing: 5px; background: var(--bg);
+            padding: 10px 20px; border: 1px solid var(--gold);
+        }
+
+        /* --- CONTENT SCROLL --- */
+        .scroll-reveal {
+            padding: 80px 20px; display: flex; flex-direction: column; align-items: center;
+        }
+
+        .glass-card {
+            background: var(--glass); backdrop-filter: blur(20px);
+            border-left: 5px solid var(--gold); padding: 40px 25px;
+            width: 100%; max-width: 380px; text-align: center;
+            border-radius: 0 30px 30px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .urdu-shine {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 1.8rem; color: var(--gold); line-height: 2.5;
+            margin-bottom: 20px; direction: rtl;
+        }
+
+        .message-p {
+            font-size: 1rem; line-height: 1.8; color: #ccc;
+            font-weight: 200; letter-spacing: 1px;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive; font-size: 2.5rem;
+            color: var(--gold); margin-top: 30px;
+        }
+
+        /* --- SYMBOL MERGE --- */
+        .merge-icon {
+            margin: 20px 0; font-size: 30px; display: flex;
+            justify-content: center; gap: 30px; opacity: 0.6;
+        }
+
+        .scroll-text {
+            position: absolute; bottom: 30px; color: var(--gold);
+            font-size: 0.6rem; letter-spacing: 3px; animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%, 100% {transform:translateY(0)} 50% {transform:translateY(-10px)} }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-gradient"></div>
+
+    <section class="hero-section">
+        <div class="diamond-frame">
+            <div class="photo-wrapper">
+                <img src="assets/images/home/m1.jpg" alt="Muskan">
+            </div>
+            <div class="frame-label">NOOR-E-MUSKAN</div>
+        </div>
+        <div class="scroll-text">SCROLL FOR SUKOON ↓</div>
+    </section>
+
+    <section class="scroll-reveal">
+        <div class="glass-card">
+            <div class="urdu-shine">
+                تیرا ساتھ، میرا سکون
+            </div>
+
+            <div class="merge-icon">
+                <span>🪷</span>
+                <span>🌙</span>
+            </div>
+
+            <div class="message-p">
+                "Muskan, <br>
+                Zindagi ke 13 dinon ne mujhe sikhaya ki <br>
+                ibadat kisi bhi raste se ho... <br>
+                agar dil saaf ho toh manzil mil hi jati hai. <br><br>
+                Main apne <b>'Zen'</b> se tumhare <b>'Imaan'</b> tak <br>
+                ek aisa rasta banana chahta hoon <br>
+                jahan sirf Mohabbat ka 'Prakash' ho. <br>
+                Tum meri her dua ka 'Ameen' ho."
+            </div>
+
+            <div class="signature">Prakash</div>
+            <p style="font-size: 0.5rem; letter-spacing: 5px; color: #666; margin-top: 20px;">DAY THIRTEEN | UNBREAKABLE</p>
+        </div>
+
+        <button onclick="window.scrollTo({top:0, behavior:'smooth'})" style="margin-top:40px; background:none; border:1px solid var(--gold); color:var(--gold); padding:10px 20px; border-radius:50px; cursor:pointer;">RE-ENLIGHTEN</button>
+    </section>
+
+    <script>
+        // JS Scroll Parallax for the 3D Frame
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            const frame = document.querySelector('.diamond-frame');
+            // Smoothly straighten the frame as user scrolls
+            const rotateY = -10 + (scroll / 50);
+            const rotateX = 10 - (scroll / 50);
+            
+            if(scroll < 500) {
+                frame.style.transform = `rotateY(${rotateY > 0 ? 0 : rotateY}deg) rotateX(${rotateX < 0 ? 0 : rotateX}deg)`;
+            }
+        });
+    </script>
+</body>
+</html>
