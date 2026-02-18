@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 13 | The Sacred Union</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@700&family=Playfair+Display:italic,wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --silver: #e0e0e0;
+            --bg: #030508;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: var(--bg); overflow: hidden;
+            color: white; font-family: 'Playfair Display', serif;
+        }
+
+        #canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+        /* --- PRE-REVEAL STATE --- */
+        .shrine-wrapper {
+            position: relative; z-index: 10; width: 100%; height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 1.5s ease;
+        }
+
+        .portal-trigger {
+            width: 120px; height: 120px; border: 2px solid var(--gold);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; position: relative; animation: pulse 2s infinite;
+        }
+
+        .portal-trigger span { font-size: 2.5rem; filter: drop-shadow(0 0 10px var(--gold)); }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px var(--gold); }
+            50% { transform: scale(1.1); box-shadow: 0 0 40px var(--gold); }
+            100% { transform: scale(1); box-shadow: 0 0 20px var(--gold); }
+        }
+
+        /* --- REVEAL CONTENT --- */
+        .main-content {
+            display: none; opacity: 0; flex-direction: column; align-items: center;
+            transition: 2s; width: 90%;
+        }
+
+        .photo-frame {
+            width: 260px; height: 360px;
+            border-radius: 130px 130px 10px 10px;
+            overflow: hidden; border: 3px solid var(--gold);
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.4);
+            margin-bottom: 20px; transform: scale(0.8); transition: 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); }
+
+        .glass-msg {
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 25px; border-radius: 20px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .urdu-text {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.3rem;
+            color: var(--gold); margin-bottom: 15px; direction: rtl; line-height: 2.2;
+        }
+
+        .hindi-love { font-size: 0.95rem; line-height: 1.6; color: var(--silver); }
+
+        .sig { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--gold); margin-top: 15px; }
+
+        .opened .portal-trigger { display: none; }
+        .opened .main-content { display: flex; opacity: 1; }
+        .opened .photo-frame { transform: scale(1); }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="shrine-wrapper" id="wrapper">
+        <div class="portal-trigger" id="trigger" onclick="openShrine()">
+            <span>🪷🌙</span>
+        </div>
+
+        <div class="main-content" id="content">
+            <div class="photo-frame">
+                <img src="OUR-LOVE-UNIVERSE/assets/images/home/m1.jpg" alt="Muskan's Noor">
+            </div>
+
+            <div class="glass-msg">
+                <div class="urdu-text">جہاں محبت ہے وہاں خدا ہے۔</div>
+                <div class="hindi-love">
+                    "Muskan, <br>
+                    Mera <b>Zen</b> tumhare <b>Noor</b> ke bina adhoora hai. <br>
+                    Day 13 par main bas yehi kehna chahta hoon... <br>
+                    Dharam humein rasta dikhate hain, <br>
+                    lekin <b>Mohabbat</b> humein manzil tak pahunchati hai. <br>
+                    Tum meri manzil ho."
+                </div>
+                <div class="sig">Always yours, Prakash</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for Magical Opening
+        function openShrine() {
+            const wrapper = document.getElementById('wrapper');
+            const content = document.getElementById('content');
+            
+            wrapper.classList.add('opened');
+            content.style.display = 'flex';
+            setTimeout(() => { content.style.opacity = '1'; }, 100);
+        }
+
+        // --- ADVANCED PARTICLE ENGINE ---
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = Math.random() > 0.5 ? '#d4af37' : '#ffffff';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if(this.x > canvas.width) this.x = 0;
+                if(this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for(let i=0; i<100; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        init(); animate();
+
+        // Responsive resize
+        window.onresize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+    </script>
+</body>
+</html>
