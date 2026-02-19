@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 15 | Soul Echo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@200;400&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #e94057;
+            --bg: #0d0d0d;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg);
+            color: white; font-family: 'Montserrat', sans-serif;
+            height: 100vh; display: flex; align-items: center;
+            justify-content: center; overflow: hidden;
+        }
+
+        .container {
+            width: 90%; max-width: 400px; text-align: center;
+            position: relative; z-index: 10;
+        }
+
+        /* --- THE ECHO PHOTO --- */
+        .photo-box {
+            position: relative; width: 220px; height: 220px;
+            margin: 0 auto 50px;
+        }
+
+        .photo-box img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 50%; border: 2px solid var(--accent);
+            position: relative; z-index: 5;
+        }
+
+        /* Pulsing Rings (Echo) */
+        .ring {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border: 2px solid var(--accent); border-radius: 50%;
+            animation: echo 3s linear infinite; opacity: 0;
+        }
+        .ring:nth-child(2) { animation-delay: 1s; }
+        .ring:nth-child(3) { animation-delay: 2s; }
+
+        @keyframes echo {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        /* --- VISUALIZER BARS --- */
+        .visualizer {
+            display: flex; justify-content: center; gap: 4px; height: 40px; margin-bottom: 30px;
+        }
+        .bar {
+            width: 3px; background: var(--accent);
+            animation: bounce 1s ease-in-out infinite alternate;
+        }
+        @keyframes bounce {
+            0% { height: 5px; } 100% { height: 40px; }
+        }
+        /* Random delays for natural look */
+        .bar:nth-child(1) { animation-delay: 0.1s; } .bar:nth-child(2) { animation-delay: 0.4s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; } .bar:nth-child(4) { animation-delay: 0.6s; }
+        .bar:nth-child(5) { animation-delay: 0.3s; }
+
+        /* --- CONTENT CARD --- */
+        .glass-msg {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px); border-radius: 20px;
+            padding: 30px 20px; border: 1px solid rgba(233, 64, 87, 0.2);
+        }
+
+        .urdu {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.5rem;
+            color: var(--accent); margin-bottom: 20px; line-height: 2.5;
+        }
+
+        .text { font-weight: 200; line-height: 1.6; letter-spacing: 1px; color: #ccc; }
+
+        .sig {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
+            color: var(--accent); margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="photo-box">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <img src="../assets/images/home/m68.jpg" alt="Muskan">
+        </div>
+
+        <div class="visualizer">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+
+        <div class="glass-msg">
+            <div class="urdu">تم میری خاموشی کا شور ہو</div>
+            <div class="text">
+                "Muskan, <br>
+                Zindagi ke 15 din beet gaye, <br>
+                lekin har guzarte din ke saath <br>
+                tumhare liye mera ehsaas aur gehra ho raha hai. <br>
+                Tum sirf meri dost nahi, mera sukoon ho."
+            </div>
+            <div class="sig">Prakash</div>
+        </div>
+    </div>
+
+</body>
+</html>
