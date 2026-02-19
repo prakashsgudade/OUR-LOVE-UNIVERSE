@@ -1,36 +1,35 @@
 :root { --accent: #ff4d6d; }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: #050505; color: white; font-family: 'Quicksand', sans-serif; overflow-x: hidden; }
+body { background: #000; color: white; font-family: 'Quicksand', sans-serif; overflow-x: hidden; }
 
-#particles-layer { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100; }
-.particle { position: fixed; top:-50px; animation: fall 5s linear infinite; }
-@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+#particles-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+.particle { position: fixed; top: -5vh; animation: fall linear infinite; }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
-.main-wrapper { width: 90%; max-width: 400px; margin: 50px auto; }
+.main-wrapper { width: 92%; max-width: 420px; margin: 40px auto; position: relative; z-index: 10; }
 .glass-container { 
-    background: rgba(20,20,20,0.8); backdrop-filter: blur(15px); border-radius: 30px; 
-    padding: 25px; border: 1px solid rgba(255,255,255,0.1); border-top: 4px solid var(--accent);
-    text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); border-radius: 40px; padding: 25px; 
+    border: 1px solid rgba(255,255,255,0.1); border-top: 5px solid var(--accent); box-shadow: 0 25px 60px rgba(0,0,0,1);
 }
 
-.img-frame { width: 100%; height: 350px; border-radius: 20px; overflow: hidden; position: relative; border: 2px solid var(--accent); }
-.img-frame img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-.blur-reveal { filter: blur(30px); cursor: pointer; }
-.blur-reveal.clear { filter: blur(0); }
+/* AI Chat Styles */
+.chat-box { height: 300px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
+.msg { margin-bottom: 10px; padding: 10px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
+.bot { background: rgba(255,255,255,0.1); align-self: flex-start; text-align: left; }
+.user { background: var(--accent); color: black; margin-left: auto; text-align: right; }
+.chat-input-area { display: flex; gap: 5px; }
+.chat-input-area input { flex: 1; padding: 12px; border-radius: 20px; border: none; background: #222; color: white; }
 
-.heart-btn { width: 100%; padding: 15px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-.secret-box { max-height: 0; opacity: 0; overflow: hidden; transition: 0.5s; background: rgba(255,255,255,0.05); margin-top: 10px; border-radius: 15px; }
-.secret-box.show { max-height: 200px; opacity: 1; padding: 15px; border: 1px dashed var(--accent); }
+/* Stats Styles */
+.stat-card { text-align: left; margin: 15px 0; }
+.bar { width: 100%; height: 10px; background: #333; border-radius: 5px; margin-top: 5px; overflow: hidden; }
+.fill { height: 100%; transition: 1s ease-in-out; }
+.pulse { animation: pulseStat 1s infinite; }
+@keyframes pulseStat { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-/* Layouts */
-.quiz-opt { width: 100%; padding: 10px; margin: 5px 0; background: rgba(255,255,255,0.1); border: 1px solid var(--accent); color: white; border-radius: 10px; }
-.letter-bg { background: #fff5f5 !important; color: #333 !important; }
-.letter-content { font-family: 'Dancing Script'; font-size: 1.5rem; text-align: left; }
-.disc-player img { width: 200px; height: 200px; border-radius: 50%; border: 10px solid #222; animation: rotate 4s linear infinite; }
-@keyframes rotate { from { transform: rotate(0); } to { transform: rotate(360deg); } }
-.gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-.gallery-grid img { width: 100%; border-radius: 10px; }
+/* Interactive Styles */
+.big-heart { font-size: 80px; cursor: pointer; transition: 0.2s; margin: 20px 0; }
+.secret-box { max-height: 0; opacity: 0; overflow: hidden; transition: 0.5s; background: rgba(255,255,255,0.05); border-radius: 20px; }
+.secret-box.show { max-height: 200px; opacity: 1; padding: 20px; border: 1px dashed var(--accent); margin-top: 15px; }
 
-#day-title { font-family: 'Dancing Script'; font-size: 2.5rem; }
-.back-link { display: block; margin-top: 20px; color: var(--accent); text-decoration: none; font-size: 0.8rem; }
-#scratch-canvas { position: absolute; top:0; left:0; z-index: 10; }
+.back-link { color: var(--accent); text-decoration: none; font-size: 0.8rem; display: block; margin-top: 25px; }
