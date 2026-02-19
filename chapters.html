@@ -1,35 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline | 5000 Days</title>
-    <style>
-        body { background: #000; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; margin-top: 30px; }
-        .card { background: #111; border: 1px solid #333; padding: 20px; border-radius: 15px; cursor: pointer; transition: 0.3s; }
-        .card:hover { border-color: #ff4d6d; transform: scale(1.05); }
-        h1 { color: #ff4d6d; letter-spacing: 2px; }
-        input { padding: 10px; border-radius: 20px; border: 1px solid #ff4d6d; background: #000; color: #fff; width: 150px; text-align: center; }
-    </style>
-</head>
-<body>
-    <h1>OUR JOURNEY</h1>
-    <p>5000 Days of Us</p>
-    <br>
-    <input type="number" id="jump" placeholder="Jump to Day..." onchange="window.location.href='day.html?d='+this.value">
-    
-    <div class="grid" id="timeline"></div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Universe — All Chapters</title>
 
-    <script>
-        const grid = document.getElementById('timeline');
-        for(let i=1; i<=5000; i++) {
-            const div = document.createElement('div');
-            div.className = 'card';
-            div.innerHTML = `Day ${i}`;
-            div.onclick = () => window.location.href = `day.html?d=${i}`;
-            grid.appendChild(div);
+<style>
+body{
+    margin:0;
+    font-family: 'Poppins', sans-serif;
+    background:#0f0f0f;
+    color:white;
+    text-align:center;
+}
+
+h1{
+    margin:30px 0;
+    font-size:28px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+    gap:15px;
+    padding:20px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.card{
+    padding:15px;
+    border-radius:15px;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:14px;
+    font-weight:600;
+}
+
+.card:hover{
+    transform:scale(1.08);
+}
+
+.locked{
+    background:#222;
+    color:#777;
+}
+
+.unlocked{
+    color:white;
+}
+
+footer{
+    margin:30px 0;
+    font-size:13px;
+    opacity:0.6;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💖 Love Universe — 5000 Chapters</h1>
+
+<div class="grid" id="chaptersGrid"></div>
+
+<footer>Every day is a new memory ✨</footer>
+
+<script src="script.js"></script>
+
+<script>
+const grid = document.getElementById("chaptersGrid");
+const TOTAL_DAYS = 5000;
+
+for(let i=1;i<=TOTAL_DAYS;i++){
+
+    const chapter = loveDays[i];
+
+    const div = document.createElement("div");
+    div.classList.add("card");
+
+    if(chapter.password){
+        div.classList.add("locked");
+        div.innerHTML = `🔒 Day ${i}`;
+        div.onclick = () => {
+            const pass = prompt("Enter Password 💌");
+            if(pass === chapter.password){
+                window.location.href = `chapter.html?day=${i}`;
+            } else {
+                alert("Wrong Password 💔");
+            }
         }
-    </script>
+    }else{
+        div.classList.add("unlocked");
+        div.style.background = chapter.theme;
+        div.innerHTML = `Day ${i}`;
+        div.onclick = () => {
+            window.location.href = `chapter.html?day=${i}`;
+        }
+    }
+
+    grid.appendChild(div);
+}
+</script>
+
 </body>
 </html>
