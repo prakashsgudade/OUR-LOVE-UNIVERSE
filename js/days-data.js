@@ -12,28 +12,22 @@ const manualDays = {
 };
 
 const loveDays = {};
-const dynamicTitles = ["The Day You Smiled", "The First Time You Said My Name", "Heartbeat For You", "The Night I Couldn't Sleep", "Your Eyes", "Your Laugh", "What I Never Told You", "The Hug I Owe You", "When I Realized I Love You"];
-const dynamicLayouts = ["classic", "scratch-card", "virtual-hug", "infinity-portal", "quiz-game", "ai-chat", "stats-dashboard", "parallax-3d", "challenge-tap", "fog-reveal"];
-const dynamicEffects = ["hearts", "stars", "snow", "fireworks", "galaxy", "neon-glow"];
-const dynamicThemes = ["#ff4d6d", "#70e000", "#00d2ff", "#ff8500", "#9d4edd", "#ff0054", "#fb8500", "#023e8a"];
+const layouts = ["classic", "scratch-card", "virtual-hug", "quiz-game", "ai-chat", "stats-dashboard"];
+const themes = ["#ff4d6d", "#70e000", "#00d2ff", "#ff8500", "#9d4edd", "#d4af37"];
 
 for (let i = 1; i <= 5000; i++) {
     if (manualDays[i]) {
         loveDays[i] = manualDays[i];
     } else {
         loveDays[i] = {
-            title: dynamicTitles[i % dynamicTitles.length] + ` (Day ${i})`,
-            message: `Muskan, ye din hamari kahani ka ek anmol panna hai. Har pal tumhara khayal mere dil ke sabse kareeb rehta hai.`,
+            title: `Chapter ${i}: Love Infinite ♾️`,
+            message: `Muskan, hamara safar aaj Day ${i} par pahonch gaya hai.`,
             image: `assets/images/photo${(i % 10) + 1}.jpg`,
-            theme: dynamicThemes[i % dynamicThemes.length],
-            layout: dynamicLayouts[i % dynamicLayouts.length],
-            effect: dynamicEffects[i % dynamicEffects.length],
+            theme: themes[i % themes.length],
+            layout: layouts[i % layouts.length],
             song: `assets/audio/song${(i % 5) + 1}.mp3`,
-            hidden: "You are the best thing that ever happened to me! ❤️",
-            // For Quiz
-            question: "How much do I love you?",
-            options: ["Infinite", "More than stars", "Beyond life", "All of above"],
-            correct: 3
+            hidden: "Tum meri duniya ho! ❤️",
+            question: "Humara favorite color?", options: ["Red", "Pink", "Blue", "Black"], correct: 0
         };
     }
 }
