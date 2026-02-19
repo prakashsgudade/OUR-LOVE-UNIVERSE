@@ -102,3 +102,15 @@ button:hover {
         height: 220px;
     }
 }
+@media(max-width:768px){
+    .main-wrapper { width:95%; margin:20px auto; }
+    .glass-container { padding:20px; border-radius:25px; }
+    .img-frame { height:250px; }
+    h1 { font-size:2rem; }
+}
+
+@media(max-width:480px){
+    .img-frame { height:200px; }
+    h1 { font-size:1.6rem; }
+    p { font-size:0.9rem; }
+}
