@@ -1,35 +1,30 @@
 :root { --accent: #ff4d6d; }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { background: #000; color: white; font-family: 'Quicksand', sans-serif; overflow-x: hidden; }
+#particles-layer { position: fixed; top: 0; z-index: 1; pointer-events: none; }
 
-#particles-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
-.particle { position: fixed; top: -5vh; animation: fall linear infinite; }
-@keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
-
-.main-wrapper { width: 92%; max-width: 420px; margin: 40px auto; position: relative; z-index: 10; }
+.main-wrapper { width: 95%; max-width: 400px; margin: 30px auto; position: relative; z-index: 10; }
 .glass-container { 
-    background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(20px); border-radius: 40px; padding: 25px; 
-    border: 1px solid rgba(255,255,255,0.1); border-top: 5px solid var(--accent); box-shadow: 0 25px 60px rgba(0,0,0,1);
+    background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(15px); border-radius: 30px; 
+    padding: 20px; border: 1px solid rgba(255,255,255,0.1); border-top: 4px solid var(--accent);
 }
 
-/* AI Chat Styles */
-.chat-box { height: 300px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
-.msg { margin-bottom: 10px; padding: 10px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
-.bot { background: rgba(255,255,255,0.1); align-self: flex-start; text-align: left; }
-.user { background: var(--accent); color: black; margin-left: auto; text-align: right; }
-.chat-input-area { display: flex; gap: 5px; }
-.chat-input-area input { flex: 1; padding: 12px; border-radius: 20px; border: none; background: #222; color: white; }
+.img-frame { width: 100%; height: 300px; border-radius: 20px; overflow: hidden; border: 3px solid var(--accent); margin-bottom: 20px; }
+.img-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Stats Styles */
-.stat-card { text-align: left; margin: 15px 0; }
-.bar { width: 100%; height: 10px; background: #333; border-radius: 5px; margin-top: 5px; overflow: hidden; }
-.fill { height: 100%; transition: 1s ease-in-out; }
-.pulse { animation: pulseStat 1s infinite; }
-@keyframes pulseStat { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.title { font-family: 'Dancing Script'; font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; }
+.msg { line-height: 1.6; font-size: 0.95rem; opacity: 0.9; margin-bottom: 20px; }
 
-/* Interactive Styles */
-.big-heart { font-size: 80px; cursor: pointer; transition: 0.2s; margin: 20px 0; }
-.secret-box { max-height: 0; opacity: 0; overflow: hidden; transition: 0.5s; background: rgba(255,255,255,0.05); border-radius: 20px; }
-.secret-box.show { max-height: 200px; opacity: 1; padding: 20px; border: 1px dashed var(--accent); margin-top: 15px; }
+.action-btn { width: 100%; padding: 15px; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.secret-box { max-height: 0; opacity: 0; overflow: hidden; transition: 0.5s; background: rgba(255,255,255,0.05); }
+.secret-box.show { max-height: 200px; opacity: 1; padding: 15px; margin-top: 15px; border-radius: 15px; }
 
-.back-link { color: var(--accent); text-decoration: none; font-size: 0.8rem; display: block; margin-top: 25px; }
+.chat-window { height: 200px; overflow-y: auto; background: #0a0a0a; border-radius: 15px; padding: 10px; margin-bottom: 15px; }
+.bot-msg { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px; margin-bottom: 10px; text-align: left; font-size: 0.8rem; }
+.user-msg { text-align: right; color: var(--accent); margin-bottom: 10px; font-weight: 600; font-size: 0.8rem; }
+.chat-input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #333; background: #111; color: #fff; margin-bottom: 10px; }
+
+.quiz-btn { width: 100%; padding: 10px; margin: 5px 0; background: none; border: 1px solid var(--accent); color: white; border-radius: 10px; cursor: pointer; }
+.particle { position: fixed; top: -50px; animation: fall linear; }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+.back-link { display: block; margin-top: 20px; color: #777; text-decoration: none; font-size: 0.8rem; }
