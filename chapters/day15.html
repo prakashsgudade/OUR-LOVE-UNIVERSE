@@ -3,41 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 15 | Soul Echo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@200;400&family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+    <title>Day 15 | Soul Echo Ultra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@200;400&family=Noto+Nastaliq+Urdu&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --accent: #e94057;
-            --bg: #0d0d0d;
+            --bg: #080808;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
-        body {
+        body, html {
             background-color: var(--bg);
             color: white; font-family: 'Montserrat', sans-serif;
-            height: 100vh; display: flex; align-items: center;
-            justify-content: center; overflow: hidden;
+            overflow-x: hidden; scroll-behavior: smooth;
         }
 
-        .container {
-            width: 90%; max-width: 400px; text-align: center;
+        /* --- BACKGROUND PARTICLES --- */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none;
+        }
+
+        /* --- HERO SECTION (PHOTO) --- */
+        .section-hero {
+            height: 100vh; width: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
             position: relative; z-index: 10;
         }
 
-        /* --- THE ECHO PHOTO --- */
-        .photo-box {
-            position: relative; width: 220px; height: 220px;
-            margin: 0 auto 50px;
+        .photo-wrapper {
+            position: relative; 
+            width: 70vw; max-width: 250px; 
+            height: 70vw; max-height: 250px;
+            margin-bottom: 40px;
+            transition: transform 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67);
         }
 
-        .photo-box img {
+        .photo-wrapper img {
             width: 100%; height: 100%; object-fit: cover;
-            border-radius: 50%; border: 2px solid var(--accent);
+            border-radius: 50%; border: 3px solid var(--accent);
             position: relative; z-index: 5;
+            box-shadow: 0 0 30px rgba(233, 64, 87, 0.3);
         }
 
-        /* Pulsing Rings (Echo) */
+        /* Pulsing Rings */
         .ring {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             border: 2px solid var(--accent); border-radius: 50%;
@@ -47,74 +59,171 @@
         .ring:nth-child(3) { animation-delay: 2s; }
 
         @keyframes echo {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.8); opacity: 0; }
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(2.2); opacity: 0; }
         }
 
-        /* --- VISUALIZER BARS --- */
+        .scroll-down {
+            position: absolute; bottom: 30px; 
+            font-family: 'Cinzel'; font-size: 0.7rem; color: var(--accent);
+            letter-spacing: 4px; animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%, 100% {transform: translateY(0)} 50% {transform: translateY(-10px)} }
+
+        /* --- CONTENT SECTION --- */
+        .section-content {
+            min-height: 100vh; padding: 40px 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative; z-index: 10;
+        }
+
+        /* Visualizer */
         .visualizer {
-            display: flex; justify-content: center; gap: 4px; height: 40px; margin-bottom: 30px;
+            display: flex; justify-content: center; gap: 6px; height: 50px; margin-bottom: 40px;
         }
         .bar {
-            width: 3px; background: var(--accent);
-            animation: bounce 1s ease-in-out infinite alternate;
+            width: 4px; background: var(--accent);
+            animation: bounceBar 1s ease-in-out infinite alternate;
         }
-        @keyframes bounce {
-            0% { height: 5px; } 100% { height: 40px; }
-        }
-        /* Random delays for natural look */
-        .bar:nth-child(1) { animation-delay: 0.1s; } .bar:nth-child(2) { animation-delay: 0.4s; }
-        .bar:nth-child(3) { animation-delay: 0.2s; } .bar:nth-child(4) { animation-delay: 0.6s; }
-        .bar:nth-child(5) { animation-delay: 0.3s; }
+        @keyframes bounceBar { 0% { height: 10px; } 100% { height: 50px; } }
+        .bar:nth-child(even) { animation-duration: 0.7s; }
+        .bar:nth-child(odd) { animation-duration: 1.2s; }
 
-        /* --- CONTENT CARD --- */
+        /* Glass Message Card */
         .glass-msg {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px); border-radius: 20px;
-            padding: 30px 20px; border: 1px solid rgba(233, 64, 87, 0.2);
+            background: var(--glass);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius: 30px; padding: 50px 25px;
+            border: 1px solid rgba(233, 64, 87, 0.3);
+            width: 100%; max-width: 380px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            opacity: 0; transform: translateY(60px);
+            transition: 1.5s ease-out;
         }
+        .glass-msg.show { opacity: 1; transform: translateY(0); }
 
         .urdu {
-            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.5rem;
-            color: var(--accent); margin-bottom: 20px; line-height: 2.5;
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.7rem;
+            color: var(--accent); margin-bottom: 25px; line-height: 2.8;
+            direction: rtl;
         }
 
-        .text { font-weight: 200; line-height: 1.6; letter-spacing: 1px; color: #ccc; }
+        .text { font-weight: 300; line-height: 1.8; color: #dfdfdf; font-size: 1.05rem; }
 
         .sig {
-            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
-            color: var(--accent); margin-top: 20px;
+            font-family: 'Dancing Script', cursive; font-size: 2.5rem;
+            color: var(--accent); margin-top: 25px;
         }
+
+        .refresh-btn {
+            margin-top: 30px; background: none; border: 1px solid var(--accent);
+            color: var(--accent); padding: 10px 25px; border-radius: 50px;
+            font-size: 0.7rem; cursor: pointer; letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .refresh-btn:active { background: var(--accent); color: white; }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="photo-box">
+    <canvas id="bg-canvas"></canvas>
+
+    <section class="section-hero">
+        <div class="photo-wrapper" id="parallaxPhoto">
             <div class="ring"></div>
             <div class="ring"></div>
             <div class="ring"></div>
             <img src="../assets/images/home/m68.jpg" alt="Muskan">
         </div>
+        <div class="scroll-down">FEEL THE ECHO ↓</div>
+    </section>
 
+    <section class="section-content">
         <div class="visualizer">
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </div>
 
-        <div class="glass-msg">
+        <div class="glass-msg" id="revealCard">
             <div class="urdu">تم میری خاموشی کا شور ہو</div>
             <div class="text">
                 "Muskan, <br>
                 Zindagi ke 15 din beet gaye, <br>
                 lekin har guzarte din ke saath <br>
-                tumhare liye mera ehsaas aur gehra ho raha hai. <br>
-                Tum sirf meri dost nahi, mera sukoon ho."
+                tumhare liye mera ehsaas aur gehra ho raha hai. <br><br>
+                Tum sirf meri dost nahi, <br>
+                meri har khamoshi ka sukoon ho."
             </div>
-            <div class="sig">Prakash</div>
+            <div class="sig">Always Yours, Prakash</div>
+            
+            <button class="refresh-btn" onclick="window.scrollTo({top:0, behavior:'smooth'}); setTimeout(()=>location.reload(), 800);">REPLAY ECHO</button>
         </div>
-    </div>
+    </section>
 
+    <script>
+        // --- 1. DYNAMIC PARTICLES (AUTO-REFRESH SYNC) ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5;
+                this.speedY = Math.random() * -0.3;
+            }
+            update() {
+                this.y += this.speedY;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(233, 64, 87, 0.2)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < 50; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        init(); animate();
+
+        // --- 2. ADVANCED SCROLL & RESPONSIVE MAGIC ---
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            const windowHeight = window.innerHeight;
+
+            // Photo Parallax Zoom
+            const photo = document.getElementById('parallaxPhoto');
+            photo.style.transform = `scale(${1 + scroll/1500}) rotate(${scroll/20}deg)`;
+
+            // Card Reveal Logic
+            const card = document.getElementById('revealCard');
+            const cardPos = card.getBoundingClientRect().top;
+            if (cardPos < windowHeight - 100) {
+                card.classList.add('show');
+            }
+        });
+
+        // Re-init on Resize for full responsiveness
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+    </script>
 </body>
 </html>
