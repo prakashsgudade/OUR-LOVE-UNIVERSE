@@ -1,16 +1,93 @@
-:root { --accent: #ff4d6d; }
-body { background: #000; color: #fff; font-family: 'Quicksand', sans-serif; margin: 0; }
+:root {
+    --accent: #d4af37; /* Default Gold */
+    --glass: rgba(255, 255, 255, 0.05);
+    --bg: #050505;
+}
 
-/* Split View Style */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Loader Styling */
+#loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 9999; display: flex;
+    flex-direction: column; justify-content: center; align-items: center;
+    transition: 0.5s;
+}
+.heart-icon { font-size: 50px; animation: beat 1s infinite; }
+@keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+/* Back Button */
+.back-btn {
+    position: fixed; top: 20px; left: 20px; z-index: 100;
+    text-decoration: none; color: white; background: var(--glass);
+    padding: 10px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px); font-size: 0.9rem; transition: 0.3s;
+}
+.back-btn:hover { background: var(--accent); color: black; border-color: var(--accent); }
+
+/* --- Layout 1: Classic --- */
+.classic-wrapper {
+    max-width: 600px; margin: 80px auto; padding: 20px;
+    text-align: center; background: var(--glass);
+    border-radius: 20px; border-top: 5px solid var(--accent);
+    backdrop-filter: blur(15px);
+}
+.classic-wrapper img { width: 100%; border-radius: 15px; margin-bottom: 20px; }
+
+/* --- Layout 2: Split View (Advanced) --- */
 .split-view { display: flex; height: 100vh; width: 100%; }
-.split-img { flex: 1; background-size: cover; background-position: center; border-right: 2px solid var(--accent); }
-.split-content { flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.9); }
+.split-img { flex: 1; background-size: cover; background-position: center; }
+.split-content { 
+    flex: 1; padding: 60px; display: flex; flex-direction: column; 
+    justify-content: center; background: linear-gradient(to right, #000, #0a0a0a);
+}
 
-/* 3D Card Style */
-.card-3d { background: rgba(20,20,20,0.8); padding: 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: perspective(1000px) rotateX(5deg); transition: 0.5s; }
-.card-3d:hover { transform: perspective(1000px) rotateX(0deg); }
+/* --- Layout 3: 3D Card --- */
+.main-wrapper { 
+    display: flex; justify-content: center; align-items: center; 
+    min-height: 100vh; perspective: 1000px; 
+}
+.card-3d {
+    width: 350px; padding: 20px; background: rgba(255,255,255,0.03);
+    border-radius: 20px; border: 1px solid var(--accent);
+    transform: rotateY(10deg); transition: 0.5s; text-align: center;
+}
+.card-3d:hover { transform: rotateY(0deg); box-shadow: 0 0 30px var(--accent); }
 
-.floating-img { width: 100%; border-radius: 15px; animation: float 3s infinite ease-in-out; }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+/* Elements styling */
+h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 10px 0; }
+p { line-height: 1.6; font-size: 1.1rem; color: #ddd; }
+audio { width: 100%; margin: 20px 0; filter: invert(1); }
 
-@media (max-width: 768px) { .split-view { flex-direction: column; } .split-img { height: 40vh; } }
+.heart-btn {
+    cursor: pointer; padding: 15px 30px; border: none; 
+    border-radius: 50px; font-weight: bold; font-family: 'Quicksand';
+    color: black; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s;
+}
+
+/* Particle Animation */
+.particle {
+    position: fixed; pointer-events: none;
+    animation: fall 5s linear forwards;
+}
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .split-view { flex-direction: column; }
+    .split-img { height: 40vh; }
+    .split-content { padding: 30px; }
+    .card-3d { width: 90%; }
+}
