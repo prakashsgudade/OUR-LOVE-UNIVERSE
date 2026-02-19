@@ -1,88 +1,47 @@
-// ===============================
-// MUSKAN ULTRA ROYAL ENGINE
-// ===============================
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const dayId = parseInt(urlParams.get('d')) || 1;
+    const data = loveDays[dayId];
+    if (!data) return;
 
-const params = new URLSearchParams(window.location.search);
-let day = parseInt(params.get("day")) || 1;
+    document.documentElement.style.setProperty('--accent', data.theme);
+    const body = document.getElementById('dynamic-body');
 
-const dayNumber = document.getElementById("dayNumber");
-const dayImage = document.getElementById("dayImage");
-const dayMessage = document.getElementById("dayMessage");
-const bgMusic = document.getElementById("bgMusic");
-const playBtn = document.getElementById("playBtn");
+    body.innerHTML = `
+    <div class="main-wrapper">
+        <div class="glass-container">
+            <div class="img-frame">
+                <img id="day-img" src="${data.image}" loading="lazy">
+            </div>
+            <h1>${data.title}</h1>
+            <p>${data.message}</p>
 
-dayNumber.innerText = `Day ${day}`;
+            <audio controls autoplay loop src="${data.song}"></audio>
 
-// ===============================
-// IMAGE + MUSIC LOGIC
-// ===============================
+            <button class="heart-btn">Reveal Secret</button>
+            <div class="secret-box">${data.hidden}</div>
 
-if (day <= 10) {
-    dayImage.src = "../assets/images/home/m1.jpg";
-    bgMusic.src = "../assets/audio/ring/s1.mp3";
-} else {
-    const randomImage = Math.floor(Math.random() * 120) + 1;
-    const randomMusic = Math.floor(Math.random() * 400) + 1;
+            <a href="chapters.html" class="back-link">← Back</a>
+        </div>
+    </div>`;
 
-    dayImage.src = `../assets/images/home/m${randomImage}.jpg`;
-    bgMusic.src = `../assets/audio/ring/s${randomMusic}.mp3`;
-}
+    document.querySelector(".heart-btn").onclick = function(){
+        document.querySelector(".secret-box").classList.toggle("show");
+    };
 
-// ===============================
-// AUTO UNIQUE MESSAGE GENERATOR
-// ===============================
+    if(data.particles){
+        setInterval(() => createParticle(data.particles, data.theme), 500);
+    }
+};
 
-const royalLines = [
-    "Aaj bhi tum meri duniya ho ❤️",
-    "Har din tumhare naam...",
-    "Tumhari smile meri taqat hai",
-    "Future me bhi sirf tum",
-    "Ye moment sirf humara hai",
-    "Tum ho toh sab perfect hai",
-    "Main har din tumhe choose karta hu",
-    "Tum meri kahani ka best chapter ho",
-    "Forever wali feeling...",
-    "Tumhari yaad sabse pyari hai"
-];
-
-const specialLines = [
-    "💎 Ultra Special Day",
-    "🌹 Love Anniversary Energy",
-    "👑 Royal Moment",
-    "🔥 Legendary Day",
-    "✨ Magical Timeline",
-    "💖 Infinite Love Day"
-];
-
-let message = royalLines[day % royalLines.length];
-
-if (day % 1000 === 0) {
-    message += " 👑 1000X Royal Milestone!";
-} else if (day % 365 === 0) {
-    message += " 💍 Anniversary Special!";
-} else if (day % 100 === 0) {
-    message += " 🔥 Century Day!";
-}
-
-dayMessage.innerText = message;
-
-// ===============================
-// PLAY BUTTON
-// ===============================
-
-playBtn.addEventListener("click", () => {
-    bgMusic.play();
-    playBtn.innerText = "Playing 🎶";
-});
-
-// ===============================
-// SPECIAL VISUAL EFFECT
-// ===============================
-
-if (day % 100 === 0) {
-    document.body.classList.add("gold-mode");
-}
-
-if (day % 500 === 0) {
-    document.body.classList.add("galaxy-mode");
+function createParticle(type, color) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.innerText = (type === "stars") ? "⭐" : "❤️";
+    p.style.color = color;
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    p.style.fontSize = (Math.random() * 20 + 15) + "px";
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 5000);
 }
