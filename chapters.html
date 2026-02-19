@@ -1,112 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Love Journey | Timeline</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <style>
-        :root { --gold:#d4af37; --glass:rgba(255,255,255,0.03); --border:rgba(212,175,55,0.3); }
-        body, html { margin:0; padding:0; min-height:100%; width:100%; background-color:#050505; color:white; font-family:'Montserrat',sans-serif; overflow-x:hidden; scroll-behavior: smooth; }
-        #space { position:fixed; top:0; left:0; z-index:-3; pointer-events: none; }
-        .back-hub { position: fixed; top: 20px; left: 20px; z-index: 10005; font-size: 0.75rem; padding: 8px 15px; border: 1px solid var(--border); border-radius: 30px; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); transition: 0.3s; color: var(--gold); text-decoration: none; }
-        .gate { min-height:100vh; display:flex; justify-content:center; padding:20px; box-sizing:border-box; }
-        .main-content { text-align:center; z-index:10; width:100%; max-width:900px; position:relative; }
-        .search-container { margin: 20px auto 40px auto; display: flex; justify-content: center; align-items: center; }
-        .search-container input { padding:12px; border-radius:20px 0 0 20px; border:1px solid var(--gold); background:rgba(20,20,20,0.9); color:white; text-align:center; width: 120px; outline: none; }
-        .search-container button { background:var(--gold); border:1px solid var(--gold); padding:12px 20px; border-radius:0 20px 20px 0; cursor:pointer; font-weight: bold; color: #000; }
-        header h1 { font-family:'Cinzel Decorative'; color:var(--gold); font-size:2.8rem; letter-spacing:5px; margin-bottom:10px; }
-        header p { font-family:'Great Vibes'; font-size:1.8rem; color:#ffb3b3; margin-top:0; }
-        .timeline-line { position:absolute; left:50%; transform:translateX(-50%); top:350px; bottom:0; width:2px; background:linear-gradient(to bottom, var(--gold), transparent); z-index: -1; }
-        .chapter-node { display:flex; justify-content:center; align-items:center; width:100%; margin-bottom:80px; position:relative; }
-        .card { width:40%; padding:25px; background:var(--glass); backdrop-filter:blur(15px); border:1px solid var(--border); border-radius:20px; transition:.5s; cursor:pointer; position: relative; z-index: 5; }
-        .chapter-node:nth-child(odd) .card { margin-right:55%; text-align:right; }
-        .chapter-node:nth-child(even) .card { margin-left:55%; text-align:left; }
-        .node-dot { position:absolute; left:50%; transform:translateX(-50%); width:15px; height:15px; background:#000; border:2px solid var(--gold); border-radius:50%; box-shadow:0 0 15px var(--gold); z-index: 6; }
-        .card:hover { transform:translateY(-10px); border-color:var(--gold); box-shadow:0 0 30px rgba(212,175,55,0.2); }
-        .nav-arrow { position:fixed; right:20px; width:45px; height:45px; border-radius:50%; background:rgba(0,0,0,0.8); border:1px solid var(--gold); color:var(--gold); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000; opacity: 0; transition: 0.5s; }
-        .nav-arrow.show { opacity: 1; }
-        #notification { position:fixed; top:30px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.9); padding:15px 30px; border:1px solid var(--gold); border-radius:50px; z-index:10001; transition: 0.8s; opacity:0; font-family: 'Great Vibes'; font-size: 1.5rem; color: var(--gold); text-align: center; }
-        .jump-highlight { box-shadow: 0 0 40px var(--gold) !important; transform: scale(1.05) translateY(-10px); border-color: var(--gold) !important; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muskan Infinite Timeline ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --gold:#d4af37;
+    --glass:rgba(255,255,255,0.03);
+    --border:rgba(212,175,55,0.3);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    background:#050505;
+    color:white;
+    font-family:'Montserrat',sans-serif;
+    overflow-x:hidden;
+}
+
+#space{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    padding:40px 20px 20px;
+}
+
+.header h1{
+    font-family:'Cinzel Decorative';
+    color:var(--gold);
+    font-size:2.5rem;
+    letter-spacing:4px;
+}
+
+.header p{
+    margin-top:10px;
+    color:#ffb3b3;
+}
+
+/* SEARCH */
+.search-box{
+    text-align:center;
+    margin:20px;
+}
+
+.search-box input{
+    padding:10px;
+    border-radius:20px 0 0 20px;
+    border:1px solid var(--gold);
+    background:#111;
+    color:white;
+    width:120px;
+    text-align:center;
+}
+
+.search-box button{
+    padding:10px 18px;
+    border-radius:0 20px 20px 0;
+    border:1px solid var(--gold);
+    background:var(--gold);
+    color:black;
+    cursor:pointer;
+}
+
+/* TIMELINE */
+.timeline{
+    position:relative;
+    max-width:900px;
+    margin:auto;
+    padding:40px 0;
+}
+
+.timeline::after{
+    content:'';
+    position:absolute;
+    width:2px;
+    background:linear-gradient(to bottom,var(--gold),transparent);
+    top:0;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.node{
+    padding:20px 40px;
+    position:relative;
+    width:50%;
+}
+
+.node.left{left:0;text-align:right;}
+.node.right{left:50%;}
+
+.card{
+    background:var(--glass);
+    border:1px solid var(--border);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:15px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.card:hover{
+    border-color:var(--gold);
+    box-shadow:0 0 15px var(--gold);
+    transform:translateY(-5px);
+}
+
+.dot{
+    position:absolute;
+    width:15px;
+    height:15px;
+    background:#000;
+    border:2px solid var(--gold);
+    border-radius:50%;
+    top:28px;
+    right:-8px;
+}
+
+.right .dot{
+    left:-8px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .timeline::after{left:20px;}
+    .node{width:100%;padding-left:60px;padding-right:20px;}
+    .node.left,.node.right{left:0;text-align:left;}
+    .dot{left:12px;}
+}
+</style>
 </head>
 <body>
-    <canvas id="space"></canvas>
-    <a href="index.html" class="back-hub"><< HUB</a>
-    <div id="notification">Welcome Back, Muskan ❤️</div>
-    <div class="gate">
-        <div class="main-content">
-            <div class="search-container"><input id="daySearch" type="number" placeholder="Day No." /><button onclick="jumpToDay()">Jump 🚀</button></div>
-            <header><h1>LOVE STORY</h1><p>Every moment is a milestone...</p></header>
-            <div class="timeline-line"></div>
-            <div id="timeline"></div>
+
+<canvas id="space"></canvas>
+
+<div class="header">
+    <h1>LOVE JOURNEY</h1>
+    <p>5000 Days of Muskan ❤️</p>
+</div>
+
+<div class="search-box">
+    <input type="number" id="searchDay" placeholder="Day No.">
+    <button onclick="jumpToDay()">Jump</button>
+</div>
+
+<div class="timeline" id="timeline"></div>
+
+<script>
+const TOTAL_DAYS = 5000;
+const LOAD_BATCH = 100;
+let loaded = 0;
+
+const container = document.getElementById("timeline");
+
+function createNode(day){
+    const node = document.createElement("div");
+    node.className = "node " + (day%2===0?"right":"left");
+
+    node.innerHTML = `
+        <div class="card" onclick="openDay(${day})">
+            <h3 style="color:var(--gold)">Day ${day}</h3>
+            <small>Enter Memory</small>
         </div>
-    </div>
-    <div id="scrollUp" class="nav-arrow" style="bottom:90px;">⬆</div>
-    <div id="scrollDown" class="nav-arrow" style="bottom:30px;">⬇</div>
+        <div class="dot"></div>
+    `;
+    container.appendChild(node);
+}
 
-    <script>
-        const COMPLETED_DAYS = 5000; 
-        const container = document.getElementById("timeline");
+function loadMore(){
+    if(loaded>=TOTAL_DAYS) return;
+    let next = loaded + LOAD_BATCH;
+    for(let i=loaded+1;i<=next && i<=TOTAL_DAYS;i++){
+        createNode(i);
+    }
+    loaded = next;
+}
 
-        // Performance Optimization: Generate HTML in one go
-        let fullHTML = "";
-        for(let i=1; i<=5000; i++){
-            fullHTML += `
-                <div class="chapter-node" id="node-${i}">
-                    <div class="node-dot"></div>
-                    <div class="card" onclick="loadChapter(${i})">
-                        <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">Day ${i}</span><br>
-                        <small>Enter Memory</small>
-                    </div>
-                </div>`;
-        }
-        container.innerHTML = fullHTML;
+function openDay(day){
+    window.location.href = "day.html?d="+day;
+}
 
-        function showPopup(msg) {
-            const notif = document.getElementById('notification');
-            notif.innerText = msg; notif.style.opacity = "1";
-            setTimeout(() => { notif.style.opacity = "0"; }, 3000);
-        }
+function jumpToDay(){
+    let num = parseInt(document.getElementById("searchDay").value);
+    if(num>=1 && num<=TOTAL_DAYS){
+        window.location.href = "day.html?d="+num;
+    }
+}
 
-        function loadChapter(i) { window.location.href = `day.html?d=${i}`; }
+window.addEventListener("scroll",()=>{
+    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 300){
+        loadMore();
+    }
+});
 
-        function jumpToDay(){
-            let num = parseInt(document.getElementById("daySearch").value);
-            let target = document.getElementById(`node-${num}`);
-            if(target){
-                target.scrollIntoView({behavior:"smooth", block:"center"});
-                let card = target.querySelector('.card');
-                card.classList.add('jump-highlight');
-                setTimeout(() => card.classList.remove('jump-highlight'), 2500);
-            } else { showPopup("Wait! That day is still in our future ❤️"); }
-        }
+loadMore();
 
-        window.onscroll = () => {
-            let up = document.getElementById("scrollUp");
-            let down = document.getElementById("scrollDown");
-            window.scrollY > 300 ? up.classList.add("show") : up.classList.remove("show");
-            (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100 ? down.classList.remove("show") : down.classList.add("show");
-        };
+/* SPACE BACKGROUND */
+const c=document.getElementById("space");
+const ctx=c.getContext("2d");
+c.width=window.innerWidth;
+c.height=window.innerHeight;
 
-        document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
-        document.getElementById("scrollDown").onclick = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
+let stars=[];
+for(let i=0;i<100;i++){
+    stars.push({
+        x:Math.random()*c.width,
+        y:Math.random()*c.height,
+        r:Math.random()*1.5
+    });
+}
 
-        // Stars Background
-        const c=document.getElementById("space"); const ctx=c.getContext("2d");
-        c.width=innerWidth; c.height=innerHeight;
-        let stars=[];
-        for(let i=0; i<100; i++) stars.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*1.5});
-        function anim(){
-            ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="white";
-            stars.forEach(s=>{
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
-                s.y += 0.3; if(s.y > c.height) s.y = 0;
-            });
-            requestAnimationFrame(anim);
-        }
-        anim();
-        window.onload = () => showPopup("Welcome Back, Muskan ❤️");
-    </script>
+function animate(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle="white";
+    stars.forEach(s=>{
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fill();
+        s.y+=0.2;
+        if(s.y>c.height) s.y=0;
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+
 </body>
 </html>
