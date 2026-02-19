@@ -1,88 +1,131 @@
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     const dayId = urlParams.get('d') || "1";
-    const data = loveDays.get(dayId);
     
-    if (!data) return;
-
-    document.documentElement.style.setProperty('--accent', data.theme);
-    const container = document.getElementById('app-container');
-
-    // LAYOUT ENGINE - Selects how to display the day
-    if (dayId <= 10) {
-        renderClassic(data, container); // Day 1-10 fixed style
-    } else {
-        // Day 11+ Randomly chooses a "Vibe"
-        const vibes = ["chat", "quiz", "letter", "scratch", "hug"];
-        const seed = parseInt(dayId);
-        const choice = vibes[seed % vibes.length];
-
-        if (choice === "chat") renderAIChat(data, container);
-        else if (choice === "quiz") renderQuiz(data, container);
-        else if (choice === "scratch") renderScratch(data, container);
-        else if (choice === "hug") renderVirtualHug(data, container);
-        else renderCinematicLetter(data, container);
+    // Check if data exists in loveDays
+    if (typeof loveDays === 'undefined') {
+        console.error("Error: loveDays data not found! Make sure days-data.js is loaded.");
+        document.body.innerHTML = "<div style='color:white; text-align:center; padding-top:50px;'>Data File Missing!</div>";
+        return;
     }
 
-    if(data.particles) setInterval(() => createParticle(data.particles, data.theme), 400);
+    const data = loveDays.get(dayId);
+    if (!data) {
+        document.body.innerHTML = "<div style='color:white; text-align:center; padding-top:50px;'>Day Not Found!</div>";
+        return;
+    }
+
+    // Apply Theme Color
+    document.documentElement.style.setProperty('--accent', data.theme || "#ff4d6d");
+    
+    const container = document.getElementById('app-container');
+    
+    // Choose Layout based on data
+    let layoutHTML = "";
+
+    if (data.layout === "scratch-card") {
+        layoutHTML = renderScratchLayout(data);
+    } else if (data.layout === "virtual-hug") {
+        layoutHTML = renderHugLayout(data);
+    } else {
+        layoutHTML = renderClassicLayout(data);
+    }
+
+    container.innerHTML = layoutHTML;
+
+    // Start Particles
+    if (data.particles) {
+        setInterval(() => createParticle(data.particles, data.theme), 400);
+    }
 };
 
-// --- LAYOUT 1: AI CHAT VIBE ---
-function renderAIChat(data, container) {
-    container.innerHTML = `
+// --- LAYOUT: CLASSIC ---
+function renderClassicLayout(data) {
+    return `
         <div class="main-wrapper">
             <div class="glass-container">
-                <h1 class="title">AI Mood Reader</h1>
-                <div class="chat-window" id="chat-box">
-                    <div class="bot-msg">Hi Muskan! Main aaj tera mood read kar sakta hoon. Kuch bolo? ❤️</div>
+                <div class="img-frame">
+                    <img src="${data.image}" onerror="this.src='assets/images/home/m1.jpg'">
                 </div>
-                <input type="text" id="u-input" class="chat-input" placeholder="Type something...">
-                <button class="action-btn" onclick="sendMsg()">Send to My Heart</button>
-                <br><a href="chapters.html" class="back-link">← BACK</a>
+                <h1 class="title">${data.title}</h1>
+                <div class="msg">${data.message}</div>
+                
+                <div class="audio-section" style="margin-bottom:20px;">
+                    <audio controls autoplay loop src="${data.song}" style="width:100%; height:35px; filter:invert(1);"></audio>
+                </div>
+
+                <button class="action-btn" onclick="toggleSecret()">Tap to Reveal Secret</button>
+                <div id="secret-msg" class="secret-box">${data.hidden}</div>
+                
+                <a href="chapters.html" class="back-link">← BACK TO TIMELINE</a>
             </div>
-        </div>`;
+        </div>
+    `;
 }
 
-// --- LAYOUT 2: LOVE QUIZ ---
-function renderQuiz(data, container) {
-    container.innerHTML = `
+// --- LAYOUT: SCRATCH CARD ---
+function renderScratchLayout(data) {
+    return `
         <div class="main-wrapper">
             <div class="glass-container">
-                <h1 class="title">Love Quiz</h1>
-                <p class="msg">Aaj ka sawal: Kya tumhe pata hai main tumse kitna pyaar karta hoon?</p>
-                <button class="quiz-btn" onclick="alert('Correct! Infinite ❤️')">A) Bohat zyada</button>
-                <button class="quiz-btn" onclick="alert('Galat! Socho phir se..')">B) Thoda sa</button>
-                <button class="quiz-btn" onclick="alert('Right! Counting impossible hai.')">C) Hadd se zyada</button>
-                <br><a href="chapters.html" class="back-link">← BACK</a>
-            </div>
-        </div>`;
-}
-
-// --- LAYOUT 3: CINEMATIC LETTER ---
-function renderCinematicLetter(data, container) {
-    container.innerHTML = `
-        <div class="main-wrapper">
-            <div class="glass-container" style="text-align:left;">
-                <h1 class="title" style="text-align:center;">Daily Letter</h1>
-                <div class="msg" style="font-family:'Great Vibes'; font-size:1.5rem; line-height:1.2;">
-                    ${data.message}
+                <h1 class="title">Scratch My Heart</h1>
+                <p class="msg">${data.message}</p>
+                <div style="position:relative; width:250px; height:150px; margin: 20px auto; background:#222; border-radius:15px; display:flex; align-items:center; justify-content:center; border:2px dashed var(--accent);">
+                    <div style="font-weight:bold; color:var(--accent);">${data.hidden}</div>
+                    <div id="scratch-layer" onclick="this.style.opacity=0" style="position:absolute; top:0; left:0; width:100%; height:100%; background:#777; border-radius:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.5s;">
+                        TAP TO SCRATCH
+                    </div>
                 </div>
-                <hr style="border:0; border-top:1px solid var(--accent); opacity:0.3;">
-                <p style="text-align:right; font-family:'Dancing Script';">Hamesha Tumhara...</p>
-                <center><a href="chapters.html" class="back-link">← BACK</a></center>
+                <a href="chapters.html" class="back-link">← BACK TO TIMELINE</a>
             </div>
-        </div>`;
+        </div>
+    `;
 }
 
-// Helper functions (createParticle, renderClassic etc.) yahan niche rahenge...
-function sendMsg() {
-    const input = document.getElementById('u-input');
-    const box = document.getElementById('chat-box');
-    if(!input.value) return;
-    box.innerHTML += `<div class="user-msg">${input.value}</div>`;
-    setTimeout(() => {
-        box.innerHTML += `<div class="bot-msg">Muskan, ye sunkar mera dil khush ho gaya! ❤️</div>`;
-        box.scrollTop = box.scrollHeight;
-    }, 1000);
-    input.value = "";
+// --- LAYOUT: VIRTUAL HUG ---
+function renderHugLayout(data) {
+    return `
+        <div class="main-wrapper">
+            <div class="glass-container" style="text-align:center;">
+                <h1 class="title">Virtual Hug</h1>
+                <div class="img-frame" id="hug-frame" style="transition:0.3s; cursor:pointer;" onmousedown="startHug()" onmouseup="endHug()" ontouchstart="startHug()" ontouchend="endHug()">
+                    <img src="${data.image}" onerror="this.src='assets/images/home/m1.jpg'">
+                </div>
+                <p class="msg" id="hug-msg">Hold the photo to feel the hug... 🤗</p>
+                <div id="secret-msg" class="secret-box">${data.hidden}</div>
+                <a href="chapters.html" class="back-link">← BACK TO TIMELINE</a>
+            </div>
+        </div>
+    `;
+}
+
+// --- UTILS ---
+function toggleSecret() {
+    const box = document.getElementById('secret-msg');
+    if(box) box.classList.toggle('show');
+}
+
+function startHug() {
+    document.getElementById('hug-frame').style.transform = "scale(0.9)";
+    document.getElementById('hug-msg').innerText = "Holding you tight... ❤️";
+}
+
+function endHug() {
+    document.getElementById('hug-frame').style.transform = "scale(1)";
+    document.getElementById('hug-msg').innerText = "I'm always with you!";
+    document.getElementById('secret-msg').classList.add('show');
+}
+
+function createParticle(type, color) {
+    const layer = document.getElementById('particles-layer');
+    if(!layer) return;
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.innerText = (type === "stars") ? "⭐" : (type === "snow") ? "❄️" : "❤️";
+    p.style.color = color;
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    p.style.fontSize = (Math.random() * 20 + 10) + "px";
+    layer.appendChild(p);
+    setTimeout(() => p.remove(), 5000);
 }
