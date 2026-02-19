@@ -6,56 +6,145 @@ window.onload = function() {
 
     document.documentElement.style.setProperty('--accent', data.theme);
     const body = document.getElementById('dynamic-body');
-    
-    // Add particle layer
-    const pLayer = document.createElement('div');
-    pLayer.id = "particles-layer";
-    document.body.appendChild(pLayer);
+    body.innerHTML = '<div id="particles-layer"></div>';
 
-    // Advanced Router
+    // Layout Router
     if (data.layout === "gallery") renderGallery(data, body);
     else if (data.layout === "music-player") renderMusicPlayer(data, body);
-    else if (data.layout === "split-view") renderSplit(data, body);
-    else if (data.layout === "3d-card") render3D(data, body);
+    else if (data.layout === "quiz-game") renderQuiz(data, body);
+    else if (data.layout === "love-letter") renderLetter(data, body);
     else renderClassic(data, body, dayId);
 
-    setInterval(() => createParticle(data.particles || "hearts", data.theme), 400);
+    // Dynamic Particles
+    setInterval(() => createParticle(data.particles || "hearts", data.theme), 450);
 };
-
-// Layout Functions
-function renderSplit(data, container) {
-    container.innerHTML = `
-        <div class="split-view" style="display:flex; height:100vh;">
-            <div class="split-img" style="flex:1; background:url('${data.image}') center/cover;"></div>
-            <div class="split-content" style="flex:1; padding:40px; display:flex; flex-direction:column; justify-content:center; background:#000;">
-                <h1 style="color:${data.theme}">${data.title}</h1>
-                <p>${data.message}</p>
-                <audio controls src="${data.song}"></audio>
-                <button class="heart-btn" onclick="alert('${data.hidden}')" style="background:${data.theme}; margin-top:20px; border:none; padding:15px; border-radius:30px;">Secret Message</button>
-            </div>
-        </div>`;
-}
-
-function render3D(data, container) {
-    container.innerHTML = `
-        <div class="main-wrapper" style="perspective:1000px; padding:50px;">
-            <div class="card-3d" style="background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; border:1px solid ${data.theme}; transform: rotateY(10deg); text-align:center;">
-                <img src="${data.image}" style="width:100%; border-radius:15px;">
-                <h1 style="color:${data.theme}">${data.title}</h1>
-                <p>${data.message}</p>
-                <audio controls src="${data.song}"></audio>
-            </div>
-        </div>`;
-}
 
 function createParticle(type, color) {
     const layer = document.getElementById('particles-layer');
     if(!layer) return;
     const p = document.createElement('div');
     p.className = 'particle';
-    p.innerText = (type === "stars") ? "⭐" : "❤️";
-    p.style.cssText = `position:fixed; top:-50px; left:${Math.random()*100}vw; color:${color}; animation:fall 5s linear forwards; font-size:20px; z-index:9999;`;
+    p.innerText = (type === "stars") ? "⭐" : (type === "snow") ? "❄️" : "❤️";
+    p.style.color = color;
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
     layer.appendChild(p);
     setTimeout(() => p.remove(), 5000);
 }
-// Add @keyframes fall { to { transform:translateY(110vh) rotate(360deg); opacity:0; } } to CSS
+
+function renderClassic(data, container, dayId) {
+    const isHug = data.layout === "virtual-hug";
+    const isScratch = data.layout === "scratch-card";
+    const isPortal = data.layout === "infinity-portal";
+
+    container.innerHTML += `
+        <div class="main-wrapper">
+            <div class="glass-container ${isHug ? 'hug-pulse' : ''}">
+                <div class="img-frame" id="img-container" style="border-color:${data.theme}">
+                    ${isScratch ? '<canvas id="scratch-canvas"></canvas>' : ''}
+                    <img id="day-img" src="${data.image}" class="${parseInt(dayId) <= 4 ? 'blur-reveal' : ''}">
+                </div>
+                <h1 id="day-title" style="color:${data.theme}">${data.title}</h1>
+                <p id="day-message">${data.message}</p>
+                <div class="audio-section">
+                    <div class="audio-card"><label>🎵 MUSIC</label><audio controls loop src="${data.song}"></audio></div>
+                    ${data.voice ? `<div class="audio-card"><label>🎤 VOICE</label><audio controls src="${data.voice}"></audio></div>` : ''}
+                </div>
+                <button class="heart-btn" id="reveal-btn" style="background:${data.theme}">Reveal Secret</button>
+                <div id="secret-msg" class="secret-box"></div>
+                <center><a href="chapters.html" class="back-link">← BACK TO TIMELINE</a></center>
+            </div>
+        </div>`;
+
+    document.getElementById('reveal-btn').onclick = function() {
+        const box = document.getElementById('secret-msg');
+        box.innerText = data.hidden;
+        box.classList.toggle('show');
+    };
+
+    if (parseInt(dayId) <= 4) {
+        document.getElementById('day-img').onclick = function() { this.classList.toggle('clear'); };
+    }
+    if (isScratch) initScratch();
+    if (isHug) initHug(data.hidden);
+    if (isPortal) initHeartBloom();
+}
+
+function renderQuiz(data, container) {
+    container.innerHTML += `<div class="main-wrapper"><div class="glass-container">
+        <h1 id="day-title" style="color:${data.theme}">Love Quiz 💡</h1>
+        <p style="margin-bottom:20px;">${data.question}</p>
+        <div class="quiz-grid">
+            ${data.options.map((opt, i) => `<button class="quiz-btn" onclick="checkQuiz(${i}, ${data.correct}, '${data.hidden}')">${opt}</button>`).join('')}
+        </div>
+        <div id="quiz-res" class="secret-box"></div>
+        <center><a href="chapters.html" class="back-link">← BACK</a></center>
+    </div></div>`;
+}
+
+window.checkQuiz = (i, c, h) => {
+    const r = document.getElementById('quiz-res');
+    if(i===c) { r.innerText = h; r.classList.add('show'); }
+    else alert("Opps! Guess again Muskan... ❤️");
+}
+
+function renderLetter(data, container) {
+    container.innerHTML += `<div class="main-wrapper"><div class="glass-container letter-theme">
+        <h1 id="day-title">Dearest Muskan ✉️</h1>
+        <div class="letter-body">${data.message}</div>
+        <div class="letter-footer">- Your Soulmate</div>
+        <center><a href="chapters.html" class="back-link">← BACK</a></center>
+    </div></div>`;
+}
+
+function renderGallery(data, container) {
+    container.innerHTML += `<div class="main-wrapper"><div class="glass-container">
+        <h1 id="day-title" style="color:${data.theme}">${data.title}</h1>
+        <div class="gallery-layout">
+            ${data.items ? data.items.map(i => `<div class="gal-item"><img src="${i.img}"><p>${i.cap}</p></div>`).join('') : `<img src="${data.image}" style="width:100%; border-radius:15px;">`}
+        </div>
+        <p style="margin-top:15px;">${data.message}</p>
+        <center><a href="chapters.html" class="back-link">← BACK</a></center>
+    </div></div>`;
+}
+
+function renderMusicPlayer(data, container) {
+    container.innerHTML += `<div class="main-wrapper"><div class="glass-container">
+        <div class="vinyl-record"><img src="${data.image}"></div>
+        <h1 id="day-title" style="color:${data.theme}">${data.title}</h1>
+        <p>${data.message}</p>
+        <audio controls autoplay src="${data.song}" style="width:100%; margin-top:20px; filter:invert(1);"></audio>
+        <center><a href="chapters.html" class="back-link">← BACK</a></center>
+    </div></div>`;
+}
+
+// Logic for Special Layouts
+function initScratch() {
+    const canvas = document.getElementById('scratch-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
+    ctx.fillStyle = "#555"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    const scratch = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.pageX || e.touches[0].pageX) - rect.left;
+        const y = (e.pageY || e.touches[0].pageY) - rect.top;
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath(); ctx.arc(x, y, 35, 0, Math.PI*2); ctx.fill();
+    };
+    canvas.ontouchmove = scratch;
+}
+
+function initHug(secret) {
+    const img = document.getElementById('day-img');
+    img.onmousedown = img.ontouchstart = () => {
+        img.style.transform = "scale(0.9)";
+        this.timer = setTimeout(() => { alert("Virtual Hug Sent! ❤️"); }, 1500);
+    };
+    img.onmouseup = img.ontouchend = () => { img.style.transform = "scale(1)"; clearTimeout(this.timer); };
+}
+
+function initHeartBloom() {
+    document.getElementById('img-container').onclick = () => {
+        for(let i=0; i<12; i++) createParticle("hearts", "red");
+    };
+}
