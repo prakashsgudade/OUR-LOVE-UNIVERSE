@@ -1,62 +1,49 @@
 window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const dayId = urlParams.get('d') || "1";
-    
-    // Call the generator from days-data.js
+    const params = new URLSearchParams(window.location.search);
+    const dayId = params.get('d') || "1";
     const data = getDayData(dayId);
     
     document.documentElement.style.setProperty('--accent', data.theme);
-    const body = document.getElementById('dynamic-body');
+    document.body.style.backgroundColor = "#050505";
     
-    // UI Render
-    renderClassic(data, body, dayId);
+    const container = document.getElementById('day-content');
 
-    // Particles System
-    const pLayer = document.createElement('div');
-    pLayer.id = "particles-layer";
-    document.body.appendChild(pLayer);
-    setInterval(() => createParticle(data.particles || "hearts", data.theme), 500);
-};
-
-function renderClassic(data, container, dayId) {
     container.innerHTML = `
-        <div class="main-wrapper">
-            <div class="glass-container">
-                <div class="day-badge" style="background:${data.theme}">DAY ${dayId}</div>
-                <div class="img-frame" style="border-color:${data.theme}">
-                    <img id="day-img" src="${data.image}" onerror="this.src='assets/images/background.jpg'">
+        <div class="ultra-wrapper ${data.layout}">
+            <div class="main-card fade-in">
+                <div class="royal-badge" style="box-shadow: 0 0 20px ${data.theme}">DAY ${dayId}</div>
+                
+                <div class="image-reveal">
+                    <img src="${data.image}" class="hero-img" onerror="this.src='../assets/images/background.jpg'">
                 </div>
-                <h1 id="day-title" style="color:${data.theme}">${data.title}</h1>
-                <div class="message-box">
-                    <p id="day-message">${data.message}</p>
+
+                <div class="info-pane">
+                    <h1 class="glitter-text">${data.title}</h1>
+                    <div class="divider" style="background: linear-gradient(90deg, transparent, ${data.theme}, transparent)"></div>
+                    <p class="love-quote">${data.message}</p>
                 </div>
-                <div class="audio-section">
-                    <div class="audio-card">
-                        <label style="color:${data.theme}">🎵 CURRENT VIBE</label>
-                        <audio controls autoplay src="${data.song}"></audio>
-                    </div>
+
+                <div class="music-controller">
+                    <span>Melody of the Soul</span>
+                    <audio id="player" controls loop autoplay src="${data.song}"></audio>
                 </div>
-                <button class="heart-btn" id="reveal-btn" style="background:${data.theme}">TAP FOR SECRET</button>
-                <div id="secret-msg" class="secret-box"></div>
-                <a href="chapters.html" class="back-link" style="color:${data.theme}">← Back to Journey</a>
+
+                <div class="action-area">
+                    <button class="gold-btn" id="reveal-trigger" style="border: 1px solid ${data.theme}">
+                        <span class="btn-shine"></span>
+                        REVEAL SECRET NOTE
+                    </button>
+                    <div id="secret-panel" class="secret-panel"></div>
+                </div>
+
+                <a href="../chapters.html" class="home-link">← Return to Galaxy</a>
             </div>
-        </div>`;
+        </div>
+    `;
 
-    document.getElementById('reveal-btn').onclick = function() {
-        const box = document.getElementById('secret-msg');
-        box.classList.toggle('show');
-        box.innerText = data.hidden;
+    document.getElementById('reveal-trigger').onclick = () => {
+        const p = document.getElementById('secret-panel');
+        p.classList.toggle('active');
+        p.innerText = p.classList.contains('active') ? data.hidden : "";
     };
-}
-
-function createParticle(type, color) {
-    const layer = document.getElementById('particles-layer');
-    if(!layer) return;
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.innerText = (type === "stars") ? "⭐" : "❤️";
-    p.style.left = Math.random() * 100 + "vw";
-    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
-    layer.appendChild(p);
-    setTimeout(() => p.remove(), 5000);
-}
+};
