@@ -95,10 +95,10 @@
 
         #notification { 
             position:fixed; top:30px; left:50%; transform:translateX(-50%);
-            background:rgba(0,0,0,0.95); padding:15px 35px; border:1px solid var(--gold); 
-            border-radius:50px; z-index:10001; transition: 0.6s ease; opacity:0;
-            font-family: 'Montserrat', sans-serif; font-size: 0.9rem; color: var(--gold);
-            pointer-events: none; text-align: center; font-weight: 600;
+            background:rgba(0,0,0,0.9); padding:15px 30px; border:1px solid var(--gold); 
+            border-radius:50px; z-index:10001; transition: 0.8s ease; opacity:0;
+            font-family: 'Great Vibes'; font-size: 1.5rem; color: var(--gold);
+            pointer-events: none; text-align: center;
         }
 
         .jump-highlight { box-shadow: 0 0 40px var(--gold) !important; transform: scale(1.05) translateY(-10px); border-color: var(--gold) !important; }
@@ -135,45 +135,53 @@
 <div id="scrollDown" class="nav-arrow">⬇</div>
 
 <script>
+    const START_DATE = new Date("2026-02-06");
     const TOTAL_DAYS = 5000; 
+
     let container = document.getElementById("timeline");
 
-    // Timeline Generation
+    // Timeline Loop
     for(let i=1; i<=TOTAL_DAYS; i++){
         let node = document.createElement("div");
         node.className = "chapter-node";
         node.innerHTML = `
             <div class="node-dot"></div>
-            <div class="card" onclick="loadChapter(${i})">
-                <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">Day ${i}</span><br>
+            <div class="card" onclick="checkAndLoadChapter(${i})">
+                <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">
+                    Day ${i}
+                </span><br>
                 <small>Enter Memory</small>
             </div>
         `;
         container.appendChild(node);
     }
 
-    // 🔥 SMART CHECKER: Check if file exists BEFORE opening
-    async function loadChapter(i) {
-        const fileName = `day${i}.html`;
+    // 🔥 SMART CHECKER FUNCTION
+    async function checkAndLoadChapter(i) {
+        // Aapka format agar day1.html, day2.html hai toh:
+        const targetUrl = `day${i}.html`; 
         
+        // Agar aap query string use kar rahe hain (day.html?d=1) toh:
+        // const targetUrl = `day.html?d=${i}`;
+
         try {
-            // Check if file exists on server
-            const response = await fetch(fileName, { method: 'HEAD' });
+            // HEAD request bhej kar check karte hain file hai ya nahi
+            const response = await fetch(targetUrl, { method: 'HEAD' });
             
             if (response.ok) {
-                // Agar file mil gayi, toh turant kholo
-                window.location.href = fileName;
+                // Agar file exist karti hai toh redirect karo
+                window.location.href = targetUrl;
             } else {
-                // Agar file nahi mili, toh pop-up dikhao
-                showPopup("Sabr rakho Muskan! Yeh din bahot jaldi aayega ❤️");
+                // Agar 404 error hai (file nahi hai) toh popup dikhao
+                showNotification("Sabr rakho Muskan! Yeh din bahot jaldi aayega ❤️");
             }
-        } catch (err) {
-            // Error hone par bhi wahi message (security safety)
-            showPopup("Sabr rakho Muskan! Yeh din bahot jaldi aayega ❤️");
+        } catch (error) {
+            // Error handling (kabhi kabhi local files fetch block hoti hain)
+            showNotification("Sabr rakho Muskan! Yeh din bahot jaldi aayega ❤️");
         }
     }
 
-    function showPopup(msg) {
+    function showNotification(msg) {
         const notif = document.getElementById('notification');
         notif.innerText = msg;
         notif.style.opacity = "1";
@@ -193,7 +201,7 @@
             setTimeout(() => { card.classList.remove('jump-highlight'); }, 2500);
             input.value = ""; 
         } else {
-            showPopup("Sabr rakho Muskan! Wo din abhi aane wala hai ❤️");
+            showNotification("Sabr rakho Muskan! Wo din abhi aane wala hai ❤️");
         }
     }
 
@@ -215,7 +223,7 @@
     document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
     document.getElementById("scrollDown").onclick = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
 
-    // Background Stars
+    // Star animation
     const c=document.getElementById("space"); const ctx=c.getContext("2d");
     c.width=innerWidth; c.height=innerHeight;
     let stars=[];
