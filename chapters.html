@@ -6,220 +6,107 @@
     <title>The Love Journey | Timeline</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold:#d4af37;
-            --glass:rgba(255,255,255,0.03);
-            --border:rgba(212,175,55,0.3);
-        }
-
-        body, html {
-            margin:0; padding:0; min-height:100%; width:100%;
-            background-color:#050505; color:white;
-            font-family:'Montserrat',sans-serif; overflow-x:hidden;
-        }
-
+        :root { --gold:#d4af37; --glass:rgba(255,255,255,0.03); --border:rgba(212,175,55,0.3); }
+        body, html { margin:0; padding:0; min-height:100%; width:100%; background-color:#050505; color:white; font-family:'Montserrat',sans-serif; overflow-x:hidden; scroll-behavior: smooth; }
         #space { position:fixed; top:0; left:0; z-index:-3; pointer-events: none; }
-        
-        .back-hub {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 10005;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            font-weight: 500;
-            padding: 8px 15px;
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-        }
-        .back-hub:hover {
-            border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(212,175,55,0.3);
-            transform: translateX(5px);
-        }
-
+        .back-hub { position: fixed; top: 20px; left: 20px; z-index: 10005; font-size: 0.75rem; padding: 8px 15px; border: 1px solid var(--border); border-radius: 30px; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); transition: 0.3s; color: var(--gold); text-decoration: none; }
         .gate { min-height:100vh; display:flex; justify-content:center; padding:20px; box-sizing:border-box; }
         .main-content { text-align:center; z-index:10; width:100%; max-width:900px; position:relative; }
-
-        .search-container { 
-            margin: 20px auto 40px auto; 
-            position: relative; 
-            z-index: 10002; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .search-container input { 
-            padding:12px; border-radius:20px 0 0 20px; border:1px solid var(--gold); 
-            background:rgba(20,20,20,0.9); color:white; text-align:center; width: 120px; 
-            outline: none; font-size: 1rem;
-        }
-        .search-container button { 
-            background:var(--gold); border:1px solid var(--gold); padding:12px 20px; 
-            border-radius:0 20px 20px 0; cursor:pointer; font-weight: bold; 
-            color: #000; transition: 0.3s; font-size: 1rem;
-        }
-
+        .search-container { margin: 20px auto 40px auto; display: flex; justify-content: center; align-items: center; }
+        .search-container input { padding:12px; border-radius:20px 0 0 20px; border:1px solid var(--gold); background:rgba(20,20,20,0.9); color:white; text-align:center; width: 120px; outline: none; }
+        .search-container button { background:var(--gold); border:1px solid var(--gold); padding:12px 20px; border-radius:0 20px 20px 0; cursor:pointer; font-weight: bold; color: #000; }
         header h1 { font-family:'Cinzel Decorative'; color:var(--gold); font-size:2.8rem; letter-spacing:5px; margin-bottom:10px; }
         header p { font-family:'Great Vibes'; font-size:1.8rem; color:#ffb3b3; margin-top:0; }
-
         .timeline-line { position:absolute; left:50%; transform:translateX(-50%); top:350px; bottom:0; width:2px; background:linear-gradient(to bottom, var(--gold), transparent); z-index: -1; }
-        
-        .chapter-node { display:flex; justify-content:center; align-items:center; width:100%; margin-bottom:80px; position:relative; transition: 0.5s; }
-        
-        .card { 
-            width:40%; padding:25px; background:var(--glass); backdrop-filter:blur(15px); 
-            border:1px solid var(--border); border-radius:20px; transition:.5s; cursor:pointer; 
-            position: relative; z-index: 5;
-        }
+        .chapter-node { display:flex; justify-content:center; align-items:center; width:100%; margin-bottom:80px; position:relative; }
+        .card { width:40%; padding:25px; background:var(--glass); backdrop-filter:blur(15px); border:1px solid var(--border); border-radius:20px; transition:.5s; cursor:pointer; position: relative; z-index: 5; }
         .chapter-node:nth-child(odd) .card { margin-right:55%; text-align:right; }
         .chapter-node:nth-child(even) .card { margin-left:55%; text-align:left; }
-
         .node-dot { position:absolute; left:50%; transform:translateX(-50%); width:15px; height:15px; background:#000; border:2px solid var(--gold); border-radius:50%; box-shadow:0 0 15px var(--gold); z-index: 6; }
-
         .card:hover { transform:translateY(-10px); border-color:var(--gold); box-shadow:0 0 30px rgba(212,175,55,0.2); }
-
-        .nav-arrow { 
-            position:fixed; right:20px; width:45px; height:45px; border-radius:50%; 
-            background:rgba(0,0,0,0.8); border:1px solid var(--gold); color:var(--gold);
-            display:flex; align-items:center; justify-content:center; cursor:pointer; 
-            z-index:1000; transition: opacity 0.5s ease; opacity: 0; pointer-events: none;
-        }
-        .nav-arrow.show { opacity: 1; pointer-events: auto; }
-        #scrollUp { bottom:90px; }
-        #scrollDown { bottom:30px; }
-
-        #notification { 
-            position:fixed; top:30px; left:50%; transform:translateX(-50%);
-            background:rgba(0,0,0,0.9); padding:15px 30px; border:1px solid var(--gold); 
-            border-radius:50px; z-index:10001; transition: 0.8s ease; opacity:0;
-            font-family: 'Great Vibes'; font-size: 1.5rem; color: var(--gold);
-            pointer-events: none; text-align: center; min-width: 250px;
-        }
-
+        .nav-arrow { position:fixed; right:20px; width:45px; height:45px; border-radius:50%; background:rgba(0,0,0,0.8); border:1px solid var(--gold); color:var(--gold); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000; opacity: 0; transition: 0.5s; }
+        .nav-arrow.show { opacity: 1; }
+        #notification { position:fixed; top:30px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.9); padding:15px 30px; border:1px solid var(--gold); border-radius:50px; z-index:10001; transition: 0.8s; opacity:0; font-family: 'Great Vibes'; font-size: 1.5rem; color: var(--gold); text-align: center; }
         .jump-highlight { box-shadow: 0 0 40px var(--gold) !important; transform: scale(1.05) translateY(-10px); border-color: var(--gold) !important; }
     </style>
 </head>
 <body>
-
-<canvas id="space"></canvas>
-
-<a href="home.html" class="back-hub" style="color: var(--gold); text-decoration: none;">
-    << HUB
-</a>
-
-<div id="notification">Welcome Back, Muskan ❤️</div>
-
-<div class="gate">
-    <div class="main-content">
-        <div class="search-container">
-            <input id="daySearch" type="number" placeholder="Day No." />
-            <button onclick="jumpToDay()">Jump 🚀</button>
+    <canvas id="space"></canvas>
+    <a href="index.html" class="back-hub"><< HUB</a>
+    <div id="notification">Welcome Back, Muskan ❤️</div>
+    <div class="gate">
+        <div class="main-content">
+            <div class="search-container"><input id="daySearch" type="number" placeholder="Day No." /><button onclick="jumpToDay()">Jump 🚀</button></div>
+            <header><h1>LOVE STORY</h1><p>Every moment is a milestone...</p></header>
+            <div class="timeline-line"></div>
+            <div id="timeline"></div>
         </div>
-
-        <header>
-            <h1>LOVE STORY</h1>
-            <p>Every moment is a milestone...</p>
-        </header>
-
-        <div class="timeline-line"></div>
-        <div id="timeline"></div>
     </div>
-</div>
+    <div id="scrollUp" class="nav-arrow" style="bottom:90px;">⬆</div>
+    <div id="scrollDown" class="nav-arrow" style="bottom:30px;">⬇</div>
 
-<div id="scrollUp" class="nav-arrow">⬆</div>
-<div id="scrollDown" class="nav-arrow">⬇</div>
+    <script>
+        const COMPLETED_DAYS = 5000; 
+        const container = document.getElementById("timeline");
 
-<script>
-    // Config: Sirf isse update karna jab naye days add honge
-    const COMPLETED_DAYS = 10; 
-    const TOTAL_DAYS = 5000; 
-
-    let container = document.getElementById("timeline");
-
-    for(let i=1; i<=TOTAL_DAYS; i++){
-        let node = document.createElement("div");
-        node.className = "chapter-node";
-        node.innerHTML = `
-            <div class="node-dot"></div>
-            <div class="card" onclick="loadChapter(${i})">
-                <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">
-                    Day ${i}
-                </span><br>
-                <small>${i <= COMPLETED_DAYS ? 'Enter Memory' : 'Locked'}</small>
-            </div>
-        `;
-        container.appendChild(node);
-    }
-
-    function showPopup(msg) {
-        const notif = document.getElementById('notification');
-        notif.innerText = msg;
-        notif.style.opacity = "1";
-        setTimeout(() => { notif.style.opacity = "0"; }, 3000);
-    }
-
-    function loadChapter(i) {
-        if (i <= COMPLETED_DAYS) {
-            window.location.href = `day.html?d=${i}`;
-        } else {
-            showPopup("Sabr rakho Muskan! Ye din bahot jaldi aayega ❤️");
+        // Performance Optimization: Generate HTML in one go
+        let fullHTML = "";
+        for(let i=1; i<=5000; i++){
+            fullHTML += `
+                <div class="chapter-node" id="node-${i}">
+                    <div class="node-dot"></div>
+                    <div class="card" onclick="loadChapter(${i})">
+                        <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">Day ${i}</span><br>
+                        <small>Enter Memory</small>
+                    </div>
+                </div>`;
         }
-    }
+        container.innerHTML = fullHTML;
 
-    function jumpToDay(){
-        let input = document.getElementById("daySearch");
-        let num = parseInt(input.value);
-        let nodes = document.querySelectorAll(".chapter-node");
-
-        if(num >= 1 && num <= nodes.length){
-            const targetNode = nodes[num-1];
-            targetNode.scrollIntoView({behavior:"smooth", block:"center"});
-            const card = targetNode.querySelector('.card');
-            card.classList.add('jump-highlight');
-            setTimeout(() => { card.classList.remove('jump-highlight'); }, 2500);
-            
-            // Yahan bhi check karega click par
-            input.value = ""; 
-        } else {
-            showPopup("Sabr rakho Muskan! Ye din bahot jaldi aayega ❤️");
+        function showPopup(msg) {
+            const notif = document.getElementById('notification');
+            notif.innerText = msg; notif.style.opacity = "1";
+            setTimeout(() => { notif.style.opacity = "0"; }, 3000);
         }
-    }
 
-    window.onload = () => {
-        showPopup("Welcome Back, Muskan ❤️");
-    };
+        function loadChapter(i) { window.location.href = `day.html?d=${i}`; }
 
-    window.onscroll = function() {
-        let up = document.getElementById("scrollUp");
-        let down = document.getElementById("scrollDown");
-        if (window.scrollY > 300) up.classList.add("show");
-        else up.classList.remove("show");
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) down.classList.remove("show");
-        else down.classList.add("show");
-    };
+        function jumpToDay(){
+            let num = parseInt(document.getElementById("daySearch").value);
+            let target = document.getElementById(`node-${num}`);
+            if(target){
+                target.scrollIntoView({behavior:"smooth", block:"center"});
+                let card = target.querySelector('.card');
+                card.classList.add('jump-highlight');
+                setTimeout(() => card.classList.remove('jump-highlight'), 2500);
+            } else { showPopup("Wait! That day is still in our future ❤️"); }
+        }
 
-    document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
-    document.getElementById("scrollDown").onclick = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
+        window.onscroll = () => {
+            let up = document.getElementById("scrollUp");
+            let down = document.getElementById("scrollDown");
+            window.scrollY > 300 ? up.classList.add("show") : up.classList.remove("show");
+            (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100 ? down.classList.remove("show") : down.classList.add("show");
+        };
 
-    const c=document.getElementById("space"); const ctx=c.getContext("2d");
-    c.width=innerWidth; c.height=innerHeight;
-    let stars=[];
-    for(let i=0; i<100; i++) stars.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*1.5});
-    function anim(){
-        ctx.clearRect(0,0,c.width,c.height);
-        ctx.fillStyle="white";
-        stars.forEach(s=>{
-            ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
-            s.y += 0.3; if(s.y > c.height) s.y = 0;
-        });
-        requestAnimationFrame(anim);
-    }
-    anim();
-</script>
+        document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
+        document.getElementById("scrollDown").onclick = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
+
+        // Stars Background
+        const c=document.getElementById("space"); const ctx=c.getContext("2d");
+        c.width=innerWidth; c.height=innerHeight;
+        let stars=[];
+        for(let i=0; i<100; i++) stars.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*1.5});
+        function anim(){
+            ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="white";
+            stars.forEach(s=>{
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+                s.y += 0.3; if(s.y > c.height) s.y = 0;
+            });
+            requestAnimationFrame(anim);
+        }
+        anim();
+        window.onload = () => showPopup("Welcome Back, Muskan ❤️");
+    </script>
 </body>
 </html>
