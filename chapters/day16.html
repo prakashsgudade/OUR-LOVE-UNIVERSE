@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 16 | Smart Love Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@200;500&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --accent: #d4af37;
+            --bg: #050505;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        
+        body, html {
+            margin: 0; padding: 0; background-color: var(--bg);
+            color: white; font-family: 'Montserrat', sans-serif;
+            overflow: hidden; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 1s ease;
+        }
+
+        /* --- ADVANCED NEON BACKGROUND --- */
+        .aura {
+            position: fixed; width: 300px; height: 300px;
+            filter: blur(100px); border-radius: 50%;
+            z-index: 1; opacity: 0.4; transition: all 1s ease;
+        }
+        #aura1 { top: -50px; left: -50px; background: var(--accent); }
+        #aura2 { bottom: -50px; right: -50px; background: #ff4d6d; }
+
+        /* --- MAIN UI --- */
+        .engine-container {
+            position: relative; z-index: 10; width: 90%; max-width: 400px;
+            text-align: center;
+        }
+
+        .hero-orb {
+            position: relative; width: 180px; height: 180px; margin: 0 auto 40px;
+        }
+
+        .hero-orb img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 50%; border: 2px solid rgba(255,255,255,0.1);
+            padding: 5px; z-index: 5; position: relative;
+        }
+
+        /* Rotating Ring */
+        .orb-ring {
+            position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 2px solid var(--accent); border-radius: 50%;
+            border-top-color: transparent; border-bottom-color: transparent;
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- SMART BUTTON --- */
+        .smart-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--accent); padding: 18px 35px;
+            border-radius: 15px; color: var(--accent);
+            font-family: 'Cinzel'; font-size: 0.75rem; letter-spacing: 3px;
+            cursor: pointer; overflow: hidden; position: relative;
+            transition: 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .smart-btn:active { transform: scale(0.95); background: var(--accent); color: black; }
+
+        /* --- SMART OVERLAY --- */
+        .overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 100; display: none; align-items: flex-end; justify-content: center;
+        }
+
+        .glass-sheet {
+            background: var(--glass);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px 40px 0 0; padding: 50px 30px 40px;
+            width: 100%; max-width: 500px; text-align: center;
+            transform: translateY(100%); transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .overlay.active .glass-sheet { transform: translateY(0); }
+
+        .tag { font-size: 0.6rem; letter-spacing: 5px; color: var(--accent); margin-bottom: 20px; text-transform: uppercase; }
+        .urdu { font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.6rem; line-height: 2.8; margin-bottom: 20px; color: white; }
+        .quote { font-weight: 200; line-height: 1.8; color: #ccc; font-style: italic; font-size: 1rem; }
+        .signature { font-family: 'Dancing Script', cursive; font-size: 2.4rem; color: var(--accent); margin-top: 25px; }
+
+        .close-area { margin-top: 30px; font-size: 0.7rem; color: #666; cursor: pointer; letter-spacing: 2px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="aura" id="aura1"></div>
+    <div class="aura" id="aura2"></div>
+
+    <div class="engine-container">
+        <div class="hero-orb">
+            <div class="orb-ring"></div>
+            <img src="../assets/images/home/m1.jpg" alt="Muskan">
+        </div>
+        
+        <h1 style="font-family: 'Cinzel'; font-size: 0.8rem; letter-spacing: 6px; margin-bottom: 30px; color: #666;">EXPERIENCE DAY 16</h1>
+        
+        <button class="smart-btn" onclick="openSmartSurprise()">CLICK IF YOU MISS ME</button>
+    </div>
+
+    <div id="overlay" class="overlay" onclick="closeSmartSurprise()">
+        <div class="glass-sheet" onclick="event.stopPropagation()">
+            <div id="typeTag" class="tag">SHAYARI</div>
+            <div id="urduMsg" class="urdu"></div>
+            <div id="englishMsg" class="quote"></div>
+            <div class="signature">Prakash ❤️ Muskan</div>
+            <div class="close-area" onclick="closeSmartSurprise()">[ TAP ANYWHERE TO CLOSE ]</div>
+        </div>
+    </div>
+
+    <script>
+        const surprises = [
+            {
+                type: 'Deep Shayari',
+                urdu: 'تمہاری مسکراہٹ ہی میرا سکون ہے',
+                msg: '"Log kehte hain mohabbat ek bar hoti hai,<br>Lekin main jab-jab tumhe dekhta hoon,<br>Mujhe har baar hoti hai."',
+                color: '#d4af37'
+            },
+            {
+                type: 'Special Memory',
+                urdu: 'پہلی گفتگو',
+                msg: '"Wo 1st day ki chat aaj bhi mere dil ke pas hai.<br>Wahi se shuru hua tha ye sukoon bhara safar."',
+                color: '#ff4d6d'
+            },
+            {
+                type: 'Hidden Truth',
+                urdu: 'تم اور میں',
+                msg: '"Zindagi ke 3 saal beet gaye Muskan,<br>Lekin tumse baat kiye bina ek ghanta bhi<br>sadiyon jaisa lagta hai."',
+                color: '#00d4ff'
+            },
+            {
+                type: 'Virtual Hug',
+                urdu: 'میری بہترین دوست',
+                msg: '"Aankhein band karo aur ek gahri saans lo.<br>Mehsoos karo, main hamesha tumhare sath hoon."',
+                color: '#a8ff78'
+            }
+        ];
+
+        function openSmartSurprise() {
+            const random = surprises[Math.floor(Math.random() * surprises.length)];
+            
+            // Update Content
+            document.getElementById('typeTag').innerText = random.type;
+            document.getElementById('urduMsg').innerText = random.urdu;
+            document.getElementById('englishMsg').innerHTML = random.msg;
+            
+            // Update Accent Colors
+            document.documentElement.style.setProperty('--accent', random.color);
+            document.getElementById('aura1').style.background = random.color;
+
+            // Show Overlay
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('active'), 10);
+        }
+
+        function closeSmartSurprise() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('active');
+            setTimeout(() => overlay.style.display = 'none', 600);
+        }
+    </script>
+</body>
+</html>
