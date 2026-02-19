@@ -1,32 +1,14 @@
-const TOTAL_IMAGES = 120;   // m1.jpg to m120.jpg
-const TOTAL_SONGS = 50;     // s1.mp3 to s50.mp3 (change if needed)
+const loveDays = {
+    "1": { title: "Pehli Nazar ❤️", message: "Wo din jab duniya badal gayi... Jab maine tumhe pehli baar dekha, tab samajh aaya ki 'Sukoon' kise kehte hain.", image: "assets/images/photo1.jpg", song: "assets/audio/our-song.mp3", voice: "assets/audio/muskan-message.mp3.mpeg", theme: "#d4af37", particles: "hearts", hidden: "Pata hai? Usi din dil ne keh diya tha ki 'Yehi hai wo!'" },
+    "2": { title: "The Beginning ✨", message: "Dhire-dhire humari baatein shuru hui, aur har guzarne wala din tumhari yaadon se bharne laga.", image: "assets/images/photo2.jpg", song: "assets/audio/love-marrige.mp3", theme: "#ff4d6d", particles: "hearts", hidden: "Tumhare messages ka wait karna aaj bhi mera favourite kaam hai." },
+    "3": { title: "3D Galaxy of Us 🌌", message: "Is puri duniya mein karodo log hain, lekin mere liye sirf tum chamakti ho. My only gravity.", image: "assets/images/photo3.jpg", song: "assets/audio/meri-mallika.mp3", theme: "#6a11cb", particles: "stars", hidden: "You are my universe, Muskan." },
+    "4": { title: "Secret Memory 🔐", message: "Ye photo sirf ek image nahi, ek ehsas hai. Ye wo pal hai jise main duniya se chhupa kar rakhna chahta hoon.", image: "assets/images/photo4.jpg", song: "assets/audio/ilove-u.mp3", theme: "#00d2ff", effect: "snow", hidden: "Main waada karta hoon, tumhara hath kabhi nahi chhodunga." },
+    "5": { title: "A Hidden Surprise 🎁", message: "Hamari mohabbat bilkul is card jaisi hai... Ise scratch karo!", image: "assets/images/photo5.jpg", song: "assets/audio/wistel5.mp3", theme: "#ffcc00", layout: "scratch-card", particles: "hearts", hidden: "Surprise! Har din tumse aur zyada mohabbat ho jati hai." },
+    "6": { title: "The Soul Hug ❤️", message: "Bas is photo ko hold karna (Long Press). Mehsus karna ki main wahi tumhare paas hoon...", image: "assets/images/photo6.jpg", song: "assets/audio/janeman7.mp3", theme: "#ff4d6d", layout: "virtual-hug", particles: "hearts", hidden: "I'm always holding you in my heart. 🤗" },
+    "7": { title: "Forever & Always 💍", message: "Photo par click karo aur dekho hamara pyaar kaise barasta hai!", image: "assets/images/photo7.jpg", song: "assets/audio/love-muskan.mp3", theme: "#e63946", layout: "infinity-portal", particles: "stars", hidden: "Will you be my Valentine forever? ❤️" },
+    "8": { title: "Our Mini Universe 📸", message: "Look at these smiles!", layout: "gallery", theme: "#ff4d6d", items: [{ img: "assets/images/m1.jpg", cap: "Pehli Mulakat" }, { img: "assets/images/m2.jpg", cap: "Sath Hamesha" }] },
+    "9": { title: "Soulmate Beats 🎵", message: "Ye gaana humara official anthem hai!", layout: "music-player", image: "assets/images/muskan-profile.jpg", song: "assets/audio/love10.mp3", theme: "#8b5cf6" },
+    "10": { title: "My Final Promise 👑", message: "Aaj 10 din pure ho gaye, par mera pyaar har lamha badh raha hai.", image: "assets/images/final-photo.jpg", song: "assets/audio/.mp3", theme: "#d4af37", particles: "hearts", hidden: "I love you more than words can ever say. ❤️" }
+};
 
-const themes = ["#ff4d6d","#d4af37","#8b5cf6","#00d2ff","#ffcc00","#e63946","#6a11cb"];
 
-function generateDay(day) {
-    return {
-        title: `Day ${day} With Muskan ❤️`,
-        message: getDynamicMessage(day),
-        image: `assets/images/home/m${((day-1)%TOTAL_IMAGES)+1}.jpg`,
-        song: `assets/audio/ring/s${((day-1)%TOTAL_SONGS)+1}.mp3`,
-        theme: themes[day % themes.length],
-        particles: (day % 3 === 0) ? "stars" : "hearts",
-        hidden: `No matter what day it is… I still choose you. ❤️ (Day ${day})`
-    };
-}
-
-function getDynamicMessage(day){
-    if(day < 50) return "Har din tumse milne ka ehsaas aur gehra hota ja raha hai...";
-    if(day < 200) return "Tum meri aadat nahi… meri zarurat ban chuki ho.";
-    if(day < 500) return "Agar waqt ruk jaye, toh main chahta hoon ye pal tumhare saath ruk jaye.";
-    if(day < 1000) return "Har mushkil ke baad bhi, mera dil sirf tumhara hai.";
-    if(day < 3000) return "Universe mein hazaar tare hain, par meri roshni sirf tum ho.";
-    return "5000 din ho ya 5 zindagi… mera pyaar tumse kam nahi hoga.";
-}
-
-const loveDays = new Proxy({}, {
-    get: function(_, prop){
-        if(!isNaN(prop)) return generateDay(parseInt(prop));
-        return null;
-    }
-});
