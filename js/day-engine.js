@@ -1,57 +1,47 @@
 window.onload = function() {
-    // 1. Get Day ID from URL
-    const params = new URLSearchParams(window.location.search);
-    const dayId = params.get('d') || "1";
-    
-    // 2. Security Check
-    if (typeof loveDays === 'undefined') {
-        document.body.innerHTML = "<h2 style='color:red; text-align:center; padding:50px;'>Error: days-data.js not found!</h2>";
-        return;
-    }
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const dayId = urlParams.get('d') || "1";
     const data = loveDays.get(dayId);
     
-    // 3. Update Theme
+    if(!data) return;
+
     document.documentElement.style.setProperty('--accent', data.theme);
-    
-    // 4. Inject Content
     const container = document.getElementById('app-container');
+
     container.innerHTML = `
         <div class="main-wrapper">
             <div class="glass-container">
                 <div class="img-frame">
-                    <img src="${data.image}" onerror="this.src='https://via.placeholder.com/400x300?text=I+Love+You+Muskan'">
+                    <img src="${data.image}" onerror="this.src='https://via.placeholder.com/400x300?text=Love+You+Muskan'">
                 </div>
                 <h1 class="title">${data.title}</h1>
-                <p class="msg">${data.message}</p>
+                <div class="msg">${data.message}</div>
                 
-                <audio id="bgMusic" autoplay loop src="${data.song}"></audio>
+                <audio id="player" autoplay loop src="${data.song}"></audio>
 
-                <button class="action-btn" onclick="reveal()">Reveal My Secret</button>
+                <button class="action-btn" onclick="reveal()">Tap to Reveal Secret</button>
                 <div id="secret-msg" class="secret-box">${data.hidden}</div>
                 
-                <a href="chapters.html" class="back-link">← VIEW ALL DAYS</a>
+                <a href="chapters.html" class="back-link">← Back to Timeline</a>
             </div>
         </div>
     `;
 
-    // 5. Start Hearts
-    setInterval(spawnHeart, 500);
+    setInterval(createParticle, 500);
 };
 
 function reveal() {
     document.getElementById('secret-msg').classList.toggle('show');
 }
 
-function spawnHeart() {
+function createParticle() {
     const layer = document.getElementById('particles-layer');
-    if(!layer) return;
     const p = document.createElement('div');
     p.className = 'particle';
-    p.innerHTML = "❤️";
+    p.innerText = "❤️";
     p.style.left = Math.random() * 100 + "vw";
     p.style.animationDuration = (Math.random() * 3 + 2) + "s";
-    p.style.fontSize = Math.random() * 15 + 15 + "px";
+    p.style.fontSize = "20px";
     layer.appendChild(p);
     setTimeout(() => p.remove(), 5000);
 }
