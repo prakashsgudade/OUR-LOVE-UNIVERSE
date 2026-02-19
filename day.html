@@ -2,13 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For My Muskan ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memory | Love Universe</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/day-style.css">
 </head>
 <body id="dynamic-body">
+
+    <div id="loader">
+        <div class="heart-icon">❤️</div>
+        <p>Fetching our memory...</p>
+    </div>
+
+    <a href="chapters.html" class="back-btn">← Back to Timeline</a>
+
+    <div id="content-anchor"></div>
+
     <script src="js/days-data.js"></script>
     <script src="js/day-engine.js"></script>
+    
+    <script>
+        // Loader script
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
