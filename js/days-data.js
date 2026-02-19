@@ -1,56 +1,39 @@
-const loveDays = {
-    // ... (1 to 10 same as before)
-    "1": { title: "Pehli Nazar ❤️", message: "Wo din jab duniya badal gayi...", image: "assets/images/photo1.jpg", song: "assets/audio/our-song.mp3", voice: "assets/audio/muskan-message.mp3.mpeg", theme: "#d4af37", particles: "hearts", hidden: "Pata hai? Usi din dil ne keh diya tha ki 'Yehi hai wo!'" },
-    "2": { title: "The Beginning ✨", message: "Dhire-dhire humari baatein shuru hui...", image: "assets/images/photo2.jpg", song: "assets/audio/love-marrige.mp3", theme: "#ff4d6d", particles: "hearts", hidden: "Tumhare messages ka wait karna aaj bhi mera favourite kaam hai." },
-    "3": { title: "3D Galaxy of Us 🌌", message: "Is puri duniya mein karodo log hain...", image: "assets/images/photo3.jpg", song: "assets/audio/meri-mallika.mp3", theme: "#6a11cb", particles: "stars", hidden: "You are my universe, Muskan." },
-    "4": { title: "Secret Memory 🔐", message: "Ye photo sirf ek image nahi, ek ehsas hai...", image: "assets/images/photo4.jpg", song: "assets/audio/ilove-u.mp3", theme: "#00d2ff", effect: "snow", hidden: "Main waada karta hoon, tumhara hath kabhi nahi chhodunga." },
-    "5": { title: "A Hidden Surprise 🎁", message: "Hamari mohabbat bilkul is card jaisi hai...", image: "assets/images/photo5.jpg", song: "assets/audio/wistel5.mp3", theme: "#ffcc00", layout: "scratch-card", particles: "hearts", hidden: "Surprise! Har din tumse aur zyada mohabbat ho jati hai." },
-    "6": { title: "The Soul Hug ❤️", message: "Bas is photo ko hold karna (Long Press)...", image: "assets/images/photo6.jpg", song: "assets/audio/janeman7.mp3", theme: "#ff4d6d", layout: "virtual-hug", particles: "hearts", hidden: "I'm always holding you in my heart. 🤗" },
-    "7": { title: "Forever & Always 💍", message: "Photo par click karo!", image: "assets/images/photo7.jpg", song: "assets/audio/love-muskan.mp3", theme: "#e63946", layout: "infinity-portal", particles: "stars", hidden: "Will you be my Valentine forever? ❤️" },
+const manualDays = {
+    "1": { title: "Pehli Nazar ❤️", message: "Wo din jab duniya badal gayi... Jab maine tumhe pehli baar dekha, tab samajh aaya ki 'Sukoon' kise kehte hain.", image: "assets/images/photo1.jpg", song: "assets/audio/our-song.mp3", voice: "assets/audio/muskan-message.mp3.mpeg", theme: "#d4af37", particles: "hearts", hidden: "Pata hai? Usi din dil ne keh diya tha ki 'Yehi hai wo!'" },
+    "2": { title: "The Beginning ✨", message: "Dhire-dhire humari baatein shuru hui, aur har guzarne wala din tumhari yaadon se bharne laga.", image: "assets/images/photo2.jpg", song: "assets/audio/love-marrige.mp3", theme: "#ff4d6d", particles: "hearts", hidden: "Tumhare messages ka wait karna aaj bhi mera favourite kaam hai." },
+    "3": { title: "3D Galaxy of Us 🌌", message: "Is puri duniya mein karodo log hain, lekin mere liye sirf tum chamakti ho. My only gravity.", image: "assets/images/photo3.jpg", song: "assets/audio/meri-mallika.mp3", theme: "#6a11cb", particles: "stars", hidden: "You are my universe, Muskan." },
+    "4": { title: "Secret Memory 🔐", message: "Ye photo sirf ek image nahi, ek ehsas hai. Ye wo pal hai jise main duniya se chhupa kar rakhna chahta hoon.", image: "assets/images/photo4.jpg", song: "assets/audio/ilove-u.mp3", theme: "#00d2ff", effect: "snow", hidden: "Main waada karta hoon, tumhara hath kabhi nahi chhodunga." },
+    "5": { title: "A Hidden Surprise 🎁", message: "Hamari mohabbat bilkul is card jaisi hai... Ise scratch karo!", image: "assets/images/photo5.jpg", song: "assets/audio/wistel5.mp3", theme: "#ffcc00", layout: "scratch-card", particles: "hearts", hidden: "Surprise! Har din tumse aur zyada mohabbat ho jati hai." },
+    "6": { title: "The Soul Hug ❤️", message: "Bas is photo ko hold karna (Long Press). Mehsus karna ki main wahi tumhare paas hoon...", image: "assets/images/photo6.jpg", song: "assets/audio/janeman7.mp3", theme: "#ff4d6d", layout: "virtual-hug", particles: "hearts", hidden: "I'm always holding you in my heart. 🤗" },
+    "7": { title: "Forever & Always 💍", message: "Photo par click karo aur dekho hamara pyaar kaise barasta hai!", image: "assets/images/photo7.jpg", song: "assets/audio/love-muskan.mp3", theme: "#e63946", layout: "infinity-portal", particles: "stars", hidden: "Will you be my Valentine forever? ❤️" },
     "8": { title: "Our Mini Universe 📸", message: "Look at these smiles!", layout: "gallery", theme: "#ff4d6d", items: [{ img: "assets/images/m1.jpg", cap: "Pehli Mulakat" }, { img: "assets/images/m2.jpg", cap: "Sath Hamesha" }] },
     "9": { title: "Soulmate Beats 🎵", message: "Ye gaana humara official anthem hai!", layout: "music-player", image: "assets/images/muskan-profile.jpg", song: "assets/audio/love10.mp3", theme: "#8b5cf6" },
-    "10": { title: "My Final Promise 👑", message: "Aaj 10 din pure ho gaye.", image: "assets/images/final-photo.jpg", song: "assets/audio/love10.mp3", theme: "#d4af37", particles: "hearts", hidden: "I love you more than words can ever say. ❤️" },
-
-    // NEW DAYS 11 - 20
-    "11": { 
-        title: "The Love Quiz 💡", 
-        layout: "quiz-game",
-        question: "Humari sabse pehli lambi call kitni der ki thi?",
-        options: ["30 Mins", "2 Ghante", "Sari Raat", "Pata Nahi"],
-        correct: 2, 
-        theme: "#4ade80", 
-        hidden: "Sahi jawab! Wo raat main kabhi nahi bhul sakta. ❤️" 
-    },
-    "12": { 
-        title: "A Letter to You ✉️", 
-        layout: "love-letter", 
-        message: "Muskan, tumhare aane se meri zindagi mein wo rang aaye jo maine kabhi dekhe nahi the. Tum sirf meri girlfriend nahi, meri sukoon ho...", 
-        theme: "#f472b6", 
-        hidden: "Hamesha meri rehna." 
-    },
-    "13": { 
-        title: "Pop Art Vibes 🎨", 
-        layout: "pop-art", 
-        image: "assets/images/photo13.jpg", 
-        theme: "#fbbf24", 
-        hidden: "You make life colorful!" 
-    },
-    "14": { 
-        title: "The Heartbeat Radar 💓", 
-        layout: "radar", 
-        message: "Check how fast my heart beats for you...", 
-        theme: "#ef4444", 
-        hidden: "140 BPM when you smile!" 
-    },
-    "15": { 
-        title: "Floating Memories 🎈", 
-        layout: "floating", 
-        images: ["assets/images/p1.jpg", "assets/images/p2.jpg", "assets/images/p3.jpg"], 
-        theme: "#818cf8" 
-    },
-    "16": { title: "Neon Nights 🌃", message: "Hamara pyar neon light ki tarah hamesha chamkega.", image: "assets/images/photo16.jpg", theme: "#22d3ee", layout: "classic" },
-    "17": { title: "Vintage Love 🎞️", message: "Old school love in a digital world.", image: "assets/images/photo17.jpg", layout: "classic", theme: "#a8a29e" },
-    "18": { title: "Star Crossed 🌠", message: "Written in the stars, just for us.", layout: "infinity-portal", theme: "#c084fc" },
-    "19": { title: "Melody of Us 🎻", message: "Every note reminds me of you.", layout: "music-player", image: "assets/images/p19.jpg", song: "assets/audio/song19.mp3", theme: "#f87171" },
-    "20": { title: "Milestone Day 🏆", message: "20 Days of us! And a million more to go.", layout: "scratch-card", image: "assets/images/p20.jpg", theme: "#fbbf24", hidden: "You are my greatest achievement." }
+    "10": { title: "My Final Promise 👑", message: "Aaj 10 din pure ho gaye, par mera pyaar har lamha badh raha hai.", image: "assets/images/final-photo.jpg", song: "assets/audio/love10.mp3", theme: "#d4af37", particles: "hearts", hidden: "I love you more than words can ever say. ❤️" }
 };
+
+const loveDays = {};
+const dynamicTitles = ["The Day You Smiled", "The First Time You Said My Name", "Heartbeat For You", "The Night I Couldn't Sleep", "Your Eyes", "Your Laugh", "What I Never Told You", "The Hug I Owe You", "When I Realized I Love You"];
+const dynamicLayouts = ["classic", "scratch-card", "virtual-hug", "infinity-portal", "quiz-game", "ai-chat", "stats-dashboard", "parallax-3d", "challenge-tap", "fog-reveal"];
+const dynamicEffects = ["hearts", "stars", "snow", "fireworks", "galaxy", "neon-glow"];
+const dynamicThemes = ["#ff4d6d", "#70e000", "#00d2ff", "#ff8500", "#9d4edd", "#ff0054", "#fb8500", "#023e8a"];
+
+for (let i = 1; i <= 5000; i++) {
+    if (manualDays[i]) {
+        loveDays[i] = manualDays[i];
+    } else {
+        loveDays[i] = {
+            title: dynamicTitles[i % dynamicTitles.length] + ` (Day ${i})`,
+            message: `Muskan, ye din hamari kahani ka ek anmol panna hai. Har pal tumhara khayal mere dil ke sabse kareeb rehta hai.`,
+            image: `assets/images/photo${(i % 10) + 1}.jpg`,
+            theme: dynamicThemes[i % dynamicThemes.length],
+            layout: dynamicLayouts[i % dynamicLayouts.length],
+            effect: dynamicEffects[i % dynamicEffects.length],
+            song: `assets/audio/song${(i % 5) + 1}.mp3`,
+            hidden: "You are the best thing that ever happened to me! ❤️",
+            // For Quiz
+            question: "How much do I love you?",
+            options: ["Infinite", "More than stars", "Beyond life", "All of above"],
+            correct: 3
+        };
+    }
+}
