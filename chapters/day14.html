@@ -3,119 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 14 | AR Love Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Day 14 | Valentine's Metaverse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Press+Start+2P&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --neon-pink: #ff007f;
+            --neon-purple: #8a2be2;
+            --dark-bg: #0a001a;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body, html { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Arial', sans-serif; }
+        
+        body, html {
+            width: 100%; height: 100%; overflow: hidden;
+            background-color: var(--dark-bg);
+            font-family: 'Major Mono Display', monospace;
+            color: #fff; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
 
-        /* --- AR CAMERA BACKGROUND --- */
-        #video-bg {
+        /* --- BACKGROUND PARTICLES (CANVAS) --- */
+        #particle-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: 1; transform: scaleX(-1); /* Mirror mode */
+            z-index: 1; pointer-events: none;
         }
 
-        /* --- OVERLAY LAYER --- */
-        .ar-overlay {
-            position: relative; z-index: 10; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; background: rgba(0,0,0,0.3); /* Slight tint for readability */
-            backdrop-filter: blur(2px);
+        /* --- UI CONTAINER --- */
+        .meta-container {
+            position: relative; z-index: 10;
+            width: 90%; max-width: 400px;
+            text-align: center;
         }
 
-        /* --- FLOATING PHOTO FRAME --- */
-        .ar-frame {
-            width: 220px; height: 220px; border: 3px solid #d4af37;
-            border-radius: 50%; overflow: hidden;
-            box-shadow: 0 0 30px #d4af37, inset 0 0 20px #d4af37;
-            animation: float 4s ease-in-out infinite;
-            margin-bottom: 30px;
-        }
-        .ar-frame img { width: 100%; height: 100%; object-fit: cover; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
+        /* --- NEON PHOTO ORBIT --- */
+        .photo-orbit-wrapper {
+            position: relative; width: 200px; height: 200px;
+            margin: 50px auto 40px; border-radius: 50%;
+            box-shadow: 0 0 30px var(--neon-pink);
+            display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- MESSAGE OVERLAY --- */
-        .glass-card {
-            width: 85%; max-width: 350px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px); border: 1px solid rgba(212,175,55,0.5);
-            border-radius: 20px; padding: 25px; text-align: center;
-            color: #fff; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        .photo-orbit-wrapper::before,
+        .photo-orbit-wrapper::after {
+            content: ''; position: absolute; border: 2px solid;
+            border-radius: 50%; animation: orbit 8s linear infinite;
+        }
+        .photo-orbit-wrapper::before {
+            width: 220px; height: 220px; border-color: var(--neon-pink);
+            animation-delay: 0s;
+        }
+        .photo-orbit-wrapper::after {
+            width: 240px; height: 240px; border-color: var(--neon-purple);
+            animation-delay: -4s; /* Offset for smooth animation */
+        }
+        @keyframes orbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .day-title {
-            font-family: 'Cinzel Decorative', cursive; color: #d4af37;
-            font-size: 0.8rem; letter-spacing: 5px; margin-bottom: 15px;
+        .photo-orbit-wrapper img {
+            width: 180px; height: 180px; object-fit: cover;
+            border-radius: 50%; border: 3px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
 
-        .ar-msg {
-            font-size: 1.1rem; line-height: 1.6; font-style: italic;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        /* --- HOLOGRAM MESSAGE CARD --- */
+        .hologram-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 2px solid; border-image: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)) 1;
+            border-radius: 20px; padding: 30px 20px;
+            box-shadow: 0 0 40px var(--neon-pink);
+            position: relative; animation: glowBorder 2s infinite alternate;
+        }
+        @keyframes glowBorder {
+            0% { box-shadow: 0 0 20px var(--neon-pink); }
+            100% { box-shadow: 0 0 30px var(--neon-purple); }
         }
 
-        .sig {
+        .card-title {
+            font-family: 'Press Start 2P', cursive; font-size: 0.8rem;
+            color: var(--neon-pink); margin-bottom: 20px; letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .message-text {
+            font-size: 1.1rem; line-height: 1.8; color: #fff;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        .signature {
             font-family: 'Dancing Script', cursive; font-size: 2.2rem;
-            color: #d4af37; margin-top: 15px;
+            color: var(--neon-purple); margin-top: 25px;
+            text-shadow: 0 0 10px var(--neon-purple);
         }
 
-        /* --- START BUTTON (Needed for Camera Access) --- */
-        #start-ar {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 100; color: #d4af37;
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; text-align: center; cursor: pointer;
+        /* Glowing Hearts */
+        .heart-icon {
+            color: var(--neon-pink); font-size: 1.2rem; margin: 0 5px;
+            animation: pulseHeart 1s infinite alternate;
         }
+        @keyframes pulseHeart {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+        .hearts-deco {
+            position: absolute; width: 100%; height: 100%;
+            top: 0; left: 0; overflow: hidden; pointer-events: none;
+        }
+        .hearts-deco span {
+            position: absolute; font-size: 1.5rem; color: var(--neon-pink);
+            animation: floatHeart 8s infinite; opacity: 0;
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+        .hearts-deco span:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .hearts-deco span:nth-child(2) { left: 80%; top: 50%; animation-delay: 2s; }
+        .hearts-deco span:nth-child(3) { left: 30%; top: 80%; animation-delay: 4s; }
+        .hearts-deco span:nth-child(4) { left: 50%; top: 10%; animation-delay: 6s; }
+        @keyframes floatHeart {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
 
-    <div id="start-ar" onclick="initAR()">
-        <h1 style="font-family: 'Cinzel Decorative';">DAY 14</h1>
-        <p style="margin-top:20px; letter-spacing: 2px;">CLICK TO OPEN YOUR <br> VALENTINE PORTAL</p>
-    </div>
+    <canvas id="particle-canvas"></canvas>
 
-    <video id="video-bg" autoplay playsinline></video>
+    <div class="meta-container">
+        <h1 style="font-family: 'Press Start 2P'; color: var(--neon-pink); text-shadow: 0 0 15px var(--neon-pink); margin-bottom: 20px; font-size: 1.2rem;">DAY 14_VALENTINE_METAVERSE</h1>
 
-    <div class="ar-overlay">
-        <div class="ar-frame">
+        <div class="photo-orbit-wrapper">
             <img src="../assets/images/home/m1.jpg" alt="Muskan">
         </div>
 
-        <div class="glass-card">
-            <div class="day-title">VALENTINE'S AR OVERLAY</div>
-            <div class="ar-msg">
-                "Muskan, <br>
-                Is aaine mein dekho... <br>
-                is jahan ki sabse khoobsurat <br>
-                cheez tum ho, aur mera pyar <br>
-                hamesha tumhare saath hai."
+        <div class="hologram-card">
+            <div class="hearts-deco">
+                <span>❤️</span><span>💖</span><span>❤️</span><span>💖</span>
             </div>
-            <div class="sig">Prakash ❤️</div>
+            <div class="card-title">
+                <span class="heart-icon">❤️</span> OUR VIRTUAL VALENTINE <span class="heart-icon">❤️</span>
+            </div>
+            <div class="message-text">
+                "Muskan, <br>
+                Yeh duniya ek virtual illusion hai, <br>
+                lekin mera pyar tumhare liye <br>
+                ekdum real hai, hamesha ke liye."
+            </div>
+            <div class="signature">Prakash <span class="heart-icon">💖</span> Muskan</div>
         </div>
     </div>
 
     <script>
-        async function initAR() {
-            const startBtn = document.getElementById('start-ar');
-            const video = document.getElementById('video-bg');
+        // Particle Background Logic
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-            try {
-                // Request Camera
-                const stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: "user" }, 
-                    audio: false 
-                });
-                video.srcObject = stream;
-                startBtn.style.display = 'none'; // Hide start screen
-            } catch (err) {
-                alert("Please allow camera access for the AR experience!");
-                console.error(err);
+        let particles = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = Math.random() > 0.5 ? 'rgba(255, 0, 127, 0.7)' : 'rgba(138, 43, 226, 0.7)'; // Neon Pink/Purple
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
+
+        function initParticles() {
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear only once per frame
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.onresize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Re-initialize particles to fit new screen size if needed, or just let them adjust
+            // particles = []; initParticles(); // Uncomment if you want particles to reset
+        };
     </script>
 </body>
 </html>
