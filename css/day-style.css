@@ -1,71 +1,56 @@
-:root { --accent: #ff4d6d; --bg: #050505; }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500&family=Great+Vibes&display=swap');
 
-body { 
-    background: var(--bg); color: white; font-family: 'Quicksand', sans-serif; 
-    min-height: 100vh; overflow-x: hidden;
+:root { --accent: #d4af37; }
+
+body { margin: 0; background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+.ultra-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+
+.main-card {
+    background: rgba(18, 18, 18, 0.8); backdrop-filter: blur(25px);
+    border-radius: 40px; width: 100%; max-width: 450px; padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;
+    box-shadow: 0 50px 100px rgba(0,0,0,0.8); position: relative;
 }
 
-/* Background Effects */
-#particles-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
-
-.main-wrapper { 
-    width: 95%; max-width: 450px; margin: 20px auto; 
-    padding-bottom: 40px; position: relative; z-index: 10; 
+.royal-badge {
+    position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #000; padding: 8px 30px;
+    border-radius: 50px; font-family: 'Cinzel Decorative'; font-size: 14px; font-weight: bold;
 }
 
-.glass-container { 
-    background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(25px); 
-    border-radius: 35px; padding: 30px 20px; text-align: center; 
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    position: relative; overflow: hidden;
+.image-reveal {
+    width: 100%; height: 350px; border-radius: 30px; overflow: hidden;
+    margin: 20px 0; border: 2px solid rgba(255,255,255,0.1);
 }
+.hero-img { width: 100%; height: 100%; object-fit: cover; transition: 1s transform; }
+.hero-img:hover { transform: scale(1.1); }
 
-.day-badge {
-    position: absolute; top: 0; right: 30px; padding: 8px 15px;
-    border-radius: 0 0 15px 15px; font-weight: 800; font-size: 0.8rem; color: #000;
+.glitter-text { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: var(--accent); margin: 15px 0; }
+.love-quote { font-style: italic; font-weight: 300; line-height: 1.8; opacity: 0.9; }
+
+.music-controller { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 15px; margin: 25px 0; }
+.music-controller span { display: block; font-size: 10px; letter-spacing: 3px; margin-bottom: 10px; opacity: 0.5; text-transform: uppercase; }
+audio { width: 100%; height: 30px; filter: invert(1); }
+
+.gold-btn {
+    width: 100%; padding: 20px; border-radius: 50px; background: transparent;
+    color: #fff; cursor: pointer; position: relative; overflow: hidden; font-weight: bold;
 }
-
-.img-frame { 
-    width: 100%; height: 320px; border-radius: 20px; margin-bottom: 25px;
-    overflow: hidden; position: relative; border: 4px solid var(--accent);
-    box-shadow: 0 0 25px rgba(var(--accent-rgb), 0.3);
+.btn-shine {
+    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shine 3s infinite;
 }
-.img-frame img { width: 100%; height: 100%; object-fit: cover; }
+@keyframes shine { 100% { left: 100%; } }
 
-.message-box {
-    background: rgba(255,255,255,0.03); border-radius: 20px;
-    padding: 20px; margin: 20px 0; border-left: 4px solid var(--accent);
-}
+.secret-panel { max-height: 0; opacity: 0; overflow: hidden; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); color: var(--accent); font-family: 'Great Vibes'; font-size: 1.5rem; }
+.secret-panel.active { max-height: 200px; opacity: 1; padding-top: 20px; }
 
-#day-title { font-family: 'Dancing Script', cursive; font-size: 2.8rem; line-height: 1.2; }
+.home-link { display: block; margin-top: 30px; color: #555; text-decoration: none; font-size: 12px; letter-spacing: 2px; }
 
-.audio-card { 
-    background: rgba(0,0,0,0.4); border-radius: 15px; padding: 15px; 
-    margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); 
-}
-audio { width: 100%; height: 35px; filter: invert(1) hue-rotate(180deg); }
-
-.heart-btn { 
-    width: 100%; border: none; border-radius: 50px; padding: 20px; 
-    font-weight: 700; color: #000; cursor: pointer; transition: 0.3s;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-.heart-btn:active { transform: scale(0.95); }
-
-.secret-box { 
-    max-height: 0; opacity: 0; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    font-style: italic; color: #ffb3b3;
-}
-.secret-box.show { max-height: 150px; opacity: 1; padding: 20px; margin-top: 10px; }
-
-/* Animations */
-.reveal-anim { animation: slideUp 0.8s ease-out; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Mobile Optimization */
-@media (max-width: 400px) {
-    #day-title { font-size: 2.2rem; }
-    .img-frame { height: 280px; }
+/* Desktop Adjustment */
+@media (min-width: 1024px) {
+    .main-card { max-width: 900px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; text-align: left; }
+    .royal-badge { left: 40px; transform: none; }
 }
