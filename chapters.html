@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Love Journey | Timeline</title>
+    <title>The Love Journey | Automated Timeline</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -20,16 +20,11 @@
 
         #space { position:fixed; top:0; left:0; z-index:-3; pointer-events: none; }
         
-        /* New Back Button Styling */
         .back-hub {
             position: fixed;
             top: 20px;
             left: 20px;
             z-index: 10005;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            font-weight: 500;
             padding: 8px 15px;
             border: 1px solid var(--border);
             border-radius: 30px;
@@ -37,50 +32,40 @@
             backdrop-filter: blur(5px);
             transition: 0.3s;
         }
-        .back-hub:hover {
-            border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(212,175,55,0.3);
-            transform: translateX(5px);
-        }
 
         .gate { min-height:100vh; display:flex; justify-content:center; padding:20px; box-sizing:border-box; }
         .main-content { text-align:center; z-index:10; width:100%; max-width:900px; position:relative; }
 
         .search-container { 
             margin: 20px auto 40px auto; 
-            position: relative; 
             z-index: 10002; 
             display: flex;
             justify-content: center;
-            align-items: center;
         }
         .search-container input { 
             padding:12px; border-radius:20px 0 0 20px; border:1px solid var(--gold); 
-            background:rgba(20,20,20,0.9); color:white; text-align:center; width: 120px; 
-            outline: none; font-size: 1rem;
+            background:rgba(20,20,20,0.9); color:white; text-align:center; width: 120px; outline: none;
         }
         .search-container button { 
             background:var(--gold); border:1px solid var(--gold); padding:12px 20px; 
-            border-radius:0 20px 20px 0; cursor:pointer; font-weight: bold; 
-            color: #000; transition: 0.3s; font-size: 1rem;
+            border-radius:0 20px 20px 0; cursor:pointer; font-weight: bold; color: #000;
         }
 
-        header h1 { font-family:'Cinzel Decorative'; color:var(--gold); font-size:2.8rem; letter-spacing:5px; margin-bottom:10px; }
-        header p { font-family:'Great Vibes'; font-size:1.8rem; color:#ffb3b3; margin-top:0; }
+        header h1 { font-family:'Cinzel Decorative'; color:var(--gold); font-size:2.8rem; letter-spacing:5px; }
+        header p { font-family:'Great Vibes'; font-size:1.8rem; color:#ffb3b3; }
 
         .timeline-line { position:absolute; left:50%; transform:translateX(-50%); top:350px; bottom:0; width:2px; background:linear-gradient(to bottom, var(--gold), transparent); z-index: -1; }
         
-        .chapter-node { display:flex; justify-content:center; align-items:center; width:100%; margin-bottom:80px; position:relative; transition: 0.5s; }
+        .chapter-node { display:flex; justify-content:center; align-items:center; width:100%; margin-bottom:80px; position:relative; }
         
         .card { 
             width:40%; padding:25px; background:var(--glass); backdrop-filter:blur(15px); 
             border:1px solid var(--border); border-radius:20px; transition:.5s; cursor:pointer; 
-            position: relative; z-index: 5;
         }
         .chapter-node:nth-child(odd) .card { margin-right:55%; text-align:right; }
         .chapter-node:nth-child(even) .card { margin-left:55%; text-align:left; }
 
-        .node-dot { position:absolute; left:50%; transform:translateX(-50%); width:15px; height:15px; background:#000; border:2px solid var(--gold); border-radius:50%; box-shadow:0 0 15px var(--gold); z-index: 6; }
+        .node-dot { position:absolute; left:50%; transform:translateX(-50%); width:15px; height:15px; background:#000; border:2px solid var(--gold); border-radius:50%; box-shadow:0 0 15px var(--gold); }
 
         .card:hover { transform:translateY(-10px); border-color:var(--gold); box-shadow:0 0 30px rgba(212,175,55,0.2); }
 
@@ -88,21 +73,21 @@
             position:fixed; right:20px; width:45px; height:45px; border-radius:50%; 
             background:rgba(0,0,0,0.8); border:1px solid var(--gold); color:var(--gold);
             display:flex; align-items:center; justify-content:center; cursor:pointer; 
-            z-index:1000; transition: opacity 0.5s ease; opacity: 0; pointer-events: none;
+            z-index:1000; transition: 0.5s; opacity: 0;
         }
-        .nav-arrow.show { opacity: 1; pointer-events: auto; }
+        .nav-arrow.show { opacity: 1; }
         #scrollUp { bottom:90px; }
         #scrollDown { bottom:30px; }
 
         #notification { 
             position:fixed; top:30px; left:50%; transform:translateX(-50%);
-            background:rgba(0,0,0,0.9); padding:15px 30px; border:1px solid var(--gold); 
-            border-radius:50px; z-index:10001; transition: 0.8s ease; opacity:0;
-            font-family: 'Great Vibes'; font-size: 1.5rem; color: var(--gold);
-            pointer-events: none;
+            background:rgba(0,0,0,0.95); padding:15px 40px; border:1px solid var(--gold); 
+            border-radius:50px; z-index:10001; transition: 0.5s; opacity:0;
+            font-family: 'Great Vibes'; font-size: 1.6rem; color: var(--gold);
+            pointer-events: none; text-align: center;
         }
 
-        .jump-highlight { box-shadow: 0 0 40px var(--gold) !important; transform: scale(1.05) translateY(-10px); border-color: var(--gold) !important; }
+        .jump-highlight { box-shadow: 0 0 40px var(--gold) !important; transform: scale(1.05); }
     </style>
 </head>
 <body>
@@ -136,35 +121,55 @@
 <div id="scrollDown" class="nav-arrow">⬇</div>
 
 <script>
-    const START_DATE = new Date("2026-02-06");
     const TOTAL_DAYS = 5000; 
-
     let container = document.getElementById("timeline");
 
+    // Timeline Generation
     for(let i=1; i<=TOTAL_DAYS; i++){
         let node = document.createElement("div");
         node.className = "chapter-node";
         node.innerHTML = `
             <div class="node-dot"></div>
-            <div class="card" onclick="loadChapter(${i})">
-                <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">
-                    Day ${i}
-                </span><br>
-                <small>Enter Memory</small>
+            <div class="card" onclick="autoCheckAndLoad(${i})">
+                <span style="color:var(--gold); font-family:'Cinzel Decorative'; font-size:1.2rem;">Day ${i}</span><br>
+                <small>Explore Memory</small>
             </div>
         `;
         container.appendChild(node);
     }
 
-    function loadChapter(i) {
-        window.location.href = `day.html?d=${i}`;
+    // 🔥 BRAIN OF THE CODE: Automatic File Checker
+    async function autoCheckAndLoad(day) {
+        const fileUrl = `day${day}.html`;
+        
+        try {
+            // Background mein check karo file hai ya nahi
+            const response = await fetch(fileUrl, { method: 'HEAD' });
+            
+            if (response.ok) {
+                // Agar file server par hai toh open kar do
+                window.location.href = fileUrl;
+            } else {
+                // Agar file nahi mili (404), toh message dikhao
+                showNotification("Sabr rakho Muskan! Yeh din bahot jaldi aayega ❤️");
+            }
+        } catch (error) {
+            // Network error ya file missing par bhi message dikhao
+            showNotification("Sabr rakho Muskan! Yeh din bahot jaldi aayega ❤️");
+        }
+    }
+
+    function showNotification(msg) {
+        const notif = document.getElementById('notification');
+        notif.innerText = msg;
+        notif.style.opacity = "1";
+        setTimeout(() => { notif.style.opacity = "0"; }, 3500);
     }
 
     function jumpToDay(){
         let input = document.getElementById("daySearch");
         let num = parseInt(input.value);
         let nodes = document.querySelectorAll(".chapter-node");
-
         if(num >= 1 && num <= nodes.length){
             const targetNode = nodes[num-1];
             targetNode.scrollIntoView({behavior:"smooth", block:"center"});
@@ -172,29 +177,25 @@
             card.classList.add('jump-highlight');
             setTimeout(() => { card.classList.remove('jump-highlight'); }, 2500);
             input.value = ""; 
-        } else {
-            alert("Sabr rakho Muskan! Wo din abhi aane wala hai ❤️");
         }
     }
 
     window.onload = () => {
-        const notif = document.getElementById('notification');
-        notif.style.opacity = "1";
-        setTimeout(() => { notif.style.opacity = "0"; }, 3000);
+        showNotification("Welcome Back, Muskan ❤️");
+        anim();
     };
 
     window.onscroll = function() {
         let up = document.getElementById("scrollUp");
         let down = document.getElementById("scrollDown");
-        if (window.scrollY > 300) up.classList.add("show");
-        else up.classList.remove("show");
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) down.classList.remove("show");
-        else down.classList.add("show");
+        window.scrollY > 300 ? up.classList.add("show") : up.classList.remove("show");
+        (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100 ? down.classList.remove("show") : down.classList.add("show");
     };
 
     document.getElementById("scrollUp").onclick = () => window.scrollTo({top:0, behavior:"smooth"});
     document.getElementById("scrollDown").onclick = () => window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
 
+    // Star Background
     const c=document.getElementById("space"); const ctx=c.getContext("2d");
     c.width=innerWidth; c.height=innerHeight;
     let stars=[];
@@ -208,7 +209,6 @@
         });
         requestAnimationFrame(anim);
     }
-    anim();
 </script>
 </body>
 </html>
