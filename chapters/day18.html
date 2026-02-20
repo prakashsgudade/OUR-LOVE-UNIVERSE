@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 18 | The Royal Symphony</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;400&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f9d976 50%, #b8860b 100%);
+            --royal-black: #050505;
+            --premium-glass: rgba(255, 255, 255, 0.02);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        
+        body, html {
+            margin: 0; padding: 0; background-color: var(--royal-black);
+            color: #fff; font-family: 'Montserrat', sans-serif;
+            overflow: hidden; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* --- ROYAL AMBIENCE --- */
+        .aura {
+            position: fixed; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            filter: blur(80px); z-index: 1; transition: all 1s ease;
+        }
+        .aura-top { top: -100px; right: -100px; }
+        .aura-bottom { bottom: -100px; left: -100px; }
+
+        /* --- DASHBOARD CONTAINER --- */
+        .royal-card {
+            position: relative; z-index: 10; width: 90%; max-width: 400px;
+            background: var(--premium-glass);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px; padding: 50px 30px;
+            text-align: center; box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            transform: translateY(0); transition: 0.5s;
+        }
+
+        /* --- THE MUSICAL NOOR (3D DISC) --- */
+        .disc-container {
+            position: relative; width: 220px; height: 220px; margin: 0 auto 40px;
+        }
+
+        .photo-disc {
+            width: 100%; height: 100%; border-radius: 50%;
+            padding: 8px; background: var(--gold-gradient);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+            animation: spin 12s linear infinite;
+            animation-play-state: paused;
+            position: relative; z-index: 5;
+        }
+        
+        .photo-disc img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            border-radius: 50%; border: 4px solid #000;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Visual Beats Pulse */
+        .beat-circle {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 50%;
+            opacity: 0;
+        }
+        .playing .beat-circle { animation: beatPulse 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1); }
+        .beat-circle:nth-child(2) { animation-delay: 1s !important; }
+
+        @keyframes beatPulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        /* --- RICH CONTENT --- */
+        .day-tag {
+            font-family: 'Cinzel Decorative'; font-size: 0.7rem;
+            letter-spacing: 8px; color: #d4af37; margin-bottom: 20px;
+        }
+
+        .urdu-text {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.8rem;
+            margin-bottom: 25px; line-height: 2.5; text-shadow: 0 0 10px rgba(212,175,55,0.5);
+        }
+
+        .rich-msg {
+            font-weight: 100; font-size: 0.95rem; line-height: 1.8;
+            color: #ddd; letter-spacing: 1px; margin-bottom: 40px;
+        }
+
+        /* --- SMART CONTROLS --- */
+        .control-panel {
+            display: flex; align-items: center; justify-content: center; gap: 20px;
+        }
+
+        .btn-play {
+            width: 80px; height: 80px; 
+            background: var(--gold-gradient);
+            border: none; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-play:active { transform: scale(0.9) rotate(5deg); }
+        .btn-play svg { width: 35px; fill: #000; }
+
+        .signature {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
+            color: #d4af37; margin-top: 40px; opacity: 0.8;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="aura aura-top" id="aura1"></div>
+    <div class="aura aura-bottom" id="aura2"></div>
+
+    <div class="royal-card" id="mainContainer">
+        <div class="day-tag">DAY EIGHTEEN</div>
+
+        <div class="disc-container">
+            <div class="beat-circle"></div>
+            <div class="beat-circle"></div>
+            <div class="photo-disc" id="photoDisc">
+                <img src="../assets/images/home/m4.jpg" alt="Muskan">
+            </div>
+        </div>
+
+        <div class="urdu-text">روح کا ترانہ</div>
+
+        <div class="rich-msg">
+            "Muskan, <br>
+            Suna hai jab alfaaz khatam hote hain, <br>
+            toh sangeet (music) baat karta hai. <br>
+            Aaj ki ye dhun mere un ehsaas ki gawah hai <br>
+            jinhe main shabdon mein bayaan nahi kar saka."
+        </div>
+
+        <audio id="mainAudio" src="../assets/audio/ring/s46.mp3" loop></audio>
+
+        <div class="control-panel">
+            <button class="btn-play" onclick="toggleRoyalMusic()">
+                <svg id="playBtn" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="pauseBtn" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+        </div>
+
+        <div class="signature">With Love, Prakash</div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('mainAudio');
+        const disc = document.getElementById('photoDisc');
+        const container = document.getElementById('mainContainer');
+        const aura1 = document.getElementById('aura1');
+        const aura2 = document.getElementById('aura2');
+        const playSvg = document.getElementById('playBtn');
+        const pauseSvg = document.getElementById('pauseBtn');
+
+        function toggleRoyalMusic() {
+            if (audio.paused) {
+                audio.play();
+                container.classList.add('playing');
+                disc.style.animationPlayState = 'running';
+                playSvg.style.display = 'none';
+                pauseSvg.style.display = 'block';
+                
+                // Smart Aura Animation
+                aura1.style.opacity = "0.4";
+                aura2.style.opacity = "0.4";
+                aura1.style.transform = "scale(1.5)";
+                aura2.style.transform = "scale(1.5)";
+            } else {
+                audio.pause();
+                container.classList.remove('playing');
+                disc.style.animationPlayState = 'paused';
+                playSvg.style.display = 'block';
+                pauseSvg.style.display = 'none';
+                
+                // Reset Aura
+                aura1.style.opacity = "0.15";
+                aura2.style.opacity = "0.15";
+                aura1.style.transform = "scale(1)";
+                aura2.style.transform = "scale(1)";
+            }
+        }
+
+        // 3D Mouse/Touch Tilt Effect
+        document.addEventListener('mousemove', (e) => {
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+    </script>
+</body>
+</html>
