@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 19 | Heartbeat Unlock</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;300;500&display=swap" rel="stylesheet">
+    <title>Day 19 | Pure Love Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --accent: #ff2d55; /* Heartbeat Red */
+            --accent: #ff3366;
             --gold: #d4af37;
             --bg: #000;
         }
@@ -18,196 +18,191 @@
         body, html {
             height: 100%; width: 100%; background: var(--bg);
             color: white; font-family: 'Montserrat', sans-serif;
-            overflow: hidden; 
+            overflow: hidden; /* Prevent default scroll */
         }
 
-        /* --- HEARTBEAT SCANNER SCREEN --- */
+        /* --- HEARTBEAT SCANNER --- */
         #lock-screen {
             position: fixed; inset: 0; background: #000; z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        .ecg-container {
-            width: 300px; height: 100px; position: relative; overflow: hidden;
+        .heart-glow {
+            width: 80px; height: 80px; background: var(--accent);
+            border-radius: 50%; filter: blur(20px);
+            animation: pulse 1.5s infinite;
         }
 
-        .ecg-line {
-            width: 100%; height: 100%; stroke: var(--accent);
-            stroke-width: 2; fill: none;
-            stroke-dasharray: 1000; stroke-dashoffset: 1000;
-            animation: heartbeat 3s infinite linear;
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.5); opacity: 0.2; } 100% { transform: scale(1); opacity: 0.5; } }
+
+        .unlock-btn {
+            position: absolute; border: 1px solid var(--accent);
+            padding: 12px 30px; border-radius: 30px; color: white;
+            font-family: 'Cinzel'; font-size: 0.7rem; cursor: pointer;
+            z-index: 10; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
         }
 
-        @keyframes heartbeat {
-            0% { stroke-dashoffset: 1000; }
-            100% { stroke-dashoffset: 0; }
+        /* --- MAIN GALLERY CONTAINER --- */
+        .app-container {
+            height: 100vh; display: flex; flex-direction: column;
+            padding: 15px; opacity: 0; transition: 1s ease;
         }
 
-        .scan-trigger {
-            margin-top: 50px; padding: 15px 40px;
-            border: 1px solid var(--accent); border-radius: 50px;
-            color: var(--accent); font-family: 'Cinzel';
-            letter-spacing: 3px; cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 45, 85, 0.2);
-            transition: 0.3s; font-size: 0.8rem;
-        }
-        .scan-trigger:active { background: var(--accent); color: #000; box-shadow: 0 0 40px var(--accent); }
+        .header { text-align: center; padding: 10px 0; }
+        .header h1 { font-family: 'Cinzel'; font-size: 0.8rem; letter-spacing: 4px; color: var(--gold); }
 
-        /* --- MAIN GALLERY UI --- */
-        .main-stage {
-            height: 100vh; width: 100%; display: flex; flex-direction: column;
-            align-items: center; justify-content: space-between;
-            padding: 20px; opacity: 0; transform: translateY(20px);
-            transition: 1.5s ease-out;
+        /* SCROLLABLE AREA */
+        .content-flow {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            overflow-y: auto; overflow-x: hidden;
+            scroll-behavior: smooth; position: relative;
         }
 
-        /* PHOTO BOX - ULTRA RESPONSIVE */
-        .photo-frame {
-            position: relative; width: 100%; max-width: 400px;
-            height: 55vh; /* Adjusted for no-overlap */
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+        .photo-card {
+            width: 100%; max-width: 400px;
+            aspect-ratio: 4/5; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.2);
             border-radius: 25px; display: flex; align-items: center;
             justify-content: center; overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative; cursor: pointer;
         }
 
-        #active-img {
-            max-width: 95%; max-height: 95%;
-            object-fit: contain; /* Design #79 Protection */
-            border-radius: 15px; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        #display-img {
+            max-width: 100%; max-height: 100%;
+            width: auto; height: auto; object-fit: contain;
+            transition: 0.2s ease-out; /* Fast Response */
         }
 
-        .text-area { text-align: center; margin: 15px 0; width: 100%; }
-        
-        .urdu {
-            font-family: 'Noto Nastaliq Urdu', serif; font-size: clamp(1.1rem, 4.5vw, 1.4rem);
-            color: var(--gold); line-height: 2.2; min-height: 60px;
+        /* POETRY SECTION */
+        .poetry-wrap { padding: 20px 0; text-align: center; width: 100%; }
+        .urdu { font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.3rem; color: var(--gold); line-height: 2; }
+        .eng { font-size: 0.75rem; color: #777; font-style: italic; margin-top: 5px; }
+
+        /* NAVIGATION FOOTER */
+        .footer-nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px 10px; border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* PREMIUM BUTTONS */
-        .nav-hub { display: flex; align-items: center; gap: 40px; margin-bottom: 20px; }
-        
-        .royal-btn {
-            width: 55px; height: 55px; border-radius: 50%;
-            border: 1px solid var(--gold); background: none; color: var(--gold);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.4s;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        .btn-circle {
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--gold);
+            color: var(--gold); display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
         }
-        .royal-btn:active { background: var(--gold); color: black; transform: scale(0.9); }
+        .btn-circle:active { background: var(--gold); color: #000; transform: scale(0.9); }
 
-        .counter { font-size: 0.6rem; letter-spacing: 3px; color: #555; }
+        .counter { font-size: 0.6rem; letter-spacing: 2px; color: #444; }
+        .signature { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--gold); }
+
+        /* Refresh Indicator */
+        .refresh-hint { font-size: 0.6rem; color: var(--accent); opacity: 0.5; margin-bottom: 5px; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
     </style>
 </head>
 <body>
 
     <div id="lock-screen">
-        <div class="ecg-container">
-            <svg class="ecg-line" viewBox="0 0 100 40">
-                <polyline points="0,20 10,20 15,10 20,30 25,20 40,20 45,5 50,35 55,20 70,20 75,15 80,25 85,20 100,20" />
-            </svg>
-        </div>
-        <div class="scan-trigger" onclick="unlockGallery()">SCAN HEARTBEAT</div>
-        <p style="color: #333; font-size: 0.5rem; margin-top: 20px; letter-spacing: 2px;">AUTHENTICATION REQUIRED</p>
+        <div class="heart-glow"></div>
+        <div class="unlock-btn" onclick="initApp()">CONNECT HEARTBEAT</div>
     </div>
 
-    <div class="main-stage" id="main-ui">
-        <h2 style="font-family: 'Cinzel'; color: var(--gold); font-size: 0.8rem; letter-spacing: 5px;">DAY 19 SPECIAL</h2>
-
-        <div class="photo-frame" onclick="nextPhoto()">
-            <img src="" id="active-img" alt="Royal Moment">
+    <div class="app-container" id="main-app">
+        <div class="header">
+            <h1>ROYAL GALLERY</h1>
         </div>
 
-        <div class="text-area">
-            <div class="urdu" id="urdu-txt">محبت کی ایک نئی جھلک</div>
-            <p style="font-size: 0.7rem; color: #888; font-style: italic; margin-top: 5px;" id="eng-txt">"Your heartbeat is my favorite rhythm."</p>
+        <div class="content-flow" id="flow-area">
+            <div class="refresh-hint">PULL DOWN OR TAP TO FLOW</div>
+            <div class="photo-card" onclick="fastChange()">
+                <img src="" id="display-img">
+            </div>
+            
+            <div class="poetry-wrap">
+                <div class="urdu" id="u-txt">محبت کی شروعات</div>
+                <p class="eng" id="e-txt">Connecting souls...</p>
+            </div>
         </div>
 
-        <div class="nav-hub">
-            <button class="royal-btn" onclick="nextPhoto()">
-                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        <div class="footer-nav">
+            <button class="btn-circle" onclick="fastChange()">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
             </button>
-            <div class="counter" id="photo-count">0 / 120</div>
-            <button class="royal-btn" onclick="nextPhoto()">
-                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            <div class="signature">Prakash</div>
+            <button class="btn-circle" onclick="fastChange()">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
             </button>
         </div>
-        
-        <div style="font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--gold); margin-bottom: 10px;">Prakash</div>
+        <center><div class="counter" id="total-seen">0 / 120</div></center>
     </div>
 
     <script>
-        // --- NO-REPEAT RANDOM LOGIC ---
-        let photoPool = [];
-        let totalPhotos = 120;
-        let seenCount = 0;
+        let pool = Array.from({length: 120}, (_, i) => i + 1);
+        let seen = 0;
 
-        function initPool() {
-            photoPool = Array.from({length: totalPhotos}, (_, i) => i + 1);
-            // Shuffle the pool initially
-            photoPool.sort(() => Math.random() - 0.5);
-        }
-
-        const lines = [
-            {u: "تمہاری مسکراہٹ، میری کائنات", e: "Your smile is my entire universe."},
-            {u: "تم ہی میرا سکون ہو", e: "In you, I have found my peace."},
-            {u: "محبت کا دوسرا نام تم ہو", e: "You are the very definition of love."},
-            {u: "تیری آنکھیں، گہرے راز", e: "Your eyes hold secrets of a thousand years."},
-            {u: "تم بن جینا ادھورا ہے", e: "Life is incomplete without your presence."}
+        const quotes = [
+            {u: "تمہاری آنکھیں، میری کائنات", e: "Your eyes, my entire universe."},
+            {u: "تم ہی میرا سکون ہو", e: "You are my ultimate peace."},
+            {u: "تیری مسکراہٹ، میری زندگی", e: "Your smile is my life's light."},
+            {u: "محبت تم سے ہے", e: "It's always been you."},
+            {u: "روح کا رشتہ", e: "A connection of souls."},
+            {u: "خوبصورت احساس", e: "The most beautiful feeling."}
         ];
 
-        function unlockGallery() {
-            const lock = document.getElementById('lock-screen');
-            const ui = document.getElementById('main-ui');
-            
-            document.querySelector('.scan-trigger').innerText = "VERIFIED ✓";
-            
-            setTimeout(() => {
-                lock.style.opacity = "0";
-                lock.style.pointerEvents = "none";
-                ui.style.opacity = "1";
-                ui.style.transform = "translateY(0)";
-                initPool();
-                nextPhoto();
-            }, 1000);
+        function initApp() {
+            document.getElementById('lock-screen').style.transform = "translateY(-100%)";
+            document.getElementById('main-app').style.opacity = "1";
+            pool.sort(() => Math.random() - 0.5);
+            fastChange();
         }
 
-        function nextPhoto() {
-            if (photoPool.length === 0) {
-                alert("You've seen all 120 royal moments! Resetting...");
-                initPool();
-                seenCount = 0;
+        function fastChange() {
+            if (pool.length === 0) {
+                pool = Array.from({length: 120}, (_, i) => i + 1).sort(() => Math.random() - 0.5);
+                seen = 0;
             }
 
-            seenCount++;
-            const currentPhoto = photoPool.pop(); // Take the last photo from shuffled pool
+            seen++;
+            const photoNum = pool.pop();
+            const img = document.getElementById('display-img');
+            const uTxt = document.getElementById('u-txt');
+            const eTxt = document.getElementById('e-txt');
+            const counter = document.getElementById('total-seen');
             
-            const img = document.getElementById('active-img');
-            const uTxt = document.getElementById('urdu-txt');
-            const eTxt = document.getElementById('eng-txt');
-            const countDisplay = document.getElementById('photo-count');
+            const q = quotes[Math.floor(Math.random() * quotes.length)];
 
-            const randomLine = lines[Math.floor(Math.random() * lines.length)];
-
-            // Smooth Transition
-            img.style.opacity = "0";
-            img.style.transform = "scale(0.9)";
-
-            setTimeout(() => {
-                img.src = `../assets/images/home/m${currentPhoto}.jpg`;
-                uTxt.innerText = randomLine.u;
-                eTxt.innerText = `"${randomLine.e}"`;
-                countDisplay.innerText = `${seenCount} / 120`;
-                
-                img.onload = () => {
-                    img.style.opacity = "1";
-                    img.style.transform = "scale(1)";
-                };
-            }, 300);
+            // FAST TRANSITION
+            img.style.opacity = "0.5";
+            img.style.transform = "scale(0.98)";
+            
+            img.src = `../assets/images/home/m${photoNum}.jpg`;
+            
+            img.onload = () => {
+                img.style.opacity = "1";
+                img.style.transform = "scale(1)";
+                uTxt.innerText = q.u;
+                eTxt.innerText = `"${q.e}"`;
+                counter.innerText = `${seen} / 120`;
+            };
         }
+
+        // SCROLL TO REFRESH LOGIC
+        let touchStart = 0;
+        document.getElementById('flow-area').addEventListener('touchstart', e => {
+            touchStart = e.touches[0].pageY;
+        });
+
+        document.getElementById('flow-area').addEventListener('touchend', e => {
+            let touchEnd = e.changedTouches[0].pageY;
+            if (touchStart - touchEnd > 100 || touchEnd - touchStart > 100) {
+                fastChange(); // Refresh on significant scroll
+            }
+        });
+
     </script>
 </body>
 </html>
