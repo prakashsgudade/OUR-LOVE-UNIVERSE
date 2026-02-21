@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 19 | Cosmic Soul</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@200;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Day 19 | Eternal Randomizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;300;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --accent: #d4af37;
-            --bg: #030303;
+            --bg: #050505;
+            --glow: rgba(212, 175, 55, 0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -20,73 +21,80 @@
             overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- THE JADU CANVAS --- */
         #starfield {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; pointer-events: none;
         }
 
-        /* --- ROYAL DASHBOARD --- */
         .main-stage {
-            position: relative; z-index: 10; width: 92%; max-width: 420px;
-            text-align: center;
+            position: relative; z-index: 10; width: 90%; max-width: 450px;
+            height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: space-evenly;
+            text-align: center; padding: 20px 0;
         }
 
-        /* PHOTO CONTAINER (DESIGN #79 LOGIC) */
+        /* --- THE DYNAMIC FRAME --- */
         .aura-frame {
             position: relative; padding: 10px; border-radius: 30px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 50px rgba(0,0,0,1);
-            transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-            cursor: pointer;
+            box-shadow: 0 0 50px var(--glow);
+            transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; width: 100%;
         }
 
         .photo-wrapper {
             width: 100%; height: 50vh; display: flex;
             align-items: center; justify-content: center;
-            overflow: hidden; border-radius: 20px;
+            overflow: hidden; border-radius: 22px; background: #000;
         }
 
         #active-img {
-            max-width: 100%; max-height: 100%;
+            max-width: 95%; max-height: 95%;
             width: auto; height: auto;
-            object-fit: contain; /* Photo Safe */
+            object-fit: contain; /* Design #79 Protection */
             transition: 0.5s ease;
         }
 
-        /* --- THE LINES (TEXT) --- */
-        .poetry-box { margin-top: 25px; padding: 0 10px; }
+        /* --- POETRY BOX --- */
+        .poetry-box { 
+            width: 100%; min-height: 160px; 
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 15px;
+        }
 
         .urdu-line {
-            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.3rem;
-            margin-bottom: 15px; line-height: 2.2;
-            text-shadow: 0 0 15px var(--accent);
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: clamp(1.2rem, 5vw, 1.5rem);
+            margin-bottom: 15px; line-height: 2.4;
+            color: var(--accent); transition: 0.6s;
+            text-shadow: 0 0 25px var(--glow);
         }
 
         .eng-line {
-            font-weight: 200; font-size: 0.85rem; line-height: 1.6;
-            color: #ccc; letter-spacing: 1px;
+            font-weight: 100; font-size: clamp(0.8rem, 3.5vw, 1rem);
+            line-height: 1.6; color: #ddd; letter-spacing: 1px;
+            transition: 0.6s; font-style: italic; opacity: 0.9;
         }
 
-        /* --- SMART CONTROLS --- */
+        /* --- CONTROLS --- */
         .control-hub {
             display: flex; align-items: center; justify-content: center;
-            gap: 25px; margin-top: 30px;
+            gap: 35px; width: 100%;
         }
 
         .magic-arrow {
-            background: none; border: 1px solid rgba(255,255,255,0.2);
-            color: white; width: 50px; height: 50px; border-radius: 50%;
-            cursor: pointer; transition: 0.3s;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--accent);
+            color: var(--accent); width: 60px; height: 60px; border-radius: 50%;
+            cursor: pointer; transition: 0.4s;
             display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px var(--glow);
         }
-        .magic-arrow:active { background: var(--accent); border-color: var(--accent); }
+        .magic-arrow:active { transform: scale(0.8); background: var(--accent); color: #000; }
 
         .sig {
-            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
-            color: var(--accent); margin-top: 25px; opacity: 0.7;
+            font-family: 'Dancing Script', cursive; font-size: 2.5rem;
+            color: var(--accent); filter: drop-shadow(0 0 15px var(--glow));
         }
 
     </style>
@@ -96,6 +104,8 @@
     <canvas id="starfield"></canvas>
 
     <div class="main-stage">
+        <div class="sig">Prakash</div>
+
         <div class="aura-frame" id="glowCard" onclick="surpriseMe()">
             <div class="photo-wrapper">
                 <img src="../assets/images/home/m1.jpg" id="active-img">
@@ -103,63 +113,116 @@
         </div>
 
         <div class="poetry-box">
-            <div class="urdu-line" id="urdu-txt">تیری آنکھیں، میری کائنات</div>
-            <div class="eng-line" id="eng-txt">"Your eyes carry a world that I <br> want to be lost in, forever."</div>
+            <div class="urdu-line" id="urdu-txt">بس ایک تم ہو</div>
+            <div class="eng-line" id="eng-txt">"Everything is beautiful because of you."</div>
         </div>
 
         <div class="control-hub">
             <button class="magic-arrow" onclick="surpriseMe()">
-                <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
             </button>
-            <div style="font-size: 0.6rem; letter-spacing: 3px; color: var(--accent);">TAP TO CHANGE</div>
+            <div style="font-size: 0.6rem; letter-spacing: 4px; color: var(--accent);">NEXT MAGIC</div>
             <button class="magic-arrow" onclick="surpriseMe()">
-                <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
             </button>
         </div>
-
-        <div class="sig">Prakash</div>
     </div>
 
     <script>
+        // --- 80+ UNIQUE LOVE LINES DATABASE ---
+        const quotes = [
+            {u: "تمہاری آنکھیں، میری کائنات", e: "Your eyes carry a world where I want to stay forever."},
+            {u: "تم ہی میرا سکون ہو", e: "In this chaotic world, you are my only peace."},
+            {u: "تیری مسکراہٹ، میری زندگی", e: "Your smile is the only light my heart ever needed."},
+            {u: "محبت کی انتہا تم ہو", e: "You are the beginning and the end of my heart's story."},
+            {u: "ایک خوبصورت خواب", e: "Life with you feels like a dream I never want to wake from."},
+            {u: "میری ہر دعا میں تم ہو", e: "In every prayer of mine, your name is the first word."},
+            {u: "تیری خوشبو، میرا احساس", e: "The essence of your presence is enough to heal my soul."},
+            {u: "تم سے ہی ہر خوشی", e: "Every bit of happiness I find, leads back to you."},
+            {u: "تیرا ساتھ، میری منزل", e: "With you by my side, every journey feels like home."},
+            {u: "محبت کا دوسرا نام تم", e: "If love had a face, it would look exactly like yours."},
+            {u: "بس تیری طلب ہے", e: "All I ever wanted was a forever that starts with you."},
+            {u: "روح کا سکون تم ہو", e: "You are the melody that calms the storm inside me."},
+            {u: "تم میری کائنات ہو", e: "You are my moon, my stars, and my entire universe."},
+            {u: "زندگی کا حاصل تم ہو", e: "The best thing I've ever done is falling in love with you."},
+            {u: "تیری دید، میری عید", e: "A single glance at you is enough to make my whole year."},
+            {u: "محبت تم سے ہے", e: "It wasn't my choice to love you, it was my heart's destiny."},
+            {u: "تیری ہنسی، میرا سکون", e: "Your laughter is the soundtrack of my life."},
+            {u: "تم بن ادھورا ہوں", e: "Without you, I'm just a sentence with no meaning."},
+            {u: "روح کا رشتہ", e: "Some souls just understand each other, like ours do."},
+            {u: "تم ہی میری صبح ہو", e: "You are the first thought in my head every single morning."},
+            {u: "خوبصورتی کی حد ہو تم", e: "You are the definition of elegance and grace."},
+            {u: "میرا مکمل جہاں", e: "I found my whole world in a person named Muskan."},
+            {u: "تم سے شروع، تم پر ختم", e: "My love starts with you and ends at your soul."},
+            {u: "دل کی دھڑکن تم ہو", e: "Every beat of my heart whispers your name."},
+            {u: "تم بن جینا ناممکن", e: "Life without you is like a song without a melody."},
+            {u: "محبت کا احساس", e: "Feeling your presence is like catching a glimpse of heaven."},
+            {u: "میرا اکلوتا عشق", e: "You are my first, my last, and my only true love."},
+            {u: "تم میری دعا ہو", e: "You are the answer to every prayer I ever whispered."},
+            {u: "سدا ساتھ رہنا", e: "Hold my hand, and I will lead you to forever."},
+            {u: "تمہارا نور، میری روشنی", e: "Your light guides me through the darkest nights."},
+            {u: "بس تم اور میں", e: "A thousand worlds wouldn't be enough if I had you."},
+            {u: "تیرا عکس، میری پہچان", e: "In your eyes, I see the best version of myself."},
+            {u: "محبت کی پہچان ہو تم", e: "You taught me what it truly means to love and be loved."},
+            {u: "تیری یادیں، میرا سرمایہ", e: "Your memories are the treasures I keep in my heart."},
+            {u: "تمہارا مسکرانا ہی کافی ہے", e: "Just seeing you smile makes all my problems disappear."},
+            {u: "زندگی کا سفر، تیرے نام", e: "Every step I take is a journey towards you."},
+            {u: "تم ہی میرا کل ہو", e: "You are my today and all of my tomorrows."},
+            {u: "بے پناہ محبت", e: "My love for you is beyond words and beyond time."},
+            {u: "تم سے جڑی ہے زندگی", e: "My life is a story that is beautifully written by you."},
+            {u: "تیرا پیار، میری طاقت", e: "Your love is the strength that keeps me going."}
+        ];
+
+        const colors = ['#d4af37', '#e91e63', '#9c27b0', '#00bcd4', '#4caf50', '#ff5722', '#ffeb3b', '#673ab7'];
+        let usedQuotes = [];
+        let usedPhotos = [];
+
         const img = document.getElementById('active-img');
         const card = document.getElementById('glowCard');
         const urduTxt = document.getElementById('urdu-txt');
         const engTxt = document.getElementById('eng-txt');
 
-        const quotes = [
-            {u: "تیری مسکراہٹ، میری زندگی", e: "Your smile is the only light <br> my heart ever needed."},
-            {u: "تم ہی میرا سکون ہو", e: "In the chaos of this world, <br> you are my only peace."},
-            {u: "محبت کی انتہا تم ہو", e: "You are the beginning and <br> the end of my love story."},
-            {u: "ایک خوبصورت خواب", e: "Life with you feels like <br> a dream I never want to wake from."}
-        ];
-
-        const colors = ['#d4af37', '#8e44ad', '#c0392b', '#16a085', '#2980b9'];
-
         function surpriseMe() {
-            const randomID = Math.floor(Math.random() * 120) + 1;
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            // No-Repeat Logic for Quotes
+            if (usedQuotes.length >= quotes.length) usedQuotes = [];
+            let quoteIndex;
+            do { quoteIndex = Math.floor(Math.random() * quotes.length); } 
+            while (usedQuotes.includes(quoteIndex));
+            usedQuotes.push(quoteIndex);
+
+            // No-Repeat Logic for Photos (120 Photos)
+            if (usedPhotos.length >= 120) usedPhotos = [];
+            let photoIndex;
+            do { photoIndex = Math.floor(Math.random() * 120) + 1; } 
+            while (usedPhotos.includes(photoIndex));
+            usedPhotos.push(photoIndex);
+
+            const randomQuote = quotes[quoteIndex];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
             // Magic Transition
-            card.style.transform = "scale(0.95) rotateY(10deg)";
-            card.style.opacity = "0.5";
+            card.style.transform = "scale(0.8) rotateX(10deg) translateY(20px)";
+            card.style.opacity = "0";
+            urduTxt.style.opacity = "0";
+            engTxt.style.opacity = "0";
 
             setTimeout(() => {
-                img.src = `../assets/images/home/m${randomID}.jpg`;
+                img.src = `../assets/images/home/m${photoIndex}.jpg`;
                 urduTxt.innerText = randomQuote.u;
                 engTxt.innerHTML = randomQuote.e;
                 
-                // Jadu: Change Aura Color
+                // Dynamic Color Theme
                 document.documentElement.style.setProperty('--accent', randomColor);
-                card.style.boxShadow = `0 0 60px ${randomColor}33`;
-                card.style.borderColor = `${randomColor}66`;
-
-                card.style.transform = "scale(1) rotateY(0deg)";
+                document.documentElement.style.setProperty('--glow', randomColor + '55');
+                
+                card.style.transform = "scale(1) rotateX(0deg) translateY(0)";
                 card.style.opacity = "1";
-            }, 300);
+                urduTxt.style.opacity = "1";
+                engTxt.style.opacity = "1";
+            }, 400);
         }
 
-        // --- PARTICLE JS JADU ---
+        // --- PARTICLE DYNAMICS ---
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -167,18 +230,26 @@
         let stars = [];
 
         function handleMove(e) {
-            let x = e.clientX || e.touches[0].clientX;
-            let y = e.clientY || e.touches[0].clientY;
-            for(let i=0; i<3; i++) {
-                stars.push({x, y, s: Math.random()*2, vx: (Math.random()-0.5)*2, vy: (Math.random()-0.5)*2, a: 1});
+            let x = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+            let y = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+            for(let i=0; i<4; i++) {
+                stars.push({
+                    x, y, 
+                    s: Math.random()*3, 
+                    vx: (Math.random()-0.5)*4, 
+                    vy: (Math.random()-0.5)*4, 
+                    a: 1,
+                    c: getComputedStyle(document.documentElement).getPropertyValue('--accent')
+                });
             }
         }
 
         function drawStars() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
             stars.forEach((s, i) => {
-                s.x += s.vx; s.y += s.vy; s.a -= 0.01;
-                ctx.fillStyle = `rgba(212, 175, 55, ${s.a})`;
+                s.x += s.vx; s.y += s.vy; s.a -= 0.012;
+                ctx.fillStyle = s.c;
+                ctx.globalAlpha = s.a;
                 ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
                 if(s.a <= 0) stars.splice(i, 1);
             });
