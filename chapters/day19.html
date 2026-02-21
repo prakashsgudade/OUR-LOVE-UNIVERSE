@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 19 | Infinite Royal Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@200;400&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #d4af37;
+            --emerald: #022c22;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            height: 100%; background-color: #000;
+            color: white; font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+        }
+
+        /* --- BACKGROUND EFFECTS --- */
+        .bg-glow {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle, var(--emerald) 0%, #000 80%);
+            z-index: 1; opacity: 0.6;
+        }
+
+        /* --- MAIN PLAYER CONTAINER --- */
+        .gallery-container {
+            position: relative; z-index: 10;
+            height: 100vh; width: 100vw;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 20px;
+        }
+
+        /* --- PHOTO STAGE (NO CROP) --- */
+        .photo-stage {
+            position: relative;
+            width: 100%; max-width: 350px;
+            height: 60vh;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--glass);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+
+        #active-photo {
+            max-width: 95%; max-height: 95%;
+            width: auto; height: auto;
+            object-fit: contain; /* Design #79 Logic: No Clipping */
+            border-radius: 10px;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+        }
+
+        /* --- CONTROLS --- */
+        .controls-ui {
+            width: 100%; max-width: 400px;
+            text-align: center; margin-top: 25px;
+        }
+
+        .urdu-msg {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.3rem;
+            color: var(--gold); margin-bottom: 10px; line-height: 2.5;
+        }
+
+        .counter-tag {
+            font-size: 0.6rem; letter-spacing: 4px; color: #666; margin-bottom: 20px;
+        }
+
+        .action-btns {
+            display: flex; align-items: center; justify-content: center; gap: 30px;
+        }
+
+        .nav-btn {
+            background: none; border: 1px solid var(--gold);
+            color: var(--gold); width: 50px; height: 50px;
+            border-radius: 50%; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-btn:active { background: var(--gold); color: black; }
+
+        .play-pause-btn {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: var(--gold); border: none; cursor: pointer;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive; font-size: 2rem;
+            color: var(--gold); margin-top: 20px; opacity: 0.8;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div class="gallery-container">
+        
+        <div class="photo-stage" id="stage">
+            <img src="../assets/images/home/m1.jpg" id="active-photo" alt="Muskan">
+        </div>
+
+        <div class="controls-ui">
+            <div class="counter-tag" id="counter">PHOTO 1 / 120</div>
+            <div class="urdu-msg">خوبصورتی کا سمندر</div>
+            
+            <div class="action-btns">
+                <button class="nav-btn" onclick="changeState(-1)">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+
+                <button class="play-pause-btn" onclick="toggleMusic()">
+                    <svg id="mIcon" width="30" viewBox="0 0 24 24" fill="black"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+
+                <button class="nav-btn" onclick="changeState(1)">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+            </div>
+
+            <div class="signature">Prakash ❤️</div>
+        </div>
+    </div>
+
+    <audio id="audio-player" loop></audio>
+
+    <script>
+        let currentPhoto = 1;
+        let currentSong = 1;
+        const totalPhotos = 120;
+        const totalSongs = 57;
+
+        const photoElement = document.getElementById('active-photo');
+        const counterElement = document.getElementById('counter');
+        const audioPlayer = document.getElementById('audio-player');
+        const mIcon = document.getElementById('mIcon');
+
+        // Function to handle Photo & Song change
+        function changeState(direction) {
+            // Update Photo Index
+            currentPhoto += direction;
+            if (currentPhoto > totalPhotos) currentPhoto = 1;
+            if (currentPhoto < 1) currentPhoto = totalPhotos;
+
+            // Update Song Index (Logic: Switch song every time)
+            currentSong += direction;
+            if (currentSong > totalSongs) currentSong = 1;
+            if (currentSong < 1) currentSong = totalSongs;
+
+            // Apply Changes with Animation
+            photoElement.style.opacity = "0";
+            photoElement.style.transform = "scale(0.9)";
+
+            setTimeout(() => {
+                photoElement.src = `../assets/images/home/m${currentPhoto}.jpg`;
+                audioPlayer.src = `../assets/audio/ring/s${currentSong}.mp3`;
+                counterElement.innerText = `PHOTO ${currentPhoto} / 120 | SONG ${currentSong}`;
+                
+                photoElement.style.opacity = "1";
+                photoElement.style.transform = "scale(1)";
+                
+                // Auto-play next song if already playing
+                if (!audioPlayer.paused) audioPlayer.play();
+            }, 400);
+        }
+
+        function toggleMusic() {
+            if (audioPlayer.paused) {
+                if (!audioPlayer.src) audioPlayer.src = `../assets/audio/ring/s${currentSong}.mp3`;
+                audioPlayer.play();
+                mIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+                document.getElementById('stage').style.borderColor = "var(--gold)";
+            } else {
+                audioPlayer.pause();
+                mIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                document.getElementById('stage').style.borderColor = "rgba(212, 175, 55, 0.2)";
+            }
+        }
+
+        // Swipe Support for Mobile
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchstartX - touchendX > 50) changeState(1);
+            if (touchendX - touchstartX > 50) changeState(-1);
+        });
+
+    </script>
+</body>
+</html>
