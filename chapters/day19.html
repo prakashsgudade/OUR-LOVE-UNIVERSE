@@ -3,201 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 19 | Infinite Royal Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@200;400&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Day 19 | Royal Random Magic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;300&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --gold: #d4af37;
-            --emerald: #022c22;
-            --glass: rgba(255, 255, 255, 0.03);
+            --royal-gold: linear-gradient(135deg, #b8860b 0%, #f9d976 50%, #d4af37 100%);
+            --deep-black: #050505;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body, html {
-            height: 100%; background-color: #000;
+            height: 100vh; background-color: var(--deep-black);
             color: white; font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- BACKGROUND EFFECTS --- */
-        .bg-glow {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 100vw; height: 100vh;
-            background: radial-gradient(circle, var(--emerald) 0%, #000 80%);
-            z-index: 1; opacity: 0.6;
+        /* --- AMBIENT PARTICLES --- */
+        #canvas-bg {
+            position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none;
         }
 
-        /* --- MAIN PLAYER CONTAINER --- */
-        .gallery-container {
-            position: relative; z-index: 10;
-            height: 100vh; width: 100vw;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            padding: 20px;
+        /* --- MASTER CONTAINER --- */
+        .museum-stage {
+            position: relative; z-index: 10; width: 90%; max-width: 450px;
+            perspective: 2000px; text-align: center;
         }
 
-        /* --- PHOTO STAGE (NO CROP) --- */
-        .photo-stage {
-            position: relative;
-            width: 100%; max-width: 350px;
-            height: 60vh;
+        /* --- THE ROYAL FRAME (DESIGN #79 PROTECTED) --- */
+        .frame-wrapper {
+            position: relative; width: 100%; padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 40px 40px 10px 10px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            transform: rotateX(5deg); transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .photo-slot {
+            width: 100%; height: 55vh;
             display: flex; align-items: center; justify-content: center;
-            background: var(--glass);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 20px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            overflow: hidden;
+            overflow: hidden; border-radius: 30px 30px 5px 5px;
+            background: #000;
         }
 
-        #active-photo {
-            max-width: 95%; max-height: 95%;
+        #main-img {
+            max-width: 100%; max-height: 100%;
             width: auto; height: auto;
-            object-fit: contain; /* Design #79 Logic: No Clipping */
-            border-radius: 10px;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+            object-fit: contain; /* Photo nahi kategi */
+            transition: 0.5s ease;
+            filter: brightness(1.1) contrast(1.05);
         }
 
-        /* --- CONTROLS --- */
-        .controls-ui {
-            width: 100%; max-width: 400px;
-            text-align: center; margin-top: 25px;
+        /* --- CONTENT & BUTTONS --- */
+        .info-panel {
+            margin-top: 30px; padding: 0 20px;
         }
 
-        .urdu-msg {
-            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.3rem;
-            color: var(--gold); margin-bottom: 10px; line-height: 2.5;
+        .urdu-text {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.5rem;
+            background: var(--royal-gold); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; margin-bottom: 20px;
         }
 
-        .counter-tag {
-            font-size: 0.6rem; letter-spacing: 4px; color: #666; margin-bottom: 20px;
+        .magic-btn {
+            background: var(--royal-gold); border: none;
+            padding: 15px 35px; border-radius: 50px;
+            color: #000; font-family: 'Cinzel Decorative';
+            font-weight: bold; font-size: 0.7rem; letter-spacing: 2px;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(184, 134, 11, 0.4);
+            transition: 0.4s; text-transform: uppercase;
         }
+        .magic-btn:active { transform: scale(0.95); }
 
-        .action-btns {
-            display: flex; align-items: center; justify-content: center; gap: 30px;
-        }
-
-        .nav-btn {
-            background: none; border: 1px solid var(--gold);
-            color: var(--gold); width: 50px; height: 50px;
-            border-radius: 50%; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .nav-btn:active { background: var(--gold); color: black; }
-
-        .play-pause-btn {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: var(--gold); border: none; cursor: pointer;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .signature {
-            font-family: 'Dancing Script', cursive; font-size: 2rem;
-            color: var(--gold); margin-top: 20px; opacity: 0.8;
+        .sig {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
+            margin-top: 25px; color: #d4af37; opacity: 0.8;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
+    <canvas id="canvas-bg"></canvas>
 
-    <div class="gallery-container">
-        
-        <div class="photo-stage" id="stage">
-            <img src="../assets/images/home/m1.jpg" id="active-photo" alt="Muskan">
+    <div class="museum-stage">
+        <div class="frame-wrapper" id="card">
+            <div class="photo-slot">
+                <img src="" id="main-img" alt="Royal Muskan">
+            </div>
         </div>
 
-        <div class="controls-ui">
-            <div class="counter-tag" id="counter">PHOTO 1 / 120</div>
-            <div class="urdu-msg">خوبصورتی کا سمندر</div>
-            
-            <div class="action-btns">
-                <button class="nav-btn" onclick="changeState(-1)">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                </button>
-
-                <button class="play-pause-btn" onclick="toggleMusic()">
-                    <svg id="mIcon" width="30" viewBox="0 0 24 24" fill="black"><path d="M8 5v14l11-7z"/></svg>
-                </button>
-
-                <button class="nav-btn" onclick="changeState(1)">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                </button>
-            </div>
-
-            <div class="signature">Prakash ❤️</div>
+        <div class="info-panel">
+            <div class="urdu-text">حسن کی ایک نئی جھلک</div>
+            <button class="magic-btn" onclick="generateRandomPhoto()">Next Surprise</button>
+            <div class="sig">Prakash</div>
         </div>
     </div>
 
-    <audio id="audio-player" loop></audio>
-
     <script>
-        let currentPhoto = 1;
-        let currentSong = 1;
-        const totalPhotos = 120;
-        const totalSongs = 57;
-
-        const photoElement = document.getElementById('active-photo');
-        const counterElement = document.getElementById('counter');
-        const audioPlayer = document.getElementById('audio-player');
-        const mIcon = document.getElementById('mIcon');
-
-        // Function to handle Photo & Song change
-        function changeState(direction) {
-            // Update Photo Index
-            currentPhoto += direction;
-            if (currentPhoto > totalPhotos) currentPhoto = 1;
-            if (currentPhoto < 1) currentPhoto = totalPhotos;
-
-            // Update Song Index (Logic: Switch song every time)
-            currentSong += direction;
-            if (currentSong > totalSongs) currentSong = 1;
-            if (currentSong < 1) currentSong = totalSongs;
-
-            // Apply Changes with Animation
-            photoElement.style.opacity = "0";
-            photoElement.style.transform = "scale(0.9)";
-
+        // --- RANDOM PHOTO LOGIC ---
+        function generateRandomPhoto() {
+            const imgElement = document.getElementById('main-img');
+            const totalPhotos = 120;
+            const randomIndex = Math.floor(Math.random() * totalPhotos) + 1;
+            
+            // Animation for transition
+            imgElement.style.opacity = "0";
+            imgElement.style.transform = "scale(0.95)";
+            
             setTimeout(() => {
-                photoElement.src = `../assets/images/home/m${currentPhoto}.jpg`;
-                audioPlayer.src = `../assets/audio/ring/s${currentSong}.mp3`;
-                counterElement.innerText = `PHOTO ${currentPhoto} / 120 | SONG ${currentSong}`;
-                
-                photoElement.style.opacity = "1";
-                photoElement.style.transform = "scale(1)";
-                
-                // Auto-play next song if already playing
-                if (!audioPlayer.paused) audioPlayer.play();
-            }, 400);
+                imgElement.src = `../assets/images/home/m${randomIndex}.jpg`;
+                imgElement.onload = () => {
+                    imgElement.style.opacity = "1";
+                    imgElement.style.transform = "scale(1)";
+                };
+            }, 300);
         }
 
-        function toggleMusic() {
-            if (audioPlayer.paused) {
-                if (!audioPlayer.src) audioPlayer.src = `../assets/audio/ring/s${currentSong}.mp3`;
-                audioPlayer.play();
-                mIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-                document.getElementById('stage').style.borderColor = "var(--gold)";
-            } else {
-                audioPlayer.pause();
-                mIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-                document.getElementById('stage').style.borderColor = "rgba(212, 175, 55, 0.2)";
+        // Initial Load
+        window.onload = generateRandomPhoto;
+
+        // --- 3D TILT JADU ---
+        const card = document.getElementById('card');
+        document.addEventListener('mousemove', (e) => {
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // --- PARTICLE BACKGROUND JS ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.001;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
 
-        // Swipe Support for Mobile
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
-        document.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            if (touchstartX - touchendX > 50) changeState(1);
-            if (touchendX - touchstartX > 50) changeState(-1);
-        });
+        function init() {
+            for (let i = 0; i < 80; i++) particles.push(new Particle());
+        }
 
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                p.update(); p.draw();
+                if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) {
+                    particles[i] = new Particle();
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+        init(); animate();
     </script>
 </body>
 </html>
