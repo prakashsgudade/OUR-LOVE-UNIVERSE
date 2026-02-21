@@ -3,199 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 18 | The Royal Symphony</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;400&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Day 18 | Royal Infinite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;300;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f9d976 50%, #b8860b 100%);
-            --royal-black: #050505;
-            --premium-glass: rgba(255, 255, 255, 0.02);
+            --gold: #d4af37;
+            --gold-bright: #f9d976;
+            --dark-bg: #030303;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body, html {
-            margin: 0; padding: 0; background-color: var(--royal-black);
+            width: 100%; height: 100%; background-color: var(--dark-bg);
             color: #fff; font-family: 'Montserrat', sans-serif;
-            overflow: hidden; height: 100vh;
-            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- ROYAL AMBIENCE --- */
-        .aura {
-            position: fixed; width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
-            filter: blur(80px); z-index: 1; transition: all 1s ease;
-        }
-        .aura-top { top: -100px; right: -100px; }
-        .aura-bottom { bottom: -100px; left: -100px; }
-
-        /* --- DASHBOARD CONTAINER --- */
-        .royal-card {
-            position: relative; z-index: 10; width: 90%; max-width: 400px;
-            background: var(--premium-glass);
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 50px; padding: 50px 30px;
-            text-align: center; box-shadow: 0 50px 100px rgba(0,0,0,0.9);
-            transform: translateY(0); transition: 0.5s;
+        /* --- ADVANCED LIQUID BACKGROUND --- */
+        .bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; background: radial-gradient(circle at center, #111 0%, #000 100%);
         }
 
-        /* --- THE MUSICAL NOOR (3D DISC) --- */
-        .disc-container {
-            position: relative; width: 220px; height: 220px; margin: 0 auto 40px;
+        .aura-sphere {
+            position: absolute; width: 60vw; height: 60vw;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%; filter: blur(60px);
+            animation: floatAura 15s infinite alternate;
+        }
+        @keyframes floatAura {
+            0% { transform: translate(-10%, -10%); }
+            100% { transform: translate(20%, 20%); }
         }
 
-        .photo-disc {
+        /* --- THE MASTER CONTAINER --- */
+        .main-card {
+            position: relative; z-index: 10;
+            width: 90%; max-width: 420px;
+            background: var(--glass);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 40px; padding: clamp(20px, 5vw, 50px);
+            text-align: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            transition: transform 0.3s ease;
+        }
+
+        /* --- DYNAMIC MUSIC HUB --- */
+        .music-hub {
+            position: relative; width: clamp(160px, 45vw, 220px); 
+            height: clamp(160px, 45vw, 220px);
+            margin: 0 auto 30px;
+        }
+
+        .photo-ring {
             width: 100%; height: 100%; border-radius: 50%;
-            padding: 8px; background: var(--gold-gradient);
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
-            animation: spin 12s linear infinite;
+            padding: 6px; background: linear-gradient(135deg, var(--gold), #fff, var(--gold));
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            animation: rotateRing 12s linear infinite;
             animation-play-state: paused;
-            position: relative; z-index: 5;
         }
-        
-        .photo-disc img { 
-            width: 100%; height: 100%; object-fit: cover; 
+
+        .photo-ring img {
+            width: 100%; height: 100%; object-fit: cover;
             border-radius: 50%; border: 4px solid #000;
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes rotateRing { 100% { transform: rotate(360deg); } }
 
-        /* Visual Beats Pulse */
-        .beat-circle {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            border: 1px solid rgba(212, 175, 55, 0.5); border-radius: 50%;
-            opacity: 0;
+        /* Pulse Beats */
+        .beat {
+            position: absolute; inset: 0; border: 2px solid var(--gold);
+            border-radius: 50%; opacity: 0;
         }
-        .playing .beat-circle { animation: beatPulse 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1); }
-        .beat-circle:nth-child(2) { animation-delay: 1s !important; }
+        .is-playing .beat { animation: sonar 2s infinite; }
+        .beat:nth-child(2) { animation-delay: 1s; }
 
-        @keyframes beatPulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.8); opacity: 0; }
+        @keyframes sonar {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.6); opacity: 0; }
         }
 
-        /* --- RICH CONTENT --- */
-        .day-tag {
+        /* --- SMART TYPOGRAPHY --- */
+        .day-label {
             font-family: 'Cinzel Decorative'; font-size: 0.7rem;
-            letter-spacing: 8px; color: #d4af37; margin-bottom: 20px;
+            letter-spacing: clamp(5px, 2vw, 10px); color: var(--gold);
+            margin-bottom: 20px;
         }
 
-        .urdu-text {
-            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.8rem;
-            margin-bottom: 25px; line-height: 2.5; text-shadow: 0 0 10px rgba(212,175,55,0.5);
+        .urdu-msg {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: clamp(1.2rem, 5vw, 1.8rem);
+            margin-bottom: 20px; line-height: 2.2;
+            background: linear-gradient(to bottom, #fff, var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .rich-msg {
-            font-weight: 100; font-size: 0.95rem; line-height: 1.8;
-            color: #ddd; letter-spacing: 1px; margin-bottom: 40px;
+        .english-msg {
+            font-weight: 100; font-size: clamp(0.85rem, 3.5vw, 1rem);
+            line-height: 1.8; color: #ccc; margin-bottom: 30px;
         }
 
-        /* --- SMART CONTROLS --- */
-        .control-panel {
-            display: flex; align-items: center; justify-content: center; gap: 20px;
-        }
-
-        .btn-play {
-            width: 80px; height: 80px; 
-            background: var(--gold-gradient);
+        /* --- ROYAL CONTROLS --- */
+        .control-trigger {
+            width: clamp(60px, 15vw, 80px); height: clamp(60px, 15vw, 80px);
+            background: radial-gradient(circle, var(--gold-bright), var(--gold));
             border: none; border-radius: 50%; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 0 auto; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .btn-play:active { transform: scale(0.9) rotate(5deg); }
-        .btn-play svg { width: 35px; fill: #000; }
 
-        .signature {
-            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
-            color: #d4af37; margin-top: 40px; opacity: 0.8;
+        .control-trigger:active { transform: scale(0.9); }
+        .control-trigger svg { width: 40%; fill: #000; }
+
+        .sig {
+            font-family: 'Dancing Script', cursive; font-size: clamp(1.8rem, 6vw, 2.4rem);
+            color: var(--gold); margin-top: 30px; opacity: 0.8;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="aura aura-top" id="aura1"></div>
-    <div class="aura aura-bottom" id="aura2"></div>
+    <div class="bg-canvas">
+        <div class="aura-sphere"></div>
+    </div>
 
-    <div class="royal-card" id="mainContainer">
-        <div class="day-tag">DAY EIGHTEEN</div>
+    <div class="main-card" id="card">
+        <div class="day-label">DAY EIGHTEEN</div>
 
-        <div class="disc-container">
-            <div class="beat-circle"></div>
-            <div class="beat-circle"></div>
-            <div class="photo-disc" id="photoDisc">
-                <img src="../assets/images/home/m4.jpg" alt="Muskan">
+        <div class="music-hub" id="hub">
+            <div class="beat"></div>
+            <div class="beat"></div>
+            <div class="photo-ring" id="ring">
+                <img src="../assets/images/home/m1.jpg" alt="Muskan">
             </div>
         </div>
 
-        <div class="urdu-text">روح کا ترانہ</div>
+        <div class="urdu-msg">میرا سکون تمہاری آواز ہے</div>
 
-        <div class="rich-msg">
+        <div class="english-msg">
             "Muskan, <br>
-            Suna hai jab alfaaz khatam hote hain, <br>
-            toh sangeet (music) baat karta hai. <br>
-            Aaj ki ye dhun mere un ehsaas ki gawah hai <br>
-            jinhe main shabdon mein bayaan nahi kar saka."
+            Har sur mein tera zikr hai, <br>
+            har dhun mein teri yaad... <br>
+            Zindagi ki is symphony mein <br>
+            sabse pyaara saaz tum ho."
         </div>
 
-        <audio id="mainAudio" src="../assets/audio/ring/s46.mp3" loop></audio>
+        <audio id="player" src="../assets/audio/ring/s1.mp3" loop></audio>
 
-        <div class="control-panel">
-            <button class="btn-play" onclick="toggleRoyalMusic()">
-                <svg id="playBtn" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                <svg id="pauseBtn" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-        </div>
+        <button class="control-trigger" onclick="handleMusic()">
+            <svg id="play-btn" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pause-btn" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
 
-        <div class="signature">With Love, Prakash</div>
+        <div class="sig">Prakash ❤️</div>
     </div>
 
     <script>
-        const audio = document.getElementById('mainAudio');
-        const disc = document.getElementById('photoDisc');
-        const container = document.getElementById('mainContainer');
-        const aura1 = document.getElementById('aura1');
-        const aura2 = document.getElementById('aura2');
-        const playSvg = document.getElementById('playBtn');
-        const pauseSvg = document.getElementById('pauseBtn');
+        const audio = document.getElementById('player');
+        const hub = document.getElementById('hub');
+        const ring = document.getElementById('ring');
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const card = document.getElementById('card');
 
-        function toggleRoyalMusic() {
+        function handleMusic() {
             if (audio.paused) {
                 audio.play();
-                container.classList.add('playing');
-                disc.style.animationPlayState = 'running';
-                playSvg.style.display = 'none';
-                pauseSvg.style.display = 'block';
-                
-                // Smart Aura Animation
-                aura1.style.opacity = "0.4";
-                aura2.style.opacity = "0.4";
-                aura1.style.transform = "scale(1.5)";
-                aura2.style.transform = "scale(1.5)";
+                hub.classList.add('is-playing');
+                ring.style.animationPlayState = 'running';
+                playBtn.style.display = 'none';
+                pauseBtn.style.display = 'block';
+                // Aura boost
+                document.querySelector('.aura-sphere').style.background = "radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%)";
             } else {
                 audio.pause();
-                container.classList.remove('playing');
-                disc.style.animationPlayState = 'paused';
-                playSvg.style.display = 'block';
-                pauseSvg.style.display = 'none';
-                
-                // Reset Aura
-                aura1.style.opacity = "0.15";
-                aura2.style.opacity = "0.15";
-                aura1.style.transform = "scale(1)";
-                aura2.style.transform = "scale(1)";
+                hub.classList.remove('is-playing');
+                ring.style.animationPlayState = 'paused';
+                playBtn.style.display = 'block';
+                pauseBtn.style.display = 'none';
+                document.querySelector('.aura-sphere').style.background = "radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%)";
             }
         }
 
-        // 3D Mouse/Touch Tilt Effect
+        // 3D Parallax Tilt for Desktop/High-end Mobile
         document.addEventListener('mousemove', (e) => {
-            let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 30;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
     </script>
 </body>
