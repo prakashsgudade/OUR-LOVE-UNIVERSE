@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Day 19 | Royal Biometric Vault</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;300;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Day 19 | Heartbeat Unlock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Noto+Nastaliq+Urdu&family=Montserrat:wght@100;300;500&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --accent: #d4af37;
+            --accent: #ff2d55; /* Heartbeat Red */
+            --gold: #d4af37;
             --bg: #000;
-            --glass: rgba(255, 255, 255, 0.03);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -21,169 +21,192 @@
             overflow: hidden; 
         }
 
-        /* --- FACE LOCK SCREEN --- */
+        /* --- HEARTBEAT SCANNER SCREEN --- */
         #lock-screen {
             position: fixed; inset: 0; background: #000; z-index: 1000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: 1s ease-in-out;
+            transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .scanner-circle {
-            width: 200px; height: 200px; border: 2px solid var(--accent);
-            border-radius: 50%; position: relative;
-            box-shadow: 0 0 30px var(--accent); overflow: hidden;
+        .ecg-container {
+            width: 300px; height: 100px; position: relative; overflow: hidden;
         }
 
-        .scan-line {
-            position: absolute; width: 100%; height: 4px; background: var(--accent);
-            top: 0; box-shadow: 0 0 20px var(--accent);
-            animation: scan 2s infinite ease-in-out;
+        .ecg-line {
+            width: 100%; height: 100%; stroke: var(--accent);
+            stroke-width: 2; fill: none;
+            stroke-dasharray: 1000; stroke-dashoffset: 1000;
+            animation: heartbeat 3s infinite linear;
         }
 
-        @keyframes scan { 0%, 100% { top: 0%; } 50% { top: 100%; } }
+        @keyframes heartbeat {
+            0% { stroke-dashoffset: 1000; }
+            100% { stroke-dashoffset: 0; }
+        }
 
-        .lock-status { margin-top: 30px; font-family: 'Cinzel'; letter-spacing: 4px; color: var(--accent); font-size: 0.8rem; }
+        .scan-trigger {
+            margin-top: 50px; padding: 15px 40px;
+            border: 1px solid var(--accent); border-radius: 50px;
+            color: var(--accent); font-family: 'Cinzel';
+            letter-spacing: 3px; cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 45, 85, 0.2);
+            transition: 0.3s; font-size: 0.8rem;
+        }
+        .scan-trigger:active { background: var(--accent); color: #000; box-shadow: 0 0 40px var(--accent); }
 
         /* --- MAIN GALLERY UI --- */
         .main-stage {
             height: 100vh; width: 100%; display: flex; flex-direction: column;
             align-items: center; justify-content: space-between;
-            padding: 40px 20px; opacity: 0; transform: scale(1.1);
-            transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+            padding: 20px; opacity: 0; transform: translateY(20px);
+            transition: 1.5s ease-out;
         }
 
-        .active-gallery { opacity: 1 !important; transform: scale(1) !important; }
-
-        /* PHOTO FRAME - DESIGN #79 PROTECTION */
-        .aura-frame {
-            position: relative; width: 100%; max-width: 380px; height: 50vh;
-            background: var(--glass); border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 30px; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; box-shadow: 0 50px 100px rgba(0,0,0,1);
-            cursor: pointer;
+        /* PHOTO BOX - ULTRA RESPONSIVE */
+        .photo-frame {
+            position: relative; width: 100%; max-width: 400px;
+            height: 55vh; /* Adjusted for no-overlap */
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 25px; display: flex; align-items: center;
+            justify-content: center; overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
         }
 
         #active-img {
-            max-width: 92%; max-height: 92%;
-            width: auto; height: auto; object-fit: contain;
-            border-radius: 20px; transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 95%; max-height: 95%;
+            object-fit: contain; /* Design #79 Protection */
+            border-radius: 15px; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* POETRY & TEXT */
-        .content-box { text-align: center; width: 100%; }
+        .text-area { text-align: center; margin: 15px 0; width: 100%; }
+        
         .urdu {
-            font-family: 'Noto Nastaliq Urdu', serif; font-size: clamp(1.2rem, 5vw, 1.5rem);
-            color: var(--accent); margin-bottom: 10px; line-height: 2.5;
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+            color: var(--gold); line-height: 2.2; min-height: 60px;
         }
-        .eng { font-size: 0.85rem; font-weight: 100; color: #aaa; font-style: italic; }
 
-        /* CONTROLS */
-        .nav-hub { display: flex; align-items: center; gap: 30px; margin-top: 20px; }
-        .magic-btn {
-            width: 60px; height: 60px; border-radius: 50%;
-            border: 1px solid var(--accent); background: none; color: var(--accent);
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        /* PREMIUM BUTTONS */
+        .nav-hub { display: flex; align-items: center; gap: 40px; margin-bottom: 20px; }
+        
+        .royal-btn {
+            width: 55px; height: 55px; border-radius: 50%;
+            border: 1px solid var(--gold); background: none; color: var(--gold);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.4s;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
         }
-        .magic-btn:active { background: var(--accent); color: black; }
+        .royal-btn:active { background: var(--gold); color: black; transform: scale(0.9); }
 
-        .sig { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--accent); opacity: 0.8; }
+        .counter { font-size: 0.6rem; letter-spacing: 3px; color: #555; }
 
     </style>
 </head>
 <body>
 
-    <div id="lock-screen" onclick="unlock()">
-        <div class="scanner-circle">
-            <div class="scan-line"></div>
+    <div id="lock-screen">
+        <div class="ecg-container">
+            <svg class="ecg-line" viewBox="0 0 100 40">
+                <polyline points="0,20 10,20 15,10 20,30 25,20 40,20 45,5 50,35 55,20 70,20 75,15 80,25 85,20 100,20" />
+            </svg>
         </div>
-        <div class="lock-status" id="status-text">WAITING FOR FACE ID...</div>
-        <p style="margin-top: 100px; font-size: 0.6rem; color: #444;">TAP TO SCAN</p>
+        <div class="scan-trigger" onclick="unlockGallery()">SCAN HEARTBEAT</div>
+        <p style="color: #333; font-size: 0.5rem; margin-top: 20px; letter-spacing: 2px;">AUTHENTICATION REQUIRED</p>
     </div>
 
-    <div class="main-stage" id="gallery-ui">
-        <div class="sig">Prakash</div>
+    <div class="main-stage" id="main-ui">
+        <h2 style="font-family: 'Cinzel'; color: var(--gold); font-size: 0.8rem; letter-spacing: 5px;">DAY 19 SPECIAL</h2>
 
-        <div class="aura-frame" onclick="surpriseMe()">
-            <img src="../assets/images/home/m1.jpg" id="active-img">
+        <div class="photo-frame" onclick="nextPhoto()">
+            <img src="" id="active-img" alt="Royal Moment">
         </div>
 
-        <div class="content-box">
-            <div class="urdu" id="u-txt">خوبصورتی کا دوسرا نام</div>
-            <p class="eng" id="e-txt">"A beauty that eyes can't define."</p>
-            
-            <div class="nav-hub">
-                <button class="magic-btn" onclick="surpriseMe()">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                </button>
-                <div style="font-size: 0.6rem; letter-spacing: 4px; color: var(--accent);" id="counter">1 / 120</div>
-                <button class="magic-btn" onclick="surpriseMe()">
-                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                </button>
-            </div>
+        <div class="text-area">
+            <div class="urdu" id="urdu-txt">محبت کی ایک نئی جھلک</div>
+            <p style="font-size: 0.7rem; color: #888; font-style: italic; margin-top: 5px;" id="eng-txt">"Your heartbeat is my favorite rhythm."</p>
         </div>
+
+        <div class="nav-hub">
+            <button class="royal-btn" onclick="nextPhoto()">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <div class="counter" id="photo-count">0 / 120</div>
+            <button class="royal-btn" onclick="nextPhoto()">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+        </div>
+        
+        <div style="font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--gold); margin-bottom: 10px;">Prakash</div>
     </div>
 
     <script>
-        // --- FACE LOCK JADU ---
-        function unlock() {
-            const status = document.getElementById('status-text');
-            status.innerText = "AUTHENTICATING...";
-            status.style.color = "#00ff00";
-            
-            setTimeout(() => {
-                document.getElementById('lock-screen').style.opacity = "0";
-                document.getElementById('lock-screen').style.pointerEvents = "none";
-                document.getElementById('gallery-ui').classList.add('active-gallery');
-                surpriseMe(); // Load first random photo
-            }, 1500);
+        // --- NO-REPEAT RANDOM LOGIC ---
+        let photoPool = [];
+        let totalPhotos = 120;
+        let seenCount = 0;
+
+        function initPool() {
+            photoPool = Array.from({length: totalPhotos}, (_, i) => i + 1);
+            // Shuffle the pool initially
+            photoPool.sort(() => Math.random() - 0.5);
         }
 
-        // --- UNIQUE RANDOM LOGIC (NO REPEAT) ---
-        let availablePhotos = Array.from({length: 120}, (_, i) => i + 1);
-        let usedCount = 0;
-
-        const quotes = [
-            {u: "تمہاری آنکھیں، میری کائنات", e: "Your eyes carry a world where I want to stay forever."},
-            {u: "تم ہی میرا سکون ہو", e: "In this chaotic world, you are my only peace."},
-            {u: "تیری مسکراہٹ، میری زندگی", e: "Your smile is the only light my heart ever needed."},
-            {u: "محبت کی انتہا تم ہو", e: "You are the beginning and the end of my story."},
-            {u: "ایک خوبصورت خواب", e: "Life with you feels like a dream I never want to wake from."},
-            {u: "تم سے شروع، تم پر ختم", e: "My love starts with you and ends at your soul."},
-            {u: "روح کا سکون تم ہو", e: "You are the melody that calms the storm inside me."},
-            {u: "میرا مکمل جہاں", e: "I found my whole world in a person named Muskan."}
+        const lines = [
+            {u: "تمہاری مسکراہٹ، میری کائنات", e: "Your smile is my entire universe."},
+            {u: "تم ہی میرا سکون ہو", e: "In you, I have found my peace."},
+            {u: "محبت کا دوسرا نام تم ہو", e: "You are the very definition of love."},
+            {u: "تیری آنکھیں، گہرے راز", e: "Your eyes hold secrets of a thousand years."},
+            {u: "تم بن جینا ادھورا ہے", e: "Life is incomplete without your presence."}
         ];
 
-        function surpriseMe() {
-            if (availablePhotos.length === 0) {
-                // Reset if all 120 are seen
-                availablePhotos = Array.from({length: 120}, (_, i) => i + 1);
-                usedCount = 0;
+        function unlockGallery() {
+            const lock = document.getElementById('lock-screen');
+            const ui = document.getElementById('main-ui');
+            
+            document.querySelector('.scan-trigger').innerText = "VERIFIED ✓";
+            
+            setTimeout(() => {
+                lock.style.opacity = "0";
+                lock.style.pointerEvents = "none";
+                ui.style.opacity = "1";
+                ui.style.transform = "translateY(0)";
+                initPool();
+                nextPhoto();
+            }, 1000);
+        }
+
+        function nextPhoto() {
+            if (photoPool.length === 0) {
+                alert("You've seen all 120 royal moments! Resetting...");
+                initPool();
+                seenCount = 0;
             }
 
-            // Pick a random index from available pool
-            const randomIndex = Math.floor(Math.random() * availablePhotos.length);
-            const photoNum = availablePhotos.splice(randomIndex, 1)[0];
-            usedCount++;
-
+            seenCount++;
+            const currentPhoto = photoPool.pop(); // Take the last photo from shuffled pool
+            
             const img = document.getElementById('active-img');
-            const uTxt = document.getElementById('u-txt');
-            const eTxt = document.getElementById('e-txt');
-            const counter = document.getElementById('counter');
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            const uTxt = document.getElementById('urdu-txt');
+            const eTxt = document.getElementById('eng-txt');
+            const countDisplay = document.getElementById('photo-count');
 
-            // Transition Effect
+            const randomLine = lines[Math.floor(Math.random() * lines.length)];
+
+            // Smooth Transition
             img.style.opacity = "0";
-            img.style.transform = "scale(0.8) rotateY(20deg)";
+            img.style.transform = "scale(0.9)";
 
             setTimeout(() => {
-                img.src = `../assets/images/home/m${photoNum}.jpg`;
-                uTxt.innerText = randomQuote.u;
-                eTxt.innerText = randomQuote.e;
-                counter.innerText = `${usedCount} / 120`;
+                img.src = `../assets/images/home/m${currentPhoto}.jpg`;
+                uTxt.innerText = randomLine.u;
+                eTxt.innerText = `"${randomLine.e}"`;
+                countDisplay.innerText = `${seenCount} / 120`;
                 
-                img.style.opacity = "1";
-                img.style.transform = "scale(1) rotateY(0deg)";
-            }, 400);
+                img.onload = () => {
+                    img.style.opacity = "1";
+                    img.style.transform = "scale(1)";
+                };
+            }, 300);
         }
     </script>
 </body>
