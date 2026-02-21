@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 20 | Crimson Letter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Noto+Nastaliq+Urdu&family=Poppins:wght@200;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --ruby: #d62828;
+            --dark: #0a0a0a;
+            --silver: #e5e5e5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            background-color: var(--dark);
+            color: var(--silver);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- RED AURA BACKGROUND --- */
+        .aura {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle, rgba(214, 40, 40, 0.08) 0%, transparent 70%);
+            z-index: 1; pointer-events: none;
+        }
+
+        /* --- POLAROID SECTION --- */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative; z-index: 10;
+        }
+
+        .polaroid {
+            background: white; padding: 12px 12px 50px 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transform: rotate(-3deg); transition: 0.5s ease;
+            width: 250px;
+        }
+
+        .polaroid img {
+            width: 100%; height: 280px; object-fit: cover;
+            filter: sepia(20%);
+        }
+
+        .polaroid:hover { transform: rotate(0deg) scale(1.05); }
+
+        /* --- MESSAGE BOX --- */
+        .letter-section {
+            padding: 100px 20px; display: flex; justify-content: center;
+            position: relative; z-index: 10;
+        }
+
+        .crimson-card {
+            background: linear-gradient(145deg, #151515, #0a0a0a);
+            border-left: 4px solid var(--ruby);
+            border-radius: 0 30px 30px 0;
+            padding: 50px 30px; width: 100%; max-width: 400px;
+            box-shadow: 20px 20px 60px #050505;
+            opacity: 0; transform: translateX(-50px);
+            transition: 1s all ease-out;
+        }
+
+        .crimson-card.reveal { opacity: 1; transform: translateX(0); }
+
+        .urdu {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 1.5rem; color: var(--ruby);
+            margin-bottom: 25px; line-height: 2.8; text-align: right;
+        }
+
+        .main-text {
+            font-size: 0.95rem; line-height: 2; font-weight: 200;
+            color: #bbb; border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 30px;
+        }
+
+        .main-text b { color: var(--ruby); font-weight: 500; }
+
+        /* --- PLAYER --- */
+        .music-bar {
+            display: flex; align-items: center; gap: 15px; margin-top: 30px;
+        }
+
+        .play-circle {
+            width: 50px; height: 50px; border: 1px solid var(--ruby);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s;
+        }
+        .play-circle:active { background: var(--ruby); }
+        .play-circle svg { fill: var(--ruby); width: 20px; transition: 0.3s; }
+        .play-circle:active svg { fill: white; }
+
+        .sig {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
+            color: var(--ruby); margin-top: 30px; text-align: right;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="aura"></div>
+
+    <section class="hero">
+        <div class="polaroid" id="polaroid">
+            <img src="../assets/images/home/m24.jpg" alt="Muskan">
+        </div>
+        <p style="margin-top: 40px; font-size: 0.6rem; letter-spacing: 5px; color: #555;">SCROLL TO READ DAY 20</p>
+    </section>
+
+    <section class="letter-section">
+        <div class="crimson-card" id="card">
+            <div class="urdu">میری کائنات تم ہو</div>
+            <div class="main-text">
+                "Muskan, <br>
+                Zindagi mein 20 din kaise guzar gaye <br>
+                pata hi nahi chala. <br><br>
+                Log kehte hain ki <b>Mohabbat</b> laal rang ki hoti hai, <br>
+                par mere liye har wo rang khoobsurat hai <br>
+                jis mein tumhara aks dikhta ho."
+            </div>
+
+            <audio id="song" src="../assets/audio/ring/s8.mp3" loop></audio>
+            
+            <div class="music-bar">
+                <div class="play-circle" onclick="toggleMusic()">
+                    <svg id="pIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <span style="font-size: 0.6rem; letter-spacing: 2px;">LISTEN TO MY HEART</span>
+            </div>
+
+            <div class="sig">Prakash</div>
+            
+            <p style="margin-top:40px; font-size: 0.5rem; text-align: center; color: #333; cursor: pointer;" onclick="location.reload()">REFRESH STORY</p>
+        </div>
+    </section>
+
+    <script>
+        // --- SCROLL REVEAL ---
+        window.addEventListener('scroll', () => {
+            const card = document.getElementById('card');
+            const pos = card.getBoundingClientRect().top;
+            if(pos < window.innerHeight - 100) card.classList.add('reveal');
+        });
+
+        // --- AUDIO JADU ---
+        const audio = document.getElementById('song');
+        function toggleMusic() {
+            if(audio.paused) {
+                audio.play();
+                document.getElementById('pIcon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+                document.getElementById('polaroid').style.boxShadow = "0 20px 50px rgba(214, 40, 40, 0.3)";
+            } else {
+                audio.pause();
+                document.getElementById('pIcon').innerHTML = '<path d="M8 5v14l11-7z"/>';
+                document.getElementById('polaroid').style.boxShadow = "0 20px 50px rgba(0,0,0,0.5)";
+            }
+        }
+
+        // --- MOUSE TILT JADU ---
+        document.addEventListener('mousemove', (e) => {
+            const pol = document.getElementById('polaroid');
+            const x = (window.innerWidth / 2 - e.pageX) / 20;
+            const y = (window.innerHeight / 2 - e.pageY) / 20;
+            pol.style.transform = `rotateY(${x}deg) rotateX(${-y}deg) rotate(-3deg)`;
+        });
+    </script>
+</body>
+</html>
