@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 21 | Royal Constellation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Noto+Nastaliq+Urdu&family=Dancing+Script:wght@700&family=Montserrat:wght@100;300&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #d4af37;
+            --deep-space: #050508;
+            --glow: rgba(212, 175, 55, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            height: 100%; width: 100%; background: var(--deep-space);
+            color: white; font-family: 'Montserrat', sans-serif;
+            overflow: hidden; touch-action: none;
+        }
+
+        canvas { position: fixed; top: 0; left: 0; z-index: 1; }
+
+        /* --- ROYAL UI OVERLAY --- */
+        .overlay {
+            position: relative; z-index: 10; height: 100vh; width: 100%;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: space-between; padding: 50px 20px;
+            pointer-events: none;
+        }
+
+        .royal-header {
+            text-align: center; border: 1px solid var(--gold);
+            padding: 10px 25px; border-radius: 50px;
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
+        }
+        .royal-header h2 {
+            font-family: 'Cinzel Decorative', cursive; font-size: 0.7rem;
+            letter-spacing: 5px; color: var(--gold);
+        }
+
+        .message-portal {
+            text-align: center; width: 100%; perspective: 1000px;
+        }
+
+        .urdu {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.6rem;
+            color: var(--gold); line-height: 2.8; margin-bottom: 10px;
+            transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            text-shadow: 0 0 30px var(--glow);
+        }
+
+        .eng {
+            font-family: 'Montserrat', sans-serif; font-weight: 100;
+            font-size: 0.8rem; letter-spacing: 3px; color: #fff;
+            opacity: 0.8; text-transform: uppercase;
+        }
+
+        .instruction-tag {
+            font-size: 0.5rem; letter-spacing: 4px; color: var(--gold);
+            margin-top: 40px; opacity: 0.5; animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+
+        .footer-sig {
+            font-family: 'Dancing Script', cursive; font-size: 2.2rem;
+            color: var(--gold); filter: drop-shadow(0 0 10px var(--glow));
+        }
+
+    </style>
+</head>
+<body onload="init()">
+
+    <canvas id="starCanvas"></canvas>
+
+    <div class="overlay">
+        <div class="royal-header">
+            <h2>THE ETERNAL LINK</h2>
+        </div>
+
+        <div class="message-portal">
+            <div class="urdu" id="u-txt">ستاروں کا ملاپ</div>
+            <div class="eng" id="e-txt">Touch to connect the universe</div>
+            <div class="instruction-tag">DRAG TO CREATE CONSTELLATIONS</div>
+        </div>
+
+        <div class="footer-sig">Prakash</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        let mouse = { x: -1000, y: -1000, active: false };
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = '#d4af37';
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
+            }
+        }
+
+        function init() {
+            stars = [];
+            for(let i=0; i<80; i++) stars.push(new Star());
+            animate();
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(5, 5, 8, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            stars.forEach(s => {
+                s.update(); s.draw();
+                
+                // Connection Logic
+                let dx = mouse.x - s.x;
+                let dy = mouse.y - s.y;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist < 150) {
+                    ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/150})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(s.x, s.y);
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.stroke();
+                }
+
+                stars.forEach(s2 => {
+                    let d = Math.sqrt((s.x-s2.x)**2 + (s.y-s2.y)**2);
+                    if (d < 100) {
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${0.1 * (1 - d/100)})`;
+                        ctx.lineWidth = 0.2;
+                        ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s2.x, s2.y); ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(animate);
+        }
+
+        // --- INTERACTION ---
+        const handleMove = (e) => {
+            mouse.x = e.clientX || e.touches[0].clientX;
+            mouse.y = e.clientY || e.touches[0].clientY;
+            if (Math.random() > 0.95) changeQuote();
+        };
+
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('touchmove', handleMove);
+
+        // --- ROYAL QUOTES ---
+        const quotes = [
+            {u: "تم میری کائنات ہو", e: "You are my entire universe"},
+            {u: "دِل کا سکون ہو تم", e: "The serenity of my soul"},
+            {u: "ابدی محبت کا رشتہ", e: "A bond of eternal love"},
+            {u: "ستاروں سے آگے کا سفر", e: "A journey beyond the stars"},
+            {u: "بس تیرا ساتھ چاہیے", e: "All I need is your presence"}
+        ];
+
+        let lastIndex = -1;
+        function changeQuote() {
+            const u = document.getElementById('u-txt');
+            const e = document.getElementById('e-txt');
+            let idx;
+            do { idx = Math.floor(Math.random() * quotes.length); } while (idx === lastIndex);
+            lastIndex = idx;
+
+            u.style.opacity = 0; u.style.transform = "translateZ(-50px)";
+            setTimeout(() => {
+                u.innerText = quotes[idx].u;
+                e.innerText = quotes[idx].e;
+                u.style.opacity = 1; u.style.transform = "translateZ(0)";
+            }, 400);
+        }
+    </script>
+</body>
+</html>
