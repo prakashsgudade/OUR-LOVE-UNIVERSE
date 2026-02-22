@@ -6,92 +6,74 @@ window.onload = function() {
     document.documentElement.style.setProperty('--accent', data.theme);
     const body = document.getElementById('dynamic-body');
     
-    // Create Particle Layer
+    // Add Particle Layer
     const pLayer = document.createElement('div');
     pLayer.id = "particles-layer";
     document.body.appendChild(pLayer);
-    if(data.particles) setInterval(() => createParticle(data.particles, data.theme), 400);
+    startParticles(data.particles, data.theme);
 
-    // Layout Router
+    // Layout Router: Chooses UI based on Day Data
     switch(data.layout) {
-        case "gallery": renderGallery(data, body); break;
-        case "music-player": renderMusicPlayer(data, body); break;
-        case "cinematic-dark": renderCinematic(data, body); break;
-        case "ai-scanner": renderAIScanner(data, body); break;
+        case "ai-scanner": renderAI(data, body); break;
+        case "cinematic-dark": renderThriller(data, body); break;
         case "retro-typewriter": renderTypewriter(data, body); break;
-        default: renderClassic(data, body, dayId);
+        case "infinity-portal": renderCinematic(data, body); break;
+        default: renderClassic(data, body);
     }
 };
 
-function createParticle(type, color) {
-    const layer = document.getElementById('particles-layer');
-    if(!layer) return;
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.innerText = (type === "stars") ? "⭐" : (type === "snow") ? "❄️" : (type === "rain") ? "💧" : "❤️";
-    p.style.color = color;
-    p.style.left = Math.random() * 100 + "vw";
-    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
-    layer.appendChild(p);
-    setTimeout(() => p.remove(), 5000);
+function startParticles(type, color) {
+    setInterval(() => {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.innerHTML = type === "hearts" ? "❤️" : type === "stars" ? "⭐" : "❄️";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.color = color;
+        p.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.getElementById('particles-layer').appendChild(p);
+        setTimeout(() => p.remove(), 5000);
+    }, 450);
 }
 
-function renderCinematic(data, container) {
-    container.innerHTML = `
-        <div class="main-wrapper cinematic-mode">
-            <h1 class="glitch" data-text="${data.title}">${data.title}</h1>
-            <div class="cinematic-frame"><img src="${data.image}"></div>
-            <p class="fade-in-text">${data.message}</p>
-            <button class="heart-btn" onclick="alert('${data.hidden}')">Open Secret</button>
-            <center><a href="chapters.html" class="back-link">← BACK</a></center>
-        </div>`;
+function renderClassic(data, body) {
+    body.innerHTML = `<div class="main-wrapper"><div class="glass-card">
+        <img src="${data.image}" class="main-img">
+        <h1 style="color:var(--accent)">${data.title}</h1>
+        <p>${data.message}</p>
+        <audio controls autoplay loop src="${data.song}"></audio>
+        <button class="btn" onclick="alert('${data.hidden}')">Reveal Secret</button>
+        <a href="chapters.html" class="back">← Timeline</a>
+    </div></div>`;
 }
 
-function renderAIScanner(data, container) {
-    container.innerHTML = `
-        <div class="main-wrapper ai-layout">
-            <div class="scanner-bar"></div>
-            <h2 style="color:var(--accent)">[ SYSTEM ANALYZING LOVE... ]</h2>
-            <div class="ai-box">
-                <p>> DAY: ${data.title}</p>
-                <p>> TARGET: MUSKAN</p>
-                <p>> FEELING: INFINITE LOVE</p>
-                <p class="typing">${data.message}</p>
-            </div>
-            <center><a href="chapters.html" class="back-link">← LOGOUT</a></center>
-        </div>`;
+function renderAI(data, body) {
+    body.innerHTML = `<div class="ai-wrapper">
+        <div class="scan"></div>
+        <div class="hud">LOVE_DATABASE_V5.0</div>
+        <img src="${data.image}" class="ai-img">
+        <div class="typing">> ${data.message}</div>
+        <audio autoplay loop src="${data.song}"></audio>
+    </div>`;
 }
 
-function renderTypewriter(data, container) {
-    container.innerHTML = `
-        <div class="main-wrapper typewriter-layout">
-            <div class="paper">
-                <h1 style="color:#333">${data.title}</h1>
-                <p id="type-target" style="color:#555"></p>
-            </div>
-            <center><a href="chapters.html" class="back-link">← BACK</a></center>
-        </div>`;
-    let i = 0;
-    function type() {
-        if(i < data.message.length) {
-            document.getElementById('type-target').innerHTML += data.message.charAt(i);
-            i++; setTimeout(type, 50);
-        }
-    }
-    type();
+function renderThriller(data, body) {
+    body.innerHTML = `<div class="thriller-wrapper">
+        <div class="glitch" data-text="${data.title}">${data.title}</div>
+        <img src="${data.image}" class="bw">
+        <div class="msg">ALERT: ${data.message}</div>
+        <audio autoplay loop src="${data.song}"></audio>
+    </div>`;
 }
 
-function renderClassic(data, container, dayId) {
-    container.innerHTML = `
-        <div class="main-wrapper">
-            <div class="glass-container">
-                <div class="img-frame"><img id="day-img" src="${data.image}"></div>
-                <h1 id="day-title" style="color:${data.theme}">${data.title}</h1>
-                <p id="day-message">${data.message}</p>
-                <div class="audio-section"><audio controls loop src="${data.song}"></audio></div>
-                <button class="heart-btn" style="background:${data.theme}" onclick="document.getElementById('secret').classList.toggle('show')">Reveal Surprise</button>
-                <div id="secret" class="secret-box">${data.hidden}</div>
-                <center><a href="chapters.html" class="back-link">← BACK TO TIMELINE</a></center>
-            </div>
-        </div>`;
+function renderTypewriter(data, body) {
+    body.innerHTML = `<div class="type-wrapper">
+        <div class="paper">
+            <h1>${data.title}</h1>
+            <p id="t-target"></p>
+        </div>
+        <audio autoplay loop src="${data.song}"></audio>
+    </div>`;
+    let i=0; 
+    const t = () => { if(i < data.message.length){ document.getElementById('t-target').innerHTML += data.message.charAt(i); i++; setTimeout(t, 50); } };
+    t();
 }
