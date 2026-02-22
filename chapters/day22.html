@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Day 22 | Royal Scroll</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Noto+Nastaliq+Urdu&family=Dancing+Script:wght@700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #c5a059;
+            --paper: #f4e4bc;
+            --seal-red: #8b0000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html {
+            height: 100%; width: 100%; background: #1a1a1a;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Montserrat', sans-serif; overflow: hidden;
+        }
+
+        /* --- BACKGROUND VIBE --- */
+        .bg-pattern {
+            position: fixed; inset: 0; opacity: 0.1;
+            background-image: radial-gradient(var(--gold) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* --- THE WAX SEAL (TRIGGER) --- */
+        #seal-container {
+            position: relative; z-index: 100; text-align: center;
+            transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .wax-seal {
+            width: 120px; height: 120px; background: var(--seal-red);
+            border-radius: 50%; border: 4px solid #5a0000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; position: relative;
+        }
+
+        .wax-seal::after {
+            content: "M"; font-family: 'Cinzel'; color: var(--gold);
+            font-size: 3rem; opacity: 0.6;
+        }
+
+        .seal-hint {
+            margin-top: 20px; color: var(--gold); font-family: 'Cinzel';
+            font-size: 0.7rem; letter-spacing: 3px; animation: blink 2s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        /* --- THE ROYAL SCROLL --- */
+        #scroll-content {
+            position: absolute; width: 85%; max-width: 350px;
+            background: var(--paper); height: 0; opacity: 0;
+            border-radius: 5px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow: hidden; padding: 0 25px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .scroll-open { height: 70vh !important; opacity: 1 !important; padding: 40px 25px !important; }
+
+        .urdu-text {
+            font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.4rem;
+            color: #332b1a; line-height: 2.8; text-align: center;
+            margin-bottom: 30px; min-height: 100px;
+        }
+
+        .eng-text {
+            font-family: 'Dancing Script', cursive; font-size: 1.5rem;
+            color: #4a3728; text-align: center;
+        }
+
+        .divider {
+            width: 60px; height: 2px; background: var(--gold);
+            margin: 20px 0; opacity: 0.5;
+        }
+
+        .footer-sig {
+            margin-top: auto; font-family: 'Cinzel'; font-size: 0.8rem;
+            color: var(--gold); letter-spacing: 4px;
+        }
+
+    </style>
+</head>
+<body onclick="openLetter()">
+
+    <div class="bg-pattern"></div>
+
+    <div id="seal-container">
+        <div class="wax-seal"></div>
+        <div class="seal-hint">TAP TO UNSEAL</div>
+    </div>
+
+    <div id="scroll-content">
+        <div style="font-family: 'Cinzel'; font-size: 0.6rem; color: #888; letter-spacing: 5px;">DAY 22</div>
+        <div class="divider"></div>
+        
+        <div class="urdu-text" id="urdu">محبت کے نام</div>
+        <div class="eng-text" id="eng">Waiting for your touch...</div>
+        
+        <div class="divider"></div>
+        <div class="footer-sig">PRAKASH</div>
+    </div>
+
+    <script>
+        const messages = [
+            {u: "تمہاری روح کی چمک، میرا راستہ ہے", e: "The glow of your soul is my path."},
+            {u: "دِل کے کاغذ پر صرف تمہارا نام", e: "Only your name on the paper of my heart."},
+            {u: "تم ہی میری سلطنت ہو", e: "You are my only kingdom."},
+            {u: "خوبصورتی تم سے شروع ہوتی ہے", e: "Beauty begins with you."},
+            {u: "ہمیشہ تمہارا، صرف تمہارا", e: "Always yours, only yours."}
+        ];
+
+        let isOpened = false;
+
+        function openLetter() {
+            const seal = document.getElementById('seal-container');
+            const scroll = document.getElementById('scroll-content');
+            const uTxt = document.getElementById('urdu');
+            const eTxt = document.getElementById('eng');
+
+            if (!isOpened) {
+                // First open
+                seal.style.transform = "translateY(-100px) scale(0.5)";
+                seal.style.opacity = "0";
+                
+                setTimeout(() => {
+                    scroll.classList.add('scroll-open');
+                    typeMessage();
+                }, 400);
+                isOpened = true;
+            } else {
+                // Change message on click when open
+                uTxt.style.opacity = 0;
+                eTxt.style.opacity = 0;
+                setTimeout(typeMessage, 400);
+            }
+        }
+
+        function typeMessage() {
+            const uTxt = document.getElementById('urdu');
+            const eTxt = document.getElementById('eng');
+            const rand = messages[Math.floor(Math.random() * messages.length)];
+
+            uTxt.innerText = rand.u;
+            eTxt.innerText = rand.e;
+            uTxt.style.opacity = 1;
+            eTxt.style.opacity = 1;
+        }
+    </script>
+</body>
+</html>
