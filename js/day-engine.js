@@ -1,49 +1,97 @@
 window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
-    const dayId = params.get('d') || "1";
+    const urlParams = new URLSearchParams(window.location.search);
+    const dayId = urlParams.get('d') || "1";
     const data = getDayData(dayId);
     
     document.documentElement.style.setProperty('--accent', data.theme);
-    document.body.style.backgroundColor = "#050505";
+    const body = document.getElementById('dynamic-body');
     
-    const container = document.getElementById('day-content');
+    // Create Particle Layer
+    const pLayer = document.createElement('div');
+    pLayer.id = "particles-layer";
+    document.body.appendChild(pLayer);
+    if(data.particles) setInterval(() => createParticle(data.particles, data.theme), 400);
 
-    container.innerHTML = `
-        <div class="ultra-wrapper ${data.layout}">
-            <div class="main-card fade-in">
-                <div class="royal-badge" style="box-shadow: 0 0 20px ${data.theme}">DAY ${dayId}</div>
-                
-                <div class="image-reveal">
-                    <img src="${data.image}" class="hero-img" onerror="this.src='../assets/images/background.jpg'">
-                </div>
-
-                <div class="info-pane">
-                    <h1 class="glitter-text">${data.title}</h1>
-                    <div class="divider" style="background: linear-gradient(90deg, transparent, ${data.theme}, transparent)"></div>
-                    <p class="love-quote">${data.message}</p>
-                </div>
-
-                <div class="music-controller">
-                    <span>Melody of the Soul</span>
-                    <audio id="player" controls loop autoplay src="${data.song}"></audio>
-                </div>
-
-                <div class="action-area">
-                    <button class="gold-btn" id="reveal-trigger" style="border: 1px solid ${data.theme}">
-                        <span class="btn-shine"></span>
-                        REVEAL SECRET NOTE
-                    </button>
-                    <div id="secret-panel" class="secret-panel"></div>
-                </div>
-
-                <a href="../chapters.html" class="home-link">← Return to Galaxy</a>
-            </div>
-        </div>
-    `;
-
-    document.getElementById('reveal-trigger').onclick = () => {
-        const p = document.getElementById('secret-panel');
-        p.classList.toggle('active');
-        p.innerText = p.classList.contains('active') ? data.hidden : "";
-    };
+    // Layout Router
+    switch(data.layout) {
+        case "gallery": renderGallery(data, body); break;
+        case "music-player": renderMusicPlayer(data, body); break;
+        case "cinematic-dark": renderCinematic(data, body); break;
+        case "ai-scanner": renderAIScanner(data, body); break;
+        case "retro-typewriter": renderTypewriter(data, body); break;
+        default: renderClassic(data, body, dayId);
+    }
 };
+
+function createParticle(type, color) {
+    const layer = document.getElementById('particles-layer');
+    if(!layer) return;
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.innerText = (type === "stars") ? "⭐" : (type === "snow") ? "❄️" : (type === "rain") ? "💧" : "❤️";
+    p.style.color = color;
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    layer.appendChild(p);
+    setTimeout(() => p.remove(), 5000);
+}
+
+function renderCinematic(data, container) {
+    container.innerHTML = `
+        <div class="main-wrapper cinematic-mode">
+            <h1 class="glitch" data-text="${data.title}">${data.title}</h1>
+            <div class="cinematic-frame"><img src="${data.image}"></div>
+            <p class="fade-in-text">${data.message}</p>
+            <button class="heart-btn" onclick="alert('${data.hidden}')">Open Secret</button>
+            <center><a href="chapters.html" class="back-link">← BACK</a></center>
+        </div>`;
+}
+
+function renderAIScanner(data, container) {
+    container.innerHTML = `
+        <div class="main-wrapper ai-layout">
+            <div class="scanner-bar"></div>
+            <h2 style="color:var(--accent)">[ SYSTEM ANALYZING LOVE... ]</h2>
+            <div class="ai-box">
+                <p>> DAY: ${data.title}</p>
+                <p>> TARGET: MUSKAN</p>
+                <p>> FEELING: INFINITE LOVE</p>
+                <p class="typing">${data.message}</p>
+            </div>
+            <center><a href="chapters.html" class="back-link">← LOGOUT</a></center>
+        </div>`;
+}
+
+function renderTypewriter(data, container) {
+    container.innerHTML = `
+        <div class="main-wrapper typewriter-layout">
+            <div class="paper">
+                <h1 style="color:#333">${data.title}</h1>
+                <p id="type-target" style="color:#555"></p>
+            </div>
+            <center><a href="chapters.html" class="back-link">← BACK</a></center>
+        </div>`;
+    let i = 0;
+    function type() {
+        if(i < data.message.length) {
+            document.getElementById('type-target').innerHTML += data.message.charAt(i);
+            i++; setTimeout(type, 50);
+        }
+    }
+    type();
+}
+
+function renderClassic(data, container, dayId) {
+    container.innerHTML = `
+        <div class="main-wrapper">
+            <div class="glass-container">
+                <div class="img-frame"><img id="day-img" src="${data.image}"></div>
+                <h1 id="day-title" style="color:${data.theme}">${data.title}</h1>
+                <p id="day-message">${data.message}</p>
+                <div class="audio-section"><audio controls loop src="${data.song}"></audio></div>
+                <button class="heart-btn" style="background:${data.theme}" onclick="document.getElementById('secret').classList.toggle('show')">Reveal Surprise</button>
+                <div id="secret" class="secret-box">${data.hidden}</div>
+                <center><a href="chapters.html" class="back-link">← BACK TO TIMELINE</a></center>
+            </div>
+        </div>`;
+}
