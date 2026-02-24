@@ -13,30 +13,27 @@ const loveDays = {
 
 function getDayData(dayId) {
     if (loveDays[dayId]) return loveDays[dayId];
-    
     const d = parseInt(dayId);
     
-    // --- INFINITE POOLS (For Randomness) ---
-    const adj = ["Haseen", "Noori", "Anmol", "Magic", "Roohani", "Infinite", "Pavitra", "Digital", "Futuristic"];
-    const nouns = ["Ehsaas", "Safar", "Dastan", "Kainaat", "Duniya", "Sapna", "Haqeeqat", "Mulakat"];
+    // AI Generator Pools
+    const adjs = ["Haseen", "Noori", "Anmol", "Jadui", "Roohani", "Infinite", "Dilkash"];
+    const nouns = ["Ehsaas", "Safar", "Dastan", "Kainaat", "Duniya", "Sapna", "Haqeeqat"];
     const quotes = [
-        "Tujhe dekha toh yeh jaana sanam...", "You are my 1 in 5000.", "Allah ki di hui sabse pyari nemat.", 
-        "Tula baghitla ki manat prem barasta.", "My heart beats at " + (70 + (d%10)) + " BPM for you.",
-        "Your smile is my favorite notification."
+        "Tujhe dekha toh yeh jaana sanam...", "My heart beats at " + (72 + (d%5)) + " BPM for you.",
+        "Scanning soul... 100% Love Detected.", "Tumhare bina Day " + d + " adhura hai.",
+        "Muskan, tum meri digital jannat ho."
     ];
-    const layouts = ["ai-scanner", "retro-typewriter", "heart-sync", "weather-ai", "dna-scanner", "thought-reader", "cinematic-dark", "islamic-noor"];
-    const particles = ["hearts", "stars", "snow", "bubbles", "petals"];
-    const themes = ["#ff4d6d", "#d4af37", "#1e272e", "#70a1ff", "#10ac84", "#a29bfe", "#ff9f43"];
+    const layouts = ["ai-scanner", "retro-typewriter", "heart-sync", "dna-scanner", "cinematic-dark"];
 
     return {
         dayId: d,
-        title: `${adj[d % adj.length]} ${nouns[(d + 5) % nouns.length]} | Day ${d}`,
-        message: quotes[d % quotes.length] + " This is our day " + d + " journey.",
+        title: `${adjs[d % adjs.length]} ${nouns[(d + 3) % nouns.length]}`,
+        message: quotes[d % quotes.length],
         image: `assets/images/home/m${(d % 150) + 1}.jpg`,
         song: `assets/audio/ring/s${(d % 100) + 1}.mp3`,
-        theme: themes[d % themes.length],
+        theme: ["#ff4d6d", "#d4af37", "#1e272e", "#70a1ff", "#a29bfe"][d % 5],
         layout: layouts[d % layouts.length],
-        particles: particles[d % particles.length],
-        hidden: `Secret #${d}: You were missed ${Math.floor(Math.random()*1000)} times today.`
+        particles: ["hearts", "stars", "snow", "bubbles"][d % 4],
+        hidden: `Secret #${d}: You were missed ${Math.floor(Math.random()*500 + 100)} times today.`
     };
 }
