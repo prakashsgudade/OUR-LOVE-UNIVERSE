@@ -1,33 +1,36 @@
-window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
-    const d = params.get('d') || "1";
-    const data = getDayData(d);
-    const body = document.getElementById('dynamic-body');
-
-    document.documentElement.style.setProperty('--bg', data.theme);
-    document.documentElement.style.setProperty('--accent', data.accent);
-
-    // Layout Router
-    switch(data.layout) {
-        case "islamic-moon":
-            body.innerHTML = `<div class="layout"><div class="crescent">🌙</div><div class="glass-box"><h3>Bismillah</h3><img src="${data.image}" class="img-glow"><h1>${data.title}</h1><p>${data.message}</p><a href="chapters.html" class="back">← Timeline</a></div></div>`;
-            break;
-        case "ai-hud":
-            body.innerHTML = `<div class="layout ai-theme"><div class="scanline"></div><div class="stats">HEART_RATE: ${70+(d%15)} BPM</div><img src="${data.image}" class="ai-img"><h1>${data.title}</h1><p>> ${data.message}</p><a href="chapters.html" class="back">← Exit</a></div>`;
-            break;
-        case "retro-typewriter":
-            body.innerHTML = `<div class="layout"><div class="paper"><h1>Day ${d}</h1><p id="typewriter"></p><a href="chapters.html" class="back" style="color:#333">← Back</a></div></div>`;
-            let i=0; function type() { if(i < data.message.length) { document.getElementById('typewriter').innerHTML += data.message.charAt(i); i++; setTimeout(type, 50); } } type();
-            break;
-        case "galaxy-stars":
-            body.innerHTML = `<div class="layout galaxy-bg"><div class="stars"></div><img src="${data.image}" class="round-img"><h1>${data.title}</h1><p>${data.message}</p><a href="chapters.html" class="back">← Universe</a></div>`;
-            break;
-        default: // classic & glass-card
-            body.innerHTML = `<div class="layout"><div class="glass-card"><img src="${data.image}"><h1>${data.title}</h1><p>${data.message}</p><button class="btn" onclick="alert('${data.hidden}')">Secret Message</button><a href="chapters.html" class="back">← Back</a></div></div>`;
-    }
-
-    // Audio Player
-    const audio = new Audio(data.song);
-    audio.loop = true;
-    document.body.onclick = () => { audio.play(); }; // Play on first interaction
+const loveDays = {
+    "1": { title: "Pehli Nazar ❤️", message: "Wo din jab duniya badal gayi...", image: "assets/images/home/m1.jpg", theme: "#1a1a2e", accent: "#d4af37", layout: "classic", song: "assets/audio/ring/s1.mp3" },
+    "2": { title: "The Beginning ✨", message: "Dhire-dhire humari baatein shuru hui...", image: "assets/images/home/m2.jpg", theme: "#2d3436", accent: "#ff4d6d", layout: "glass-card", song: "assets/audio/ring/s2.mp3" },
+    "3": { title: "Pehli Baat 💬", message: "Wo ghanto ki baatein...", image: "assets/images/home/m3.jpg", theme: "#000000", accent: "#70a1ff", layout: "retro-typewriter", song: "assets/audio/ring/s3.mp3" },
+    "4": { title: "Special Bond 🔗", message: "Dil ke rishte...", image: "assets/images/home/m4.jpg", theme: "#1e272e", accent: "#55efc4", layout: "classic", song: "assets/audio/ring/s4.mp3" },
+    "5": { title: "Surprise for You 🎁", message: "Hamesha khush raho Muskan.", image: "assets/images/home/m5.jpg", theme: "#2c3e50", accent: "#a29bfe", layout: "glass-card", song: "assets/audio/ring/s5.mp3" },
+    "6": { title: "My Favorite 👑", message: "Tum jaisa koi nahi.", image: "assets/images/home/m6.jpg", theme: "#1a1a2e", accent: "#fab1a0", layout: "hologram", song: "assets/audio/ring/s6.mp3" },
+    "7": { title: "Prayer (Dua) 🌙", message: "Tujhe Rab se maanga hai.", image: "assets/images/home/m7.jpg", theme: "#000000", accent: "#d4af37", layout: "islamic-moon", song: "assets/audio/ring/s7.mp3" },
+    "8": { title: "Infinite Love ♾️", message: "Sath hamesha ka...", image: "assets/images/home/m8.jpg", theme: "#212121", accent: "#ff4d6d", layout: "classic", song: "assets/audio/ring/s8.mp3" },
+    "9": { title: "Soulmate ❤️", message: "100% Match Found.", image: "assets/images/home/m9.jpg", theme: "#1a1a2e", accent: "#70a1ff", layout: "ai-hud", song: "assets/audio/ring/s9.mp3" },
+    "10": { title: "Milestone 👑", message: "10 din ka haseen safar.", image: "assets/images/home/m10.jpg", theme: "#000000", accent: "#d4af37", layout: "galaxy-stars", song: "assets/audio/ring/s10.mp3" }
 };
+
+function getDayData(dayId) {
+    if (loveDays[dayId]) return loveDays[dayId];
+    
+    const d = parseInt(dayId);
+    const themes = ["#1a1a2e", "#000000", "#1e272e", "#2c3e50", "#212121"];
+    const accents = ["#d4af37", "#ff4d6d", "#70a1ff", "#55efc4", "#a29bfe", "#fab1a0"];
+    const layouts = ["islamic-moon", "ai-hud", "retro-typewriter", "glass-card", "hologram", "minimal-zen", "galaxy-stars", "dna-scan"];
+
+    const islamicQuotes = ["Allah ki sabse haseen nemat ho tum.", "Meri har dua Muskan se shuru hoti hai.", "Qadr ne humein milaya, Shukr hai us Rab ka.", "May Allah keep your smile eternal.", "Tum meri wo dua ho jo qubool ho gayi."];
+    const loveQuotes = ["System Check: Soulmate detected.", "Day " + d + " and still falling for you.", "101% Match Found in my Universe.", "Thinking of you... Error 404: Heart not found (It's with you).", "Muskan, you are my digital jannat."];
+    
+    return {
+        dayId: d,
+        title: d % 2 === 0 ? "Muskan's Grace ✨" : "Haseen Ehsaas 🌙",
+        message: d % 3 === 0 ? islamicQuotes[d % islamicQuotes.length] : loveQuotes[d % loveQuotes.length],
+        image: `assets/images/home/m${(d % 150) + 1}.jpg`,
+        song: `assets/audio/ring/s${(d % 100) + 1}.mp3`,
+        theme: themes[d % themes.length],
+        accent: accents[d % accents.length],
+        layout: layouts[d % layouts.length],
+        hidden: `Secret: Day ${d} par bhi tumhara hi khayal hai! ❤️`
+    };
+}
