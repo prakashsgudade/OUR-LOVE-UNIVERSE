@@ -15,25 +15,25 @@ function getDayData(dayId) {
     if (loveDays[dayId]) return loveDays[dayId];
     const d = parseInt(dayId);
     
-    // AI Generator Pools
-    const adjs = ["Haseen", "Noori", "Anmol", "Jadui", "Roohani", "Infinite", "Dilkash"];
-    const nouns = ["Ehsaas", "Safar", "Dastan", "Kainaat", "Duniya", "Sapna", "Haqeeqat"];
-    const quotes = [
-        "Tujhe dekha toh yeh jaana sanam...", "My heart beats at " + (72 + (d%5)) + " BPM for you.",
-        "Scanning soul... 100% Love Detected.", "Tumhare bina Day " + d + " adhura hai.",
-        "Muskan, tum meri digital jannat ho."
-    ];
-    const layouts = ["ai-scanner", "retro-typewriter", "heart-sync", "dna-scanner", "cinematic-dark"];
+    const imgPath = `assets/images/home/m${(d % 150) + 1}.jpg`;
+    const songPath = `assets/audio/ring/s${(d % 100) + 1}.mp3`;
 
+    const categories = [
+        { type: "emotional", titles: ["Soulmate Diary", "Rainy Confession", "100 Reasons"], layouts: ["classic", "mystery-letter"], themes: ["#ff4d6d", "#ef5777"] },
+        { type: "thriller", titles: ["3AM Mystery", "Unknown Caller", "The Glitch"], layouts: ["cinematic-dark", "retro-typewriter"], themes: ["#1e272e", "#2c3e50"] },
+        { type: "ai", titles: ["Love Scanner", "Future Vision", "AI Predictor"], layouts: ["ai-scanner", "galaxy-scroll"], themes: ["#00d2ff", "#10ac84"] }
+    ];
+
+    const cat = categories[d % categories.length];
     return {
-        dayId: d,
-        title: `${adjs[d % adjs.length]} ${nouns[(d + 3) % nouns.length]}`,
-        message: quotes[d % quotes.length],
-        image: `assets/images/home/m${(d % 150) + 1}.jpg`,
-        song: `assets/audio/ring/s${(d % 100) + 1}.mp3`,
-        theme: ["#ff4d6d", "#d4af37", "#1e272e", "#70a1ff", "#a29bfe"][d % 5],
-        layout: layouts[d % layouts.length],
-        particles: ["hearts", "stars", "snow", "bubbles"][d % 4],
-        hidden: `Secret #${d}: You were missed ${Math.floor(Math.random()*500 + 100)} times today.`
+        title: `${cat.titles[d % cat.titles.length]} | Day ${dayId}`,
+        message: `Muskan, Day ${dayId} hamari kahani ka naya panna hai. Har pal tumhara hai.`,
+        image: imgPath,
+        song: songPath,
+        theme: cat.themes[d % cat.themes.length],
+        layout: cat.layouts[d % cat.layouts.length],
+        particles: ["hearts", "stars", "snow", "glitch"][d % 4],
+        hidden: `Day ${dayId} Secret: Mera har sapna tumse shuru hota hai.`
     };
 }
+
