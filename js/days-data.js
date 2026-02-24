@@ -13,26 +13,45 @@ const loveDays = {
 
 function getDayData(dayId) {
     if (loveDays[dayId]) return loveDays[dayId];
-    const d = parseInt(dayId);
     
-    const imgPath = `assets/images/home/m${(d % 150) + 1}.jpg`;
-    const songPath = `assets/audio/ring/s${(d % 100) + 1}.mp3`;
-
-    const categories = [
-        { type: "emotional", titles: ["Soulmate Diary", "Rainy Confession", "100 Reasons"], layouts: ["classic", "mystery-letter"], themes: ["#ff4d6d", "#ef5777"] },
-        { type: "thriller", titles: ["3AM Mystery", "Unknown Caller", "The Glitch"], layouts: ["cinematic-dark", "retro-typewriter"], themes: ["#1e272e", "#2c3e50"] },
-        { type: "ai", titles: ["Love Scanner", "Future Vision", "AI Predictor"], layouts: ["ai-scanner", "galaxy-scroll"], themes: ["#00d2ff", "#10ac84"] }
-    ];
-
-    const cat = categories[d % categories.length];
-    return {
-        title: `${cat.titles[d % cat.titles.length]} | Day ${dayId}`,
-        message: `Muskan, Day ${dayId} hamari kahani ka naya panna hai. Har pal tumhara hai.`,
-        image: imgPath,
-        song: songPath,
-        theme: cat.themes[d % cat.themes.length],
-        layout: cat.layouts[d % cat.layouts.length],
-        particles: ["hearts", "stars", "snow", "glitch"][d % 4],
-        hidden: `Day ${dayId} Secret: Mera har sapna tumse shuru hota hai.`
+    const d = parseInt(dayId);
+    const layouts = ["heart-sync", "weather-ai", "dna-scanner", "reflection-mode", "thought-reader", "parallel-timeline", "islamic-noor"];
+    const layout = layouts[d % layouts.length];
+    
+    // Base data
+    const data = {
+        dayId: d,
+        layout: layout,
+        image: `assets/images/home/m${(d % 15) + 1}.jpg`,
+        song: `assets/audio/ring/s${(d % 10) + 1}.mp3`,
+        theme: ["#ff4d6d", "#70a1ff", "#1e272e", "#d4af37", "#a29bfe"][d % 5],
+        particles: ["hearts", "stars", "snow", "petals"][d % 4]
     };
+
+    // Idea-specific content
+    if(layout === "heart-sync") {
+        data.title = "Heart Sync Engine";
+        data.message = "Cursor move karo... mera dil tumhare motion se dhadakta hai.";
+    } else if(layout === "weather-ai") {
+        data.title = "Emotional Weather AI";
+        data.message = "Aaj mausam-e-ishq hai. Kya tumhe baarish mehsoos ho rahi hai?";
+        data.particles = "snow"; 
+    } else if(layout === "dna-scanner") {
+        data.title = "Soul DNA Scan";
+        data.message = "Analyzing Compatibility... Result: Muskan is my Eternal Soulmate.";
+    } else if(layout === "thought-reader") {
+        data.title = "Mind Reader Mode";
+        const lines = ["Abhi tum muskura rahi ho na?", "Tum soch rahi ho hamari agli mulakat kab hogi.", "Dil ki baat: Tum meri duniya ho."];
+        data.message = lines[d % lines.length];
+    } else if(layout === "islamic-noor") {
+        data.title = "Noor-e-Haya ✨";
+        data.message = "Naseeb mein tumhara hona Allah ka sabse bada karam hai.";
+        data.theme = "#d4af37";
+    } else {
+        data.title = `Chapter ${d}: Infinity Love`;
+        data.message = "Har guzarta din hamare ishq ko aur gehra kar raha hai.";
+    }
+
+    data.hidden = `Secret Day ${d}: Mera sukoon sirf tum ho Muskan.`;
+    return data;
 }
