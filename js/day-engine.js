@@ -5,67 +5,27 @@ window.onload = function() {
     const body = document.getElementById('dynamic-body');
     
     document.documentElement.style.setProperty('--accent', data.theme);
-    
-    // Auto-Theme Logic (Night Mode)
-    const hours = new Date().getHours();
-    if(hours > 19 || hours < 6) body.classList.add('night-vibe');
 
-    // Particle Loader
+    // Particle System
     const pLayer = document.createElement('div');
     pLayer.id = "particles-layer";
     document.body.appendChild(pLayer);
-    setInterval(() => createParticle(data.particles, data.theme), 600);
+    setInterval(() => {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.innerHTML = data.particles === "hearts" ? "❤️" : data.particles === "stars" ? "⭐" : "❄️";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        pLayer.appendChild(p);
+        setTimeout(() => p.remove(), 5000);
+    }, 600);
 
     // Layout Router
     if(data.layout === "ai-scanner") renderAI(data, body);
     else if(data.layout === "retro-typewriter") renderTypewriter(data, body);
-    else if(data.layout === "heart-sync") renderHeartSync(data, body);
     else if(data.layout === "dna-scanner") renderDNA(data, body);
-    else if(data.layout === "islamic-noor") renderIslamic(data, body);
     else renderClassic(data, body);
 };
-
-function createParticle(type, color) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.innerHTML = type === "hearts" ? "❤️" : type === "stars" ? "⭐" : "🌸";
-    p.style.left = Math.random() * 100 + "vw";
-    p.style.animationDuration = (Math.random() * 3 + 2) + "s";
-    document.getElementById('particles-layer').appendChild(p);
-    setTimeout(() => p.remove(), 5000);
-}
-
-// --- NEW GOD-LEVEL RENDERERS ---
-
-function renderHeartSync(data, body) {
-    body.innerHTML = `
-    <div class="main-container sync-mode">
-        <div class="heart-pulse">❤️</div>
-        <div class="glass-box">
-            <h1>Heart Sync Engine</h1>
-            <p>Cursor move karo... mera dil tumhari harkat se dhadakta hai.</p>
-            <img src="${data.image}" class="main-img">
-            <a href="../chapters.html" class="back-btn">Back</a>
-        </div>
-        <audio autoplay loop src="${data.song}"></audio>
-    </div>`;
-    document.addEventListener('mousemove', (e) => {
-        let speed = (e.clientX / window.innerWidth) * 2 + 0.2;
-        document.querySelector('.heart-pulse').style.animationDuration = speed + 's';
-    });
-}
-
-function renderDNA(data, body) {
-    body.innerHTML = `
-    <div class="ai-container dna-mode">
-        <div class="scan-line"></div>
-        <div class="dna-hud">SOUL_DNA_MATCH: 101%</div>
-        <img src="${data.image}" class="dna-img">
-        <p class="dna-text">> ${data.message}</p>
-        <audio autoplay loop src="${data.song}"></audio>
-        <a href="../chapters.html" class="back-btn">Exit System</a>
-    </div>`;
-}
 
 function renderClassic(data, body) {
     body.innerHTML = `
@@ -74,11 +34,30 @@ function renderClassic(data, body) {
             <div class="img-frame"><img src="${data.image}"></div>
             <h1 class="title">${data.title}</h1>
             <p class="msg">${data.message}</p>
-            <audio autoplay loop src="${data.song}"></audio>
-            <button class="action-btn" onclick="alert('${data.hidden}')">Tap Secret</button>
-            <a href="../chapters.html" class="back-btn">Timeline</a>
+            <button class="action-btn" onclick="alert('${data.hidden}')">Secret Note</button>
+            <a href="chapters.html" class="back-link">← Back to Universe</a>
         </div>
+        <audio autoplay loop src="${data.song}"></audio>
     </div>`;
 }
 
-// Logic for Typewriter, AI etc as you already have but improved...
+function renderAI(data, body) {
+    body.innerHTML = `
+    <div class="ai-container">
+        <div class="scan-bar"></div>
+        <div class="hud">SCANNING_SOULMATE_ID: ${data.dayId}</div>
+        <img src="${data.image}" class="ai-img">
+        <p class="ai-text">> ${data.message}</p>
+        <audio autoplay loop src="${data.song}"></audio>
+        <a href="chapters.html" class="back-link">← LOGOUT</a>
+    </div>`;
+}
+
+function renderTypewriter(data, body) {
+    body.innerHTML = `<div class="type-container"><div class="paper"><h1>Day ${data.dayId}</h1><p id="type-text"></p></div><audio autoplay loop src="${data.song}"></audio><a href="chapters.html" class="back-link">← Back</a></div>`;
+    let i=0; const type = () => { if(i < data.message.length) { document.getElementById('type-text').innerHTML += data.message.charAt(i); i++; setTimeout(type, 60); }}; type();
+}
+
+function renderDNA(data, body) {
+    body.innerHTML = `<div class="dna-container"><div class="dna-strand">🧬</div><h2>DNA MATCH: 101%</h2><img src="${data.image}" class="dna-img"><p>${data.message}</p><audio autoplay loop src="${data.song}"></audio><a href="chapters.html" class="back-link">← Close</a></div>`;
+}
